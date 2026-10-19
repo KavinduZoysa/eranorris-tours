@@ -1,0 +1,84 @@
+/* Inner pages (places, tours, 404). Not in the exported design: built from its tokens and
+   components — ink hero like the map overlay, cream panels like the planner, serif
+   headings, mono labels, terracotta actions. */
+.eyebrow{font:500 11px var(--mono);letter-spacing:.1em;text-transform:uppercase;color:rgba(243,236,224,.6);margin:0 0 14px}
+.tag{display:inline-flex;align-items:center;gap:6px;padding:4px 9px 4px 8px;border-radius:999px;background:color-mix(in oklab,var(--c) 28%,white);color:var(--ink);font:500 10.5px var(--mono);text-transform:uppercase;letter-spacing:.06em}
+.tag::before{content:'';width:6px;height:6px;border-radius:50%;background:color-mix(in oklab,var(--c) 55%,black)}
+.dc-meta{display:flex;flex-wrap:wrap;gap:10px;align-items:center;font:500 10.5px var(--mono);text-transform:uppercase;letter-spacing:.06em;color:var(--mut)}
+
+.ph{background:radial-gradient(ellipse at 70% 40%,#13202A 0,#0E1518 70%);color:var(--cream);padding:40px 28px 56px}
+.ph-in{max-width:1240px;margin:0 auto;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.1fr);gap:48px;align-items:center}
+.crumbs ol{list-style:none;margin:0 0 28px;padding:0;display:flex;flex-wrap:wrap;gap:8px;font:500 11px var(--mono);letter-spacing:.08em;text-transform:uppercase;color:rgba(243,236,224,.55)}
+.crumbs li+li::before{content:'/';margin-right:8px;opacity:.5}
+.crumbs a{color:rgba(243,236,224,.8)}.crumbs a:hover{color:var(--cream)}
+.ph .dc-meta{color:rgba(243,236,224,.7);margin-bottom:14px}
+.ph h1{font:400 76px/.95 var(--serif);margin:0 0 18px;letter-spacing:-.015em;text-wrap:balance}
+.ph h1 em{color:var(--latL)}
+.ph .lede{font-size:17px;line-height:1.55;color:rgba(243,236,224,.82);margin:0 0 28px;max-width:480px;text-wrap:pretty}
+.ph-cta{display:flex;flex-wrap:wrap;gap:10px}
+.ph-cta .btn{height:auto;min-height:50px;padding:12px 24px;font-size:15px;text-align:center}
+.btn.ondark{background:transparent;border:1px solid rgba(243,236,224,.3);color:var(--cream)}
+.btn.ondark:hover{background:rgba(243,236,224,.08);color:var(--cream);text-decoration:none}
+.ph-img{margin:0;border-radius:20px;overflow:hidden;box-shadow:0 26px 64px rgba(0,0,0,.55);background:#2C251E;aspect-ratio:3/2}
+.ph-img img{display:block;width:100%;height:100%;object-fit:cover}
+
+.paper{background:var(--paper);color:var(--ink)}
+.facts{border-bottom:1px solid var(--line)}
+.facts dl{max-width:1296px;margin:0 auto;padding:28px;display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:20px 28px}
+.facts dt{font:500 10.5px var(--mono);text-transform:uppercase;letter-spacing:.06em;color:var(--mut)}
+.facts dd{margin:6px 0 0;font:400 26px/1.1 var(--serif)}
+.facts dd small{display:block;font:400 12.5px/1.4 var(--sans);color:var(--mut);margin-top:4px}
+
+.sect{max-width:1296px;margin:0 auto;padding:56px 28px}
+.sect>h2{font:400 42px/1 var(--serif);margin:0 0 24px;letter-spacing:-.01em}
+.prose{max-width:720px;font-size:16.5px;line-height:1.65;color:#2b251f}
+.prose h2{font:400 34px/1.05 var(--serif);margin:40px 0 12px;letter-spacing:-.01em;color:var(--ink)}
+.prose h3{font:600 17px var(--sans);margin:28px 0 8px;color:var(--ink)}
+.prose p,.prose ul,.prose ol{margin:0 0 16px}
+.prose li{margin:4px 0}
+.prose a{text-decoration:underline;text-underline-offset:2px}
+.prose img{max-width:100%;height:auto;border-radius:16px}
+
+.cta-band{background:var(--cream);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.cta-band .sect{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:20px 40px;padding-top:40px;padding-bottom:40px}
+.cta-band h2{font:400 36px/1.05 var(--serif);margin:0;max-width:560px;text-wrap:balance}
+.cta-band p{margin:8px 0 0;color:var(--mut);font-size:15px;max-width:560px}
+.cta-band .row{display:flex;flex-wrap:wrap;gap:10px}
+.cta-band .btn{height:auto;min-height:50px;padding:12px 24px;font-size:15px;text-align:center}
+
+.near{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(min(260px,100%),1fr));gap:20px}
+.pl-card{position:relative;display:flex;flex-direction:column;background:#fff;border:1px solid var(--line);border-radius:20px;overflow:hidden;transition:box-shadow .2s,transform .2s}
+.pl-card:hover{box-shadow:0 18px 40px rgba(20,17,14,.12);transform:translateY(-2px)}
+.pl-card:focus-within{outline:2px solid var(--lat);outline-offset:2px}
+.pl-card img{display:block;width:100%;height:auto;aspect-ratio:3/2;object-fit:cover;background:#d9cfbf}
+.pl-body{padding:14px 18px 18px;display:flex;flex-direction:column;gap:6px}
+.pl-body h3{font:400 28px/1.05 var(--serif);margin:4px 0 0}
+.pl-body h3 a{color:var(--ink)}
+.pl-body h3 a::after{content:'';position:absolute;inset:0;border-radius:20px}
+.pl-body h3 a:hover{color:var(--lat);text-decoration:none}
+.pl-body h3 a:focus-visible{outline:none}
+.pl-body p{margin:0;font-size:14px;line-height:1.5;color:#3b342d}
+.pl-body .drive{font:500 11px var(--mono);letter-spacing:.04em;text-transform:uppercase;color:var(--lat)}
+
+.nf{min-height:calc(100vh - 60px - 260px);display:flex;align-items:center}
+.nf .ph-in{grid-template-columns:1fr}
+.nf ul{list-style:none;margin:28px 0 0;padding:0;display:flex;flex-wrap:wrap;gap:8px}
+.nf ul a{display:inline-flex;align-items:center;height:34px;padding:0 14px;border-radius:999px;border:1px solid rgba(243,236,224,.22);color:var(--cream);font-size:13px;font-weight:500}
+.nf ul a:hover{border-color:rgba(243,236,224,.5);text-decoration:none}
+
+@media (max-width:1100px){.ph h1{font-size:60px}}
+@media (max-width:900px){
+  .brand span{display:none}
+  .ph{padding:24px 16px 40px}
+  .ph-in{grid-template-columns:1fr;gap:28px}
+  .crumbs ol{margin-bottom:18px}
+  .ph h1{font-size:48px}
+  .ph .lede{font-size:16px}
+  .facts dl{padding:24px 16px}
+  .sect{padding:40px 16px}
+  .sect>h2{font-size:34px}
+  .cta-band h2{font-size:30px}
+}
+@media (max-width:480px){.ph-cta .btn,.cta-band .row,.cta-band .btn{width:100%}.ph h1{font-size:42px}}
+@media (hover:none){.pl-card:hover{transform:none;box-shadow:none}}
+@media (pointer:coarse){.crumbs a{display:inline-block;padding:6px 0;margin:-6px 0}}

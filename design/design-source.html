@@ -1,0 +1,903 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Serendib — Plan a private tour of Sri Lanka</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500;600&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha384-sHL9NAb7lN7rfvG5lfHpm643Xkcjzp4jFvuavGOndn6pjVqS6ny56CAt3nsEVT4H" crossorigin="anonymous">
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha384-cxOPjt7s7Iz04uaHJceBmS+qpjv2JkIHNVcuOrM+YHwZOmJGBXI00mdUXEq65HTH" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/topojson-client@3.1.0/dist/topojson-client.min.js" integrity="sha384-Ukv1p/xTma6P4/2bY5KzWBw+ydSpXmhCMtyciIQVDJ1RmOxtCYNMF1uXT9T63H67" crossorigin="anonymous"></script>
+<script src="./image-slot.js"></script>
+<style>
+:root{--ink:#14110E;--cream:#F3ECE0;--paper:#FAF6EF;--lat:#B4452A;--lat2:#9A3820;--latL:#E07B57;--mut:#6B6157;--line:rgba(20,17,14,.12);--serif:'Instrument Serif',Georgia,serif;--sans:'Geist',system-ui,sans-serif;--mono:'Geist Mono',ui-monospace,monospace}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--ink);color:var(--ink);font-family:var(--sans);-webkit-font-smoothing:antialiased}
+a{color:var(--lat);text-decoration:none}a:hover{color:var(--lat2);text-decoration:underline}
+button{font:inherit;color:inherit;cursor:pointer}
+[hidden]{display:none!important}
+
+.top{height:60px;display:flex;align-items:center;justify-content:space-between;padding:0 24px;background:var(--ink);color:var(--cream);border-bottom:1px solid rgba(243,236,224,.08);position:relative;z-index:10}
+.brand{display:flex;align-items:baseline;gap:14px;color:var(--cream)}.brand:hover{color:var(--cream);text-decoration:none}
+.brand b{font:400 29px/1 var(--serif);letter-spacing:.005em}.brand b i{font-style:normal;color:var(--latL)}
+.brand span{font:500 11px/1 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:rgba(243,236,224,.55)}
+.trip-pill{display:none;align-items:center;gap:8px;height:36px;padding:0 14px;border-radius:999px;border:1px solid rgba(243,236,224,.25);background:none;color:var(--cream);font-size:13px}
+.trip-pill b{min-width:20px;height:20px;border-radius:10px;background:var(--lat);color:#fff;display:grid;place-items:center;font:600 11px var(--mono)}
+
+.app{display:grid;grid-template-columns:minmax(0,1fr) 420px;height:calc(100vh - 60px);min-height:640px}
+.mapwrap{position:relative;overflow:hidden;background:#101415}
+#map{position:absolute;inset:0;z-index:0;background:#0E1518}
+.leaflet-container{font-family:var(--sans);background:radial-gradient(ellipse at 60% 50%,#13202A 0,#0E1518 70%)}
+.sea{position:absolute;left:0;top:0;transform:translate(-50%,-50%);white-space:nowrap;font:italic 400 18px var(--serif);color:rgba(243,236,224,.5);letter-spacing:.06em;pointer-events:none;transition:opacity .2s}
+.sea.caps{font:500 11px var(--mono);letter-spacing:.3em;font-style:normal}
+.dist{position:absolute;left:0;top:0;transform:translate(-50%,-50%);white-space:nowrap;font:500 9.5px var(--mono);letter-spacing:.16em;text-transform:uppercase;color:rgba(243,236,224,.4);pointer-events:none;transition:opacity .2s,color .2s}
+.dist.hov{opacity:1!important;color:var(--cream)}
+path.dpoly.leaflet-interactive{cursor:grab}
+.leaflet-control-attribution{background:rgba(20,17,14,.78)!important;color:#bdb3a6!important;font:11px var(--sans)!important;padding:2px 8px!important}
+.leaflet-control-attribution a{color:#efe3d1!important}
+.leaflet-bar{border:1px solid rgba(243,236,224,.16)!important;border-radius:12px!important;overflow:hidden;box-shadow:none!important}
+.leaflet-bar a{background:rgba(20,17,14,.86)!important;color:var(--cream)!important;border-bottom-color:rgba(243,236,224,.12)!important;width:36px!important;height:36px!important;line-height:36px!important}
+.leaflet-bar a:hover{background:#2a241f!important}
+.picking .leaflet-container,.picking .leaflet-grab,.picking .leaflet-interactive{cursor:crosshair!important}
+
+.shade{position:absolute;inset:0;z-index:1;pointer-events:none;background:linear-gradient(90deg,rgba(20,17,14,.95) 0,rgba(20,17,14,.72) 320px,rgba(20,17,14,0) 600px)}
+.overlay{position:absolute;z-index:2;left:36px;top:36px;width:min(380px,calc(100% - 72px));color:var(--cream);pointer-events:none}
+.overlay>*{pointer-events:auto}
+.has-card .eyebrow,.has-card .lede{display:none}
+.has-card h1{font-size:40px;margin-bottom:12px}
+.eyebrow{font:500 11px var(--mono);letter-spacing:.1em;text-transform:uppercase;color:rgba(243,236,224,.6);margin:0 0 14px}
+h1{font:400 60px/.96 var(--serif);margin:0 0 16px;letter-spacing:-.012em;text-wrap:balance}
+h1 em{color:var(--latL)}
+.lede{font-size:15px;line-height:1.55;color:rgba(243,236,224,.78);margin:0 0 24px;max-width:340px;text-wrap:pretty}
+.search{position:relative}
+.sbox{display:flex;align-items:center;gap:10px;height:54px;padding:0 14px 0 18px;background:var(--cream);color:var(--ink);border-radius:999px;box-shadow:0 12px 34px rgba(0,0,0,.4)}
+.sbox:focus-within{box-shadow:0 0 0 3px rgba(224,123,87,.45),0 12px 34px rgba(0,0,0,.4)}
+.sbox svg{flex:none;color:var(--mut)}
+.sbox input{flex:1;border:0;background:none;font:400 15px var(--sans);outline:none;color:var(--ink);min-width:0}
+.sbox input::placeholder{color:#857a6e}
+kbd{font:500 11px var(--mono);border:1px solid rgba(20,17,14,.18);border-radius:6px;padding:2px 7px;color:var(--mut)}
+.results{position:absolute;left:0;right:0;top:62px;background:var(--paper);color:var(--ink);border-radius:18px;list-style:none;margin:0;padding:6px;box-shadow:0 22px 56px rgba(0,0,0,.5);max-height:min(380px,50vh);overflow:auto;z-index:5}
+.results li{display:grid;grid-template-columns:10px minmax(0,1fr) auto;align-items:center;gap:12px;padding:9px 12px;border-radius:12px;cursor:pointer}
+.results li.hi{background:rgba(180,69,42,.09)}
+.results .cd{width:10px;height:10px;border-radius:50%;background:var(--c);box-shadow:0 0 0 1px rgba(20,17,14,.25)}
+.results .nm{font:400 21px/1.1 var(--serif);display:block}
+.results .sb{font-size:12.5px;color:var(--mut);display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.results .st{font:500 10.5px var(--mono);text-transform:uppercase;letter-spacing:.06em;color:var(--lat)}
+.results .none{display:block;padding:14px;font-size:14px;color:var(--mut);cursor:default}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
+.chip{display:inline-flex;align-items:center;gap:8px;height:34px;padding:0 14px;border-radius:999px;border:1px solid rgba(243,236,224,.22);background:rgba(20,17,14,.6);color:var(--cream);font-size:13px;font-weight:500;backdrop-filter:blur(6px);transition:background .15s,border-color .15s}
+.chip:hover{border-color:rgba(243,236,224,.5)}
+.chip.on{background:var(--cream);color:var(--ink);border-color:var(--cream)}
+.chip i{width:8px;height:8px;border-radius:50%;background:var(--c)}
+.chip.on i{box-shadow:0 0 0 1px rgba(20,17,14,.3)}
+.chip small{font:500 11px var(--mono);opacity:.6}
+
+.pin{position:absolute;left:0;top:0;width:0;height:0;cursor:pointer;transition:opacity .25s}
+.pin.off{opacity:0;pointer-events:none}
+.pin .pt{position:absolute;left:0;top:0;width:8px;height:8px;transform:translate(-50%,-50%);border-radius:50%;background:var(--c);box-shadow:0 0 0 2px rgba(20,17,14,.85);opacity:0;transition:opacity .2s}
+.pin .stem{position:absolute;left:0;top:0;height:1.5px;margin-top:-.75px;background:color-mix(in oklab,var(--c) 70%,white);transform-origin:0 50%;opacity:0;transition:opacity .2s}
+.pin.moved .pt,.pin.moved .stem{opacity:.9}
+.pin .med{position:absolute;left:0;top:0;width:calc(var(--r,21px)*2);height:calc(var(--r,21px)*2);box-sizing:border-box;transform:translate(-50%,-50%) scale(var(--s,1));border-radius:50%;background:radial-gradient(circle at 35% 30%,color-mix(in oklab,var(--c) 42%,#2C251E),#1A1612);border:2.5px solid var(--c);box-shadow:0 0 0 3px rgba(20,17,14,.55),0 8px 18px rgba(0,0,0,.5);transition:left .3s cubic-bezier(.2,.8,.2,1),top .3s cubic-bezier(.2,.8,.2,1),transform .2s,width .2s,height .2s,border-color .2s}
+.pin .med image-slot{position:absolute;inset:0;width:100%;height:100%;border-radius:50%;overflow:hidden;pointer-events:none;color:var(--cream)}
+.pin .med image-slot:not([data-filled]){opacity:0}
+.pin .kw{position:absolute;inset:0;display:grid;place-items:center;font:600 7px/1 var(--mono);letter-spacing:.02em;color:var(--cream);text-transform:uppercase;pointer-events:none}
+.pin .med image-slot[data-filled]+.kw,.tiny .pin .kw{display:none}
+.pin .no{position:absolute;right:-8px;top:-8px;min-width:21px;height:21px;padding:0 4px;box-sizing:border-box;border-radius:11px;background:var(--lat);color:#fff;border:2px solid var(--cream);display:none;place-items:center;font:600 11px/1 var(--mono)}
+.pin.in .no{display:grid}
+.pin.sel .no{display:grid;font-size:9px;letter-spacing:.05em;text-transform:uppercase;padding:0 6px}
+.pin.in .med,.pin.sel .med{border-color:var(--cream)}
+.pin:hover .med,.pin.active .med{--s:1.14}
+.pin.active .med{border-color:var(--cream)}
+.pin.active .med::before{content:'';position:absolute;inset:-10px;border-radius:50%;border:1.5px solid var(--cream);animation:pulse 1.8s ease-out infinite;pointer-events:none}
+@keyframes pulse{0%{transform:scale(.6);opacity:1}100%{transform:scale(1.6);opacity:0}}
+.pin .lbl{position:absolute;white-space:nowrap;font:400 19px/1 var(--serif);color:var(--cream);text-shadow:0 1px 2px rgba(0,0,0,.9),0 0 14px rgba(0,0,0,.75);transition:opacity .2s}
+.pin.r .lbl{left:14px;top:0;transform:translateY(-55%)}
+.pin.l .lbl{right:14px;top:0;transform:translateY(-55%)}
+.pin.t .lbl{left:0;bottom:13px;transform:translateX(-50%)}
+.pin.b .lbl{left:0;top:13px;transform:translateX(-50%)}
+.pin.in.r .lbl{left:22px}.pin.in.l .lbl{right:22px}.pin.in.t .lbl{bottom:20px}.pin.in.b .lbl{top:20px}
+.pin.active .lbl{color:#fff;font-style:italic}
+.pin.nolbl .lbl{opacity:0}.pin.nolbl:hover .lbl{opacity:1}
+.pk{position:absolute;left:0;top:0;width:0;height:0}
+.pk .sq{position:absolute;left:0;top:0;width:16px;height:16px;transform:translate(-50%,-50%) rotate(45deg);background:var(--cream);border:3px solid var(--ink);box-shadow:0 0 0 2px var(--cream),0 6px 14px rgba(0,0,0,.55)}
+.pk .pl{position:absolute;right:18px;top:0;transform:translateY(-50%);white-space:nowrap;background:var(--cream);color:var(--ink);padding:5px 9px;border-radius:6px;font:500 10.5px/1.2 var(--mono);letter-spacing:.05em;text-transform:uppercase;box-shadow:0 4px 12px rgba(0,0,0,.4)}
+.pk .pl b{color:var(--lat);font-weight:600}
+.pk.drag .sq{cursor:grab}
+.pk.r .pl{right:auto;left:18px}
+.pk.ap .sq{width:28px;height:28px;transform:translate(-50%,-50%);border:0;border-radius:8px;background:var(--cream);color:var(--ink);display:grid;place-items:center;box-shadow:0 0 0 2px var(--ink),0 6px 14px rgba(0,0,0,.55)}
+.pk.ap .pl{right:22px}
+.route-glow{stroke:var(--lat);opacity:.95}
+.route{stroke:var(--cream);stroke-dasharray:1 9;stroke-linecap:round;animation:flow 1s linear infinite}
+.route-ret{stroke:var(--cream);opacity:.4;stroke-dasharray:2 7;stroke-linecap:round}
+@keyframes flow{to{stroke-dashoffset:-10}}
+
+.dcard{position:absolute;z-index:3;left:36px;bottom:36px;width:360px;background:var(--paper);border-radius:20px;overflow:hidden;box-shadow:0 26px 64px rgba(0,0,0,.55);animation:rise .32s cubic-bezier(.2,.8,.2,1)}
+@keyframes rise{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+.dc-img{position:relative;height:124px;background:#d9cfbf}
+.dc-x{position:absolute;top:10px;right:10px;width:34px;height:34px;border-radius:50%;border:0;background:rgba(20,17,14,.72);color:var(--cream);font-size:19px;line-height:1;z-index:2;display:grid;place-items:center}
+.dc-x:hover{background:var(--ink)}
+.dc-body{padding:14px 20px 16px}
+.dc-meta{display:flex;flex-wrap:wrap;gap:10px;align-items:center;font:500 10.5px var(--mono);text-transform:uppercase;letter-spacing:.06em;color:var(--mut)}
+.tag{display:inline-flex;align-items:center;gap:6px;padding:4px 9px 4px 8px;border-radius:999px;background:color-mix(in oklab,var(--c) 28%,white);color:var(--ink)}
+.tag::before{content:'';width:6px;height:6px;border-radius:50%;background:color-mix(in oklab,var(--c) 55%,black)}
+.dc-body h3{font:400 32px/1 var(--serif);margin:8px 0 6px;letter-spacing:-.005em}
+.dc-body p{margin:0;font-size:14px;line-height:1.5;color:#3b342d;text-wrap:pretty}
+.dc-facts{display:flex;gap:22px;margin:12px 0 14px;padding:10px 0 0;border-top:1px solid var(--line)}
+.dc-facts dt{font:500 10.5px var(--mono);text-transform:uppercase;letter-spacing:.06em;color:var(--mut)}
+.dc-facts dd{margin:4px 0 0;font-size:14px;font-weight:500}
+.dc-actions{display:flex;align-items:center;gap:10px}
+.in-trip{display:inline-flex;align-items:center;gap:8px;font-size:13.5px;font-weight:500;color:var(--lat)}
+.in-trip i{width:22px;height:22px;border-radius:50%;background:var(--lat);color:#fff;display:grid;place-items:center;font:600 11px var(--mono);font-style:normal}
+.dc-nav{margin-left:auto;display:flex;gap:6px}
+.dc-nav button{width:40px;height:40px;border-radius:50%;border:1px solid var(--line);background:none;font-size:17px;display:grid;place-items:center}
+.dc-nav button:hover{background:rgba(20,17,14,.06)}
+
+.btn{height:44px;padding:0 20px;border-radius:999px;border:0;font-weight:500;font-size:14px;display:inline-flex;align-items:center;justify-content:center;gap:8px;transition:background .15s}
+.btn.primary{background:var(--lat);color:#fff}.btn.primary:hover{background:var(--lat2)}
+.btn.primary:disabled{background:rgba(20,17,14,.13);color:rgba(20,17,14,.42);cursor:not-allowed}
+.btn.ghost{background:transparent;border:1px solid rgba(20,17,14,.2)}.btn.ghost:hover{background:rgba(20,17,14,.05)}
+.pinbanner{position:absolute;z-index:4;right:24px;top:24px;background:var(--lat);color:#fff;padding:8px 8px 8px 18px;border-radius:999px;display:flex;gap:14px;align-items:center;font-size:14px;font-weight:500;box-shadow:0 12px 30px rgba(0,0,0,.45);animation:rise .25s ease-out}
+.pinbanner button{height:32px;padding:0 14px;border-radius:999px;border:0;background:rgba(255,255,255,.18);color:#fff;font-size:13px}
+.pinbanner button:hover{background:rgba(255,255,255,.3)}
+
+.panel{background:var(--cream);overflow:auto;display:flex;flex-direction:column;position:relative}
+.modes{display:grid;grid-template-columns:1fr 1fr;gap:4px;margin:20px 28px 0;padding:4px;border-radius:999px;background:rgba(20,17,14,.07)}
+.modes button{height:40px;border:0;border-radius:999px;background:none;font-size:14px;font-weight:500;color:var(--mut);display:flex;align-items:center;justify-content:center;gap:8px;transition:background .15s,color .15s}
+.modes button:not(.on):hover{color:var(--ink)}
+.modes button.on{background:var(--ink);color:var(--cream)}
+.p-head{padding:22px 28px 22px;border-bottom:1px solid var(--line);display:flex;align-items:flex-end;justify-content:space-between;gap:12px}
+.p-head h2{font:400 42px/1 var(--serif);margin:0;letter-spacing:-.01em}
+.p-head p{margin:10px 0 0;font:500 11.5px var(--mono);letter-spacing:.05em;text-transform:uppercase;color:var(--mut)}
+.linkbtn{border:0;background:none;padding:0;color:var(--lat);font-weight:500;font-size:13px}
+.linkbtn:hover{text-decoration:underline}
+.linkbtn.mut{color:var(--mut)}
+.step{padding:22px 28px 24px;border-bottom:1px solid var(--line)}
+.step-h{display:flex;align-items:baseline;gap:12px;margin-bottom:14px}
+.step-h .n{font:500 12px var(--mono);color:var(--lat)}
+.step-h h3{font:600 15px var(--sans);margin:0}
+.step-h .act{margin-left:auto}
+.empty-stops{border:1.5px dashed rgba(20,17,14,.22);border-radius:14px;padding:16px 18px;font-size:14px;color:var(--mut);line-height:1.5}
+.stops{list-style:none;margin:0;padding:0}
+.stop{display:grid;grid-template-columns:28px minmax(0,1fr) auto 28px;align-items:center;gap:12px;padding:8px 0;animation:rise .25s ease-out}
+.stop .num{width:28px;height:28px;border-radius:50%;background:var(--lat);color:#fff;display:grid;place-items:center;font:600 12px var(--mono)}
+.s-name{border:0;background:none;padding:0;font:400 24px/1.05 var(--serif);text-align:left;color:var(--ink)}
+.s-name:hover{color:var(--lat)}
+.s-sub{font-size:12.5px;color:var(--mut);margin-top:3px}
+.stepper{display:flex;align-items:center;gap:2px;border:1px solid rgba(20,17,14,.18);border-radius:999px;height:36px;padding:0 3px;background:var(--paper)}
+.stepper button{width:30px;height:30px;border-radius:50%;border:0;background:none;font-size:17px;line-height:1;display:grid;place-items:center}
+.stepper button:hover:not(:disabled){background:rgba(20,17,14,.07)}
+.stepper button:disabled{opacity:.3;cursor:not-allowed}
+.stepper span{min-width:30px;text-align:center;font:500 14px var(--mono)}
+.stepper span small{display:block;font:500 9px var(--mono);text-transform:uppercase;letter-spacing:.06em;color:var(--mut);margin-top:1px}
+.stepper.wide span{min-width:56px}
+.rm{width:28px;height:28px;border:0;background:none;color:var(--mut);font-size:18px;border-radius:50%;display:grid;place-items:center}
+.rm:hover{background:rgba(20,17,14,.07);color:var(--ink)}
+.leg{display:flex;align-items:center;gap:14px;padding-left:13px;min-height:24px;font:500 11px var(--mono);color:var(--mut);letter-spacing:.02em}
+.leg::before{content:'';width:2px;align-self:stretch;min-height:24px;background:repeating-linear-gradient(var(--lat) 0 3px,transparent 3px 7px)}
+.leg.ret::before{background:repeating-linear-gradient(rgba(20,17,14,.3) 0 2px,transparent 2px 6px)}
+.endpt{display:grid;grid-template-columns:28px minmax(0,1fr);gap:12px;align-items:center;padding:4px 0;font-size:13px;color:var(--mut)}
+.endpt .ic{width:12px;height:12px;margin-left:8px;transform:rotate(45deg);background:var(--paper);border:2.5px solid var(--ink)}
+.endpt b{color:var(--ink);font-weight:500}
+
+.field{display:flex;align-items:center;gap:10px;height:48px;padding:0 14px;border:1px solid rgba(20,17,14,.2);border-radius:12px;background:var(--paper);transition:border-color .15s,box-shadow .15s}
+.field:focus-within{border-color:var(--lat);box-shadow:0 0 0 3px rgba(180,69,42,.15)}
+.field svg{flex:none;color:var(--mut)}
+.field input,.field select{flex:1;border:0;background:none;outline:none;font:400 15px var(--sans);color:var(--ink);min-width:0;height:100%}
+.field input::placeholder{color:#857a6e}
+.pk-list{list-style:none;margin:6px 0 0;padding:6px;border:1px solid var(--line);border-radius:12px;background:var(--paper);max-height:268px;overflow:auto}
+.pk-list li{display:grid;grid-template-columns:30px minmax(0,1fr);gap:10px;align-items:center;padding:8px 10px;border-radius:8px;cursor:pointer}
+.pk-list li.hi{background:rgba(180,69,42,.09)}
+.pk-list .code{height:24px;border-radius:6px;background:rgba(20,17,14,.07);display:grid;place-items:center;font:600 9.5px var(--mono);letter-spacing:.03em}
+.pk-list b{font-weight:500;font-size:14px;display:block}
+.pk-list small{color:var(--mut);font-size:12.5px}
+.pk-list li.pinopt .code{background:var(--lat);color:#fff}
+.chosen{display:grid;grid-template-columns:34px minmax(0,1fr) auto;align-items:center;gap:12px;padding:12px 12px 12px 14px;border-radius:12px;background:var(--paper);border:1px solid var(--line)}
+.chosen .code{height:34px;border-radius:8px;background:var(--ink);color:var(--cream);display:grid;place-items:center;font:600 10px var(--mono)}
+.chosen b{display:block;font-weight:500;font-size:14.5px}
+.chosen small{color:var(--mut);font-size:12.5px}
+.pk-alt{display:flex;gap:16px;margin-top:12px}
+.hint{margin:10px 0 0;font-size:13px;color:var(--mut);line-height:1.45}
+.hint b{color:var(--ink);font-weight:500}
+.trow{display:flex;align-items:center;justify-content:space-between;padding:6px 0}
+.trow b{font-weight:500;font-size:14.5px;display:block}
+.trow small{display:block;color:var(--mut);font-size:12.5px;margin-top:1px}
+.veh{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-top:14px}
+.vcard{text-align:left;padding:12px;border-radius:12px;border:1px solid rgba(20,17,14,.18);background:var(--paper);display:flex;flex-direction:column;gap:5px;min-height:108px;transition:border-color .15s,box-shadow .15s}
+.vcard:hover:not(:disabled){border-color:rgba(20,17,14,.4)}
+.vcard b{font:400 22px/1 var(--serif)}
+.vcard small{font-size:11.5px;color:var(--mut);line-height:1.3}
+.vcard .cap{font:500 10px var(--mono);text-transform:uppercase;letter-spacing:.05em;color:var(--mut);margin-top:auto}
+.vcard .rec{font:600 9.5px var(--mono);color:var(--lat);text-transform:uppercase;letter-spacing:.05em;min-height:11px}
+.vcard.on{border-color:var(--lat);box-shadow:inset 0 0 0 1px var(--lat);background:#fff}
+.vcard:disabled{opacity:.38;cursor:not-allowed}
+.cta{position:sticky;bottom:0;margin-top:auto;padding:22px 28px 22px;background:linear-gradient(rgba(243,236,224,0),var(--cream) 22px);display:flex;flex-direction:column;gap:10px}
+.cta p{margin:0;font-size:13px;color:var(--mut);line-height:1.4}
+.cta p b{color:var(--ink);font-weight:500}
+.cta .btn{height:54px;width:100%;font-size:15px}
+.cta p>span{display:block}
+.cta .cta-price{display:flex;align-items:center;gap:14px;margin-bottom:6px}
+.cta .cta-price b{font:400 44px/1 var(--serif);color:var(--ink);letter-spacing:-.01em}
+.cta .cta-price span{font-size:12.5px;line-height:1.35;color:var(--mut)}
+.dirs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.dirs .vcard{min-height:0;gap:4px}
+.dirs .vcard b{font-size:20px}
+.shroute{display:flex;flex-direction:column;gap:4px}
+.shroute.rev{flex-direction:column-reverse}
+.shrow{display:flex;flex-direction:column;gap:6px}
+.tagl{font:500 10.5px var(--mono);text-transform:uppercase;letter-spacing:.06em;color:var(--mut)}
+.chosen.fixed{background:transparent}
+.flt+.flt{margin-top:20px}
+.flt .f2{gap:8px}
+.hint.bad{color:var(--lat2);font-weight:500}
+.vcard .vp{font:500 14px var(--mono);color:var(--ink)}
+.m-facts dd.m-price{font:400 32px/1 var(--serif);color:var(--cream)}
+
+.toast{position:fixed;z-index:4000;left:50%;bottom:28px;transform:translate(-50%,20px);opacity:0;pointer-events:none;background:var(--ink);color:var(--cream);padding:12px 18px;border-radius:999px;font-size:14px;box-shadow:0 12px 30px rgba(0,0,0,.4);transition:opacity .2s,transform .2s;border:1px solid rgba(243,236,224,.12)}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+
+.mbg{position:fixed;inset:0;z-index:3000;background:rgba(10,8,6,.62);backdrop-filter:blur(5px);display:grid;place-items:center;padding:24px;animation:fade .2s}
+@keyframes fade{from{opacity:0}}
+.modal{width:min(940px,100%);max-height:calc(100vh - 48px);overflow:auto;display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);background:var(--paper);border-radius:22px;box-shadow:0 30px 80px rgba(0,0,0,.5);animation:rise .3s cubic-bezier(.2,.8,.2,1)}
+.m-sum{background:var(--ink);color:var(--cream);padding:30px 30px 28px;display:flex;flex-direction:column;gap:18px}
+.m-sum .eyebrow{margin:0}
+.m-sum h3{font:400 34px/1 var(--serif);margin:0}
+.m-stops{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:2px}
+.m-stops li{display:grid;grid-template-columns:24px minmax(0,1fr) auto;gap:12px;align-items:baseline;padding:8px 0;border-bottom:1px solid rgba(243,236,224,.1)}
+.m-stops .n{font:600 11px var(--mono);color:var(--latL)}
+.m-stops .nm{font:400 21px/1.1 var(--serif)}
+.m-stops .dt{font:500 11px var(--mono);color:rgba(243,236,224,.65);text-align:right;white-space:nowrap}
+.m-facts{display:grid;grid-template-columns:1fr 1fr;gap:14px 18px;margin:0}
+.m-facts dt{font:500 10px var(--mono);text-transform:uppercase;letter-spacing:.07em;color:rgba(243,236,224,.55)}
+.m-facts dd{margin:4px 0 0;font-size:14px}
+.m-form{padding:30px 34px 30px;display:flex;flex-direction:column;gap:16px;position:relative}
+.m-form h2{font:400 40px/1 var(--serif);margin:0}
+.m-form>p{margin:-6px 0 4px;font-size:14px;color:var(--mut);line-height:1.5}
+.m-close{position:absolute;top:18px;right:18px;width:36px;height:36px;border-radius:50%;border:1px solid var(--line);background:none;font-size:19px;display:grid;place-items:center}
+.m-close:hover{background:rgba(20,17,14,.06)}
+.f2{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:12px}
+.fl{display:flex;flex-direction:column;gap:6px;min-width:0}
+.fl>span:not(.err){font:500 10.5px var(--mono);text-transform:uppercase;letter-spacing:.06em;color:var(--mut)}
+.fl .field{height:46px}
+.fl textarea{border:1px solid rgba(20,17,14,.2);border-radius:12px;background:var(--paper);padding:12px 14px;font:400 14.5px/1.45 var(--sans);color:var(--ink);resize:vertical;min-height:84px;outline:none}
+.fl textarea:focus{border-color:var(--lat);box-shadow:0 0 0 3px rgba(180,69,42,.15)}
+.fl .err{font-size:12px;color:var(--lat2)}
+.fl.bad .field{border-color:var(--lat2)}
+.seg{display:flex;flex-wrap:wrap;gap:6px}
+.seg button{height:36px;padding:0 14px;border-radius:999px;border:1px solid rgba(20,17,14,.2);background:none;font-size:13px}
+.seg button.on{background:var(--ink);color:var(--cream);border-color:var(--ink)}
+.done{display:flex;flex-direction:column;gap:14px;justify-content:center;min-height:100%;padding:12px 0}
+.done .ref{font:500 12px var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--lat)}
+.done h2{font-size:48px}
+.done p{margin:0;font-size:15px;line-height:1.55;color:#3b342d;max-width:400px}
+.done .row{display:flex;gap:10px;margin-top:8px}
+
+@media (max-height:780px){.lede{display:none}h1{font-size:50px}.has-card h1{display:none}}
+@media (max-height:620px){.has-card .chips{display:none}}
+@media (max-width:1100px){.app{grid-template-columns:minmax(0,1fr) 380px}
+  .shade{background:linear-gradient(180deg,rgba(20,17,14,.94) 0,rgba(20,17,14,.6) 200px,rgba(20,17,14,0) 320px)}
+  .overlay{left:20px;right:20px;top:20px;width:auto;max-width:520px}
+  h1,.has-card h1{font-size:38px;margin-bottom:12px}.eyebrow,.lede{display:none}
+  .dcard{left:16px;bottom:16px;width:min(360px,calc(100% - 32px))}}
+@media (max-width:900px){
+  .app{display:block;height:auto;min-height:0}
+  .mapwrap{height:82vh;min-height:600px}
+  .panel{overflow:visible}
+  .shade{background:linear-gradient(180deg,rgba(20,17,14,.94) 0,rgba(20,17,14,.6) 240px,rgba(20,17,14,0) 380px)}
+  .overlay{left:16px;right:16px;top:20px;width:auto}
+  h1{font-size:38px}.eyebrow{display:none}
+  .brand span{display:none}
+  .dcard{left:12px;right:12px;bottom:12px;width:auto}
+  .dc-img{height:120px}
+  .trip-pill{display:inline-flex}
+  .pinbanner{left:12px;right:12px;top:auto;bottom:12px;justify-content:space-between}
+  .modal{grid-template-columns:1fr}
+  .f2{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+<header class="top">
+  <a class="brand" href="#"><b>Serendib<i>.</i></b><span>Private tours of Sri Lanka</span></a>
+  <button class="trip-pill" id="tripPill"><span id="pillLbl">Your trip</span> <b id="pillCount">0</b></button>
+</header>
+
+<main class="app">
+  <section class="mapwrap" id="mapwrap" data-screen-label="Map">
+    <div id="map"></div>
+    <div class="shade"></div>
+    <div class="overlay">
+      <p class="eyebrow">16 places · one island</p>
+      <h1>Plan your Sri Lanka, <em>one stop at a time.</em></h1>
+      <p class="lede">Pick places on the map, choose where we collect you and when, and we’ll send a quote for a private tour with your own driver.</p>
+      <div class="search">
+        <label class="sbox">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-3.5-3.5"></path></svg>
+          <input id="q" type="text" placeholder="Search Sigiriya, Ella, leopards…" autocomplete="off" aria-label="Search destinations">
+          <kbd>/</kbd>
+        </label>
+        <ul class="results" id="results" hidden></ul>
+      </div>
+      <div class="chips" id="chips"></div>
+    </div>
+    <div class="pinbanner" id="pinBanner" hidden><span id="pinTxt">Click the map to set your pickup point</span><button id="pinCancel">Cancel</button></div>
+    <article class="dcard" id="dcard" hidden></article>
+  </section>
+
+  <aside class="panel" id="panel" data-screen-label="Trip planner">
+    <div class="modes" id="modes" role="group" aria-label="What are you booking?"><button data-mode="tour">Tour</button><button data-mode="shuttle">Airport shuttle</button></div>
+    <div class="p-head">
+      <div>
+        <h2 id="pTitle">Your trip</h2>
+        <p id="summary">No stops yet</p>
+      </div>
+      <button class="linkbtn mut" id="clearBtn" hidden>Clear</button>
+    </div>
+
+    <div id="tourView">
+    <section class="step">
+      <div class="step-h"><span class="n">01</span><h3>Destinations</h3><button class="linkbtn act" id="optBtn" hidden>Optimise route</button></div>
+      <div id="stops"></div>
+    </section>
+
+    <section class="step">
+      <div class="step-h"><span class="n">02</span><h3>Pickup location</h3></div>
+      <div id="pkChosen"></div>
+      <div id="pkPicker">
+        <label class="field">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-3.5-3.5"></path></svg>
+          <input id="pkIn" type="text" placeholder="Airport, city or hotel area" autocomplete="off" aria-label="Pickup location">
+        </label>
+        <ul class="pk-list" id="pkList" hidden></ul>
+        <div class="pk-alt"><button class="linkbtn" id="pinBtn">Drop a pin on the map</button></div>
+      </div>
+    </section>
+
+    <section class="step">
+      <div class="step-h"><span class="n">03</span><h3>Start date</h3></div>
+      <label class="field">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3.5" y="5" width="17" height="15" rx="2"></rect><path d="M3.5 10h17M8 3v4M16 3v4"></path></svg>
+        <input id="startDate" type="date" aria-label="Start date">
+      </label>
+      <p class="hint" id="dateInfo"></p>
+    </section>
+    </div>
+
+    <div id="shView" hidden>
+    <section class="step">
+      <div class="step-h"><span class="n">01</span><h3>Trip type</h3></div>
+      <div class="dirs" id="shDir">
+        <button class="vcard" data-dir="arr"><b>Arrival</b><small>Airport → hotel</small></button>
+        <button class="vcard" data-dir="dep"><b>Departure</b><small>Hotel → airport</small></button>
+        <button class="vcard" data-dir="ret"><b>Return</b><small>Both ways</small></button>
+      </div>
+    </section>
+
+    <section class="step">
+      <div class="step-h"><span class="n">02</span><h3>Route</h3></div>
+      <div class="shroute" id="shRoute">
+        <div class="shrow"><span class="tagl" id="apTag">From</span>
+          <div class="chosen fixed"><span class="code">CMB</span><span><b>Bandaranaike International Airport</b><small>Katunayake</small></span></div>
+        </div>
+        <div class="leg" id="shLeg" hidden></div>
+        <div class="shrow"><span class="tagl" id="htTag">To</span>
+          <div id="shChosen"></div>
+          <div id="shPicker">
+            <label class="field">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-3.5-3.5"></path></svg>
+              <input id="shIn" type="text" placeholder="Where are you staying?" autocomplete="off" aria-label="Hotel location">
+            </label>
+            <ul class="pk-list" id="shList" hidden></ul>
+            <div class="pk-alt"><button class="linkbtn" id="shPinBtn">Drop a pin on the map</button></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="step">
+      <div class="step-h"><span class="n">03</span><h3>Flight times</h3></div>
+      <div class="flt" id="shArr">
+        <span class="tagl" style="display:block;margin-bottom:8px">Arrival flight lands</span>
+        <div class="f2">
+          <label class="field"><input id="shArrDate" type="date" aria-label="Arrival date"></label>
+          <label class="field"><input id="shArrTime" type="time" step="300" aria-label="Landing time"></label>
+        </div>
+        <p class="hint" id="shArrInfo"></p>
+      </div>
+      <div class="flt" id="shDep">
+        <span class="tagl" style="display:block;margin-bottom:8px">Departure flight leaves</span>
+        <div class="f2">
+          <label class="field"><input id="shDepDate" type="date" aria-label="Departure date"></label>
+          <label class="field"><input id="shDepTime" type="time" step="300" aria-label="Departure time"></label>
+        </div>
+        <p class="hint" id="shDepInfo"></p>
+      </div>
+      <p class="hint bad" id="shErr" hidden></p>
+    </section>
+    </div>
+
+    <section class="step">
+      <div class="step-h"><span class="n">04</span><h3>Travellers &amp; vehicle</h3></div>
+      <div class="trow"><div><b>Adults</b><small>12 years and over</small></div><div class="stepper" data-k="adults"><button data-d="-1" aria-label="Fewer adults">−</button><span id="adults">2</span><button data-d="1" aria-label="More adults">+</button></div></div>
+      <div class="trow"><div><b>Children</b><small>2–11 years</small></div><div class="stepper" data-k="children"><button data-d="-1" aria-label="Fewer children">−</button><span id="children">0</span><button data-d="1" aria-label="More children">+</button></div></div>
+      <div class="veh" id="vehicles"></div>
+    </section>
+
+    <div class="cta">
+      <p id="ctaHint"></p>
+      <button class="btn primary" id="quoteBtn" disabled>Request a quote</button>
+    </div>
+  </aside>
+</main>
+
+<div class="mbg" id="mbg" hidden></div>
+<div class="toast" id="toast"></div>
+
+<script>
+const CATS={culture:{label:'Culture',c:'#E8A05C'},beach:{label:'Beach',c:'#6FC3D0'},wildlife:{label:'Wildlife',c:'#C9B663'},hills:{label:'Hills',c:'#86C79A'}};
+const DESTS=[
+ {id:'sigiriya',name:'Sigiriya',cat:'culture',lat:7.9570,lng:80.7603,nights:2,pos:'t',hl:'UNESCO · Lion Rock',desc:'A 5th-century palace built on a 200 m rock, with frescoes halfway up and water gardens at its base.'},
+ {id:'dambulla',name:'Dambulla',cat:'culture',lat:7.8567,lng:80.6492,nights:0,pos:'l',hl:'UNESCO · Cave temple',desc:'Five cave shrines filled with Buddha statues and painted ceilings, on a rock above the town.'},
+ {id:'anuradhapura',name:'Anuradhapura',cat:'culture',lat:8.3114,lng:80.4037,nights:1,pos:'l',hl:'UNESCO · First capital',desc:'The island’s first capital: giant dagobas, monastery ruins and the sacred Sri Maha Bodhi tree.'},
+ {id:'polonnaruwa',name:'Polonnaruwa',cat:'culture',lat:7.9403,lng:81.0188,nights:1,pos:'r',hl:'UNESCO · Medieval city',desc:'A royal city from the 11th century, best seen by bicycle. Known for the Gal Vihara rock carvings.'},
+ {id:'kandy',name:'Kandy',cat:'culture',lat:7.2906,lng:80.6337,nights:2,pos:'r',hl:'Temple of the Tooth',desc:'The last royal capital, set around a lake and home to the Temple of the Sacred Tooth Relic.'},
+ {id:'nuwara-eliya',name:'Nuwara Eliya',cat:'hills',lat:6.9497,lng:80.7891,nights:1,pos:'l',hl:'Tea country · 1,900 m',desc:'A cool hill town surrounded by tea estates, with factory visits and colonial-era bungalows.'},
+ {id:'ella',name:'Ella',cat:'hills',lat:6.8667,lng:81.0466,nights:2,pos:'r',hl:'Nine Arches Bridge',desc:'A mountain village with easy hikes to Little Adam’s Peak and views of the Nine Arches Bridge.'},
+ {id:'adams-peak',name:'Adam’s Peak',cat:'hills',lat:6.8096,lng:80.4994,nights:1,pos:'l',hl:'Sunrise climb · 2,243 m',desc:'A sacred summit climbed overnight by pilgrims and hikers to watch the sun rise. Season Dec–May.'},
+ {id:'yala',name:'Yala',cat:'wildlife',lat:6.3728,lng:81.5016,nights:2,pos:'r',hl:'Leopards',desc:'National park with one of the highest leopard densities in the world. Jeep safaris at dawn and dusk.'},
+ {id:'udawalawe',name:'Udawalawe',cat:'wildlife',lat:6.4744,lng:80.8986,nights:1,pos:'l',hl:'Elephants',desc:'Open grassland around a reservoir where herds of wild elephants are seen all year.'},
+ {id:'galle',name:'Galle',cat:'culture',lat:6.0329,lng:80.2168,nights:2,pos:'l',hl:'UNESCO · Dutch fort',desc:'A 17th-century fort town with ramparts, lighthouse, cafés and boutique hotels inside the walls.'},
+ {id:'hikkaduwa',name:'Hikkaduwa',cat:'beach',lat:6.1395,lng:80.1063,nights:1,pos:'l',hl:'Sea turtles · Coral reef',desc:'A west-coast beach town where green sea turtles feed in the shallows, with a coral reef close to shore and turtle hatcheries nearby.'},
+ {id:'mirissa',name:'Mirissa',cat:'beach',lat:5.9483,lng:80.4716,nights:2,pos:'b',hl:'Whale watching',desc:'A palm-lined bay on the south coast and the main base for blue whale watching from November to April.'},
+ {id:'bentota',name:'Bentota',cat:'beach',lat:6.4210,lng:79.9980,nights:2,pos:'l',hl:'River & beach',desc:'A wide west-coast beach with river safaris, water sports and resort hotels.'},
+ {id:'trincomalee',name:'Trincomalee',cat:'beach',lat:8.5874,lng:81.2152,nights:2,pos:'r',hl:'East coast · May–Sep',desc:'A harbour town near Nilaveli beach and Pigeon Island, best visited from May to September.'},
+ {id:'arugam-bay',name:'Arugam Bay',cat:'beach',lat:6.8406,lng:81.8368,nights:2,pos:'r',hl:'Surf · Apr–Oct',desc:'A laid-back surf town on the east coast. The surf season runs from April to October.'}
+];
+const PICKUPS=[
+ {id:'cmb',code:'CMB',name:'Bandaranaike International Airport',short:'CMB Airport',sub:'Katunayake · main international airport',lat:7.1808,lng:79.8841},
+ {id:'colombo',code:'CMB·C',name:'Colombo city',short:'Colombo',sub:'Any hotel or address in Colombo',lat:6.9271,lng:79.8612},
+ {id:'negombo',code:'NEG',name:'Negombo',short:'Negombo',sub:'Beach hotels, 20 min from the airport',lat:7.2083,lng:79.8358},
+ {id:'port',code:'PORT',name:'Colombo Port cruise terminal',short:'Colombo Port',sub:'For cruise passengers',lat:6.9447,lng:79.8466},
+ {id:'hri',code:'HRI',name:'Mattala Rajapaksa International Airport',short:'HRI Airport',sub:'Hambantota · south coast',lat:6.2845,lng:81.1240},
+ {id:'kandy-p',code:'KDY',name:'Kandy',short:'Kandy',sub:'Any hotel in Kandy',lat:7.2906,lng:80.6337},
+ {id:'galle-p',code:'GAL',name:'Galle',short:'Galle',sub:'Any hotel in Galle or the fort',lat:6.0329,lng:80.2168}
+];
+const VEHICLES=[
+ {id:'car',name:'Car',model:'Toyota Prius or similar',cap:3},
+ {id:'van',name:'Van',model:'Toyota KDH, high roof',cap:7},
+ {id:'coach',name:'Mini coach',model:'Toyota Coaster',cap:20}
+];
+const FAME={sigiriya:['Rock','Lion Rock'],dambulla:['Caves','the cave temple'],anuradhapura:['Stupas','Ruwanwelisaya stupa'],polonnaruwa:['Ruins','Gal Vihara'],kandy:['Temple','the Temple of the Tooth'],'nuwara-eliya':['Tea','the tea estates'],ella:['Bridge','Nine Arches Bridge'],'adams-peak':['Sunrise','the summit at sunrise'],yala:['Leopard','a leopard'],udawalawe:['Elephant','wild elephants'],galle:['Fort','Galle Fort'],hikkaduwa:['Turtles','sea turtles'],mirissa:['Whales','a blue whale'],bentota:['River','the river and beach'],trincomalee:['Reef','Pigeon Island'],'arugam-bay':['Surf','the surf point']};
+DESTS.forEach(d=>{[d.kw,d.photo]=FAME[d.id]});
+const D=Object.fromEntries(DESTS.map(d=>[d.id,d]));
+const P=Object.fromEntries(PICKUPS.map(p=>[p.id,p]));
+const KEY='serendib-trip-v1';
+const $=s=>document.querySelector(s);
+let S=Object.assign({stops:[],pickup:null,start:'',adults:2,children:0,vehicle:null},(()=>{try{return JSON.parse(localStorage.getItem(KEY)||'{}')}catch(e){return{}}})());
+S.stops=(S.stops||[]).filter(s=>D[s.id]);
+let filter='all',active=null,picking=false;
+const save=()=>localStorage.setItem(KEY,JSON.stringify(S));
+
+/* geo + time helpers */
+const rad=x=>x*Math.PI/180;
+function hav(a,b){const dl=rad(b.lat-a.lat),dg=rad(b.lng-a.lng);const h=Math.sin(dl/2)**2+Math.cos(rad(a.lat))*Math.cos(rad(b.lat))*Math.sin(dg/2)**2;return 12742*Math.asin(Math.sqrt(h))}
+function legInfo(a,b){const km=hav(a,b)*1.4;return{km:Math.max(5,Math.round(km/5)*5),min:Math.max(10,Math.round(km/40*60/10)*10)}}
+function fmtDur(m){if(m<60)return m+' min';const h=Math.floor(m/60),r=m%60;return h+'h'+(r?' '+r+'m':'')}
+const nightsTxt=n=>n===0?'Day visit':n+(n===1?' night':' nights');
+function dateAt(off){const d=new Date(S.start+'T00:00:00');d.setDate(d.getDate()+off);return d}
+const fmtD=d=>d.toLocaleDateString('en-GB',{weekday:'short',day:'numeric',month:'short'});
+const fmtDs=d=>d.toLocaleDateString('en-GB',{day:'numeric',month:'short'});
+function pickupPt(){if(!S.pickup)return null;return S.pickup.id==='pin'?S.pickup:P[S.pickup.id]}
+function nearest(pt){let b=null,bd=1e9;[...DESTS,...PICKUPS].forEach(x=>{const d=hav(pt,x);if(d<bd){bd=d;b=x}});return b}
+function pickupLabel(){const p=S.pickup;if(!p)return'';return p.id==='pin'?'Pin near '+(nearest(p).short||nearest(p).name):P[p.id].short}
+const pax=()=>S.adults+S.children;
+function plan(){let day=0,drive=0,km=0;const o=pickupPt();let prev=o;
+ const rows=S.stops.map((s,i)=>{const d=D[s.id];const leg=prev?legInfo(prev,d):null;if(leg){drive+=leg.min;km+=leg.km}const arrive=day;day+=s.nights;prev=d;return{s,d,i,leg,arrive,depart:day}});
+ let ret=null;if(o&&S.stops.length){ret=legInfo(prev,o);drive+=ret.min;km+=ret.km}
+ return{rows,ret,nights:day,drive,km}}
+function vehicleId(){const fit=VEHICLES.filter(v=>v.cap>=pax());const cur=VEHICLES.find(v=>v.id===S.vehicle);return cur&&cur.cap>=pax()?cur.id:fit[0].id}
+function toast(t){const el=$('#toast');el.textContent=t;el.classList.add('show');clearTimeout(toast._t);toast._t=setTimeout(()=>el.classList.remove('show'),2600)}
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+
+/* map */
+const mapwrap=$('#mapwrap');
+const map=L.map('map',{zoomControl:false,zoomSnap:.25,zoomDelta:.5,minZoom:6.5,maxZoom:10.5,maxBounds:[[4.4,77.6],[11,84]],maxBoundsViscosity:.8});
+L.control.zoom({position:'bottomright'}).addTo(map);
+map.attributionControl.addAttribution('Map data: <a href="https://www.naturalearthdata.com/">Natural Earth</a>');
+map.createPane('land');map.getPane('land').style.zIndex=250;map.getPane('land').style.pointerEvents='none';
+const grat={pane:'land',color:'#F3ECE0',weight:1,opacity:.05,interactive:false};
+for(let la=4.5;la<=11;la+=.5)L.polyline([[la,77.5],[la,84.5]],grat).addTo(map);
+for(let lo=77.5;lo<=84.5;lo+=.5)L.polyline([[4,lo],[11.5,lo]],grat).addTo(map);
+[['Indian Ocean',5.25,81.7,''],['Bay of Bengal',9.7,82.7,''],['Laccadive Sea',7.2,78.9,''],['Palk Strait',9.95,79.55,''],['India',10.55,78.75,'caps']].forEach(([t,la,lo,c])=>L.marker([la,lo],{pane:'land',interactive:false,keyboard:false,icon:L.divIcon({className:'',iconSize:[0,0],html:`<span class="sea ${c}">${t}</span>`})}).addTo(map));
+function drawLand(topo){const fc=topojson.feature(topo,topo.objects.countries).features;
+ const lk=fc.filter(f=>f.id==='144'||(f.properties&&f.properties.name==='Sri Lanka')),ind=fc.filter(f=>f.id==='356'||(f.properties&&f.properties.name==='India'));
+ L.geoJSON(ind,{pane:'land',interactive:false,style:{color:'#F3ECE0',opacity:.2,weight:1,fillColor:'#1C1915',fillOpacity:1}}).addTo(map);
+ distP.then(ok=>{if(ok)return;
+ L.geoJSON(lk,{pane:'land',interactive:false,style:{color:'#E07B57',opacity:.16,weight:10,fill:false}}).addTo(map);
+ L.geoJSON(lk,{pane:'land',interactive:false,style:{color:'#EFE3D1',opacity:.75,weight:1.25,fillColor:'#2C251E',fillOpacity:1}}).addTo(map)})}
+map.createPane('dist');map.getPane('dist').style.zIndex=260;
+map.createPane('distlbl');Object.assign(map.getPane('distlbl').style,{zIndex:270,pointerEvents:'none'});
+const distLbl={};
+const distP=fetch('data/lka-districts.geojson').then(r=>{if(!r.ok)throw 0;return r.json()}).then(gj=>{
+ map.attributionControl.addAttribution('Districts: <a href="https://www.geoboundaries.org/">geoBoundaries</a>');
+ L.geoJSON(gj,{pane:'dist',interactive:false,style:{color:'#E07B57',opacity:.16,weight:10,fill:false}}).addTo(map);
+ L.geoJSON(gj,{pane:'dist',interactive:false,style:{color:'#EFE3D1',opacity:.8,weight:2.5,fill:false}}).addTo(map);
+ const base={color:'#EFE3D1',opacity:.2,weight:1,fillColor:'#2C251E',fillOpacity:1,className:'dpoly'};
+ L.geoJSON(gj,{pane:'dist',style:()=>base,onEachFeature:(f,l)=>{const n=f.properties.name;
+  l.on('mouseover',()=>{l.setStyle({fillColor:'#3B3229',opacity:.45});distLbl[n].classList.add('hov')});
+  l.on('mouseout',()=>{l.setStyle(base);distLbl[n].classList.remove('hov')})}}).addTo(map);
+ gj.features.forEach(f=>{const n=f.properties.name;const m=L.marker(f.properties.lp,{pane:'distlbl',interactive:false,keyboard:false,icon:L.divIcon({className:'',iconSize:[0,0],html:`<span class="dist">${n}</span>`})}).addTo(map);distLbl[n]=m.getElement().firstElementChild});
+ requestAnimationFrame(hideSeaLabels);return true}).catch(e=>{console.warn('District boundaries failed to load',e);return false});
+fetch('https://cdn.jsdelivr.net/npm/world-atlas@2.0.2/countries-50m.json').then(r=>{if(!r.ok)throw 0;return r.json()})
+ .catch(()=>fetch('https://cdn.jsdelivr.net/npm/world-atlas@2.0.2/countries-110m.json').then(r=>r.json())).then(drawLand).catch(e=>console.warn('Map geometry failed to load',e));
+const isNarrow=()=>window.innerWidth<=900;
+const stacked=()=>window.innerWidth<=1100;
+function padL(){if(stacked())return 0;const o=document.querySelector('.overlay').getBoundingClientRect(),m=mapwrap.getBoundingClientRect();return Math.max(0,o.right-m.left+16)}
+function padT(){if(!stacked())return 30;const o=document.querySelector('.overlay').getBoundingClientRect(),m=mapwrap.getBoundingClientRect();return Math.max(30,o.bottom-m.top+12)}
+let userMoved=false;
+function fit(){map.invalidateSize({pan:false});if(!map.getSize().x){if(!map._loaded)map.setView([7.85,80.75],7.5);return}map.fitBounds([[5.92,79.68],[9.83,81.88]],stacked()?{paddingTopLeft:[16,padT()],paddingBottomRight:[16,24]}:{paddingTopLeft:[padL()+20,30],paddingBottomRight:[40,30]})}
+fit();
+map.on('dragstart',()=>userMoved=true);map.getContainer().addEventListener('wheel',()=>userMoved=true,{passive:true});
+map.whenReady(()=>map.on('zoomstart',e=>{if(e&&e.originalEvent)userMoved=true}));
+new ResizeObserver(()=>{map.invalidateSize({pan:false});if(!userMoved&&!active)fit()}).observe(mapwrap);
+map.on('zoomend',()=>mapwrap.classList.toggle('far',map.getZoom()<7));
+mapwrap.classList.toggle('far',map.getZoom()<7);
+function flyTo(ll,z){z=Math.max(map.getZoom(),z);const pt=map.project(ll,z).subtract([padL()/2,stacked()?-padT()/2:0]);map.flyTo(map.unproject(pt,z),z,{duration:.8})}
+
+const markers={};
+DESTS.forEach(d=>{
+ const icon=L.divIcon({className:'',iconSize:[0,0],html:`<div class="pin ${d.pos}" style="--c:${CATS[d.cat].c}"><span class="stem"></span><span class="pt"></span><span class="med"><image-slot id="dest-${d.id}" shape="circle"></image-slot><span class="kw">${d.kw}</span><b class="no"></b></span><span class="lbl">${d.name}</span></div>`});
+ const m=L.marker([d.lat,d.lng],{icon,keyboard:true,title:d.name,riseOnHover:true}).addTo(map);
+ m.on('click',()=>openDest(d.id,false));
+ markers[d.id]=m;
+});
+function renderPins(){
+ DESTS.forEach(d=>{const el=markers[d.id].getElement();if(!el)return;const pin=el.firstElementChild;const idx=tripIdx(d.id);
+  pin.classList.toggle('in',idx>-1);pin.classList.toggle('sel',isHotel(d.id));pin.classList.toggle('active',active===d.id);
+  pin.classList.toggle('off',!(filter==='all'||d.cat===filter||idx>-1||active===d.id||isHotel(d.id)));
+  pin.querySelector('.no').textContent=idx>-1?idx+1:isHotel(d.id)?'Hotel':'';
+  markers[d.id].setZIndexOffset(active===d.id?2000:idx>-1?1000:0)});
+ layoutPins();
+}
+const pinR=()=>{const z=map.getZoom();return z<7?16:z<8.25?20:25};
+function layoutPins(){
+ const R=pinR();mapwrap.style.setProperty('--r',R+'px');mapwrap.classList.toggle('tiny',R<18);
+ const items=[];
+ DESTS.forEach(d=>{const el=markers[d.id].getElement();const pin=el&&el.firstElementChild;if(!pin||pin.classList.contains('off'))return;
+  const p=map.latLngToLayerPoint([d.lat,d.lng]);const idx=tripIdx(d.id);
+  const hs=isHotel(d.id);items.push({d,pin,p,x:p.x,y:p.y,idx,hs,m:active===d.id?6:idx>-1||hs?3:1,pr:active===d.id?0:idx>-1||hs?1:2})});
+ const fixed=[];[pkMarker,apMarker].forEach(m=>{if(!m)return;const p=map.latLngToLayerPoint(m.getLatLng());fixed.push({x:p.x,y:p.y,r:16})});
+ const rects=[],cr0=map.getContainer().getBoundingClientRect();[pkMarker,apMarker].forEach(m=>{const pl=m&&m.getElement()&&m.getElement().querySelector('.pl');if(!pl)return;const b=pl.getBoundingClientRect(),a=map.containerPointToLayerPoint([b.left-cr0.left,b.top-cr0.top]);rects.push([a.x-2,a.y-2,a.x+b.width+2,a.y+b.height+2])});
+ const r=R+4;
+ for(let it=0;it<90;it++){
+  items.forEach(a=>{a.x+=(a.p.x-a.x)*.05;a.y+=(a.p.y-a.y)*.05});
+  for(let i=0;i<items.length;i++){const a=items[i];
+   for(let j=i+1;j<items.length;j++){const b=items[j];let dx=b.x-a.x,dy=b.y-a.y,dd=Math.hypot(dx,dy);
+    if(dd<2*r){if(dd<.01){dx=Math.cos(i*2.4);dy=Math.sin(i*2.4);dd=1}const push=2*r-dd,ux=dx/dd,uy=dy/dd,wa=b.m/(a.m+b.m),wb=a.m/(a.m+b.m);
+     a.x-=ux*push*wa;a.y-=uy*push*wa;b.x+=ux*push*wb;b.y+=uy*push*wb}}
+   fixed.forEach(f=>{let dx=a.x-f.x,dy=a.y-f.y,dd=Math.hypot(dx,dy);if(dd<.01){dx=1;dy=-.6;dd=Math.hypot(dx,dy)}const min=r+f.r;if(dd<min){a.x+=dx/dd*(min-dd);a.y+=dy/dd*(min-dd)}})
+   rects.forEach(q=>{if(a.x>q[0]-r&&a.x<q[2]+r&&a.y>q[1]-r&&a.y<q[3]+r){const dl=a.x-(q[0]-r),dr=q[2]+r-a.x,dt=a.y-(q[1]-r),db=q[3]+r-a.y,mn=Math.min(dl,dr,dt,db);if(mn===dl)a.x-=dl;else if(mn===dr)a.x+=dr;else if(mn===dt)a.y-=dt;else a.y+=db}})}
+ }
+ items.forEach(a=>{const dx=a.x-a.p.x,dy=a.y-a.p.y,len=Math.hypot(dx,dy);const med=a.pin.querySelector('.med'),st=a.pin.querySelector('.stem');
+  med.style.left=dx+'px';med.style.top=dy+'px';a.pin.classList.toggle('moved',len>R*.5);
+  st.style.width=Math.max(0,len-R)+'px';st.style.transform=`rotate(${Math.atan2(dy,dx)}rad)`});
+ placeLabels(items,R);
+}
+function placeLabels(items,R){
+ if(!items){layoutPins();return}
+ const obst=[];const hit=(a,b)=>a[0]<b[2]&&a[2]>b[0]&&a[1]<b[3]&&a[3]>b[1];
+ items.forEach(o=>{const rd=R+3;obst.push({id:o.d.id,r:[o.x-rd,o.y-rd,o.x+rd,o.y+rd]});
+  if(o.pin.classList.contains('moved'))obst.push({id:o.d.id+'p',r:[o.p.x-5,o.p.y-5,o.p.x+5,o.p.y+5]});
+  if(o.idx>-1||o.hs)obst.push({id:o.d.id+'b',r:[o.x+R-(o.hs?42:15),o.y-R-8,o.x+R+8,o.y-R+15]})});
+ [pkMarker,apMarker].forEach((m,i)=>{if(!m)return;const el=m.getElement(),pl=el&&el.querySelector('.pl'),p=map.latLngToLayerPoint(m.getLatLng());obst.push({id:'pk'+i,r:[p.x-16,p.y-16,p.x+16,p.y+16]});
+  if(pl){const cr=map.getContainer().getBoundingClientRect(),b=pl.getBoundingClientRect(),a=map.containerPointToLayerPoint([b.left-cr.left,b.top-cr.top]);obst.push({id:'pkl'+i,r:[a.x,a.y,a.x+b.width,a.y+b.height]})}});
+ items.sort((a,b)=>a.pr-b.pr);const placed=[];
+ items.forEach(o=>{const l=o.pin.querySelector('.lbl'),w=l.offsetWidth,h=l.offsetHeight,rd=R+1,ox=o.x-o.p.x,oy=o.y-o.p.y;
+  const C={r:[rd+6,-h/2-1],l:[-rd-6-w,-h/2-1],t:[-w/2,-rd-4-h],b:[-w/2,rd+4],tr:[rd-2,-rd-h+3],tl:[-rd+2-w,-rd-h+3],br:[rd-2,rd-3],bl:[-rd+2-w,rd-3]};
+  let pick=null;for(const k of [o.d.pos,'r','l','t','b','tr','tl','br','bl']){const [dx,dy]=C[k];const rc=[o.x+dx,o.y+dy,o.x+dx+w,o.y+dy+h];
+   if(!obst.some(b=>b.id!==o.d.id&&hit(rc,b.r))&&!placed.some(b=>hit(rc,b))){pick={dx,dy,rc};break}}
+  if(!pick&&o.pr<2){const [dx,dy]=C[o.d.pos];pick={dx,dy,rc:[o.x+dx,o.y+dy,o.x+dx+w,o.y+dy+h]}}
+  o.pin.classList.toggle('nolbl',!pick);
+  if(pick){Object.assign(l.style,{left:(ox+pick.dx)+'px',top:(oy+pick.dy)+'px',right:'auto',bottom:'auto',transform:'none'});placed.push(pick.rc)}});
+ requestAnimationFrame(hideSeaLabels);clearTimeout(placeLabels._t);placeLabels._t=setTimeout(hideSeaLabels,380);
+}
+function hideSeaLabels(){const rr=e=>{const b=e.getBoundingClientRect();return[b.left-6,b.top-6,b.right+6,b.bottom+6]};const hit=(a,b)=>a[0]<b[2]&&a[2]>b[0]&&a[1]<b[3]&&a[3]>b[1];
+ const obs=[...document.querySelectorAll('.pin:not(.nolbl):not(.off) .lbl,.pin:not(.off) .med,.pk .pl,.pk .sq,.overlay>*,.leaflet-control,.dcard:not([hidden]),.pinbanner:not([hidden])')].map(rr);
+ document.querySelectorAll('.sea,.dist').forEach(s=>{s.style.opacity='';const r=rr(s);const h=obs.some(o=>hit(r,o));s.style.opacity=h?'0':'';if(!h)obs.push(r)})}
+map.on('moveend',hideSeaLabels);
+map.on('zoomend',()=>layoutPins());
+document.fonts&&document.fonts.ready.then(()=>layoutPins());
+let pkMarker=null,apMarker=null;
+function tripIdx(id){return S.mode==='shuttle'?-1:S.stops.findIndex(s=>s.id===id)}
+function isHotel(id){return S.mode==='shuttle'&&!!S.sh&&!!S.sh.place&&S.sh.place.id===id}
+function renderPickupMarker(){
+ if(pkMarker){map.removeLayer(pkMarker);pkMarker=null}
+ if(apMarker){map.removeLayer(apMarker);apMarker=null}
+ if(S.mode==='shuttle')return renderShMarkers();
+ const p=pickupPt();if(!p)return;const isPin=S.pickup.id==='pin';
+ const icon=L.divIcon({className:'',iconSize:[0,0],html:`<div class="pk ${isPin?'drag':''}"><span class="sq"></span><span class="pl"><b>Pickup</b> · ${esc(pickupLabel())}</span></div>`});
+ pkMarker=L.marker([p.lat,p.lng],{icon,draggable:isPin,zIndexOffset:3000,keyboard:false}).addTo(map);
+ if(isPin)pkMarker.on('dragend',e=>{const ll=e.target.getLatLng();S.pickup={id:'pin',lat:ll.lat,lng:ll.lng};update()});
+}
+const routeLayer=L.layerGroup().addTo(map);
+function curve(a,b){const z=8,pa=map.project([a.lat,a.lng],z),pb=map.project([b.lat,b.lng],z);const mx=(pa.x+pb.x)/2,my=(pa.y+pb.y)/2,dx=pb.x-pa.x,dy=pb.y-pa.y;const k=.16;const cx=mx-dy*k,cy=my+dx*k;const out=[];
+ for(let i=0;i<=24;i++){const t=i/24,u=1-t;out.push(map.unproject(L.point(u*u*pa.x+2*u*t*cx+t*t*pb.x,u*u*pa.y+2*u*t*cy+t*t*pb.y),z))}return out}
+function renderRoute(){routeLayer.clearLayers();if(S.mode==='shuttle')return renderShRoute();const o=pickupPt();const pts=[];if(o)pts.push(o);S.stops.forEach(s=>pts.push(D[s.id]));
+ for(let i=0;i<pts.length-1;i++){const c=curve(pts[i],pts[i+1]);L.polyline(c,{className:'route-glow',weight:4,interactive:false}).addTo(routeLayer);L.polyline(c,{className:'route',weight:2.5,interactive:false}).addTo(routeLayer)}
+ if(o&&S.stops.length){L.polyline(curve(D[S.stops.at(-1).id],o),{className:'route-ret',weight:2,interactive:false}).addTo(routeLayer)}}
+
+/* filters + search */
+function renderChips(){const counts={all:DESTS.length};DESTS.forEach(d=>counts[d.cat]=(counts[d.cat]||0)+1);
+ $('#chips').innerHTML=[['all','All',null],...Object.entries(CATS).map(([k,v])=>[k,v.label,v.c])].map(([k,l,c])=>`<button class="chip ${filter===k?'on':''}" data-f="${k}">${c?`<i style="--c:${c}"></i>`:''}${l}<small>${counts[k]}</small></button>`).join('')}
+$('#chips').addEventListener('click',e=>{const b=e.target.closest('[data-f]');if(!b)return;filter=b.dataset.f;renderChips();renderPins();
+ if(active&&filter!=='all'&&D[active].cat!==filter)closeCard()});
+const q=$('#q'),resEl=$('#results');let res=[],hi=0;
+function search(){const t=q.value.trim().toLowerCase();
+ res=DESTS.map(d=>{const n=d.name.toLowerCase();let s=0;if(!t)s=1;else if(n.startsWith(t))s=4;else if(n.includes(t))s=3;else if((d.hl+' '+CATS[d.cat].label).toLowerCase().includes(t))s=2;else if(d.desc.toLowerCase().includes(t))s=1;return{d,s}})
+  .filter(x=>x.s>0&&(t||filter==='all'||x.d.cat===filter)).sort((a,b)=>b.s-a.s).map(x=>x.d);
+ hi=0;renderResults()}
+function renderResults(){resEl.hidden=false;
+ resEl.innerHTML=res.length?res.map((d,i)=>{const inT=tripIdx(d.id);return`<li class="${i===hi?'hi':''}" data-i="${i}"><span class="cd" style="--c:${CATS[d.cat].c}"></span><span><span class="nm">${d.name}</span><span class="sb">${CATS[d.cat].label} · ${d.hl}</span></span>${inT>-1?`<span class="st">Stop ${inT+1}</span>`:''}</li>`}).join(''):`<li><span class="none">No places match “${esc(q.value)}”. Try a town, “beach” or “safari”.</span></li>`}
+q.addEventListener('focus',search);q.addEventListener('input',search);
+q.addEventListener('blur',()=>setTimeout(()=>resEl.hidden=true,120));
+q.addEventListener('keydown',e=>{if(resEl.hidden)return;
+ if(e.key==='ArrowDown'){hi=Math.min(res.length-1,hi+1);renderResults();e.preventDefault()}
+ else if(e.key==='ArrowUp'){hi=Math.max(0,hi-1);renderResults();e.preventDefault()}
+ else if(e.key==='Enter'&&res[hi]){pickResult(res[hi])}
+ else if(e.key==='Escape'){q.blur()}});
+resEl.addEventListener('mousedown',e=>{const li=e.target.closest('[data-i]');if(li){e.preventDefault();pickResult(res[+li.dataset.i])}});
+function pickResult(d){q.value='';resEl.hidden=true;q.blur();openDest(d.id,true)}
+
+/* destination card */
+const card=$('#dcard');
+function openDest(id,fly){if(picking)return;active=id;userMoved=true;renderPins();renderCard();const d=D[id];
+ if(fly)flyTo([d.lat,d.lng],8.5);else map.panInside([d.lat,d.lng],{paddingTopLeft:[stacked()?20:padL()+40,stacked()?padT()+10:40],paddingBottomRight:[40,stacked()?card.offsetHeight+30:40]})}
+function closeCard(){active=null;card.hidden=true;mapwrap.classList.remove('has-card');renderPins()}
+function renderCard(){const d=D[active];
+ card.innerHTML=`<div class="dc-img"><image-slot id="dest-${d.id}" shape="rect" placeholder="Drop a photo of ${esc(d.photo)}"></image-slot><button class="dc-x" data-act="close" aria-label="Close">×</button></div>
+ <div class="dc-body"><div class="dc-meta"><span class="tag" style="--c:${CATS[d.cat].c}">${CATS[d.cat].label}</span><span>${d.hl}</span></div>
+ <h3>${d.name}</h3><p>${d.desc}</p><dl class="dc-facts" id="dcFacts"></dl><div class="dc-actions" id="dcActions"></div></div>`;
+ card.hidden=false;mapwrap.classList.add('has-card');requestAnimationFrame(hideSeaLabels);card.style.animation='none';card.offsetHeight;card.style.animation='';renderCardState()}
+function renderCardState(){if(!active||card.hidden)return;const d=D[active];
+ if(S.mode==='shuttle'){const leg=legInfo(AIR,d),sel=!!S.sh.place&&S.sh.place.id===d.id;
+  $('#dcFacts').innerHTML=`<div><dt>From CMB Airport</dt><dd>~${fmtDur(leg.min)} · ${leg.km} km</dd></div><div><dt>Car, one way</dt><dd>$${fare(leg.km,'car')}</dd></div>`;
+  $('#dcActions').innerHTML=(sel?`<span class="in-trip"><i>✓</i>Your hotel location</span>`:`<button class="btn primary" data-act="sethotel">Set as hotel location</button>`)+`<div class="dc-nav"><button data-act="prev" aria-label="Previous place">←</button><button data-act="next" aria-label="Next place">→</button></div>`;return}const idx=S.stops.findIndex(s=>s.id===d.id);
+ let from=null,fromL='';if(idx===-1){if(S.stops.length){from=D[S.stops.at(-1).id];fromL=from.name}else{from=pickupPt()||P.cmb;fromL=S.pickup?pickupLabel():'CMB Airport'}}
+ else if(idx>0){from=D[S.stops[idx-1].id];fromL=from.name}else if(S.pickup){from=pickupPt();fromL='pickup'}
+ const leg=from?legInfo(from,d):null;
+ $('#dcFacts').innerHTML=`<div><dt>${idx>-1?'Your stay':'Suggested stay'}</dt><dd>${nightsTxt(idx>-1?S.stops[idx].nights:d.nights)}</dd></div>${leg?`<div><dt>From ${esc(fromL)}</dt><dd>~${fmtDur(leg.min)} drive</dd></div>`:''}`;
+ $('#dcActions').innerHTML=(idx>-1?`<span class="in-trip"><i>${idx+1}</i>In your trip</span><button class="btn ghost" data-act="remove">Remove</button>`:`<button class="btn primary" data-act="add">Add to trip</button>`)+`<div class="dc-nav"><button data-act="prev" aria-label="Previous place">←</button><button data-act="next" aria-label="Next place">→</button></div>`}
+card.addEventListener('click',e=>{const a=e.target.closest('[data-act]');if(!a)return;const act=a.dataset.act;
+ if(act==='close')closeCard();else if(act==='add')addStop(active);else if(act==='remove')removeStop(active);else if(act==='sethotel')setShPlace({id:active});
+ else{const list=DESTS.filter(d=>filter==='all'||d.cat===filter);let i=list.findIndex(d=>d.id===active);i=(i+(act==='next'?1:-1)+list.length)%list.length;openDest(list[i].id,true)}});
+
+/* trip ops */
+function addStop(id){if(S.stops.some(s=>s.id===id))return;S.stops.push({id,nights:D[id].nights});update();toast(`${D[id].name} added as stop ${S.stops.length}`)}
+function removeStop(id){const d=D[id];S.stops=S.stops.filter(s=>s.id!==id);update();toast(`${d.name} removed`)}
+function tourCost(order,o,closed){let c=0,prev=o;order.forEach(s=>{c+=hav(prev,D[s.id]);prev=D[s.id]});if(closed)c+=hav(prev,o);return c}
+function optimise(){const closed=!!S.pickup,o=pickupPt()||P.cmb;let rest=S.stops.slice(),order=[],cur=o;
+ while(rest.length){let bi=0,bd=1e9;rest.forEach((s,i)=>{const d=hav(cur,D[s.id]);if(d<bd){bd=d;bi=i}});order.push(rest[bi]);cur=D[rest[bi].id];rest.splice(bi,1)}
+ let improved=true;while(improved){improved=false;for(let i=0;i<order.length-1;i++)for(let j=i+1;j<order.length;j++){const t=order.slice(0,i).concat(order.slice(i,j+1).reverse(),order.slice(j+1));if(tourCost(t,o,closed)<tourCost(order,o,closed)-.01){order=t;improved=true}}}
+ const before=plan().drive;const same=order.every((s,i)=>s.id===S.stops[i].id);
+ if(same){toast('Your stops are already in the shortest order');return}
+ S.stops=order;update();const saved=before-plan().drive;
+ toast(saved>=10?`Route reordered · about ${fmtDur(saved)} less driving`:'Route reordered')}
+$('#optBtn').onclick=optimise;
+$('#clearBtn').onclick=()=>{if(S.mode==='shuttle'){Object.assign(S.sh,{place:null,arrDate:'',arrTime:'',depDate:'',depTime:''});syncShInputs();update();toast('Transfer cleared');return}if(!S.stops.length&&!S.pickup&&!S.start)return;S.stops=[];S.pickup=null;S.start='';$('#startDate').value='';update();toast('Trip cleared')};
+
+function renderStops(){const el=$('#stops');const p=plan();
+ if(!S.stops.length){el.innerHTML=`<div class="empty-stops">Click a place on the map or search above to add your first stop. Add as many as you like and we’ll work out the dates.</div>`;return}
+ let h='';if(S.pickup)h+=`<div class="endpt"><span class="ic"></span><span><b>Pickup</b> · ${esc(pickupLabel())}</span></div>`;
+ h+='<ol class="stops">';
+ p.rows.forEach(r=>{if(r.leg)h+=`<li class="leg">~${fmtDur(r.leg.min)} · ${r.leg.km} km</li>`;
+  const when=S.start?(r.s.nights?`${fmtDs(dateAt(r.arrive))} – ${fmtDs(dateAt(r.depart))}`:fmtD(dateAt(r.arrive))):(r.s.nights?`Day ${r.arrive+1}–${r.depart+1}`:`Day ${r.arrive+1}`);
+  h+=`<li class="stop"><span class="num">${r.i+1}</span><div><button class="s-name" data-open="${r.d.id}">${r.d.name}</button><div class="s-sub">${when}</div></div>
+  <div class="stepper wide"><button data-n="${r.d.id}" data-d="-1" ${r.s.nights<=0?'disabled':''} aria-label="Fewer nights">−</button><span>${r.s.nights}<small>${r.s.nights===1?'night':'nights'}</small></span><button data-n="${r.d.id}" data-d="1" ${r.s.nights>=14?'disabled':''} aria-label="More nights">+</button></div>
+  <button class="rm" data-rm="${r.d.id}" aria-label="Remove ${esc(r.d.name)}">×</button></li>`});
+ if(p.ret)h+=`<li class="leg ret">~${fmtDur(p.ret.min)} · ${p.ret.km} km</li>`;
+ h+='</ol>';if(S.pickup)h+=`<div class="endpt"><span class="ic"></span><span><b>Drop-off</b> · ${esc(pickupLabel())}</span></div>`;
+ el.innerHTML=h}
+$('#stops').addEventListener('click',e=>{const t=e.target.closest('button');if(!t)return;
+ if(t.dataset.open)openDest(t.dataset.open,true);
+ else if(t.dataset.rm)removeStop(t.dataset.rm);
+ else if(t.dataset.n){const s=S.stops.find(x=>x.id===t.dataset.n);s.nights=Math.max(0,Math.min(14,s.nights+ +t.dataset.d));update()}});
+
+/* pickup */
+const pkIn=$('#pkIn'),pkList=$('#pkList');let pkRes=[],pkHi=0;
+function pkSearch(){const t=pkIn.value.trim().toLowerCase();pkRes=PICKUPS.filter(p=>!t||(p.name+' '+p.sub+' '+p.code).toLowerCase().includes(t));pkHi=0;renderPkList()}
+function renderPkList(){pkList.hidden=false;pkList.innerHTML=pkRes.map((p,i)=>`<li class="${i===pkHi?'hi':''}" data-i="${i}"><span class="code">${p.code}</span><span><b>${p.name}</b><small>${p.sub}</small></span></li>`).join('')+`<li class="pinopt ${pkHi===pkRes.length?'hi':''}" data-pin="1"><span class="code">PIN</span><span><b>Somewhere else</b><small>Drop a pin on the map</small></span></li>`}
+pkIn.addEventListener('focus',pkSearch);pkIn.addEventListener('input',pkSearch);
+pkIn.addEventListener('blur',()=>setTimeout(()=>pkList.hidden=true,120));
+pkIn.addEventListener('keydown',e=>{if(pkList.hidden)return;
+ if(e.key==='ArrowDown'){pkHi=Math.min(pkRes.length,pkHi+1);renderPkList();e.preventDefault()}
+ else if(e.key==='ArrowUp'){pkHi=Math.max(0,pkHi-1);renderPkList();e.preventDefault()}
+ else if(e.key==='Enter'){pkHi===pkRes.length?startPin():setPickup({id:pkRes[pkHi].id})}
+ else if(e.key==='Escape')pkIn.blur()});
+pkList.addEventListener('mousedown',e=>{const li=e.target.closest('li');if(!li)return;e.preventDefault();li.dataset.pin?startPin():setPickup({id:pkRes[+li.dataset.i].id})});
+function setPickup(p){S.pickup=p;pkIn.value='';pkIn.blur();pkList.hidden=true;update();const pt=pickupPt();if(p.id!=='pin')map.panInside([pt.lat,pt.lng],{paddingTopLeft:[stacked()?20:padL()+60,stacked()?padT()+10:60],paddingBottomRight:[60,60]});toast('Pickup set · '+pickupLabel())}
+function startPin(t){pinTarget=t==='shuttle'?'shuttle':'tour';$('#pinTxt').textContent=pinTarget==='shuttle'?'Click the map where you’re staying':'Click the map to set your pickup point';pkIn.blur();pkList.hidden=true;picking=true;mapwrap.classList.add('picking');$('#pinBanner').hidden=false;closeCard();if(isNarrow())window.scrollTo({top:0,behavior:'smooth'})}
+function stopPin(){picking=false;mapwrap.classList.remove('picking');$('#pinBanner').hidden=true}
+$('#pinBtn').onclick=startPin;$('#pinCancel').onclick=stopPin;
+map.on('click',e=>{if(picking){stopPin();const pp={id:'pin',lat:e.latlng.lat,lng:e.latlng.lng};pinTarget==='shuttle'?setShPlace(pp):setPickup(pp)}else if(active)closeCard()});
+function renderPickup(){const c=$('#pkChosen'),pk=$('#pkPicker');
+ if(!S.pickup){c.innerHTML='';pk.hidden=false;return}
+ pk.hidden=true;const isPin=S.pickup.id==='pin';const p=pickupPt();
+ c.innerHTML=`<div class="chosen"><span class="code">${isPin?'PIN':p.code}</span><span><b>${isPin?esc(pickupLabel()):p.name}</b><small>${isPin?'Drag the pin on the map to adjust':p.sub}</small></span><button class="linkbtn" id="pkChange">Change</button></div>`;
+ $('#pkChange').onclick=()=>{S.pickup=null;update();setTimeout(()=>pkIn.focus(),0)}}
+
+/* date */
+const sd=$('#startDate');const t0=new Date();sd.min=`${t0.getFullYear()}-${String(t0.getMonth()+1).padStart(2,'0')}-${String(t0.getDate()).padStart(2,'0')}`;
+sd.value=S.start||'';sd.addEventListener('change',()=>{S.start=sd.value;update()});
+function renderDate(){const p=plan();const el=$('#dateInfo');
+ if(!S.start){el.innerHTML=S.stops.length?`Your route is <b>${p.nights+1} days, ${p.nights} ${p.nights===1?'night':'nights'}</b>. Pick a start date to see dates for each stop.`:'Pick the day we collect you. Dates for each stop are worked out from here.';return}
+ el.innerHTML=S.stops.length?`${fmtD(dateAt(0))} to <b>${fmtD(dateAt(p.nights))}</b> · ${p.nights+1} days, ${p.nights} ${p.nights===1?'night':'nights'}`:`Starts <b>${fmtD(dateAt(0))}</b>. Add stops to see your end date.`}
+
+/* travellers */
+document.querySelectorAll('.stepper[data-k]').forEach(st=>st.addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;const k=st.dataset.k;
+ const v=S[k]+ +b.dataset.d;if(k==='adults'&&(v<1))return;if(v<0||v+(k==='adults'?S.children:S.adults)>20)return;S[k]=v;update()}));
+function renderTrav(){$('#adults').textContent=S.adults;$('#children').textContent=S.children;
+ document.querySelector('[data-k="adults"] [data-d="-1"]').disabled=S.adults<=1;document.querySelector('[data-k="children"] [data-d="-1"]').disabled=S.children<=0;
+ document.querySelectorAll('[data-k] [data-d="1"]').forEach(b=>b.disabled=pax()>=20);
+ const vid=vehicleId();const rec=VEHICLES.find(v=>v.cap>=pax()).id;
+ const shl=S.mode==='shuttle'?shLeg():null;
+ $('#vehicles').innerHTML=VEHICLES.map(v=>`<button class="vcard ${v.id===vid?'on':''}" data-v="${v.id}" ${v.cap<pax()?'disabled':''}><span class="rec">${v.id===rec?'Best fit':''}</span><b>${v.name}</b><small>${v.model}</small>${shl?`<span class="vp">$${fare(shl.km,v.id)*nLegs()}</span>`:''}<span class="cap">Up to ${v.cap} people</span></button>`).join('')}
+$('#vehicles').addEventListener('click',e=>{const b=e.target.closest('[data-v]');if(!b||b.disabled)return;S.vehicle=b.dataset.v;update()});
+
+/* summary + cta */
+function renderSummary(){if(S.mode==='shuttle')return renderShSummary();const p=plan();const n=S.stops.length;
+ $('#summary').textContent=n?`${n} ${n===1?'stop':'stops'} · ${p.nights} ${p.nights===1?'night':'nights'}${p.drive?` · ~${fmtDur(p.drive)} driving`:''}`:'No stops yet';
+ $('#optBtn').hidden=n<2;$('#clearBtn').hidden=!(n||S.pickup||S.start);$('#pillCount').textContent=n;
+ const miss=[];if(!n)miss.push('a destination');if(!S.pickup)miss.push('a pickup location');if(!S.start)miss.push('a start date');
+ const btn=$('#quoteBtn');btn.disabled=!!miss.length;
+ $('#ctaHint').innerHTML=miss.length?`Add ${miss.length>1?miss.slice(0,-1).join(', ')+' and '+miss.at(-1):miss[0]} to request a quote.`:`<b>${p.nights+1} days</b> · ${n} ${n===1?'stop':'stops'} · ${pax()} ${pax()===1?'traveller':'travellers'} · ${VEHICLES.find(v=>v.id===vehicleId()).name}`}
+$('#tripPill').onclick=()=>window.scrollTo({top:$('#panel').offsetTop-60,behavior:'smooth'});
+
+/* quote modal */
+const mbg=$('#mbg');let hotel='Mid-range';
+function openQuote(){const p=plan();const v=VEHICLES.find(x=>x.id===vehicleId());
+ mbg.innerHTML=`<div class="modal" role="dialog" aria-modal="true" aria-label="Request a quote">
+ <div class="m-sum"><p class="eyebrow">Your trip</p><h3>${p.nights+1} days in Sri Lanka</h3>
+  <ol class="m-stops">${p.rows.map(r=>`<li><span class="n">${String(r.i+1).padStart(2,'0')}</span><span class="nm">${r.d.name}</span><span class="dt">${r.s.nights?`${fmtDs(dateAt(r.arrive))}–${fmtDs(dateAt(r.depart))}`:fmtDs(dateAt(r.arrive))}</span></li>`).join('')}</ol>
+  <dl class="m-facts"><div><dt>Pickup</dt><dd>${esc(pickupLabel())}</dd></div><div><dt>Dates</dt><dd>${fmtDs(dateAt(0))} – ${fmtDs(dateAt(p.nights))}</dd></div><div><dt>Travellers</dt><dd>${S.adults} ${S.adults===1?'adult':'adults'}${S.children?`, ${S.children} ${S.children===1?'child':'children'}`:''}</dd></div><div><dt>Vehicle</dt><dd>${v.name}</dd></div><div><dt>Driving</dt><dd>~${fmtDur(p.drive)} · ${p.km} km</dd></div></dl></div>
+ <form class="m-form" id="qform" novalidate><button type="button" class="m-close" data-close aria-label="Close">×</button>
+  <h2>Request a quote</h2><p>Send this route to our travel planners. We’ll reply with a price and any suggested changes.</p>
+  <div class="f2"><label class="fl" data-f="name"><span>Full name</span><div class="field"><input name="name" autocomplete="name"></div></label>
+  <label class="fl" data-f="email"><span>Email</span><div class="field"><input name="email" type="email" autocomplete="email"></div></label></div>
+  <div class="f2"><label class="fl"><span>WhatsApp / phone (optional)</span><div class="field"><input name="phone" type="tel" autocomplete="tel"></div></label>
+  <label class="fl"><span>Country of residence</span><div class="field"><input name="country" autocomplete="country-name"></div></label></div>
+  <div class="fl"><span>Hotels</span><div class="seg" id="hotelSeg">${['Budget','Mid-range','Luxury','I’ll book my own'].map(h=>`<button type="button" class="${h===hotel?'on':''}">${h}</button>`).join('')}</div></div>
+  <label class="fl"><span>Anything else? (optional)</span><textarea name="notes" placeholder="Flight times, interests, dietary needs…"></textarea></label>
+  <button class="btn primary" type="submit" style="height:52px">Send request</button></form></div>`;
+ mbg.hidden=false;document.body.style.overflow='hidden';
+ $('#hotelSeg').onclick=e=>{const b=e.target.closest('button');if(!b)return;hotel=b.textContent;[...e.currentTarget.children].forEach(x=>x.classList.toggle('on',x===b))};
+ $('#qform').onsubmit=submitQuote;setTimeout(()=>mbg.querySelector('input[name=name]').focus(),50)}
+function submitQuote(e){e.preventDefault();const f=e.target;let ok=true;
+ f.querySelectorAll('.fl .err').forEach(x=>x.remove());f.querySelectorAll('.fl.bad').forEach(x=>x.classList.remove('bad'));
+ const bad=(k,m)=>{ok=false;const fl=f.querySelector(`[data-f="${k}"]`);fl.classList.add('bad');fl.insertAdjacentHTML('beforeend',`<span class="err">${m}</span>`)};
+ if(!f.name.value.trim())bad('name','Please enter your name');
+ if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(f.email.value.trim()))bad('email','Please enter a valid email');
+ if(f.querySelector('[data-f="phone"]')&&f.phone.value.replace(/\D/g,'').length<7)bad('phone','Please enter a phone number so the driver can reach you');
+ if(!ok)return;const sh=S.mode==='shuttle';const ref=(sh?'SL-T-':'SL-')+String(Math.floor(1000+Math.random()*9000));const first=esc(f.name.value.trim().split(' ')[0]);const em=esc(f.email.value.trim());
+ if(sh){f.innerHTML=`<button type="button" class="m-close" data-close aria-label="Close">×</button><div class="done"><span class="ref">Booking ${ref}</span><h2>Thank you, ${first}.</h2><p>Your ${DIRS[S.sh.dir].title.toLowerCase()} is booked at a fixed price of <b>$${shTotal()}</b>. We’ll email your confirmation and driver details to <b>${em}</b>.</p><div class="row"><button type="button" class="btn primary" data-close>Back to map</button></div></div>`;return}
+ f.innerHTML=`<button type="button" class="m-close" data-close aria-label="Close">×</button><div class="done"><span class="ref">Request ${ref}</span><h2>Thank you, ${first}.</h2><p>Your route has been sent to our travel planners. We’ll reply to <b>${em}</b> with a quote for this trip.</p><div class="row"><button type="button" class="btn primary" data-close>Back to map</button></div></div>`}
+function closeQuote(){mbg.hidden=true;mbg.innerHTML='';document.body.style.overflow=''}
+mbg.addEventListener('click',e=>{if(e.target===mbg||e.target.closest('[data-close]'))closeQuote()});
+$('#quoteBtn').onclick=()=>S.mode==='shuttle'?openShuttle():openQuote();
+
+/* airport shuttle */
+const AIR=P.cmb;
+const SHPLACES=[P.colombo,P.negombo,P.port,...DESTS.map(d=>({id:d.id,code:d.name.replace(/[^A-Za-z]/g,'').slice(0,3).toUpperCase(),name:d.name,short:d.name,sub:'Hotels in and around '+d.name,lat:d.lat,lng:d.lng}))];
+const SHP=Object.fromEntries(SHPLACES.map(p=>[p.id,p]));
+const DIRS={arr:{t:'Arrival',title:'Arrival transfer'},dep:{t:'Departure',title:'Departure transfer'},ret:{t:'Return',title:'Return transfer'}};
+const VMULT={car:1,van:1.45,coach:2.4};
+function fare(km,vid){return Math.round(Math.max(25,12+km*.5)*VMULT[vid]/5)*5}
+S.mode=S.mode==='shuttle'?'shuttle':'tour';
+S.sh=Object.assign({dir:'arr',place:null,arrDate:'',arrTime:'',depDate:'',depTime:''},S.sh||{});
+if(S.sh.place&&S.sh.place.id!=='pin'&&!SHP[S.sh.place.id])S.sh.place=null;
+let pinTarget='tour';
+function needArr(){return S.sh.dir!=='dep'}
+function needDep(){return S.sh.dir!=='arr'}
+function nLegs(){return S.sh.dir==='ret'?2:1}
+function shPt(){const p=S.sh.place;return !p?null:p.id==='pin'?p:SHP[p.id]}
+function shLabel(){const p=S.sh.place;if(!p)return'';if(p.id!=='pin')return SHP[p.id].short;const n=nearest(p);return'Pin near '+(n.short||n.name)}
+function shLeg(){const p=shPt();return p?legInfo(AIR,p):null}
+function shTotal(){const l=shLeg();return l?fare(l.km,vehicleId())*nLegs():0}
+const hm=t=>{const[h,m]=t.split(':').map(Number);return h*60+m};
+const fmtT=m=>{m=((m%1440)+1440)%1440;return String(Math.floor(m/60)).padStart(2,'0')+':'+String(m%60).padStart(2,'0')};
+const dOf=(s,off)=>{const d=new Date(s+'T00:00:00');d.setDate(d.getDate()+off);return d};
+const andList=a=>a.length>1?a.slice(0,-1).join(', ')+' and '+a.at(-1):a[0];
+const travTxt=()=>`${S.adults} ${S.adults===1?'adult':'adults'}${S.children?`, ${S.children} ${S.children===1?'child':'children'}`:''}`;
+function shTimes(){const l=shLeg(),o={};
+ if(l&&S.sh.arrTime){const at=hm(S.sh.arrTime)+45+l.min;o.hotelAt=fmtT(at);o.hotelNext=at>=1440}
+ if(l&&S.sh.depTime){const pk=Math.floor((hm(S.sh.depTime)-180-l.min)/15)*15;o.pickup=fmtT(pk);o.pickupPrev=pk<0}
+ return o}
+function shErr(){const s=S.sh;if(s.dir==='ret'&&s.arrDate&&s.arrTime&&s.depDate&&s.depTime&&`${s.depDate}T${s.depTime}`<=`${s.arrDate}T${s.arrTime}`)return'Your departure flight must be after your arrival flight.';return''}
+function shMissing(){const m=[];if(!S.sh.place)m.push('where you’re staying');if(needArr()&&!(S.sh.arrDate&&S.sh.arrTime))m.push('your arrival flight time');if(needDep()&&!(S.sh.depDate&&S.sh.depTime))m.push('your departure flight time');return m}
+
+const ovEb=$('.overlay .eyebrow'),ovH=$('.overlay h1'),ovP=$('.overlay .lede');
+const COPY={tour:{eb:ovEb.innerHTML,h:ovH.innerHTML,p:ovP.innerHTML},shuttle:{eb:'Bandaranaike International · CMB',h:'Airport transfers, <em>at a fixed price.</em>',p:'Choose an arrival, departure or return transfer, then tell us where you’re staying and when your flight is. The price is per vehicle and shown before you book.'}};
+function setMode(m){if(S.mode===m)return;if(picking)stopPin();S.mode=m;update()}
+$('#modes').addEventListener('click',e=>{const b=e.target.closest('[data-mode]');if(b)setMode(b.dataset.mode)});
+function renderMode(){const sh=S.mode==='shuttle';
+ document.querySelectorAll('#modes [data-mode]').forEach(b=>{const on=b.dataset.mode===S.mode;b.classList.toggle('on',on);b.setAttribute('aria-pressed',on)});
+ $('#tourView').hidden=sh;$('#shView').hidden=!sh;$('#pTitle').textContent=sh?'Airport transfer':'Your trip';
+ $('#pillLbl').textContent=sh?'Transfer':'Your trip';$('#quoteBtn').textContent=sh?'Book transfer':'Request a quote';
+ if(ovH.dataset.m!==S.mode){const c=COPY[S.mode];ovEb.innerHTML=c.eb;ovH.innerHTML=c.h;ovP.innerHTML=c.p;ovH.dataset.m=S.mode;requestAnimationFrame(hideSeaLabels)}}
+
+const shIn=$('#shIn'),shList=$('#shList');let shRes=[],shHi=0;
+function shSearch(){const t=shIn.value.trim().toLowerCase();shRes=SHPLACES.filter(p=>!t||(p.name+' '+p.sub+' '+p.code).toLowerCase().includes(t));shHi=0;renderShList()}
+function renderShList(){shList.hidden=false;shList.innerHTML=shRes.map((p,i)=>`<li class="${i===shHi?'hi':''}" data-i="${i}"><span class="code">${p.code}</span><span><b>${p.name}</b><small>${p.sub}</small></span></li>`).join('')+`<li class="pinopt ${shHi===shRes.length?'hi':''}" data-pin="1"><span class="code">PIN</span><span><b>Somewhere else</b><small>Drop a pin on the map</small></span></li>`}
+shIn.addEventListener('focus',shSearch);shIn.addEventListener('input',shSearch);
+shIn.addEventListener('blur',()=>setTimeout(()=>shList.hidden=true,120));
+shIn.addEventListener('keydown',e=>{if(shList.hidden)return;
+ if(e.key==='ArrowDown'){shHi=Math.min(shRes.length,shHi+1);renderShList();e.preventDefault()}
+ else if(e.key==='ArrowUp'){shHi=Math.max(0,shHi-1);renderShList();e.preventDefault()}
+ else if(e.key==='Enter'){shHi===shRes.length?startPin('shuttle'):setShPlace({id:shRes[shHi].id})}
+ else if(e.key==='Escape')shIn.blur()});
+shList.addEventListener('mousedown',e=>{const li=e.target.closest('li');if(!li)return;e.preventDefault();li.dataset.pin?startPin('shuttle'):setShPlace({id:shRes[+li.dataset.i].id})});
+$('#shPinBtn').onclick=()=>startPin('shuttle');
+$('#shChosen').addEventListener('click',e=>{if(e.target.closest('[data-shchange]')){S.sh.place=null;update();setTimeout(()=>shIn.focus(),0)}});
+function setShPlace(p){S.sh.place=p;shIn.value='';shIn.blur();shList.hidden=true;update();const pt=shPt();userMoved=true;
+ map.fitBounds(L.latLngBounds([[AIR.lat,AIR.lng],[pt.lat,pt.lng]]).pad(.25),{paddingTopLeft:[stacked()?20:padL()+40,stacked()?padT()+10:60],paddingBottomRight:[60,stacked()&&!card.hidden?card.offsetHeight+30:60],maxZoom:10});
+ toast('Hotel location set · '+shLabel())}
+$('#shDir').addEventListener('click',e=>{const b=e.target.closest('[data-dir]');if(!b)return;S.sh.dir=b.dataset.dir;update()});
+const SHIN={shArrDate:'arrDate',shArrTime:'arrTime',shDepDate:'depDate',shDepTime:'depTime'};
+Object.entries(SHIN).forEach(([id,k])=>$('#'+id).addEventListener('change',e=>{S.sh[k]=e.target.value;update()}));
+function syncShInputs(){Object.entries(SHIN).forEach(([id,k])=>$('#'+id).value=S.sh[k]||'')}
+syncShInputs();$('#shArrDate').min=sd.min;
+
+function renderShuttle(){if(S.mode!=='shuttle')return;const d=S.sh.dir,l=shLeg(),t=shTimes(),lbl=esc(shLabel());
+ document.querySelectorAll('#shDir [data-dir]').forEach(b=>b.classList.toggle('on',b.dataset.dir===d));
+ $('#shRoute').classList.toggle('rev',d==='dep');
+ $('#apTag').textContent=d==='dep'?'To':'From';$('#htTag').textContent=d==='dep'?'From':'To';
+ const lg=$('#shLeg');lg.hidden=!l;if(l)lg.textContent=`~${fmtDur(l.min)} · ${l.km} km${d==='ret'?' · each way':''}`;
+ const c=$('#shChosen'),pk=$('#shPicker');
+ if(!S.sh.place){c.innerHTML='';pk.hidden=false}
+ else{pk.hidden=true;const isPin=S.sh.place.id==='pin',p=shPt();
+  c.innerHTML=`<div class="chosen"><span class="code">${isPin?'PIN':p.code}</span><span><b>${isPin?lbl:p.name}</b><small>${isPin?'Drag the pin on the map to adjust':p.sub}</small></span><button class="linkbtn" data-shchange>Change</button></div>`}
+ $('#shArr').hidden=!needArr();$('#shDep').hidden=!needDep();
+ $('#shArrInfo').innerHTML=!S.sh.arrTime?'Local time. Your driver waits for you in the arrivals hall.':!l?'Add where you’re staying to see your drop-off time.':`Your driver waits in arrivals. You’ll reach ${lbl} around <b>${t.hotelAt}${t.hotelNext?' the next day':''}</b>, allowing 45 min for immigration and bags.`;
+ $('#shDepInfo').innerHTML=!S.sh.depTime?'Local time. We’ll work out when to collect you.':!l?'Add where you’re staying to see your pickup time.':`Pickup from ${lbl} at <b>${t.pickup}${t.pickupPrev?' the day before':''}</b>, reaching the airport 3 hours before your flight.`;
+ $('#shDepDate').min=S.sh.arrDate||sd.min;
+ const err=shErr(),ee=$('#shErr');ee.hidden=!err;ee.textContent=err}
+function renderShSummary(){const l=shLeg(),v=VEHICLES.find(x=>x.id===vehicleId()),s=S.sh;
+ $('#summary').textContent=l?`${DIRS[s.dir].t} · ~${fmtDur(l.min)} · ${l.km} km${s.dir==='ret'?' each way':''}`:'Bandaranaike International · CMB';
+ $('#optBtn').hidden=true;$('#clearBtn').hidden=!(s.place||s.arrDate||s.arrTime||s.depDate||s.depTime);$('#pillCount').textContent=nLegs();
+ const miss=shMissing(),err=shErr(),total=shTotal();$('#quoteBtn').disabled=!!(miss.length||err);
+ $('#ctaHint').innerHTML=(total?`<span class="cta-price"><b>$${total}</b><span>${DIRS[s.dir].title} · ${v.name}<br>Fixed price per vehicle</span></span>`:'')+(miss.length?`<span>Add ${andList(miss)} to book.</span>`:err?`<span>${err}</span>`:'')}
+const PLANE='<svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M21 16v-2l-8-5V3.5c0-.83-.67-1.5-1.5-1.5S10 2.67 10 3.5V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z"></path></svg>';
+function renderShMarkers(){
+ apMarker=L.marker([AIR.lat,AIR.lng],{icon:L.divIcon({className:'',iconSize:[0,0],html:`<div class="pk ap"><span class="sq">${PLANE}</span><span class="pl"><b>Airport</b> · CMB</span></div>`}),zIndexOffset:3100,keyboard:false,interactive:false}).addTo(map);
+ const p=shPt();if(!p||D[S.sh.place.id])return;const isPin=S.sh.place.id==='pin',right=!(p.lng<AIR.lng&&hav(p,AIR)>=25);
+ pkMarker=L.marker([p.lat,p.lng],{icon:L.divIcon({className:'',iconSize:[0,0],html:`<div class="pk ${isPin?'drag':''} ${right?'r':''}"><span class="sq"></span><span class="pl"><b>Hotel</b> · ${esc(shLabel())}</span></div>`}),draggable:isPin,zIndexOffset:3000,keyboard:false}).addTo(map);
+ if(isPin)pkMarker.on('dragend',e=>{const ll=e.target.getLatLng();S.sh.place={id:'pin',lat:ll.lat,lng:ll.lng};update()})}
+function renderShRoute(){const p=shPt();if(!p)return;const d=S.sh.dir;
+ const draw=(a,b)=>{const c=curve(a,b);L.polyline(c,{className:'route-glow',weight:4,interactive:false}).addTo(routeLayer);L.polyline(c,{className:'route',weight:2.5,interactive:false}).addTo(routeLayer)};
+ if(d!=='dep')draw(AIR,p);if(d!=='arr')draw(p,AIR)}
+function openShuttle(){const l=shLeg(),v=VEHICLES.find(x=>x.id===vehicleId()),t=shTimes(),total=shTotal(),lbl=esc(shLabel()),legs=[];
+ if(needArr())legs.push({r:`CMB → ${lbl}`,dt:`${fmtDs(dOf(S.sh.arrDate,0))} · lands ${S.sh.arrTime}`});
+ if(needDep())legs.push({r:`${lbl} → CMB`,dt:`${fmtDs(dOf(S.sh.depDate,t.pickupPrev?-1:0))} · pickup ${t.pickup}`});
+ mbg.innerHTML=`<div class="modal" role="dialog" aria-modal="true" aria-label="Book your transfer">
+ <div class="m-sum"><p class="eyebrow">Airport transfer</p><h3>${DIRS[S.sh.dir].title}</h3>
+  <ol class="m-stops">${legs.map((g,i)=>`<li><span class="n">0${i+1}</span><span class="nm">${g.r}</span><span class="dt">${g.dt}</span></li>`).join('')}</ol>
+  <dl class="m-facts"><div><dt>Travellers</dt><dd>${travTxt()}</dd></div><div><dt>Vehicle</dt><dd>${v.name}</dd></div><div><dt>Drive</dt><dd>~${fmtDur(l.min)} · ${l.km} km${legs.length>1?' each way':''}</dd></div><div><dt>Fixed price</dt><dd class="m-price">$${total}</dd></div></dl></div>
+ <form class="m-form" id="qform" novalidate><button type="button" class="m-close" data-close aria-label="Close">×</button>
+  <h2>Book your transfer</h2><p>$${total} per vehicle${legs.length>1?' for both transfers':''}. We’ll email your confirmation and driver details.</p>
+  <div class="f2"><label class="fl" data-f="name"><span>Full name</span><div class="field"><input name="name" autocomplete="name"></div></label>
+  <label class="fl" data-f="email"><span>Email</span><div class="field"><input name="email" type="email" autocomplete="email"></div></label></div>
+  <label class="fl" data-f="phone"><span>WhatsApp / phone</span><div class="field"><input name="phone" type="tel" autocomplete="tel"></div></label>
+  <label class="fl"><span>Hotel name and anything else (optional)</span><textarea name="notes" placeholder="Hotel name, luggage, child seats…"></textarea></label>
+  <button class="btn primary" type="submit" style="height:52px">Book for $${total}</button></form></div>`;
+ mbg.hidden=false;document.body.style.overflow='hidden';$('#qform').onsubmit=submitQuote;setTimeout(()=>mbg.querySelector('input[name=name]').focus(),50)}
+
+document.addEventListener('keydown',e=>{
+ if(e.key==='Escape'){if(!mbg.hidden)closeQuote();else if(picking)stopPin();else if(active)closeCard()}
+ if(e.key==='/'&&document.activeElement.tagName!=='INPUT'&&document.activeElement.tagName!=='TEXTAREA'){e.preventDefault();q.focus()}});
+let rt;window.addEventListener('resize',()=>{clearTimeout(rt);rt=setTimeout(()=>{map.invalidateSize({pan:false});if(!userMoved&&!active)fit()},150)});
+
+function update(){renderMode();renderPickupMarker();renderPins();renderRoute();renderStops();renderPickup();renderDate();renderShuttle();renderTrav();renderSummary();renderCardState();save()}
+renderChips();update();
+</script>
+</body>
+</html>
