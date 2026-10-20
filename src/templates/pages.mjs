@@ -24,6 +24,20 @@ function card(ctx, d, extra = '') {
     </li>`;
 }
 
+// A tour listed on the destination pages it visits.
+function tourCard(ctx, t) {
+  const lead = D[t.image] || D[(t.places || [])[0]];
+  const ph = lead && ctx.photos[lead.id];
+  return `<li class="pl-card">
+      ${ph ? picture(ph, [['w480', 480], ['w640', 640], ['w800', 800]], { sizes: '(max-width: 600px) calc(100vw - 32px), 300px', alt: lead.alt, width: 480, height: 320, attrs: 'loading="lazy" decoding="async"' }) : ''}
+      <div class="pl-body">
+        <div class="dc-meta"><span>Private tour${t.duration ? ' · ' + esc(t.duration) : ''}</span></div>
+        <h3><a href="${ctx.u(`/private-tours/${t.slug}/`)}">${esc(t.h1 || t.title)}</a></h3>
+        ${t.summary ? `<p>${esc(t.summary)}</p>` : ''}
+      </div>
+    </li>`;
+}
+
 function crumbs(ctx, items) {
   const html = items
     .map((it, i) => (i === items.length - 1 ? `<li aria-current="page">${esc(it.name)}</li>` : `<li><a href="${ctx.u(it.path)}">${esc(it.name)}</a></li>`))
@@ -102,6 +116,13 @@ ${content.html ? `<section class="paper"><div class="sect"><div class="prose">${
     </div>
   </div>
 </section>
+
+${(() => {
+  const ts = ctx.toursFor(d.id);
+  return ts.length
+    ? `<section class="paper" aria-labelledby="toursH"><div class="sect"><h2 id="toursH">Private tours that include ${esc(d.name)}</h2><ul class="near">${ts.map((t) => tourCard(ctx, t)).join('')}</ul></div></section>`
+    : '';
+})()}
 
 <section class="paper" aria-labelledby="nearH">
   <div class="sect">
@@ -187,7 +208,6 @@ ${places.length ? `<section class="paper" aria-labelledby="stopsH"><div class="s
     description: t.summary || t.description,
     url: ctx.abs(path),
     ...(ph && { image: ctx.abs(ph.w1200) }),
-    touristType: 'Private tour',
     provider: { '@type': 'TravelAgency', name: ctx.site.name, url: ctx.abs('/') },
     ...(places.length && {
       itinerary: {

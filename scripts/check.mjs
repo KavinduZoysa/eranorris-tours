@@ -1,22 +1,28 @@
-// Validates the built site in dist/: run `npm run build && npm run check`.
-// Errors (exit 1): missing/duplicate titles or descriptions on indexable pages, h1 count,
-// canonical mismatches, sitemap/robots disagreements, broken internal links or assets,
-// images without alt, invalid JSON-LD, unnamed buttons/links.
-// Warnings: lengths, heading-level skips, placeholder domain.
+// Validates the built site in dist/ against the build that produced it.
+//   npm run check           SEO, links, structured data, accessibility basics
+//   npm run check:release   the same, plus launch readiness: real production build, no
+//                           unconfirmed business details (used by the deploy workflow)
+// Errors exit 1. Warnings are things to review, not blockers.
 import { existsSync, readdirSync, readFileSync, statSync } from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { parse } from 'node-html-parser';
-import site from '../site.config.mjs';
+import { DESTS } from '../src/data/destinations.mjs';
+import { PLACEHOLDER_HOST } from './lib/target.mjs';
 
-const DIST = path.resolve(fileURLToPath(new URL('../dist', import.meta.url)));
-if (!existsSync(DIST)) {
-  console.error('dist/ not found — run `npm run build` first.');
+const ROOT = path.resolve(fileURLToPath(new URL('..', import.meta.url)));
+const DIST = path.join(ROOT, 'dist');
+const INFO = path.join(ROOT, '.cache', 'build-info.json');
+if (!existsSync(DIST) || !existsSync(INFO)) {
+  console.error('No build found — run `npm run build` (or `npm test`) first.');
   process.exit(1);
 }
-const siteUrl = new URL(site.url);
-const base = siteUrl.pathname.replace(/\/+$/, '');
-const PROD = site.env === 'production';
+const RELEASE = process.argv.includes('--release');
+const build = JSON.parse(readFileSync(INFO, 'utf8'));
+const siteUrl = new URL(build.url);
+const base = build.base;
+const PREFIX = siteUrl.origin + base + '/'; // every absolute URL we publish starts with this
+const PROD = build.mode === 'production';
 const errors = [];
 const warnings = [];
 const err = (f, m) => errors.push(`${f}: ${m}`);
@@ -50,6 +56,7 @@ for (const file of htmlFiles) {
   const desc = root.querySelector('meta[name="description"]')?.getAttribute('content')?.trim() || '';
   const canonical = root.querySelector('link[rel="canonical"]')?.getAttribute('href');
   const is404 = name === '/404.html';
+  if (!robots) err(name, 'missing <meta name="robots">');
 
   if (!title) err(name, 'missing <title>');
   if (!desc) err(name, 'missing meta description');
@@ -85,9 +92,14 @@ for (const file of htmlFiles) {
   const inSitemap = canonical && sitemap.includes(canonical);
   if (inSitemap && noindex) err(name, 'in sitemap but noindex');
   if (PROD && !noindex && !is404 && !inSitemap) err(name, 'indexable but missing from sitemap');
-  if (!PROD && !noindex) err(name, `${site.env} build page is indexable`);
+  if (!PROD && !noindex) err(name, `${build.mode} build page is indexable`);
   const og = root.querySelector('meta[property="og:url"]')?.getAttribute('content');
   if (canonical && og !== canonical) err(name, 'og:url does not match canonical');
+  for (const prop of ['og:title', 'og:description', 'og:image', 'og:image:alt']) {
+    if (!root.querySelector(`meta[property="${prop}"]`)?.getAttribute('content')) err(name, `missing ${prop}`);
+  }
+  const ogImage = root.querySelector('meta[property="og:image"]')?.getAttribute('content') || '';
+  if (ogImage && (!ogImage.startsWith(PREFIX) || !resolves(new URL(ogImage).pathname))) err(name, `og:image is not a file on this site: ${ogImage}`);
 
   // Links and assets
   for (const a of root.querySelectorAll('a[href]')) {
@@ -143,10 +155,20 @@ for (const file of htmlFiles) {
       }
       if (o['@type'] === 'TouristDestination' && o.url !== canonical) err(name, 'TouristDestination url ≠ canonical');
       if (o['@type'] === 'TouristTrip' && o.offers && !(o.offers.price && o.offers.priceCurrency)) err(name, 'TouristTrip offer missing price/currency');
+      // Every URL in structured data must use the one preferred origin (+ base path).
+      const urls = JSON.stringify(o).match(/https?:\/\/[^"]+/g) || [];
+      for (const x of urls) if (!x.startsWith(PREFIX) && !x.startsWith('https://schema.org')) err(name, `JSON-LD URL not on the preferred origin: ${x}`);
       const text = JSON.stringify(o);
       if (/aggregateRating|"review"/.test(text)) err(name, 'ratings/reviews in JSON-LD — only add with real, visible reviews');
     }
   }
+}
+
+// The homepage must link to every destination page in plain HTML (crawlable without JS).
+{
+  const home = parse(readFileSync(path.join(DIST, 'index.html'), 'utf8'));
+  const hrefs = new Set(home.querySelectorAll('a[href]').map((a) => a.getAttribute('href')));
+  for (const d of DESTS) if (!hrefs.has(`${base}/places/${d.id}/`)) err('/index.html', `no crawlable link to /places/${d.id}/`);
 }
 
 // Sitemap ↔ files
@@ -163,7 +185,7 @@ if (PROD) {
   if (/Disallow:\s*\/\s*$/m.test(robots)) err('robots.txt', 'production build disallows everything');
   if (!robots.includes(`Sitemap: ${siteUrl.origin}${base}/sitemap.xml`)) err('robots.txt', 'missing/incorrect Sitemap line');
   if (base) warn('robots.txt', `site is under ${base}/ — robots.txt only works at the origin root; add the Sitemap line there`);
-} else if (!/Disallow:\s*\/\s*$/m.test(robots)) err('robots.txt', `${site.env} build must disallow crawling`);
+} else if (!/Disallow:\s*\/\s*$/m.test(robots)) err('robots.txt', `${build.mode} build must disallow crawling`);
 
 // Assets referenced from the JS bundle (photos, geometry)
 for (const js of files.filter((f) => f.endsWith('.js'))) {
@@ -171,9 +193,19 @@ for (const js of files.filter((f) => f.endsWith('.js'))) {
   for (const m of src.matchAll(/"(\/(?:[\w.-]+\/)*(?:img|geo)\/[^"]+)"/g)) if (!resolves(m[1])) err(rel(js), `bundle references missing ${m[1]}`);
 }
 
-if (/example\.(com|org|net)/.test(siteUrl.hostname)) warnings.unshift(`SITE_URL is a placeholder (${site.url}) — set it before deploying.`);
+// Launch readiness. Informational for everyday checks; blocking with --release.
+const ready = [];
+if (!PROD) ready.push(`this is a ${build.mode} build — releases must be production builds (npm run build)`);
+if (build.test) ready.push('this is a test build on a reserved domain (npm test) — build with the real SITE_URL');
+if (PLACEHOLDER_HOST.test(siteUrl.hostname)) ready.push(`SITE_URL hostname ${siteUrl.hostname} is a placeholder`);
+if (build.includeExamples) ready.push('built with INCLUDE_EXAMPLES=1');
+for (const k of build.unconfirmed || []) ready.push(`site.config.mjs → confirmed.${k} is not true yet`);
+if (RELEASE) for (const m of ready) errors.push(`release: ${m}`);
 
 for (const w of warnings) console.warn('warn  ' + w);
+if (!RELEASE && ready.length) console.warn(`\nNot ready for release yet (npm run check:release would fail):\n${ready.map((m) => '  - ' + m).join('\n')}`);
 for (const e of errors) console.error('ERROR ' + e);
-console.log(`\nChecked ${htmlFiles.length} pages, ${sitemap.length} sitemap URL(s): ${errors.length} error(s), ${warnings.length} warning(s).`);
+console.log(
+  `\nChecked ${htmlFiles.length} pages (${build.mode}${build.test ? ', test build' : ''}, ${PREFIX}), ${sitemap.length} sitemap URL(s): ${errors.length} error(s), ${warnings.length} warning(s).`,
+);
 process.exit(errors.length ? 1 : 0);

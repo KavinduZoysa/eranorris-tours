@@ -22,7 +22,7 @@ function chips() {
 function vehicles() {
   return VEHICLES.map(
     (v, i) =>
-      `<button class="vcard ${i === 0 ? 'on' : ''}" data-v="${v.id}"><span class="rec">${i === 0 ? 'Best fit' : ''}</span><b>${v.name}</b><small>${v.model}</small><span class="cap">Up to ${v.cap} people</span></button>`,
+      `<button class="vcard ${i === 0 ? 'on' : ''}" data-v="${v.id}" aria-pressed="${i === 0}"><span class="rec">${i === 0 ? 'Best fit' : ''}</span><b>${v.name}</b><small>${v.model}</small><span class="cap">Up to ${v.cap} people</span></button>`,
   ).join('');
 }
 
@@ -115,9 +115,9 @@ export function homeBody(ctx) {
     <section class="step" aria-labelledby="sh1">
       <div class="step-h"><span class="n">01</span><h3 id="sh1">Trip type</h3></div>
       <div class="dirs" id="shDir" role="group" aria-labelledby="sh1">
-        <button class="vcard" data-dir="arr"><b>Arrival</b><small>Airport → hotel</small></button>
-        <button class="vcard" data-dir="dep"><b>Departure</b><small>Hotel → airport</small></button>
-        <button class="vcard" data-dir="ret"><b>Return</b><small>Both ways</small></button>
+        <button class="vcard" data-dir="arr" aria-pressed="true"><b>Arrival</b><small>Airport → hotel</small></button>
+        <button class="vcard" data-dir="dep" aria-pressed="false"><b>Departure</b><small>Hotel → airport</small></button>
+        <button class="vcard" data-dir="ret" aria-pressed="false"><b>Return</b><small>Both ways</small></button>
       </div>
     </section>
 

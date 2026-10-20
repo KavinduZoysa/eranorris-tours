@@ -1,9 +1,18 @@
 # Builds the site and deploys dist/ to GitHub Pages.
 # Manual for now (Actions → "Deploy to GitHub Pages" → Run workflow). To deploy on every
 # push to master, add `push: { branches: [master] }` under `on:`.
-# One-time setup: repo Settings → Pages → Source: "GitHub Actions"; Settings → Secrets and
-# variables → Actions → Variables: SITE_URL (e.g. https://www.your-domain.com) and,
-# optionally, QUOTE_ENDPOINT.
+#
+# One-time setup:
+#   1. Settings → Pages → Source: "GitHub Actions"; add the custom domain there and tick
+#      "Enforce HTTPS" (no CNAME file is needed with Actions deployments).
+#   2. Settings → Secrets and variables → Actions → Variables:
+#        SITE_URL        required — the preferred address, e.g. https://www.your-domain.com
+#                        (include the path if the site lives in a sub-directory)
+#        QUOTE_ENDPOINT  optional — form backend URL (public; never a secret key)
+#
+# The job stops before deploying if SITE_URL is missing or a placeholder, if any content
+# file is invalid, or if `npm run check:release` finds unconfirmed business details or
+# SEO/link problems.
 name: Deploy to GitHub Pages
 on:
   workflow_dispatch:
@@ -28,9 +37,7 @@ jobs:
         env:
           SITE_URL: ${{ vars.SITE_URL }}
           QUOTE_ENDPOINT: ${{ vars.QUOTE_ENDPOINT }}
-      - run: npm run check
-        env:
-          SITE_URL: ${{ vars.SITE_URL }}
+      - run: npm run check:release
       - uses: actions/upload-pages-artifact@v3
         with:
           path: dist

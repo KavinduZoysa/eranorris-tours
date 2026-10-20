@@ -9,11 +9,12 @@
   },
   "scripts": {
     "build": "node scripts/build.mjs",
-    "build:staging": "SITE_ENV=staging node scripts/build.mjs",
+    "build:staging": "node scripts/build.mjs --env=staging",
+    "dev": "node scripts/build.mjs --env=development && node scripts/serve.mjs",
+    "test": "node scripts/build.mjs --test && node scripts/check.mjs",
     "check": "node scripts/check.mjs",
-    "test": "npm run build && npm run check",
+    "check:release": "node scripts/check.mjs --release",
     "serve": "node scripts/serve.mjs",
-    "dev": "node scripts/build.mjs && node scripts/serve.mjs",
     "prepare:images": "node scripts/prepare-images.mjs",
     "prepare:geo": "node scripts/prepare-geo.mjs",
     "prepare:fonts": "node scripts/prepare-fonts.mjs"

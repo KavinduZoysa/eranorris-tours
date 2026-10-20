@@ -6,58 +6,94 @@ Node build, a single deferred script for the interactive map and planner, and no
 
 ```bash
 npm ci
-npm run dev          # build + serve dist/ at http://localhost:4173
-npm test             # build + SEO/link validation (npm run check)
-npm run build:staging   # noindex everywhere + robots "Disallow: /" (for previews)
+npm run dev             # local preview at http://localhost:4173 (noindex, drafts visible)
+npm test                # production build on a reserved test domain + all checks
+npm run build:staging   # noindex everywhere, robots "Disallow: /", drafts visible
+SITE_URL=https://www.your-domain.com npm run build   # real production build
+npm run check:release   # launch gate: also fails on unconfirmed business details
 ```
 
-## Before you publish
+## Build modes and safeguards
 
-These are facts the design did not contain. Nothing below has been invented in the site;
-values that came from your other site or from the design prototype are marked so you can
-confirm them.
+| Command | Indexable | Domain | Drafts shown | Can be released |
+|---|---|---|---|---|
+| `npm run build` | published pages only | `SITE_URL` **required**; placeholders refused | no | yes, if `check:release` passes |
+| `npm test` | as production | reserved `tours.example.test` | no | never (recorded as a test build) |
+| `npm run build:staging` | nothing | any | yes | never |
+| `npm run dev` | nothing | `http://localhost:4173` | yes | never |
 
-**Required**
+- **Domain checks.** A production build stops with an explanation if `SITE_URL` (or `url` in
+  `site.config.mjs`) is missing, isn't `https`, or uses a placeholder hostname such as
+  example.com, `.test` or `localhost`. Every canonical, sitemap, Open Graph and
+  structured-data URL is generated from that one value, and `npm run check` verifies they
+  all agree.
+- **Content checks.** The build also stops on invalid content files:
+  - an unknown `status` value, or a published page that is too short or still contains
+    `[TODO]`
+  - unknown destination ids, or an incomplete tour price
+  - example pages in a production build
+- **Release gate.** `npm run check:release` runs in the deploy workflow. It fails unless this
+  is a real production build and every item under `confirmed` in `site.config.mjs` is
+  `true`.
 
-1. **Production domain** – set `SITE_URL` (e.g. `https://www.your-domain.com`) in the build
-   environment, or edit the fallback in `site.config.mjs`. Until then canonical, sitemap and
-   Open Graph URLs point to `www.example.com` and `npm run check` warns. Pick one hostname
-   (www or apex) and redirect the other to it at your DNS/host, over HTTPS.
-2. **Airport-transfer prices** – the fixed prices shown in "Airport shuttle" mode come from
-   the design prototype's formula (`SHUTTLE_FARES` in `src/data/destinations.mjs`). They are
-   shown to customers as fixed prices, so replace them with your real rates.
-3. **Photo rights** – the 16 destination photos come from `~/villas/destinations`. Several
-   look like stock photography; confirm you hold a licence for web use (or swap in your own
-   photos – see "Changing photos").
+## Launch checklist
 
-**Confirm**
+Nothing below has been invented in the site. Values that came from your villa site
+(eranorrissrilanka.com) or from the design prototype are shown so you can check them. Mark
+each one `true` under `confirmed` in `site.config.mjs` once checked.
 
-4. **Brand** – "Eranorris" replaces the design's placeholder brand. It comes from
-   eranorrissrilanka.com and this repo's name (`site.config.mjs → name`).
-5. **Contact channels** – WhatsApp +94 71 063 0867 and eranories@gmail.com, from
-   eranorrissrilanka.com (`site.config.mjs → contact`). They receive every quote request.
-6. **Business location** for structured data – Hikkaduwa, Southern Province
-   (`site.config.mjs → address`). Remove it if it should not be published.
-7. **Vehicles** – Toyota Prius / KDH van / Coaster and their capacities come from the design
-   (`VEHICLES` in `src/data/destinations.mjs`).
-8. **Destination copy** – the 16 short descriptions, suggested nights and seasons are the
-   design's text. Please read them once for accuracy.
+**Domain and hosting (required)**
 
-**Recommended**
+1. **Choose the address and set `SITE_URL`.** Decide whether the site lives at the root of a
+   domain (`https://www.your-domain.com`) or in a sub-directory
+   (`https://www.your-domain.com/tours`). Set `SITE_URL` to exactly that, and add it as a
+   repository variable for the deploy workflow.
+2. **One canonical hostname.**
+   - Redirect the other variant (www ↔ apex) and all `http://` URLs to it with HTTP 301.
+   - On GitHub Pages: add both DNS records, set the custom domain and tick "Enforce HTTPS".
+   - On Netlify or Cloudflare Pages: set the primary domain and enable HTTPS redirects.
+3. **Sub-directory only:**
+   - Put a `robots.txt` at the domain root containing `Sitemap: <SITE_URL>/sitemap.xml`.
+   - Make sure the host serves `<path>/404.html` for missing pages under that path.
 
-9. **Write the destination pages** (see below) – they are built but stay `noindex` until
-   they have real content, so at launch only the homepage is in the sitemap.
-10. **Quote delivery** – by default a completed form hands the request to WhatsApp (or email)
-    as a pre-filled message, and the visitor presses send. For requests to arrive without
-    that step, create a form endpoint (Formspree, Basin, Web3Forms or your own) and set
-    `QUOTE_ENDPOINT`. That value is public by nature: never use a secret key there.
-11. After deploying: add the site to Google Search Console, submit `/sitemap.xml`, and run
-    the homepage through the Rich Results Test.
+**Business details (each blocks release until confirmed)**
+
+| `confirmed.` | What to check | Where |
+|---|---|---|
+| `brand` | "Eranorris" is the name customers should see | `site.config.mjs → name` |
+| `contact` | WhatsApp +94 71 063 0867, phone, eranories@gmail.com receive tour enquiries | `site.config.mjs → contact` |
+| `address` | "Based in Hikkaduwa, Sri Lanka" (footer + structured data), or set `address: null` | `site.config.mjs → address` |
+| `shuttleFares` | Airport-transfer prices are shown as **fixed prices**; they come from the design's formula on *estimated* distances | `SHUTTLE_FARES` |
+| `shuttleService` | Driver meets guests in the arrivals hall; 45 min after landing; pickups aim for 3 h before departure | `SHUTTLE_TIMING` |
+| `vehicles` | Toyota Prius (3), KDH van (7), Coaster (20); children count towards capacity | `VEHICLES` |
+| `pickups` | You collect from all 7 listed places, incl. Colombo Port and Mattala airport | `PICKUPS` |
+| `hotelOptions` | The quote form offers Budget / Mid-range / Luxury hotels: confirm you arrange hotels | `src/js/app.js → openQuote` |
+| `destinationCopy` | 16 descriptions, suggested nights and seasons (e.g. Trincomalee May–Sep) | `DESTS` |
+| `photoRights` | You're licensed to use every photo (several look like stock) and each shows the place named | `src/images/destinations/` |
+
+**Also worth confirming** (not gated):
+- **Wording:** "private tour with your own driver" and "our travel planners".
+- **Children:** the planner's children range is 2–11; how do you handle infants and child seats?
+- **Drive times:** the formula ignores expressways (e.g. airport→Galle shows ~4h 40m). Add
+  real figures for common legs in `ROUTE_TIMES`. Fares use the same distances.
+
+**Content and Search Console**
+
+- **Destination pages:** write and publish the first five (see `docs/content-plan.md`).
+  Until then only the homepage is indexable, which is intentional.
+- **Quote delivery (optional):** set `QUOTE_ENDPOINT` so requests arrive directly. Without
+  it, visitors are told they must press send in WhatsApp or email. The value is public:
+  never use a secret key.
+- **After the first deploy:**
+  - verify the domain in Google Search Console and submit `/sitemap.xml`
+  - inspect the homepage URL, and run it through the Rich Results Test
+  - request indexing for each destination page as you publish it
+  - check Core Web Vitals in the field data after a few weeks of traffic
 
 ## Project layout
 
 ```
-site.config.mjs              brand, domain, contact, environment, optional form endpoint
+site.config.mjs              brand, domain, contact, location, form endpoint, owner confirmations
 src/data/destinations.mjs    the 16 places, categories, pickups, vehicles, fares (single source
                              of truth for the map, the homepage list and the place pages)
 src/js/app.js                the map + trip planner (ported from the design; changes commented)
@@ -70,6 +106,8 @@ src/content/tours/*.md       tour pages (see _example-sigiriya-private-tour.md)
 src/images/destinations/     master photos (1200×800); the build makes AVIF/WebP/OG sizes
 src/geo/, src/fonts/         precomputed map geometry and self-hosted fonts
 scripts/                     build, check, local server, one-off asset preparation
+scripts/lib/target.mjs       build modes and production-domain validation
+docs/content-plan.md         priorities and requirements for the destination pages
 design/                      the original export and screenshots, kept for reference
 dist/                        build output (git-ignored) – deploy this folder
 ```
@@ -96,6 +134,12 @@ Changes were made only for function, SEO, accessibility or performance:
   - One design colour was darkened slightly to reach 4.5:1 contrast.
 - **Resilience**: if JavaScript is off or the map script fails, the page says so and points
   to the place list and WhatsApp; `localStorage` failures no longer break the planner.
+- **Honest expectations**:
+  - Drive times, distances and transfer pickup times are labelled as estimates.
+  - Airport transfers are *requested*, not "booked" (there is no availability system).
+  - The form says up front when a request will be sent through WhatsApp or email.
+  - Saved trips with past dates are cleared, so no request can go out for a date that has
+    passed.
 - **Performance**: no third-party requests at all.
   - Leaflet and the map geometry are bundled/self-hosted. The ~750 KB world-atlas download
     and topojson are replaced by a 15 KB pre-extracted file.
@@ -134,18 +178,26 @@ has a photo, the design's description, an estimated drive time from the airport,
 places and "Add to your trip" links (`/#add=<id>` opens the planner with that stop).
 
 They are **drafts** (`noindex`, not in the sitemap) until you publish them, because one
-sentence per place would be thin, duplicated content. To publish one:
+sentence per place would be thin, duplicated content. See **`docs/content-plan.md`** for the
+first five pages to write (Sigiriya, Galle, Hikkaduwa, Ella, Kandy). It covers the search
+intent, sections, internal links and the business information each page needs. Draft
+scaffolds for those five already exist in `src/content/places/`.
 
-1. Copy `src/content/places/_TEMPLATE.md` to `src/content/places/sigiriya.md`.
-2. Write genuinely useful, first-hand content (the template lists what to cover).
-3. Set `status: published`, then `npm test`. The page becomes indexable, joins the sitemap
-   and keeps its canonical URL.
+**Publication rules** (enforced by the build):
+- A page is published only with `status: published`. Valid values are `draft` and
+  `published`.
+- A published page needs at least 200 words (tours: 120) of visible content, and no
+  `[TODO]` or `TBD` left.
+- Draft text is shown only in staging and development previews. In production a draft
+  place page shows the design summary alone, and a draft tour is not built at all.
+- HTML comments in content files are writing notes and never reach the browser.
 
-Tour pages work the same way from `src/content/tours/<slug>.md` at `/private-tours/<slug>/`.
+Tour pages come from `src/content/tours/<slug>.md` at `/private-tours/<slug>/`.
 `_example-sigiriya-private-tour.md` documents every field. Only the fields you fill in are
 shown and added to the `TouristTrip` structured data. Prices appear in structured data only
-when `priceAmount` and `priceCurrency` are set. Preview the example with
-`INCLUDE_EXAMPLES=1 npm run build`.
+when both `priceAmount` and `priceCurrency` are set. Each published tour is linked
+automatically from the destination pages it visits ("Private tours that include …").
+Preview the example with `INCLUDE_EXAMPLES=1 npm run dev`.
 
 ## SEO implementation
 
@@ -159,7 +211,8 @@ when `priceAmount` and `priceCurrency` are set. Preview the example with
   canonicals and the sitemap all use the same form. Static hosts redirect `/places/galle` →
   `/places/galle/`.
 - **Structured data (JSON-LD)**:
-  - homepage: `TravelAgency` (name, URL, phone, email, locality, area served) and `WebSite`
+  - homepage: `TravelAgency` (name, URL, phone, email, locality, area served — all visible
+    in the footer) and `WebSite`
   - place pages: `BreadcrumbList` and `TouristDestination` with coordinates
   - tour pages: `TouristTrip`
   - No ratings, reviews, prices or opening hours are claimed.
@@ -167,28 +220,37 @@ when `priceAmount` and `priceCurrency` are set. Preview the example with
   to the sitemap.
 - `404.html` returns a real 404 status on GitHub Pages, Netlify and Cloudflare Pages, and is
   `noindex`.
-- Staging builds (`SITE_ENV=staging`) are `noindex` on every page, disallowed in robots.txt,
-  and send `X-Robots-Tag: noindex` where `_headers` is supported.
+- Staging and development builds are `noindex` on every page, disallowed in robots.txt, and
+  send `X-Robots-Tag: noindex` where `_headers` is supported.
 - The map deep link uses a fragment (`/#add=galle`), not a query string, so the homepage keeps
   a single URL.
-- `npm run check` fails the build on:
-  - duplicate titles or descriptions, or a page without exactly one `<h1>`
-  - canonical, sitemap or robots disagreements
-  - broken internal links or assets
-  - images without `alt` or dimensions, unnamed buttons, invalid JSON-LD
+- `npm run check` fails on:
+  - duplicate titles or descriptions, a page without exactly one `<h1>`, or a missing robots
+    meta tag
+  - canonical, `og:url`, sitemap or robots disagreements; an indexable page missing from the
+    sitemap, or a `noindex` page in it
+  - any canonical, Open Graph or JSON-LD URL that isn't on the preferred origin and base
+    path; an `og:image` that isn't a real file
+  - broken internal links or assets, or a homepage missing a crawlable link to any destination
+  - images without `alt` or dimensions, unnamed buttons, invalid JSON-LD, ratings or reviews
+    in JSON-LD
+- `npm run check:release` adds the launch gate (see "Build modes and safeguards").
 
 ## Deployment
 
 The output in `dist/` works on any static host.
 
-- **GitHub Pages**: `.github/workflows/deploy-pages.yml` builds, checks and deploys. It runs
+- **GitHub Pages**: `.github/workflows/deploy-pages.yml` builds with the `SITE_URL`
+  repository variable, runs `npm run check:release`, and only then deploys. It runs
   manually for now; the file explains the one-time setup and how to deploy on push.
-  `dist/.nojekyll` is included.
-- **Netlify / Cloudflare Pages**: build command `npm run build`, publish directory `dist`,
-  and set `SITE_URL`. `dist/_headers` sets long-lived caching for hashed assets and basic
+  `dist/.nojekyll` is included, and no CNAME file is needed with Actions deployments.
+- **Netlify / Cloudflare Pages**: build command `npm run build && npm run check:release`,
+  publish directory `dist`, and set `SITE_URL`. `dist/_headers` sets long-lived caching for hashed assets and basic
   security headers. GitHub Pages ignores that file and caches for 10 minutes.
 - **Hosting under a sub-path** (e.g. `https://example.com/tours`) works: set `SITE_URL` with
-  the path. `robots.txt` must then live at the domain root, so add the `Sitemap:` line there.
+  the path, and every asset, link, canonical and sitemap URL includes it (tested).
+  - `robots.txt` must live at the domain root, so add the `Sitemap:` line there.
+  - The host must serve `/tours/404.html` for missing pages under the path.
 
 ## Changing photos
 

@@ -1,7 +1,7 @@
 // Map-first trip planner — ported from the supplied design. Behaviour is unchanged
 // except where commented (photos, accessibility, deep links, real request hand-off).
 import L from 'leaflet';
-import { CATS, DESTS, PICKUPS, VEHICLES, SHUTTLE_FARES, hav, legInfo, fmtDur, nightsTxt } from '../data/destinations.mjs';
+import { CATS, DESTS, PICKUPS, VEHICLES, SHUTTLE_FARES, SHUTTLE_TIMING, hav, legInfo, fmtDur, nightsTxt } from '../data/destinations.mjs';
 
 // Injected at build time (scripts/build.mjs): brand, contact channels, asset URLs.
 const SITE = __SITE__;
@@ -27,6 +27,13 @@ const store = {
 };
 let S = Object.assign({ stops: [], pickup: null, start: '', adults: 2, children: 0, vehicle: null }, store.get());
 S.stops = (S.stops || []).filter((s) => D[s.id]);
+// Added: a saved trip can hold dates that have since passed. Drop them so a request can never
+// go out for a past date; the visitor is told once the planner has loaded.
+const ymd = (t) => `${t.getFullYear()}-${String(t.getMonth() + 1).padStart(2, '0')}-${String(t.getDate()).padStart(2, '0')}`;
+const TODAY = ymd(new Date());
+let staleDates = false;
+if (S.start && S.start < TODAY) (S.start = ''), (staleDates = true);
+if (S.sh) for (const k of ['arrDate', 'depDate']) if (S.sh[k] && S.sh[k] < TODAY) (S.sh[k] = ''), (staleDates = true);
 let filter = 'all',
   active = null,
   picking = false;
@@ -816,7 +823,7 @@ function renderCard() {
   card.setAttribute('aria-labelledby', 'dcTitle');
   card.innerHTML = `<div class="dc-img"><picture><source type="image/avif" srcset="${ph.cardAvif[0]} 480w, ${ph.cardAvif[1]} 800w" sizes="(max-width: 900px) calc(100vw - 24px), 360px"><img src="${ph.card[0]}" srcset="${ph.card[0]} 480w, ${ph.card[1]} 800w" sizes="(max-width: 900px) calc(100vw - 24px), 360px" alt="${esc(d.alt)}" width="480" height="192"></picture><button class="dc-x" data-act="close" aria-label="Close ${esc(d.name)}">×</button></div>
  <div class="dc-body"><div class="dc-meta"><span class="tag" style="--c:${CATS[d.cat].c}">${CATS[d.cat].label}</span><span>${d.hl}</span></div>
- <h3 id="dcTitle">${d.name}</h3><p>${d.desc} <a class="dc-more" href="${SITE.base}/places/${d.id}/">More about ${d.name}<span aria-hidden="true"> →</span></a></p><dl class="dc-facts" id="dcFacts"></dl><div class="dc-actions" id="dcActions"></div></div>`;
+ <h2 id="dcTitle">${d.name}</h2><p>${d.desc} <a class="dc-more" href="${SITE.base}/places/${d.id}/">More about ${d.name}<span aria-hidden="true"> →</span></a></p><dl class="dc-facts" id="dcFacts"></dl><div class="dc-actions" id="dcActions"></div></div>`;
   card.hidden = false;
   mapwrap.classList.add('has-card');
   requestAnimationFrame(hideSeaLabels);
@@ -832,7 +839,7 @@ function renderCardState() {
     const leg = legInfo(AIR, d),
       sel = !!S.sh.place && S.sh.place.id === d.id;
     $('#dcFacts').innerHTML =
-      `<div><dt>From CMB Airport</dt><dd>~${fmtDur(leg.min)} · ${leg.km} km</dd></div><div><dt>Car, one way</dt><dd>$${fare(leg.km, 'car')}</dd></div>`;
+      `<div><dt>From CMB Airport</dt><dd>~${fmtDur(leg.min)} · ${leg.km} km (est.)</dd></div><div><dt>Car, one way</dt><dd>$${fare(leg.km, 'car')}</dd></div>`;
     $('#dcActions').innerHTML =
       (sel
         ? `<span class="in-trip"><i>✓</i>Your hotel location</span>`
@@ -860,7 +867,7 @@ function renderCardState() {
   }
   const leg = from ? legInfo(from, d) : null;
   $('#dcFacts').innerHTML =
-    `<div><dt>${idx > -1 ? 'Your stay' : 'Suggested stay'}</dt><dd>${nightsTxt(idx > -1 ? S.stops[idx].nights : d.nights)}</dd></div>${leg ? `<div><dt>From ${esc(fromL)}</dt><dd>~${fmtDur(leg.min)} drive</dd></div>` : ''}`;
+    `<div><dt>${idx > -1 ? 'Your stay' : 'Suggested stay'}</dt><dd>${nightsTxt(idx > -1 ? S.stops[idx].nights : d.nights)}</dd></div>${leg ? `<div><dt>From ${esc(fromL)}</dt><dd>~${fmtDur(leg.min)} drive (est.)</dd></div>` : ''}`;
   $('#dcActions').innerHTML =
     (idx > -1
       ? `<span class="in-trip"><i>${idx + 1}</i>In your trip</span><button class="btn ghost" data-act="remove">Remove</button>`
@@ -1001,6 +1008,8 @@ function renderStops() {
   h += '</ol>';
   if (S.pickup)
     h += `<div class="endpt"><span class="ic"></span><span><b>Drop-off</b> · ${esc(pickupLabel())}</span></div>`;
+  // Added: the leg figures are formula estimates, not routed journey times.
+  if (p.ret || p.rows.some((r) => r.leg)) h += `<p class="hint">Drive times and distances are rough estimates, not guaranteed journey times.</p>`;
   el.innerHTML = h;
 }
 $('#stops').addEventListener('click', (e) => {
@@ -1126,10 +1135,14 @@ function renderPickup() {
 
 /* date */
 const sd = $('#startDate');
-const t0 = new Date();
-sd.min = `${t0.getFullYear()}-${String(t0.getMonth() + 1).padStart(2, '0')}-${String(t0.getDate()).padStart(2, '0')}`;
+sd.min = TODAY;
 sd.value = S.start || '';
 sd.addEventListener('change', () => {
+  // Added: typed dates can get past the picker's minimum.
+  if (sd.value && sd.value < TODAY) {
+    sd.value = '';
+    toast('Please choose today or a later date');
+  }
   S.start = sd.value;
   update();
 });
@@ -1171,7 +1184,7 @@ function renderTrav() {
   const shl = S.mode === 'shuttle' ? shLeg() : null;
   $('#vehicles').innerHTML = VEHICLES.map(
     (v) =>
-      `<button class="vcard ${v.id === vid ? 'on' : ''}" data-v="${v.id}" ${v.cap < pax() ? 'disabled' : ''}><span class="rec">${v.id === rec ? 'Best fit' : ''}</span><b>${v.name}</b><small>${v.model}</small>${shl ? `<span class="vp">$${fare(shl.km, v.id) * nLegs()}</span>` : ''}<span class="cap">Up to ${v.cap} people</span></button>`,
+      `<button class="vcard ${v.id === vid ? 'on' : ''}" data-v="${v.id}" aria-pressed="${v.id === vid}" ${v.cap < pax() ? 'disabled' : ''}><span class="rec">${v.id === rec ? 'Best fit' : ''}</span><b>${v.name}</b><small>${v.model}</small>${shl ? `<span class="vp">$${fare(shl.km, v.id) * nLegs()}</span>` : ''}<span class="cap">Up to ${v.cap} people</span></button>`,
   ).join('');
 }
 $('#vehicles').addEventListener('click', (e) => {
@@ -1239,16 +1252,16 @@ function openQuote() {
   showModal(`<div class="modal" role="dialog" aria-modal="true" aria-labelledby="mTitle">
  <div class="m-sum"><p class="eyebrow">Your trip</p><h3>${p.nights + 1} days in Sri Lanka</h3>
   <ol class="m-stops">${p.rows.map((r) => `<li><span class="n">${String(r.i + 1).padStart(2, '0')}</span><span class="nm">${r.d.name}</span><span class="dt">${r.s.nights ? `${fmtDs(dateAt(r.arrive))}–${fmtDs(dateAt(r.depart))}` : fmtDs(dateAt(r.arrive))}</span></li>`).join('')}</ol>
-  <dl class="m-facts"><div><dt>Pickup</dt><dd>${esc(pickupLabel())}</dd></div><div><dt>Dates</dt><dd>${fmtDs(dateAt(0))} – ${fmtDs(dateAt(p.nights))}</dd></div><div><dt>Travellers</dt><dd>${S.adults} ${S.adults === 1 ? 'adult' : 'adults'}${S.children ? `, ${S.children} ${S.children === 1 ? 'child' : 'children'}` : ''}</dd></div><div><dt>Vehicle</dt><dd>${v.name}</dd></div><div><dt>Driving</dt><dd>~${fmtDur(p.drive)} · ${p.km} km</dd></div></dl></div>
+  <dl class="m-facts"><div><dt>Pickup</dt><dd>${esc(pickupLabel())}</dd></div><div><dt>Dates</dt><dd>${fmtDs(dateAt(0))} – ${fmtDs(dateAt(p.nights))}</dd></div><div><dt>Travellers</dt><dd>${S.adults} ${S.adults === 1 ? 'adult' : 'adults'}${S.children ? `, ${S.children} ${S.children === 1 ? 'child' : 'children'}` : ''}</dd></div><div><dt>Vehicle</dt><dd>${v.name}</dd></div><div><dt>Driving (est.)</dt><dd>~${fmtDur(p.drive)} · ${p.km} km</dd></div></dl></div>
  <form class="m-form" id="qform" novalidate><button type="button" class="m-close" data-close aria-label="Close">×</button>
-  <h2 id="mTitle">Request a quote</h2><p>Send this route to our travel planners. We’ll reply with a price and any suggested changes.</p>
+  <h2 id="mTitle">Request a quote</h2><p>${SITE.quoteEndpoint ? 'Send this route to our travel planners.' : 'Add your details, then send this route to us on WhatsApp or by email.'} We’ll reply with a price and any suggested changes.</p>
   <div class="f2"><label class="fl" data-f="name"><span>Full name</span><div class="field"><input name="name" autocomplete="name" aria-required="true"></div></label>
   <label class="fl" data-f="email"><span>Email</span><div class="field"><input name="email" type="email" autocomplete="email" aria-required="true"></div></label></div>
   <div class="f2"><label class="fl"><span>WhatsApp / phone (optional)</span><div class="field"><input name="phone" type="tel" autocomplete="tel"></div></label>
   <label class="fl"><span>Country of residence</span><div class="field"><input name="country" autocomplete="country-name"></div></label></div>
   <div class="fl"><span id="hotelLbl">Hotels</span><div class="seg" id="hotelSeg" role="group" aria-labelledby="hotelLbl">${['Budget', 'Mid-range', 'Luxury', 'I’ll book my own'].map((h) => `<button type="button" class="${h === hotel ? 'on' : ''}" aria-pressed="${h === hotel}">${h}</button>`).join('')}</div></div>
   <label class="fl"><span>Anything else? (optional)</span><textarea name="notes" placeholder="Flight times, interests, dietary needs…"></textarea></label>
-  <button class="btn primary" type="submit" style="height:52px">Send request</button></form></div>`);
+  <button class="btn primary" type="submit" style="height:52px">${SITE.quoteEndpoint ? 'Send request' : 'Continue'}</button></form></div>`);
   $('#hotelSeg').onclick = (e) => {
     const b = e.target.closest('button');
     if (!b) return;
@@ -1276,13 +1289,13 @@ function requestText(sh, ref, f) {
     if (needArr()) out.push(`Arrival: CMB Airport → ${shLabel()} · flight lands ${fmtLong(dOf(S.sh.arrDate, 0))} at ${S.sh.arrTime}`);
     if (needDep())
       out.push(
-        `Departure: ${shLabel()} → CMB Airport · flight leaves ${fmtLong(dOf(S.sh.depDate, 0))} at ${S.sh.depTime} · pickup ${t.pickup}${t.pickupPrev ? ' the day before' : ''}`,
+        `Departure: ${shLabel()} → CMB Airport · flight leaves ${fmtLong(dOf(S.sh.depDate, 0))} at ${S.sh.depTime} · estimated pickup ${t.pickup}${t.pickupPrev ? ' the day before' : ''}`,
       );
     if (S.sh.place.id === 'pin') out.push(`Hotel location: ${mapsLink(S.sh.place)}`);
   } else {
     const p = plan();
     out.push(`Hello ${SITE.name}, I’d like a quote for a private tour (ref ${ref}).`, '');
-    out.push(`Route: ${p.nights + 1} days, ${p.nights} ${p.nights === 1 ? 'night' : 'nights'} · ~${fmtDur(p.drive)} driving · ${p.km} km`);
+    out.push(`Route: ${p.nights + 1} days, ${p.nights} ${p.nights === 1 ? 'night' : 'nights'} · about ${fmtDur(p.drive)} driving, ${p.km} km (estimate)`);
     p.rows.forEach((r) =>
       out.push(
         `${r.i + 1}. ${r.d.name} — ${nightsTxt(r.s.nights)} (${r.s.nights ? `${fmtDs(dateAt(r.arrive))} – ${fmtDs(dateAt(r.depart))}` : fmtDs(dateAt(r.arrive))})`,
@@ -1364,7 +1377,7 @@ async function submitQuote(e) {
       return done(
         `Request ${ref}`,
         `Thank you, ${first}.`,
-        `Your ${kind} request has been sent at a fixed price of <b>$${shTotal()}</b>. We’ll email your confirmation and driver details to <b>${em}</b>.`,
+        `Your ${kind} request (<b>$${shTotal()}</b>, fixed price per vehicle) has been sent. We’ll confirm availability and email your driver details to <b>${em}</b>.`,
         back,
       );
     return done(
@@ -1378,13 +1391,13 @@ async function submitQuote(e) {
     return done(
       `Request ${ref}`,
       `Nearly done, ${first}.`,
-      `Your ${kind} request (<b>$${shTotal()}</b>, fixed price per vehicle) is ready. Send it to us on WhatsApp and we’ll confirm your booking and driver details.`,
+      `Your ${kind} request (<b>$${shTotal()}</b>, fixed price per vehicle) is ready. Nothing is sent or booked until you press send on WhatsApp or in your email app; we’ll then confirm availability and your driver details.`,
       handoff,
     );
   done(
     `Request ${ref}`,
     `Nearly done, ${first}.`,
-    `Your route is ready to send. Send it to us on WhatsApp — or by email — and we’ll reply with a quote for this trip.`,
+    `Your route is ready. Nothing is sent until you press send on WhatsApp or in your email app; we’ll then reply with a quote for this trip.`,
     handoff,
   );
 }
@@ -1482,12 +1495,12 @@ function shTimes() {
   const l = shLeg(),
     o = {};
   if (l && S.sh.arrTime) {
-    const at = hm(S.sh.arrTime) + 45 + l.min;
+    const at = hm(S.sh.arrTime) + SHUTTLE_TIMING.arrivalBufferMin + l.min;
     o.hotelAt = fmtT(at);
     o.hotelNext = at >= 1440;
   }
   if (l && S.sh.depTime) {
-    const pk = Math.floor((hm(S.sh.depTime) - 180 - l.min) / 15) * 15;
+    const pk = Math.floor((hm(S.sh.depTime) - SHUTTLE_TIMING.departureBufferMin - l.min) / 15) * 15;
     o.pickup = fmtT(pk);
     o.pickupPrev = pk < 0;
   }
@@ -1522,7 +1535,7 @@ const COPY = {
   shuttle: {
     eb: 'Bandaranaike International · CMB',
     h: 'Airport transfers, <em>at a fixed price.</em>',
-    p: 'Choose an arrival, departure or return transfer, then tell us where you’re staying and when your flight is. The price is per vehicle and shown before you book.',
+    p: 'Choose an arrival, departure or return transfer, then tell us where you’re staying and when your flight is. The price is per vehicle and shown before you send your request.',
   },
 };
 function setMode(m) {
@@ -1546,7 +1559,7 @@ function renderMode() {
   $('#shView').hidden = !sh;
   $('#pTitle').textContent = sh ? 'Airport transfer' : 'Your trip';
   $('#pillLbl').textContent = sh ? 'Transfer' : 'Your trip';
-  $('#quoteBtn').textContent = sh ? 'Book transfer' : 'Request a quote';
+  $('#quoteBtn').textContent = sh ? 'Request transfer' : 'Request a quote';
   if (ovH.dataset.m !== S.mode) {
     const c = COPY[S.mode];
     ovEb.innerHTML = c.eb;
@@ -1640,6 +1653,10 @@ $('#shDir').addEventListener('click', (e) => {
 const SHIN = { shArrDate: 'arrDate', shArrTime: 'arrTime', shDepDate: 'depDate', shDepTime: 'depTime' };
 Object.entries(SHIN).forEach(([id, k]) =>
   $('#' + id).addEventListener('change', (e) => {
+    if (/Date$/.test(k) && e.target.value && e.target.value < TODAY) {
+      e.target.value = '';
+      toast('Please choose today or a later date');
+    }
     S.sh[k] = e.target.value;
     update();
   }),
@@ -1656,13 +1673,16 @@ function renderShuttle() {
     l = shLeg(),
     t = shTimes(),
     lbl = esc(shLabel());
-  document.querySelectorAll('#shDir [data-dir]').forEach((b) => b.classList.toggle('on', b.dataset.dir === d));
+  document.querySelectorAll('#shDir [data-dir]').forEach((b) => {
+    b.classList.toggle('on', b.dataset.dir === d);
+    b.setAttribute('aria-pressed', String(b.dataset.dir === d));
+  });
   $('#shRoute').classList.toggle('rev', d === 'dep');
   $('#apTag').textContent = d === 'dep' ? 'To' : 'From';
   $('#htTag').textContent = d === 'dep' ? 'From' : 'To';
   const lg = $('#shLeg');
   lg.hidden = !l;
-  if (l) lg.textContent = `~${fmtDur(l.min)} · ${l.km} km${d === 'ret' ? ' · each way' : ''}`;
+  if (l) lg.textContent = `~${fmtDur(l.min)} · ${l.km} km${d === 'ret' ? ' · each way' : ''} (est.)`;
   const c = $('#shChosen'),
     pk = $('#shPicker');
   if (!S.sh.place) {
@@ -1680,12 +1700,12 @@ function renderShuttle() {
     ? 'Local time. Your driver waits for you in the arrivals hall.'
     : !l
       ? 'Add where you’re staying to see your drop-off time.'
-      : `Your driver waits in arrivals. You’ll reach ${lbl} around <b>${t.hotelAt}${t.hotelNext ? ' the next day' : ''}</b>, allowing 45 min for immigration and bags.`;
+      : `Your driver waits in arrivals. You’ll reach ${lbl} around <b>${t.hotelAt}${t.hotelNext ? ' the next day' : ''}</b>, allowing ${SHUTTLE_TIMING.arrivalBufferMin} min for immigration and bags (estimate).`;
   $('#shDepInfo').innerHTML = !S.sh.depTime
     ? 'Local time. We’ll work out when to collect you.'
     : !l
       ? 'Add where you’re staying to see your pickup time.'
-      : `Pickup from ${lbl} at <b>${t.pickup}${t.pickupPrev ? ' the day before' : ''}</b>, reaching the airport 3 hours before your flight.`;
+      : `Estimated pickup from ${lbl} at <b>${t.pickup}${t.pickupPrev ? ' the day before' : ''}</b>, aiming to reach the airport ${SHUTTLE_TIMING.departureBufferMin / 60} hours before your flight.`;
   $('#shDepDate').min = S.sh.arrDate || sd.min;
   const err = shErr(),
     ee = $('#shErr');
@@ -1709,7 +1729,7 @@ function renderShSummary() {
   $('#ctaHint').innerHTML =
     (total
       ? `<span class="cta-price"><b>$${total}</b><span>${DIRS[s.dir].title} · ${v.name}<br>Fixed price per vehicle</span></span>`
-      : '') + (miss.length ? `<span>Add ${andList(miss)} to book.</span>` : err ? `<span>${err}</span>` : '');
+      : '') + (miss.length ? `<span>Add ${andList(miss)} to request a transfer.</span>` : err ? `<span>${err}</span>` : '');
 }
 const PLANE =
   '<svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M21 16v-2l-8-5V3.5c0-.83-.67-1.5-1.5-1.5S10 2.67 10 3.5V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z"></path></svg>';
@@ -1766,18 +1786,18 @@ function openShuttle() {
     legs = [];
   if (needArr()) legs.push({ r: `CMB → ${lbl}`, dt: `${fmtDs(dOf(S.sh.arrDate, 0))} · lands ${S.sh.arrTime}` });
   if (needDep())
-    legs.push({ r: `${lbl} → CMB`, dt: `${fmtDs(dOf(S.sh.depDate, t.pickupPrev ? -1 : 0))} · pickup ${t.pickup}` });
+    legs.push({ r: `${lbl} → CMB`, dt: `${fmtDs(dOf(S.sh.depDate, t.pickupPrev ? -1 : 0))} · estimated pickup ${t.pickup}` });
   showModal(`<div class="modal" role="dialog" aria-modal="true" aria-labelledby="mTitle">
  <div class="m-sum"><p class="eyebrow">Airport transfer</p><h3>${DIRS[S.sh.dir].title}</h3>
   <ol class="m-stops">${legs.map((g, i) => `<li><span class="n">0${i + 1}</span><span class="nm">${g.r}</span><span class="dt">${g.dt}</span></li>`).join('')}</ol>
-  <dl class="m-facts"><div><dt>Travellers</dt><dd>${travTxt()}</dd></div><div><dt>Vehicle</dt><dd>${v.name}</dd></div><div><dt>Drive</dt><dd>~${fmtDur(l.min)} · ${l.km} km${legs.length > 1 ? ' each way' : ''}</dd></div><div><dt>Fixed price</dt><dd class="m-price">$${total}</dd></div></dl></div>
+  <dl class="m-facts"><div><dt>Travellers</dt><dd>${travTxt()}</dd></div><div><dt>Vehicle</dt><dd>${v.name}</dd></div><div><dt>Drive (est.)</dt><dd>~${fmtDur(l.min)} · ${l.km} km${legs.length > 1 ? ' each way' : ''}</dd></div><div><dt>Fixed price</dt><dd class="m-price">$${total}</dd></div></dl></div>
  <form class="m-form" id="qform" novalidate><button type="button" class="m-close" data-close aria-label="Close">×</button>
-  <h2 id="mTitle">Book your transfer</h2><p>$${total} per vehicle${legs.length > 1 ? ' for both transfers' : ''}. We’ll email your confirmation and driver details.</p>
+  <h2 id="mTitle">Request your transfer</h2><p>$${total} per vehicle${legs.length > 1 ? ' for both transfers' : ''}, fixed price. ${SITE.quoteEndpoint ? 'We’ll confirm availability and email your driver details.' : 'Add your details, then send the request on WhatsApp or by email. We’ll confirm availability and your driver details.'}</p>
   <div class="f2"><label class="fl" data-f="name"><span>Full name</span><div class="field"><input name="name" autocomplete="name" aria-required="true"></div></label>
   <label class="fl" data-f="email"><span>Email</span><div class="field"><input name="email" type="email" autocomplete="email" aria-required="true"></div></label></div>
   <label class="fl" data-f="phone"><span>WhatsApp / phone</span><div class="field"><input name="phone" type="tel" autocomplete="tel" aria-required="true"></div></label>
   <label class="fl"><span>Hotel name and anything else (optional)</span><textarea name="notes" placeholder="Hotel name, luggage, child seats…"></textarea></label>
-  <button class="btn primary" type="submit" style="height:52px">Book for $${total}</button></form></div>`);
+  <button class="btn primary" type="submit" style="height:52px">${SITE.quoteEndpoint ? `Request transfer · $${total}` : 'Continue'}</button></form></div>`);
 }
 
 document.addEventListener('keydown', (e) => {
@@ -1817,6 +1837,7 @@ function update() {
 renderChips();
 update();
 document.documentElement.classList.add('map-ready');
+if (staleDates) setTimeout(() => toast('The dates in your saved trip have passed, so we cleared them'), 600);
 
 // Added: deep links from place pages — /#add=<id> adds the stop, /#place=<id> just opens it.
 // A fragment (not a query string) so the homepage keeps a single crawlable URL.

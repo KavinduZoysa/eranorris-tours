@@ -100,6 +100,7 @@ export function footer(ctx) {
       <ul>
         <li><a href="${waLink(ctx, `Hello ${site.name}, I’d like to ask about a private tour of Sri Lanka.`)}" rel="noopener" target="_blank">WhatsApp ${esc(site.contact.phone)}</a></li>
         <li><a href="mailto:${esc(site.contact.email)}">${esc(site.contact.email)}</a></li>
+        ${site.address ? `<li>Based in ${esc([site.address.locality, site.address.countryName].filter(Boolean).join(', '))}</li>` : ''}
       </ul>
     </div>
   </div>

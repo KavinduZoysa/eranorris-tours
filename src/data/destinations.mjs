@@ -155,6 +155,7 @@ export const PHOTO_SOURCES = {
   'arugam-bay': 'arugam-bay.jpg',
 };
 
+// Confirm: site.config.mjs → confirmed.pickups.
 export const PICKUPS = [
   { id: 'cmb', code: 'CMB', name: 'Bandaranaike International Airport', short: 'CMB Airport', sub: 'Katunayake · main international airport', lat: 7.1808, lng: 79.8841 },
   { id: 'colombo', code: 'CMB·C', name: 'Colombo city', short: 'Colombo', sub: 'Any hotel or address in Colombo', lat: 6.9271, lng: 79.8612 },
@@ -165,26 +166,41 @@ export const PICKUPS = [
   { id: 'galle-p', code: 'GAL', name: 'Galle', short: 'Galle', sub: 'Any hotel in Galle or the fort', lat: 6.0329, lng: 80.2168 },
 ];
 
-// TODO(before launch): confirm the vehicle models and capacities you actually operate.
+// Confirm: site.config.mjs → confirmed.vehicles. Models and capacities come from the design.
 export const VEHICLES = [
   { id: 'car', name: 'Car', model: 'Toyota Prius or similar', cap: 3 },
   { id: 'van', name: 'Van', model: 'Toyota KDH, high roof', cap: 7 },
   { id: 'coach', name: 'Mini coach', model: 'Toyota Coaster', cap: 20 },
 ];
 
-// TODO(before launch): these airport-transfer rates come from the design prototype and
-// are shown to customers as fixed prices. Replace them with your real rates.
-// Fare (USD, one way) = round5(max(min, base + perKm × km) × vehicle multiplier).
+// Confirm: site.config.mjs → confirmed.shuttleFares. These airport-transfer rates come from the
+// design prototype and are shown to customers as fixed prices. Replace them with your real rates.
+// Fare (USD, one way) = round5(max(min, base + perKm × km) × vehicle multiplier), where km is the
+// estimated road distance below — so a fare is only as good as that estimate.
 export const SHUTTLE_FARES = { min: 25, base: 12, perKm: 0.5, mult: { car: 1, van: 1.45, coach: 2.4 } };
 
+// Confirm: site.config.mjs → confirmed.shuttleService. From the design: the driver meets
+// arriving guests in the arrivals hall; drop-off time allows this many minutes for immigration
+// and bags; departure pickups aim to reach the airport this long before the flight.
+export const SHUTTLE_TIMING = { arrivalBufferMin: 45, departureBufferMin: 180 };
+
 // Great-circle distance in km, and the design's drive estimate (road factor 1.4, ~40 km/h).
+// These are rough estimates, not routed distances or guaranteed journey times — the interface
+// labels them as estimates.
 const rad = (x) => (x * Math.PI) / 180;
 export function hav(a, b) {
   const dl = rad(b.lat - a.lat), dg = rad(b.lng - a.lng);
   const h = Math.sin(dl / 2) ** 2 + Math.cos(rad(a.lat)) * Math.cos(rad(b.lat)) * Math.sin(dg / 2) ** 2;
   return 12742 * Math.asin(Math.sqrt(h));
 }
+// Optional: real road distances (km) and typical drive times (minutes) for common legs. Where a
+// pair is listed it replaces the formula, for drive times and for transfer fares. Keys are two
+// ids from DESTS or PICKUPS joined by "|", in either order, e.g.  'cmb|galle': { km: 150, min: 150 }.
+// Empty until you supply figures — the formula ignores expressways, so it can overstate times.
+export const ROUTE_TIMES = {};
 export function legInfo(a, b) {
+  const known = a.id && b.id && (ROUTE_TIMES[`${a.id}|${b.id}`] || ROUTE_TIMES[`${b.id}|${a.id}`]);
+  if (known) return { km: known.km, min: known.min };
   const km = hav(a, b) * 1.4;
   return { km: Math.max(5, Math.round(km / 5) * 5), min: Math.max(10, Math.round(((km / 40) * 60) / 10) * 10) };
 }

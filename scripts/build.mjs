@@ -1,5 +1,8 @@
-// Static build: src/ → dist/. Run with `npm run build` (production) or
-// `npm run build:staging` (noindex everywhere). Configuration: site.config.mjs.
+// Static build: src/ → dist/. Configuration: site.config.mjs. Build modes: scripts/lib/target.mjs
+//   npm run build           production (requires SITE_URL)
+//   npm run build:staging   noindex everywhere, crawling disallowed
+//   npm run dev             local preview at http://localhost:4173
+//   npm test                production rules on a reserved test domain, then npm run check
 import { createHash } from 'node:crypto';
 import { existsSync } from 'node:fs';
 import { copyFile, mkdir, readdir, readFile, rm, stat, writeFile } from 'node:fs/promises';
@@ -13,23 +16,30 @@ import { DESTS } from '../src/data/destinations.mjs';
 import { homeBody } from '../src/templates/home.mjs';
 import { esc, layout } from '../src/templates/layout.mjs';
 import { notFoundPage, placePage, tourPage } from '../src/templates/pages.mjs';
+import { resolveTarget } from './lib/target.mjs';
 
 const ROOT = path.resolve(fileURLToPath(new URL('..', import.meta.url)));
 const r = (...p) => path.join(ROOT, ...p);
 const DIST = r('dist');
 const CACHE = r('.cache', 'img');
-const PROD = site.env === 'production';
 const warnings = [];
+const fail = (lines) => {
+  console.error('\nBuild stopped:\n' + lines.map((l) => '  ✗ ' + l).join('\n') + '\n');
+  process.exit(1);
+};
+
+// Where the site is going: environment + preferred URL. Production refuses a missing or
+// placeholder domain so wrong canonical/sitemap URLs can never be deployed.
+const target = resolveTarget(site);
+if (target.errors.length) fail(target.errors);
+const PROD = target.mode === 'production';
+const includeExamples = process.env.INCLUDE_EXAMPLES === '1';
+if (includeExamples && PROD && !target.test) fail(['INCLUDE_EXAMPLES=1 is for previews only; example pages cannot go into a production build.']);
 
 // URL helpers. `base` supports hosting under a sub-path (e.g. https://example.com/tours).
-const siteUrl = new URL(site.url);
-const origin = siteUrl.origin;
-const base = siteUrl.pathname.replace(/\/+$/, '');
+const { origin, base } = target;
 const u = (p) => base + p;
 const abs = (p) => origin + (base && p.startsWith(base + '/') ? p : base + p);
-if (/example\.(com|org|net)/.test(siteUrl.hostname))
-  warnings.push(`SITE_URL is a placeholder (${site.url}). Canonical, sitemap and Open Graph URLs will be wrong until it is set.`);
-if (siteUrl.protocol !== 'https:') warnings.push('SITE_URL should use https.');
 
 const hash = (buf) => createHash('sha256').update(buf).digest('hex').slice(0, 10);
 async function out(rel, data) {
@@ -160,7 +170,7 @@ await out(jsRel, jsBuf);
 // ---------------------------------------------------------------------------
 // Content: optional Markdown with a small front-matter block.
 //   ---
-//   status: published        # anything else = draft (built, but noindex + not in sitemap)
+//   status: draft | published  # exactly one of these (see publication rules below)
 //   title: …                 # optional <title> override
 //   description: …           # optional meta description override
 //   includes:                # lists use "- item" lines
@@ -200,18 +210,61 @@ async function readDir(dir) {
   return Promise.all(
     files.map(async (f) => {
       const { data, body } = parseFrontMatter(await readFile(path.join(full, f), 'utf8'));
-      return { file: `src/content/${dir}/${f}`, slug: f.replace(/\.md$/, ''), ...data, html: body.trim() ? marked.parse(body) : '' };
+      // HTML comments are writing notes: never sent to the browser.
+      const html = body.trim() ? marked.parse(body).replace(/<!--[\s\S]*?-->/g, '').trim() : '';
+      return { file: `src/content/${dir}/${f}`, slug: f.replace(/\.md$/, ''), ...data, html };
     }),
   );
 }
-const includeExamples = process.env.INCLUDE_EXAMPLES === '1';
 const placeContent = Object.fromEntries((await readDir('places')).filter((c) => !c.slug.startsWith('_')).map((c) => [c.slug, c]));
-for (const slug of Object.keys(placeContent)) if (!DESTS.some((d) => d.id === slug)) warnings.push(`src/content/places/${slug}.md has no matching destination id.`);
 const tours = await readDir('tours');
+
+// Publication rules. A page is published only when its file says `status: published`, it has
+// real content and no placeholders. Anything else stays a draft: in production a draft place
+// page shows only the design's short summary (noindex), and a draft tour is not built at all.
+// Draft content is visible only in staging/development previews.
+const contentErrors = [];
+const MIN_WORDS = { places: 200, tours: 120 };
+const PLACEHOLDER = /\[TODO|\bTODO\b|\bTBD\b|lorem ipsum/i;
+const DEST_IDS = new Set(DESTS.map((d) => d.id));
+const words = (html) =>
+  html.replace(/<[^>]+>/g, ' ').replace(/&[#a-z0-9]+;/gi, ' ').split(/\s+/).filter((w) => /[\p{L}\p{N}]/u.test(w)).length;
+function isPublished(c, kind) {
+  const status = c.status ?? 'draft';
+  if (status !== 'draft' && status !== 'published') {
+    contentErrors.push(`${c.file}: status "${status}" is not valid. Use "draft" or "published" (lowercase).`);
+    return false;
+  }
+  if (status !== 'published') return false;
+  if (c.slug.startsWith('_')) contentErrors.push(`${c.file}: files starting with "_" are templates or examples and cannot be published.`);
+  const n = words(c.html);
+  if (n < MIN_WORDS[kind])
+    contentErrors.push(`${c.file}: marked published but has ${n} words of visible content (minimum ${MIN_WORDS[kind]}). Finish the page or set status: draft.`);
+  const fields = [c.html, c.title, c.description, c.h1, c.summary, c.duration, c.pickup, c.groupSize, c.price, ...[].concat(c.includes || [], c.excludes || [])];
+  if (fields.some((f) => typeof f === 'string' && PLACEHOLDER.test(f))) contentErrors.push(`${c.file}: marked published but still contains placeholder text ([TODO], TBD…).`);
+  return true;
+}
+for (const c of Object.values(placeContent)) {
+  if (!DEST_IDS.has(c.slug)) contentErrors.push(`${c.file}: no destination with id "${c.slug}" in src/data/destinations.mjs.`);
+  c.published = isPublished(c, 'places');
+}
+for (const t of tours) {
+  const missing = ['title', 'description'].filter((k) => !t[k]);
+  if (missing.length) contentErrors.push(`${t.file}: missing ${missing.join(', ')}.`);
+  if (t.places && !Array.isArray(t.places)) contentErrors.push(`${t.file}: places must be a list, e.g. places: [sigiriya, dambulla].`);
+  for (const id of [].concat(t.places || [], t.image || [])) if (!DEST_IDS.has(id)) contentErrors.push(`${t.file}: unknown destination id "${id}".`);
+  if (!!t.priceAmount !== !!t.priceCurrency) contentErrors.push(`${t.file}: set both priceAmount and priceCurrency, or neither.`);
+  if (t.priceAmount && !/^\d+(\.\d{1,2})?$/.test(String(t.priceAmount))) contentErrors.push(`${t.file}: priceAmount must be a number, e.g. 85.`);
+  if (t.priceCurrency && !/^[A-Z]{3}$/.test(t.priceCurrency)) contentErrors.push(`${t.file}: priceCurrency must be a 3-letter code, e.g. USD.`);
+  t.published = isPublished(t, 'tours');
+}
+if (contentErrors.length) fail(contentErrors);
+// Production builds only contain published tours; previews show drafts and examples too.
+const builtTours = tours.filter((t) => t.published || !PROD);
 
 // ---------------------------------------------------------------------------
 // Pages
-const ctx = { site, u, abs, photos, fontPreloads, assets: {} };
+const ctx = { site, u, abs, photos, fontPreloads, assets: {}, toursFor: (id) => builtTours.filter((t) => (t.places || []).includes(id)) };
 ctx.assets.ogDefault = { src: photos.sigiriya.og, alt: DESTS[0].alt };
 const sitemap = [];
 const report = [];
@@ -245,7 +298,7 @@ await emit({
       description:
         'Private tours of Sri Lanka with your own driver. Pick places on the map, choose where we collect you and when, and we’ll send a quote.',
       image: abs(photos.sigiriya.og),
-      telephone: '+' + site.contact.whatsapp,
+      telephone: '+' + site.contact.phone.replace(/\D/g, ''),
       email: site.contact.email,
       ...(site.address && {
         address: {
@@ -272,15 +325,11 @@ await emit({
 const drafts = [];
 for (const d of DESTS) {
   const c = placeContent[d.id] || {};
-  const published = c.status === 'published' && !!c.html;
-  if (!published) drafts.push(d.id);
-  await emit(placePage(ctx, d, c), { published });
+  if (!c.published) drafts.push(d.id);
+  // Draft text is shown only in previews; production draft pages use the design summary alone.
+  await emit(placePage(ctx, d, c.published || !PROD ? c : {}), { published: !!c.published });
 }
-for (const t of tours) {
-  const missing = ['title', 'description'].filter((k) => !t[k]);
-  if (missing.length) throw new Error(`${t.file}: missing ${missing.join(', ')}`);
-  await emit(tourPage(ctx, t), { published: t.status === 'published' && !t.slug.startsWith('_') });
-}
+for (const t of builtTours) await emit(tourPage(ctx, t), { published: t.published });
 await emit(notFoundPage(ctx));
 
 // ---------------------------------------------------------------------------
@@ -295,7 +344,7 @@ ${sitemap.map((loc) => `  <url><loc>${esc(loc)}</loc></url>`).join('\n')}
 );
 await out(
   'robots.txt',
-  PROD ? `User-agent: *\nAllow: /\n\nSitemap: ${abs('/sitemap.xml')}\n` : `# ${site.env} build — not for indexing\nUser-agent: *\nDisallow: /\n`,
+  PROD ? `User-agent: *\nAllow: /\n\nSitemap: ${abs('/sitemap.xml')}\n` : `# ${target.mode} build — not for indexing\nUser-agent: *\nDisallow: /\n`,
 );
 // Cache and security headers for hosts that read a _headers file (Netlify, Cloudflare Pages).
 await out(
@@ -307,7 +356,14 @@ for (const f of await readdir(r('src', 'static'))) if (!f.startsWith('.')) await
 
 // ---------------------------------------------------------------------------
 const kb = (n) => (n / 1024).toFixed(1) + ' KB';
-console.log(`\nBuilt ${report.length} pages for ${site.url} (${site.env})`);
+// Recorded for scripts/check.mjs (kept out of dist/, so it is never deployed).
+const unconfirmed = Object.entries(site.confirmed || {}).filter(([, v]) => v !== true).map(([k]) => k);
+await writeFile(
+  r('.cache', 'build-info.json'),
+  JSON.stringify({ mode: target.mode, test: target.test, url: target.url, base, includeExamples, unconfirmed, builtAt: new Date().toISOString() }, null, 2),
+);
+
+console.log(`\nBuilt ${report.length} pages for ${target.url} (${target.mode}${target.test ? ', test build' : ''}${base ? `, served under ${base}/` : ''})`);
 for (const [p, s, t] of report) console.log(`  ${s.padEnd(9)} ${p.padEnd(34)} ${t}`);
 console.log(`\n  JS ${kb(jsBuf.length)} · home CSS ${kb(CSS.home.length)} · page CSS ${kb(CSS.page.length)} · images ${kb(imgBytes)}`);
 console.log(`  Sitemap: ${sitemap.length} URL(s)`);
@@ -315,5 +371,9 @@ if (drafts.length)
   console.log(
     `\n  ${drafts.length} place pages are drafts (noindex, not in the sitemap) until src/content/places/<id>.md\n  exists with "status: published" and real content: ${drafts.join(', ')}`,
   );
+const tourDrafts = tours.filter((t) => !t.published && !t.slug.startsWith('_'));
+if (tourDrafts.length) console.log(`\n  Draft tours (${PROD ? 'not built in production' : 'preview only'}): ${tourDrafts.map((t) => t.slug).join(', ')}`);
+if (unconfirmed.length) warnings.push(`Not yet confirmed in site.config.mjs: ${unconfirmed.join(', ')}. npm run check:release fails until confirmed.`);
+if (target.test) warnings.push('Test build (reserved test domain). It cannot pass npm run check:release or be deployed.');
 for (const w of warnings) console.warn(`\n  ⚠ ${w}`);
 console.log('');
