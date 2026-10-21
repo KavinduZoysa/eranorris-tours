@@ -13,6 +13,7 @@ import { marked } from 'marked';
 import sharp from 'sharp';
 import site from '../site.config.mjs';
 import { DESTS } from '../src/data/destinations.mjs';
+import { EXPERIENCES, EXP_CATS } from '../src/data/experiences.mjs';
 import { homeBody } from '../src/templates/home.mjs';
 import { esc, layout } from '../src/templates/layout.mjs';
 import { notFoundPage, placePage, tourPage } from '../src/templates/pages.mjs';
@@ -101,6 +102,21 @@ for (const d of DESTS) {
   }
 }
 
+// Experience thumbnails (square, smart-cropped), only for experiences that have a photo.
+const expPhotos = {};
+for (const name of new Set(EXPERIENCES.filter((e) => e.image && e.available !== false).map((e) => e.image))) {
+  const src = r('src', 'images', 'experiences', `${name}.jpg`);
+  if (!existsSync(src)) continue; // reported by the data checks below
+  const st = await stat(src);
+  const file = `${name}-128x128.webp`;
+  const cacheFile = path.join(CACHE, `${hash(`${st.size}:${st.mtimeMs}:exp128`)}-${file}`);
+  if (!existsSync(cacheFile))
+    await sharp(src).resize(128, 128, { fit: 'cover', position: sharp.strategy.attention }).webp({ quality: 70 }).toFile(cacheFile);
+  await mkdir(path.join(DIST, 'img/experiences'), { recursive: true });
+  await copyFile(cacheFile, path.join(DIST, 'img/experiences', file));
+  expPhotos[name] = u('/img/experiences/' + file);
+}
+
 // ---------------------------------------------------------------------------
 // Fonts: the design's Google Fonts files, self-hosted (see scripts/prepare-fonts.mjs), so
 // no third-party connection is needed before text can render.
@@ -145,6 +161,7 @@ const clientSite = {
   quoteEndpoint: site.quoteEndpoint,
   assets: {
     ...geo,
+    expPhotos,
     photos: Object.fromEntries(
       DESTS.map((d) => {
         const p = photos[d.id];
@@ -258,13 +275,32 @@ for (const t of tours) {
   if (t.priceCurrency && !/^[A-Z]{3}$/.test(t.priceCurrency)) contentErrors.push(`${t.file}: priceCurrency must be a 3-letter code, e.g. USD.`);
   t.published = isPublished(t, 'tours');
 }
+// Experiences (src/data/experiences.mjs): every entry must point at a real destination.
+{
+  const seen = new Set();
+  for (const e of EXPERIENCES) {
+    const at = `src/data/experiences.mjs → ${e.id || '(missing id)'}`;
+    if (!/^[a-z0-9]+(-[a-z0-9]+)*$/.test(e.id || '')) contentErrors.push(`${at}: id must be kebab-case, e.g. kandy-temple-of-the-tooth.`);
+    if (seen.has(e.id)) contentErrors.push(`${at}: duplicate id.`);
+    seen.add(e.id);
+    if (!DEST_IDS.has(e.destinationId)) contentErrors.push(`${at}: unknown destinationId "${e.destinationId}".`);
+    if (!EXP_CATS[e.category]) contentErrors.push(`${at}: category "${e.category}" is not one of ${Object.keys(EXP_CATS).join(', ')}.`);
+    for (const k of ['name', 'shortDescription']) if (typeof e[k] !== 'string' || !e[k].trim()) contentErrors.push(`${at}: ${k} is required.`);
+    for (const k of ['duration', 'price']) if (e[k] != null && (typeof e[k] !== 'string' || !e[k].trim())) contentErrors.push(`${at}: ${k} must be text, or left out.`);
+    for (const k of ['featured', 'available']) if (e[k] != null && typeof e[k] !== 'boolean') contentErrors.push(`${at}: ${k} must be true or false.`);
+    if (e.image) {
+      if (!existsSync(r('src', 'images', 'experiences', `${e.image}.jpg`))) contentErrors.push(`${at}: image src/images/experiences/${e.image}.jpg not found.`);
+      if (!e.imageAlt) contentErrors.push(`${at}: imageAlt is required with an image.`);
+    }
+  }
+}
 if (contentErrors.length) fail(contentErrors);
 // Production builds only contain published tours; previews show drafts and examples too.
 const builtTours = tours.filter((t) => t.published || !PROD);
 
 // ---------------------------------------------------------------------------
 // Pages
-const ctx = { site, u, abs, photos, fontPreloads, assets: {}, toursFor: (id) => builtTours.filter((t) => (t.places || []).includes(id)) };
+const ctx = { site, u, abs, photos, expPhotos, fontPreloads, assets: {}, toursFor: (id) => builtTours.filter((t) => (t.places || []).includes(id)) };
 ctx.assets.ogDefault = { src: photos.sigiriya.og, alt: DESTS[0].alt };
 const sitemap = [];
 const report = [];

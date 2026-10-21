@@ -8,6 +8,7 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { parse } from 'node-html-parser';
 import { DESTS } from '../src/data/destinations.mjs';
+import { EXPERIENCES } from '../src/data/experiences.mjs';
 import { PLACEHOLDER_HOST } from './lib/target.mjs';
 
 const ROOT = path.resolve(fileURLToPath(new URL('..', import.meta.url)));
@@ -169,6 +170,12 @@ for (const file of htmlFiles) {
   const home = parse(readFileSync(path.join(DIST, 'index.html'), 'utf8'));
   const hrefs = new Set(home.querySelectorAll('a[href]').map((a) => a.getAttribute('href')));
   for (const d of DESTS) if (!hrefs.has(`${base}/places/${d.id}/`)) err('/index.html', `no crawlable link to /places/${d.id}/`);
+}
+
+// Every available experience is listed (as crawlable HTML) on its destination's page.
+for (const e of EXPERIENCES.filter((x) => x.available !== false)) {
+  const file = path.join(DIST, 'places', e.destinationId, 'index.html');
+  if (!existsSync(file) || !readFileSync(file, 'utf8').includes(`data-exp="${e.id}"`)) err(`/places/${e.destinationId}/`, `experience "${e.id}" is not listed on its destination page`);
 }
 
 // Sitemap ↔ files

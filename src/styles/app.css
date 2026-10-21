@@ -390,3 +390,53 @@ html.map-failed .panel .modes,html.map-failed .panel .step,html.map-failed .pane
 
 /* Places grid: never wider than a very narrow screen. */
 .pl-grid{grid-template-columns:repeat(auto-fill,minmax(min(270px,100%),1fr))}
+
+/* ---------------------------------------------------------------------------
+   Experiences (added): "Things to do" in the destination card, chosen experiences in the
+   planner and quote summary. Built from the design's existing tokens and patterns.
+   --------------------------------------------------------------------------- */
+.dcard{overflow:auto;overscroll-behavior:contain} /* scrolls only if the open list needs more room */
+.dc-exp{margin-top:12px;border-top:1px solid var(--line)}
+.dc-exp-t{width:100%;min-height:44px;display:flex;align-items:center;gap:10px;padding:0;border:0;background:none;text-align:left;font-size:14px;font-weight:600;color:var(--ink)}
+.dc-exp-t .n{font:500 11px var(--mono);color:var(--mut);margin-left:2px}
+.dc-exp-t .sel{margin-left:auto;font:600 10px var(--mono);text-transform:uppercase;letter-spacing:.06em;color:var(--lat);white-space:nowrap}
+.dc-exp-t svg{flex:none;color:var(--mut);transition:transform .2s}
+.dc-exp-t .sel:empty+svg{margin-left:auto}
+.dc-exp-t[aria-expanded="true"] svg{transform:rotate(180deg)}
+.exp-list{list-style:none;margin:2px 0 0;padding:0;display:grid;gap:6px}
+.exp{position:relative;display:grid;grid-template-columns:20px minmax(0,1fr);gap:10px;align-items:start;padding:10px 12px;border:1px solid var(--line);border-radius:12px;background:#fff;cursor:pointer;transition:border-color .15s,box-shadow .15s}
+.exp.has-th{grid-template-columns:20px 40px minmax(0,1fr)}
+.exp:hover{border-color:rgba(20,17,14,.35)}
+.exp input{position:absolute;opacity:0;width:1px;height:1px;margin:0}
+.exp-ck{width:20px;height:20px;margin-top:1px;border-radius:6px;border:1.5px solid rgba(20,17,14,.4);background:var(--paper);display:grid;place-items:center}
+.exp input:checked+.exp-ck{background:var(--lat);border-color:var(--lat)}
+.exp input:checked+.exp-ck::after{content:'';width:9px;height:5px;margin-top:-2px;border:2px solid #fff;border-top:0;border-right:0;transform:rotate(-45deg)}
+.exp input:focus-visible+.exp-ck{outline:2px solid var(--lat);outline-offset:2px}
+.exp:has(input:checked){border-color:var(--lat);box-shadow:inset 0 0 0 1px var(--lat)}
+.exp img{width:40px;height:40px;border-radius:8px;object-fit:cover;background:#d9cfbf;display:block}
+.exp-b{min-width:0}
+.exp-n{display:block;font-size:14px;font-weight:500;line-height:1.3;overflow-wrap:anywhere}
+.exp-f{font:600 9px var(--mono);text-transform:uppercase;letter-spacing:.06em;color:var(--lat);margin-left:4px}
+.exp-m{display:block;margin-top:3px;font:500 10px var(--mono);text-transform:uppercase;letter-spacing:.06em;color:var(--mut)}
+.exp-d{display:block;margin-top:4px;font-size:12.5px;line-height:1.45;color:#3b342d;overflow-wrap:anywhere}
+.exp-note{margin:8px 2px 2px;font-size:12px;line-height:1.4;color:var(--mut)}
+
+.s-exp{list-style:none;margin:6px 0 0;padding:0;display:grid;gap:2px}
+.s-exp li{display:flex;align-items:center;gap:8px;font-size:12.5px;line-height:1.35;color:#3b342d}
+.s-exp li::before{content:'';flex:none;width:5px;height:5px;border-radius:50%;background:var(--lat)}
+.s-exp li span{min-width:0;overflow-wrap:anywhere}
+.rmx{position:relative;flex:none;margin-left:auto;width:24px;height:24px;border:0;border-radius:50%;background:none;color:var(--mut);font-size:16px;line-height:1;display:grid;place-items:center}
+.rmx:hover{background:rgba(20,17,14,.07);color:var(--ink)}
+.exp-out{margin-top:14px;padding:12px 14px 14px;border:1.5px dashed rgba(20,17,14,.22);border-radius:14px}
+.exp-out .tagl{display:block}
+.exp-out-g+.exp-out-g{margin-top:10px}
+.exp-out-h{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 12px;margin-top:8px}
+.exp-out .s-name{font-size:20px}
+
+.m-exp{grid-column:2/-1;list-style:none;margin:2px 0 0;padding:0;font-size:12.5px;line-height:1.45;color:rgba(243,236,224,.78)}
+.m-exp li::before{content:'· ';color:var(--latL)}
+.m-also{display:flex;flex-direction:column;gap:2px}
+.m-also-h{margin:0;font:500 10px var(--mono);letter-spacing:.07em;text-transform:uppercase;color:rgba(243,236,224,.55)}
+@media (pointer:coarse){.rmx::after{content:'';position:absolute;inset:-8px}}
+.stop .s-exp{grid-column:2/-1;margin:-4px 0 2px}
+.m-stops .m-exp li{display:block;padding:1px 0;border:0}

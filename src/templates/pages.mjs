@@ -1,5 +1,6 @@
 // Inner page templates: destination (/places/<id>/), tour (/private-tours/<slug>/), 404.
 import { CATS, DESTS, PICKUPS, hav, legInfo, fmtDur, nightsTxt } from '../data/destinations.mjs';
+import { EXP_CATS, experiencesFor } from '../data/experiences.mjs';
 import { esc, picture, waLink } from './layout.mjs';
 
 const D = Object.fromEntries(DESTS.map((d) => [d.id, d]));
@@ -36,6 +37,35 @@ function tourCard(ctx, t) {
         ${t.summary ? `<p>${esc(t.summary)}</p>` : ''}
       </div>
     </li>`;
+}
+
+// Things to do at a destination (src/data/experiences.mjs), as plain HTML. Choosing them
+// happens on the map; this list keeps the text crawlable and links there.
+export function experienceMeta(e) {
+  return [EXP_CATS[e.category], e.duration, e.price].filter(Boolean).map(esc).join(' · ');
+}
+function experienceSection(ctx, d) {
+  const list = experiencesFor(d.id);
+  if (!list.length) return '';
+  const items = list
+    .map((e) => {
+      const th = e.image && ctx.expPhotos[e.image];
+      return `<li class="xp${th ? ' has-th' : ''}" data-exp="${e.id}">
+        ${th ? `<img src="${th}" width="64" height="64" alt="${esc(e.imageAlt)}" loading="lazy" decoding="async">` : ''}
+        <div><h3>${esc(e.name)}${e.featured ? ' <span class="xp-f">Featured</span>' : ''}</h3><p class="xp-m">${experienceMeta(e)}</p><p>${esc(e.shortDescription)}</p></div>
+      </li>`;
+    })
+    .join('\n      ');
+  return `<section class="paper" aria-labelledby="expH">
+  <div class="sect">
+    <h2 id="expH">Things to do in ${esc(d.name)}</h2>
+    <p class="xp-lede">Tick the ones that interest you on the map and they’re added to your quote request. Choosing an experience isn’t a booking.</p>
+    <ul class="xp-list">
+      ${items}
+    </ul>
+    <p class="xp-more"><a class="btn ghost" href="${ctx.u('/')}#experiences=${d.id}">Choose experiences on the map</a></p>
+  </div>
+</section>`;
 }
 
 function crumbs(ctx, items) {
@@ -103,6 +133,8 @@ export function placePage(ctx, d, content) {
 </section>
 
 ${content.html ? `<section class="paper"><div class="sect"><div class="prose">${content.html}</div></div></section>` : ''}
+
+${experienceSection(ctx, d)}
 
 <section class="cta-band" aria-labelledby="planH">
   <div class="sect">

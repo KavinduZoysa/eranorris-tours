@@ -69,6 +69,7 @@ each one `true` under `confirmed` in `site.config.mjs` once checked.
 | `pickups` | You collect from all 7 listed places, incl. Colombo Port and Mattala airport | `PICKUPS` |
 | `hotelOptions` | The quote form offers Budget / Mid-range / Luxury hotels: confirm you arrange hotels | `src/js/app.js → openQuote` |
 | `destinationCopy` | 16 descriptions, suggested nights and seasons (e.g. Trincomalee May–Sep) | `DESTS` |
+| `experiences` | Each "Things to do" item is something you offer or arrange, and its text is right (see `source` on each) | `src/data/experiences.mjs` |
 | `photoRights` | You're licensed to use every photo (several look like stock) and each shows the place named | `src/images/destinations/` |
 
 **Also worth confirming** (not gated):
@@ -96,6 +97,7 @@ each one `true` under `confirmed` in `site.config.mjs` once checked.
 site.config.mjs              brand, domain, contact, location, form endpoint, owner confirmations
 src/data/destinations.mjs    the 16 places, categories, pickups, vehicles, fares (single source
                              of truth for the map, the homepage list and the place pages)
+src/data/experiences.mjs     things to do at each place ("experiences"), linked by destination id
 src/js/app.js                the map + trip planner (ported from the design; changes commented)
 src/styles/base.css          design tokens, header, buttons, footer (from the design + additions)
 src/styles/app.css           map, planner, card and modal styles (design CSS, changes marked)
@@ -104,6 +106,7 @@ src/templates/*.mjs          HTML for the homepage, place, tour and 404 pages
 src/content/places/*.md      optional long-form content per destination (see _TEMPLATE.md)
 src/content/tours/*.md       tour pages (see _example-sigiriya-private-tour.md)
 src/images/destinations/     master photos (1200×800); the build makes AVIF/WebP/OG sizes
+src/images/experiences/      experience photos (from eranorrissrilanka.com); the build makes thumbnails
 src/geo/, src/fonts/         precomputed map geometry and self-hosted fonts
 scripts/                     build, check, local server, one-off asset preparation
 scripts/lib/target.mjs       build modes and production-domain validation
@@ -170,6 +173,66 @@ Tested at 280–2560 px wide, portrait and landscape, with touch and mouse.
 - **Map framing**: the map's pan limits were widened so the island always fits beside or
   below the overlay. The design's tighter limits hid places under the search box and chips
   on small or short screens.
+
+## Experiences ("Things to do")
+
+Each destination can list experiences: things a traveller can do or visit there. Visitors
+pick the ones they like, and the choices go into their quote request. Picking one is not a
+booking.
+
+- **Map:** the destination card has a collapsible "Things to do in X" list with a
+  checkbox per experience. It works with mouse, touch and keyboard (Space toggles).
+  Choosing an experience never adds, removes or reorders a stop, and never moves the map.
+  It isn't shown in airport-shuttle mode.
+- **Planner (step 01):**
+  - Chosen experiences appear under their stop, each with a × to remove it.
+  - Experiences at places that aren't (or are no longer) in the route are kept under
+    "Experiences at places not in your route", with an "Add … to route" button. Removing a
+    stop never discards its experiences, and the toast says so.
+  - "Clear" empties everything.
+- **Saved with the trip:** selections are stored in the browser with the rest of the trip.
+- **Quote request:** the summary and the WhatsApp/email message list experiences under
+  each destination, plus an "Also interested in (not in the route yet)" group. With
+  `QUOTE_ENDPOINT` set, the JSON also has an `experiences` array grouped by destination.
+- **Destination pages:** they list the experiences in plain HTML (crawlable) and link to
+  `/#experiences=<id>`, which opens the map card with the list expanded. No structured
+  data is added for experiences.
+
+**Adding or editing an experience:** edit `EXPERIENCES` in `src/data/experiences.mjs`. The
+field list is documented at the top of that file. For example:
+
+```js
+{
+  id: 'galle-fort-sunset-walk',   // unique, kebab-case; it's saved in visitors' trips, so don't rename it
+  destinationId: 'galle',         // an id from DESTS
+  category: 'history',            // a key of EXP_CATS
+  name: 'Sunset walk on the ramparts',
+  shortDescription: 'Only facts you can stand behind.',
+  duration: '2 hours',            // optional, only if known
+  // price: 'US$ 20 per person',  // optional, only a verified current price
+  // image: 'galle-sunset', imageAlt: '…',   // optional: src/images/experiences/galle-sunset.jpg
+  // featured: true,              // optional: listed first and marked "Featured"
+  // available: false,            // optional: hide without deleting
+  source: 'eranorrissrilanka.com',
+},
+```
+
+The build stops on an unknown destination, a duplicate or badly formatted id, an unknown
+category, or a missing image or alt text. `npm run check` confirms every experience is
+listed on its destination page. To add photos, put a JPEG in `src/images/experiences/`, or
+map it in `EXPERIENCE_PHOTO_SOURCES` and run `npm run prepare:images`.
+
+**What's in the list now:**
+
+| Destination | Experiences |
+|---|---|
+| Kandy | the three you requested; names only, so durations and what's included still need confirming |
+| Hikkaduwa | the cinnamon experience, Rathgama Lagoon kayaking, moonstone mine, turtle hatchery and rescue centre, Tsunami Museum, spice garden, Madu River safari (all from your villa site), plus sea turtles in the wild (design text) |
+| Galle, Mirissa, Yala | from your villa site's tours |
+| Sigiriya, Polonnaruwa, Nuwara Eliya, Ella, Adam's Peak, Bentota, Arugam Bay | only activities the design text already names |
+| Dambulla, Anuradhapura, Udawalawe, Trincomalee | none yet: their design text describes places rather than activities, so the section is simply hidden |
+
+Each entry's `source` field shows where it came from. No prices are shown.
 
 ## Destination and tour pages (SEO landing pages)
 

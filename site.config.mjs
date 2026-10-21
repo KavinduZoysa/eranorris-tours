@@ -46,6 +46,7 @@ export default {
     pickups: false, //        PICKUPS: you collect from every listed place (incl. Colombo Port, Mattala)
     hotelOptions: false, //   the quote form's hotel choices (Budget / Mid-range / Luxury) are services you offer
     destinationCopy: false, // the 16 destination descriptions, suggested nights and seasons
+    experiences: false, //    src/data/experiences.mjs: each one is offered/arranged, and its text is right
     photoRights: false, //    you are licensed to use every photo in src/images/, and each shows the named place
   },
 };

@@ -2,6 +2,7 @@
 // except where commented (photos, accessibility, deep links, real request hand-off).
 import L from 'leaflet';
 import { CATS, DESTS, PICKUPS, VEHICLES, SHUTTLE_FARES, SHUTTLE_TIMING, hav, legInfo, fmtDur, nightsTxt } from '../data/destinations.mjs';
+import { EXPERIENCES, EXP_CATS, experiencesFor } from '../data/experiences.mjs';
 
 // Injected at build time (scripts/build.mjs): brand, contact channels, asset URLs.
 const SITE = __SITE__;
@@ -27,6 +28,10 @@ const store = {
 };
 let S = Object.assign({ stops: [], pickup: null, start: '', adults: 2, children: 0, vehicle: null }, store.get());
 S.stops = (S.stops || []).filter((s) => D[s.id]);
+// Added: selected experiences (ids from src/data/experiences.mjs), saved with the trip like stops.
+// Kept independent of the route: choosing one never adds, removes or reorders a stop.
+const X = Object.fromEntries(EXPERIENCES.filter((e) => e.available !== false).map((e) => [e.id, e]));
+S.exps = [...new Set((S.exps || []).filter((id) => X[id]))];
 // Added: a saved trip can hold dates that have since passed. Drop them so a request can never
 // go out for a past date; the visitor is told once the planner has loaded.
 const ymd = (t) => `${t.getFullYear()}-${String(t.getMonth() + 1).padStart(2, '0')}-${String(t.getDate()).padStart(2, '0')}`;
@@ -823,7 +828,7 @@ function renderCard() {
   card.setAttribute('aria-labelledby', 'dcTitle');
   card.innerHTML = `<div class="dc-img"><picture><source type="image/avif" srcset="${ph.cardAvif[0]} 480w, ${ph.cardAvif[1]} 800w" sizes="(max-width: 900px) calc(100vw - 24px), 360px"><img src="${ph.card[0]}" srcset="${ph.card[0]} 480w, ${ph.card[1]} 800w" sizes="(max-width: 900px) calc(100vw - 24px), 360px" alt="${esc(d.alt)}" width="480" height="192"></picture><button class="dc-x" data-act="close" aria-label="Close ${esc(d.name)}">×</button></div>
  <div class="dc-body"><div class="dc-meta"><span class="tag" style="--c:${CATS[d.cat].c}">${CATS[d.cat].label}</span><span>${d.hl}</span></div>
- <h2 id="dcTitle">${d.name}</h2><p>${d.desc} <a class="dc-more" href="${SITE.base}/places/${d.id}/">More about ${d.name}<span aria-hidden="true"> →</span></a></p><dl class="dc-facts" id="dcFacts"></dl><div class="dc-actions" id="dcActions"></div></div>`;
+ <h2 id="dcTitle">${d.name}</h2><p>${d.desc} <a class="dc-more" href="${SITE.base}/places/${d.id}/">More about ${d.name}<span aria-hidden="true"> →</span></a></p><dl class="dc-facts" id="dcFacts"></dl><div class="dc-actions" id="dcActions"></div>${expBlock(d)}</div>`;
   card.hidden = false;
   mapwrap.classList.add('has-card');
   requestAnimationFrame(hideSeaLabels);
@@ -832,9 +837,62 @@ function renderCard() {
   card.style.animation = '';
   renderCardState();
 }
+
+/* experiences (added) */
+// The card's "Things to do" list stays open for the next place once a visitor has opened it.
+let expOpen = false;
+const expsAt = (id) => S.exps.filter((x) => X[x].destinationId === id);
+const expMeta = (e) => [EXP_CATS[e.category], e.duration, e.price].filter(Boolean).map(esc).join(' · ');
+function expBlock(d) {
+  const xs = experiencesFor(d.id);
+  if (!xs.length) return '';
+  const item = (e) => {
+    const th = e.image && SITE.assets.expPhotos[e.image];
+    return `<li><label class="exp${th ? ' has-th' : ''}"><input type="checkbox" value="${e.id}" aria-labelledby="xn-${e.id}" aria-describedby="xd-${e.id}"${S.exps.includes(e.id) ? ' checked' : ''}><span class="exp-ck" aria-hidden="true"></span>${th ? `<img src="${th}" alt="" width="40" height="40" loading="lazy" decoding="async">` : ''}<span class="exp-b"><span class="exp-n" id="xn-${e.id}">${esc(e.name)}${e.featured ? ' <span class="exp-f">Featured</span>' : ''}</span><span class="exp-m">${expMeta(e)}</span><span class="exp-d" id="xd-${e.id}">${esc(e.shortDescription)}</span></span></label></li>`;
+  };
+  return `<div class="dc-exp" id="dcExp"><button type="button" class="dc-exp-t" data-act="exp" aria-expanded="${expOpen}" aria-controls="dcExpList"><span>Things to do in ${esc(d.name)} <span class="n">${xs.length}</span></span><span class="sel" id="dcExpSel"></span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"></path></svg></button>
+ <div id="dcExpList"${expOpen ? '' : ' hidden'}><ul class="exp-list" aria-label="Things to do in ${esc(d.name)}">${xs.map(item).join('')}</ul><p class="exp-note">Ticked experiences are added to your quote request. Choosing one isn’t a booking, and it doesn’t change your route.</p></div></div>`;
+}
+function toggleExp(id, on) {
+  if (on === S.exps.includes(id)) return;
+  S.exps = on ? [...S.exps, id] : S.exps.filter((x) => x !== id);
+  update();
+  const e = X[id];
+  toast(on ? `${e.name} added${tripIdx(e.destinationId) > -1 ? '' : ` · ${D[e.destinationId].name} isn’t in your route yet`}` : `${e.name} removed`);
+}
+// Places with selected experiences: in route order, then those not (or no longer) in the route.
+function expGroups() {
+  const ids = [...new Set(S.exps.map((x) => X[x].destinationId))];
+  const inRoute = S.stops.map((s) => s.id).filter((id) => ids.includes(id));
+  return { inRoute, outside: ids.filter((id) => !inRoute.includes(id)) };
+}
+// While the list is open on wide layouts, the card may grow up to the overlay and scroll inside,
+// rather than covering the search box. Stacked layouts keep their CSS limit.
+function sizeCard() {
+  card.style.maxHeight = '';
+  const ex = $('#dcExp');
+  if (card.hidden || !expOpen || !ex || ex.hidden || stacked()) return;
+  const m = mapwrap.getBoundingClientRect(),
+    o = document.querySelector('.overlay');
+  const gap = parseFloat(getComputedStyle(card).bottom) || 12;
+  const top = o && o.offsetParent !== null ? o.getBoundingClientRect().bottom - m.top + 12 : gap;
+  card.style.maxHeight = Math.max(260, m.height - top - gap) + 'px';
+}
+card.addEventListener('change', (e) => {
+  if (e.target.matches('#dcExpList input[type=checkbox]')) toggleExp(e.target.value, e.target.checked);
+});
 function renderCardState() {
   if (!active || card.hidden) return;
   const d = D[active];
+  // Added: keep the experience checkboxes in step with the planner (e.g. removed from the panel).
+  const ex = $('#dcExp');
+  if (ex) {
+    ex.hidden = S.mode === 'shuttle';
+    ex.querySelectorAll('input[type=checkbox]').forEach((i) => (i.checked = S.exps.includes(i.value)));
+    const n = expsAt(d.id).length;
+    $('#dcExpSel').textContent = n ? `${n} selected` : '';
+    sizeCard();
+  }
   if (S.mode === 'shuttle') {
     const leg = legInfo(AIR, d),
       sel = !!S.sh.place && S.sh.place.id === d.id;
@@ -882,7 +940,12 @@ card.addEventListener('click', (e) => {
   else if (act === 'add') addStop(active);
   else if (act === 'remove') removeStop(active);
   else if (act === 'sethotel') setShPlace({ id: active });
-  else {
+  else if (act === 'exp') {
+    expOpen = !expOpen;
+    a.setAttribute('aria-expanded', String(expOpen));
+    $('#dcExpList').hidden = !expOpen;
+    sizeCard();
+  } else {
     const list = DESTS.filter((d) => filter === 'all' || d.cat === filter);
     let i = list.findIndex((d) => d.id === active);
     i = (i + (act === 'next' ? 1 : -1) + list.length) % list.length;
@@ -907,7 +970,9 @@ function removeStop(id) {
   const d = D[id];
   S.stops = S.stops.filter((s) => s.id !== id);
   update();
-  toast(`${d.name} removed`);
+  // Changed: experiences chosen there are kept (listed under "not in your route"), never dropped silently.
+  const n = expsAt(id).length;
+  toast(n ? `${d.name} removed · ${n === 1 ? 'its experience is' : `its ${n} experiences are`} kept under “not in your route”` : `${d.name} removed`);
 }
 function tourCost(order, o, closed) {
   let c = 0,
@@ -971,8 +1036,9 @@ $('#clearBtn').onclick = () => {
     toast('Transfer cleared');
     return;
   }
-  if (!S.stops.length && !S.pickup && !S.start) return;
+  if (!S.stops.length && !S.pickup && !S.start && !S.exps.length) return;
   S.stops = [];
+  S.exps = [];
   S.pickup = null;
   S.start = '';
   $('#startDate').value = '';
@@ -984,7 +1050,7 @@ function renderStops() {
   const el = $('#stops');
   const p = plan();
   if (!S.stops.length) {
-    el.innerHTML = `<div class="empty-stops">${TAP} a place on the map or search above to add your first stop. Add as many as you like and we’ll work out the dates.</div>`;
+    el.innerHTML = `<div class="empty-stops">${TAP} a place on the map or search above to add your first stop. Add as many as you like and we’ll work out the dates.</div>${expOutsideHtml()}`;
     return;
   }
   let h = '';
@@ -1002,7 +1068,7 @@ function renderStops() {
         : `Day ${r.arrive + 1}`;
     h += `<li class="stop"><span class="num">${r.i + 1}</span><div><button class="s-name" data-open="${r.d.id}">${r.d.name}</button><div class="s-sub">${when}</div></div>
   <div class="stepper wide"><button data-n="${r.d.id}" data-d="-1" ${r.s.nights <= 0 ? 'disabled' : ''} aria-label="Fewer nights in ${esc(r.d.name)}">−</button><span>${r.s.nights}<small>${r.s.nights === 1 ? 'night' : 'nights'}</small></span><button data-n="${r.d.id}" data-d="1" ${r.s.nights >= 14 ? 'disabled' : ''} aria-label="More nights in ${esc(r.d.name)}">+</button></div>
-  <button class="rm" data-rm="${r.d.id}" aria-label="Remove ${esc(r.d.name)}">×</button></li>`;
+  <button class="rm" data-rm="${r.d.id}" aria-label="Remove ${esc(r.d.name)}">×</button>${expListHtml(r.d.id)}</li>`;
   });
   if (p.ret) h += `<li class="leg ret">~${fmtDur(p.ret.min)} · ${p.ret.km} km</li>`;
   h += '</ol>';
@@ -1010,13 +1076,33 @@ function renderStops() {
     h += `<div class="endpt"><span class="ic"></span><span><b>Drop-off</b> · ${esc(pickupLabel())}</span></div>`;
   // Added: the leg figures are formula estimates, not routed journey times.
   if (p.ret || p.rows.some((r) => r.leg)) h += `<p class="hint">Drive times and distances are rough estimates, not guaranteed journey times.</p>`;
+  h += expOutsideHtml();
   el.innerHTML = h;
+}
+// Added: chosen experiences under each stop, and a group for places not in the route.
+function expListHtml(id) {
+  const xs = expsAt(id);
+  return xs.length
+    ? `<ul class="s-exp" aria-label="Experiences in ${esc(D[id].name)}">${xs.map((x) => `<li><span>${esc(X[x].name)}</span><button class="rmx" data-rmx="${x}" aria-label="Remove ${esc(X[x].name)}">×</button></li>`).join('')}</ul>`
+    : '';
+}
+function expOutsideHtml() {
+  const { outside } = expGroups();
+  if (!outside.length) return '';
+  return `<div class="exp-out"><p class="tagl">Experiences at places not in your route</p>${outside
+    .map((id) => `<div class="exp-out-g"><div class="exp-out-h"><button class="s-name" data-open="${id}">${D[id].name}</button><button class="linkbtn" data-addstop="${id}">Add ${D[id].name} to route</button></div>${expListHtml(id)}</div>`)
+    .join('')}</div>`;
 }
 $('#stops').addEventListener('click', (e) => {
   const t = e.target.closest('button');
   if (!t) return;
   if (t.dataset.open) openDest(t.dataset.open, true);
   else if (t.dataset.rm) removeStop(t.dataset.rm);
+  else if (t.dataset.addstop) addStop(t.dataset.addstop);
+  else if (t.dataset.rmx) {
+    toggleExp(t.dataset.rmx, false);
+    $('#stops .rmx, #stops .s-name')?.focus(); // the list re-renders: keep keyboard focus nearby
+  }
   else if (t.dataset.n) {
     const s = S.stops.find((x) => x.id === t.dataset.n);
     s.nights = Math.max(0, Math.min(14, s.nights + +t.dataset.d));
@@ -1199,11 +1285,13 @@ function renderSummary() {
   if (S.mode === 'shuttle') return renderShSummary();
   const p = plan();
   const n = S.stops.length;
-  $('#summary').textContent = n
-    ? `${n} ${n === 1 ? 'stop' : 'stops'} · ${p.nights} ${p.nights === 1 ? 'night' : 'nights'}${p.drive ? ` · ~${fmtDur(p.drive)} driving` : ''}`
-    : 'No stops yet';
+  const k = S.exps.length;
+  $('#summary').textContent =
+    (n
+      ? `${n} ${n === 1 ? 'stop' : 'stops'} · ${p.nights} ${p.nights === 1 ? 'night' : 'nights'}${p.drive ? ` · ~${fmtDur(p.drive)} driving` : ''}`
+      : 'No stops yet') + (k ? ` · ${k} ${k === 1 ? 'experience' : 'experiences'}` : '');
   $('#optBtn').hidden = n < 2;
-  $('#clearBtn').hidden = !(n || S.pickup || S.start);
+  $('#clearBtn').hidden = !(n || S.pickup || S.start || S.exps.length);
   $('#pillCount').textContent = n;
   const miss = [];
   if (!n) miss.push('a destination');
@@ -1246,12 +1334,23 @@ mbg.addEventListener('keydown', (e) => {
     first.focus();
   }
 });
+// Added: chosen experiences in the quote summary, grouped under their places.
+const mExp = (id) => {
+  const xs = expsAt(id);
+  return xs.length ? `<ul class="m-exp">${xs.map((x) => `<li>${esc(X[x].name)}</li>`).join('')}</ul>` : '';
+};
+function mAlso() {
+  const { outside } = expGroups();
+  return outside.length
+    ? `<div class="m-also"><p class="m-also-h">Also interested in · not in the route</p><ul class="m-stops">${outside.map((id) => `<li><span class="n"></span><span class="nm">${D[id].name}</span><span class="dt"></span>${mExp(id)}</li>`).join('')}</ul></div>`
+    : '';
+}
 function openQuote() {
   const p = plan();
   const v = VEHICLES.find((x) => x.id === vehicleId());
   showModal(`<div class="modal" role="dialog" aria-modal="true" aria-labelledby="mTitle">
  <div class="m-sum"><p class="eyebrow">Your trip</p><h3>${p.nights + 1} days in Sri Lanka</h3>
-  <ol class="m-stops">${p.rows.map((r) => `<li><span class="n">${String(r.i + 1).padStart(2, '0')}</span><span class="nm">${r.d.name}</span><span class="dt">${r.s.nights ? `${fmtDs(dateAt(r.arrive))}–${fmtDs(dateAt(r.depart))}` : fmtDs(dateAt(r.arrive))}</span></li>`).join('')}</ol>
+  <ol class="m-stops">${p.rows.map((r) => `<li><span class="n">${String(r.i + 1).padStart(2, '0')}</span><span class="nm">${r.d.name}</span><span class="dt">${r.s.nights ? `${fmtDs(dateAt(r.arrive))}–${fmtDs(dateAt(r.depart))}` : fmtDs(dateAt(r.arrive))}</span>${mExp(r.d.id)}</li>`).join('')}</ol>${mAlso()}
   <dl class="m-facts"><div><dt>Pickup</dt><dd>${esc(pickupLabel())}</dd></div><div><dt>Dates</dt><dd>${fmtDs(dateAt(0))} – ${fmtDs(dateAt(p.nights))}</dd></div><div><dt>Travellers</dt><dd>${S.adults} ${S.adults === 1 ? 'adult' : 'adults'}${S.children ? `, ${S.children} ${S.children === 1 ? 'child' : 'children'}` : ''}</dd></div><div><dt>Vehicle</dt><dd>${v.name}</dd></div><div><dt>Driving (est.)</dt><dd>~${fmtDur(p.drive)} · ${p.km} km</dd></div></dl></div>
  <form class="m-form" id="qform" novalidate><button type="button" class="m-close" data-close aria-label="Close">×</button>
   <h2 id="mTitle">Request a quote</h2><p>${SITE.quoteEndpoint ? 'Send this route to our travel planners.' : 'Add your details, then send this route to us on WhatsApp or by email.'} We’ll reply with a price and any suggested changes.</p>
@@ -1296,11 +1395,20 @@ function requestText(sh, ref, f) {
     const p = plan();
     out.push(`Hello ${SITE.name}, I’d like a quote for a private tour (ref ${ref}).`, '');
     out.push(`Route: ${p.nights + 1} days, ${p.nights} ${p.nights === 1 ? 'night' : 'nights'} · about ${fmtDur(p.drive)} driving, ${p.km} km (estimate)`);
-    p.rows.forEach((r) =>
+    p.rows.forEach((r) => {
       out.push(
         `${r.i + 1}. ${r.d.name} — ${nightsTxt(r.s.nights)} (${r.s.nights ? `${fmtDs(dateAt(r.arrive))} – ${fmtDs(dateAt(r.depart))}` : fmtDs(dateAt(r.arrive))})`,
-      ),
-    );
+      );
+      expsAt(r.d.id).forEach((x) => out.push(`   • ${X[x].name}`)); // added: chosen experiences
+    });
+    const { outside } = expGroups();
+    if (outside.length) {
+      out.push('Also interested in (not in the route yet):');
+      outside.forEach((id) => {
+        out.push(`- ${D[id].name}`);
+        expsAt(id).forEach((x) => out.push(`   • ${X[x].name}`));
+      });
+    }
     out.push(`Pickup and drop-off: ${pickupLabel()}${S.pickup.id === 'pin' ? ' ' + mapsLink(S.pickup) : ''}`);
     out.push(`Start date: ${fmtLong(dateAt(0))}`, `Vehicle: ${v.name}`, `Hotels: ${hotel}`);
   }
@@ -1309,6 +1417,16 @@ function requestText(sh, ref, f) {
   if (f.country) out.push(`Country: ${f.country}`);
   if (f.notes) out.push(`Notes: ${f.notes}`);
   return out.join('\n');
+}
+// Added: structured copy of the chosen experiences for a form endpoint (the message has them too).
+function expPayload() {
+  const { inRoute, outside } = expGroups();
+  return [...inRoute, ...outside].map((id) => ({
+    destinationId: id,
+    destination: D[id].name,
+    inRoute: inRoute.includes(id),
+    experiences: expsAt(id).map((x) => ({ id: x, name: X[x].name })),
+  }));
 }
 async function submitQuote(e) {
   e.preventDefault();
@@ -1359,7 +1477,7 @@ async function submitQuote(e) {
       const r = await fetch(SITE.quoteEndpoint, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
-        body: JSON.stringify({ ref, type: sh ? 'airport-transfer' : 'tour', ...data, _subject: subject, message: text }),
+        body: JSON.stringify({ ref, type: sh ? 'airport-transfer' : 'tour', ...data, experiences: sh ? [] : expPayload(), _subject: subject, message: text }),
       });
       if (!r.ok) throw new Error('HTTP ' + r.status);
     } catch (err) {
@@ -1817,6 +1935,7 @@ window.addEventListener('resize', () => {
   rt = setTimeout(() => {
     map.invalidateSize({ pan: false });
     if (!userMoved && !active) fit();
+    sizeCard();
   }, 150);
 });
 
@@ -1839,14 +1958,16 @@ update();
 document.documentElement.classList.add('map-ready');
 if (staleDates) setTimeout(() => toast('The dates in your saved trip have passed, so we cleared them'), 600);
 
-// Added: deep links from place pages — /#add=<id> adds the stop, /#place=<id> just opens it.
+// Added: deep links from place pages — /#add=<id> adds the stop, /#place=<id> just opens it,
+// /#experiences=<id> opens it with its "Things to do" list expanded.
 // A fragment (not a query string) so the homepage keeps a single crawlable URL.
 function openFromHash() {
-  const m = location.hash.match(/^#(add|place)=([a-z-]+)$/);
+  const m = location.hash.match(/^#(add|place|experiences)=([a-z-]+)$/);
   if (!m || !D[m[2]]) return;
   history.replaceState(null, '', location.pathname + location.search);
   if (S.mode === 'shuttle') setMode('tour');
   if (m[1] === 'add') addStop(m[2]);
+  if (m[1] === 'experiences') expOpen = true;
   openDest(m[2], true);
 }
 openFromHash();
