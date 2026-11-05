@@ -1,32 +1,118 @@
 ---
-# Draft — see docs/content-plan.md, section 4 (Ella).
-# Replace every [TODO …] with your own words, then set status: published and run npm test.
-# The build refuses to publish with any [TODO] left or fewer than 200 words of content.
+# Draft written to the content standard (docs/content-guide.md). Research: docs/research/ella.md
 status: draft
-# title: optional, ≤ 60 characters, e.g. "Ella … | Eranorris"
-# description: optional, 70–160 characters
+title: Ella Guide: Nine Arches Bridge, Hikes & Trains | Eranorris
+description: Plan time in Ella: Little Adam’s Peak and Ella Rock, the Nine Arches Bridge, the hill-country train, day trips to Haputale, and routes south and east.
+intro: Ella is a small town at the head of a gap in the hills, with tea on the slopes around it. It is a base for short hikes to viewpoints, and a stone railway viaduct is a walk away.
+stay: 2 nights; a third gives time for Ella Rock or a day trip to Haputale
+gettingThere: About 6–7 hours by road from the airport; most people arrive from Nuwara Eliya or Kandy
+bestTime: Usually driest in February–March and June–August; wettest from October to December
+goodFor: Day hikes, viewpoints, the scenic railway, a pause between the hills and the coast
+combine:
+  - nuwara-eliya | About 2–3 hours by road via Welimada, or roughly 2.5–3 hours by train to Nanu Oya when services run
+  - yala | About 2.5–3 hours south via Wellawaya to Tissamaharama, the usual base for Yala safaris
+  - udawalawe | About 2.5–3.5 hours via Wellawaya, a natural stop on the way down to the south coast
+  - arugam-bay | About 3–4 hours east via Wellawaya and Monaragala; best in the April–October surf season
+sources:
+  - Sri Lanka Tourism — Ella | https://srilanka.travel/attraction?attraction_id=154
+  - Sri Lanka Tourism — Little Adam’s Peak | https://srilanka.travel/attraction?attraction_id=183
+  - Sri Lanka Railways — online seat reservation | https://seatreservation.railway.gov.lk/
+  - Sri Lanka Railways — seat reservation FAQ (booking window, e-tickets, refunds) | https://seatreservation.railway.gov.lk/mtktwebslr/faq
+  - Sri Lanka Railways — train schedules | https://eservices.railway.gov.lk/schedule/searchTrain.action?lang=en
+  - Uva Provincial Council tourism — Lipton’s Seat | https://visituva.lk/destination/liptons-seat
+verify:
+  - Which Ella visits do we actually arrange — Little Adam’s Peak, the Nine Arches Bridge, Ella Rock, Ravana Falls, Lipton’s Seat — and is it driver-only or with a guide?
+  - Do we book train tickets (e.g. Nanu Oya to Ella), and if guests ride the train, how does the driver and luggage fit around it?
+  - Recommended stay — the design suggests 2 nights; the page says 2, with a third optional. Confirm.
+  - Do our drivers do early starts for day trips, e.g. Lipton’s Seat at dawn?
+  - Is the Uva tourism site (visituva.lk) acceptable as an official source? Its footer names the Uva Provincial Council’s Ministry of Tourism.
+  - Ella hero photo — rights confirmed, and it shows the Nine Arches Bridge near Ella.
 ---
 
-## [TODO confirm heading] Ella on a private tour
+## Why stay in Ella
 
-[TODO What you do in and around Ella (Nine Arches Bridge, Little Adam’s Peak, anything else you offer).]
+Ella sits at about 1,040 m in Uva Province, lower and warmer than Nuwara Eliya, at the head of the Ella Gap. On a clear morning the gap frames a view south across the lowland plains. The town itself is a strip of guesthouses, cafés and shops around the main road and the railway station, busy for much of the year.
 
-## [TODO confirm heading] How long to stay
+The draw is the country around it: tea estates, waterfalls and hills, most within an hour on foot or a short tuk-tuk ride. After the long drives of the hill country, it is an easy place to slow down.
 
-[TODO How many nights you recommend and why.]
+## Little Adam’s Peak
 
-## [TODO confirm heading] Getting there: car or train
+Named for its likeness to [Adam’s Peak](/places/adams-peak/), this 1,141 m hill is the easiest walk in Ella and the one most people do first. The path leaves the Passara road east of town and climbs gently through tea, with steps near the top. Allow about 45 minutes to an hour each way at a steady pace. The summit ridge looks across to Ella Rock and down the gap.
 
-[TODO Describe only what you arrange — e.g. whether you book train tickets or meet guests at the station.]
+Go early, before the heat, crowds and cloud build, and wear shoes with grip: the steps are slippery after rain.
 
-## [TODO confirm heading] Combining Ella with the hill country and safaris
+## Ella Rock
 
-[TODO Nuwara Eliya, Udawalawe, Yala, Kandy — order and real drive times. Link them, e.g. [Nuwara Eliya](/places/nuwara-eliya/).]
+Ella Rock is the harder hike: plan on three to four hours for the round trip, plus time at the top. The usual route follows the railway for about 2.5 km towards Kital Ella station, then climbs a steep path through forest and eucalyptus. Paths branch, and people sometimes offer to show you the way for a fee, so an offline map helps. Start early, and step well clear of the line when you hear a train.
 
-## [TODO confirm heading] Practical tips
+## The Nine Arches Bridge
 
-[TODO Weather, what to pack, how strenuous the walks are.]
+The Nine Arches Bridge carries the railway across a ravine at Demodara, about 2 km from town. Built around a century ago of stone, brick and cement, it is about 91 m long and 24 m high and curves over the valley on nine arches. A little further down the line, at Demodara station, the track loops round a hill and passes beneath itself in a tunnel under the station.
 
-## [TODO confirm heading] Questions guests ask
+You can walk there along the tracks from Ella station in about 30–45 minutes, or take a tuk-tuk to a path near the bridge; viewpoints on the hillside look down on the arches. Trains cross a few times a day, but timings shift and delays are common, so check the Sri Lanka Railways schedule or ask at the station. There are no barriers: stay off the bridge when a train is coming, and keep children close.
 
-[TODO Two to five real questions with short answers.]
+<!-- experiences -->
+
+## The hill-country train
+
+Ella is on the Main Line from Colombo to Badulla, and the section from Nanu Oya to Ella is the one most travellers want to ride. It crosses the line’s highest point near Pattipola, at about 1,900 m, then runs along the hillsides past Haputale with long views over tea and valleys.
+
+Cyclone Ditwah damaged the line in late 2025. At the time of writing, trains had been running between Nanu Oya and Badulla via Ella since June 2026, but parts of the route from Kandy to Nanu Oya were still under repair. Check Sri Lanka Railways before you plan around it.
+
+- **Booking.** Reserved seats can be booked online up to 30 days ahead on the Sri Lanka Railways site, with each passenger’s passport number; the e-ticket arrives by email. Popular trains fill quickly in the busy season.
+- **Timing.** The Nanu Oya to Ella run takes roughly 2.5–3 hours, and delays are common.
+- **Safety.** Stay inside the carriage. Tourists have been seriously injured, and at least one killed, after leaning out of doors for photos.
+
+## Day trips from Ella
+
+- **Ravana Falls.** About 6 km down the Wellawaya road, this 25 m waterfall is visible from the roadside. Legend links it, and a nearby cave, to King Ravana of the Ramayana. Take care on wet rocks.
+- **Lipton’s Seat and Haputale.** Above the Dambatenne tea factory near Haputale, this is the viewpoint from which the tea merchant Thomas Lipton is said to have surveyed his estates. Go early, as mist usually arrives by mid-morning. Haputale is roughly an hour from Ella.
+- **Diyaluma Falls.** Near Koslanda, roughly 1.5–2 hours away, this is one of the highest waterfalls in the country, at about 220 m.
+- **Horton Plains.** Around 2–2.5 hours away via Haputale and Ohiya; most people visit it from [Nuwara Eliya](/places/nuwara-eliya/), which is closer.
+
+## How long to stay
+
+**Two nights** give you one full day for the two main sights. **Three nights** leave time for Ella Rock, or a day out to Haputale and Lipton’s Seat.
+
+A typical full day:
+
+- **Early morning:** Little Adam’s Peak, before the cloud and the crowds.
+- **Mid-morning:** the Nine Arches Bridge, timed for a train.
+- **Afternoon:** rest, or drive down to Ravana Falls.
+- **Evening:** dinner in town, with a light layer for the cool night.
+
+## Best time to visit
+
+Ella lies on the eastern side of the hills and gets most of its rain from the north-east monsoon. Long-term records for nearby Badulla show the heaviest rain from October to December and the driest months from June to August, with February and March fairly dry too. Afternoon showers are common in any month, so mornings are usually best for views.
+
+## Getting there and moving on
+
+- **From Nuwara Eliya.** About 60 km, roughly 2–3 hours by road via Welimada and Bandarawela, or by train from Nanu Oya.
+- **From [Kandy](/places/kandy/).** Around 4.5–6 hours by road, usually via Nuwara Eliya, where many people break the journey.
+- **From the airport or Colombo.** Around 6–7 hours by road.
+- **South to the safari parks.** [Yala](/places/yala/) and [Udawalawe](/places/udawalawe/) are each about 2.5–3.5 hours away via Wellawaya.
+- **East to the coast.** [Arugam Bay](/places/arugam-bay/) is about 3–4 hours east and is best visited in its April–October season.
+
+In a private tour you add Ella to your route on the map, and your driver handles the roads. The planner’s drive times are rough estimates, not road-tested figures.
+
+## Frequently asked questions
+
+### How hard is the Little Adam’s Peak hike?
+
+Easy to moderate. Most people reach the top in 45 minutes to an hour, on a path through tea with steps near the summit.
+
+### Can I walk to the Nine Arches Bridge from Ella?
+
+Yes. It is about 2 km, roughly 30–45 minutes along the railway from Ella station. Listen for trains on the way.
+
+### Can I take the train from Kandy to Ella?
+
+Not all the way, at the time of writing: after Cyclone Ditwah, trains were running from Nanu Oya to Ella, but sections between Kandy and Nanu Oya were still under repair. Check Sri Lanka Railways for the latest.
+
+### Is Ella Rock safe to hike without a guide?
+
+Many people walk it independently, but the paths branch and are poorly marked. Start early, carry water and an offline map, and walk with others if you can.
+
+### Should I choose Ella or Nuwara Eliya?
+
+Nuwara Eliya is higher and colder, with tea factories and Horton Plains close by. Ella is warmer and better for walking straight from town. Many routes include both.

@@ -1959,10 +1959,24 @@ document.documentElement.classList.add('map-ready');
 if (staleDates) setTimeout(() => toast('The dates in your saved trip have passed, so we cleared them'), 600);
 
 // Added: deep links from place pages — /#add=<id> adds the stop, /#place=<id> just opens it,
-// /#experiences=<id> opens it with its "Things to do" list expanded.
+// /#experiences=<id> opens it with its "Things to do" list expanded, and /#exp=<experience id>
+// does the same with focus on that experience.
 // A fragment (not a query string) so the homepage keeps a single crawlable URL.
 function openFromHash() {
-  const m = location.hash.match(/^#(add|place|experiences)=([a-z-]+)$/);
+  const m = location.hash.match(/^#(add|place|experiences|exp)=([a-z-]+)$/);
+  if (m && m[1] === 'exp' && X[m[2]]) {
+    // From an experience guide: open its place with the list expanded, focused on it (not ticked).
+    history.replaceState(null, '', location.pathname + location.search);
+    if (S.mode === 'shuttle') setMode('tour');
+    expOpen = true;
+    openDest(X[m[2]].destinationId, true);
+    const box = card.querySelector(`#dcExpList input[value="${m[2]}"]`);
+    if (box) {
+      box.closest('label').scrollIntoView({ block: 'nearest' });
+      box.focus({ preventScroll: true });
+    }
+    return;
+  }
   if (!m || !D[m[2]]) return;
   history.replaceState(null, '', location.pathname + location.search);
   if (S.mode === 'shuttle') setMode('tour');

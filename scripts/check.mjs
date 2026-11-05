@@ -137,6 +137,58 @@ for (const file of htmlFiles) {
   }
   if (root.querySelector('html')?.getAttribute('lang') !== 'en') err(name, 'missing <html lang="en">');
 
+  // Duplicate ids make invalid HTML and break label/aria references.
+  const ids = root.querySelectorAll('[id]').map((e) => e.getAttribute('id'));
+  for (const id of new Set(ids.filter((x, i) => ids.indexOf(x) !== i))) err(name, `duplicate id="${id}"`);
+
+  // Galleries: real images with alt text, controls only when there is more than one photo,
+  // controls matching the slides, the first photo prioritised and the rest lazy.
+  for (const g of root.querySelectorAll('.gal')) {
+    const slides = g.querySelectorAll('.gal-slide');
+    const imgs = slides.map((sl) => sl.querySelector('img'));
+    if (!slides.length) err(name, 'gallery without photos');
+    imgs.forEach((im, i) => {
+      if (!im || !im.getAttribute('alt')?.trim()) err(name, `gallery photo ${i + 1} has no alt text`);
+      else if (i === 0 && im.getAttribute('fetchpriority') !== 'high') err(name, 'first gallery photo should have fetchpriority="high"');
+      else if (i > 0 && im.getAttribute('loading') !== 'lazy') err(name, `gallery photo ${i + 1} should be loading="lazy"`);
+    });
+    const many = slides.length > 1;
+    if (many !== g.hasAttribute('data-gallery')) err(name, 'gallery data-gallery attribute does not match photo count');
+    if (many) {
+      if (g.querySelectorAll('.gal-btn').length !== 2) err(name, 'gallery needs previous and next buttons');
+      if (g.querySelectorAll('.gal-dots button').length !== slides.length) err(name, 'gallery dots do not match photos');
+      if (g.querySelector('.gal-count')?.text.replace(/\s+/g, '') !== `1/${slides.length}`) err(name, 'gallery counter does not match photos');
+      if (!g.querySelector('.gal-track')?.getAttribute('aria-label')) err(name, 'gallery carousel has no label');
+    } else if (g.querySelector('.gal-btn, .gal-dots, .gal-count')) err(name, 'single-photo gallery shows controls');
+  }
+
+  // FAQ component: a heading, then questions (ending in "?") with non-empty answers.
+  for (const f of root.querySelectorAll('.faq')) {
+    const items = f.querySelectorAll('details.faq-i');
+    if (!items.length) err(name, 'empty FAQ');
+    const qs = items.map((d) => d.querySelector('summary .faq-q')?.text.trim() || '');
+    qs.forEach((q, i) => {
+      if (!q.endsWith('?')) err(name, `FAQ question ${i + 1} missing or not a question: "${q}"`);
+      if (!items[i].querySelector('.faq-a')?.text.trim()) err(name, `FAQ answer ${i + 1} is empty`);
+    });
+    for (const q of new Set(qs.filter((x, i) => qs.indexOf(x) !== i))) err(name, `FAQ question repeated: "${q}"`);
+    if (!f.parentNode.querySelector('h2')) err(name, 'FAQ has no section heading');
+  }
+
+  // Destination pages keep their planning and nearby sections, with links for this destination.
+  const pm = name.match(/^\/places\/([a-z-]+)\/index\.html$/);
+  if (pm) {
+    const d = DESTS.find((x) => x.id === pm[1]);
+    const h2 = root.querySelectorAll('h2').map((h) => h.text.trim());
+    if (!h2.includes(`Plan a private tour with ${d.name}`)) err(name, `missing "Plan a private tour with ${d.name}" section`);
+    if (!h2.includes('Nearby places to combine')) err(name, 'missing "Nearby places to combine" section');
+    if (!root.querySelector(`a[href="${base}/#add=${d.id}"]`)) err(name, `no planner link that adds ${d.id}`);
+    if (!root.querySelector('#nearH')?.parentNode.querySelectorAll('.pl-card').length) err(name, 'no nearby places listed');
+  }
+
+  // Placeholders and owner notes must never reach a build.
+  if (/\[TODO|\bTBD\b/.test(root.querySelector('main')?.text || '')) err(name, 'placeholder text ([TODO]/TBD) in page');
+
   // Structured data
   for (const s of root.querySelectorAll('script[type="application/ld+json"]')) {
     let data;

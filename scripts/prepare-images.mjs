@@ -6,12 +6,15 @@
 //   destinations: ~/villas/destinations by default → src/images/destinations/ (1200×800)
 //   experiences:  the villa site's assets/images folder (default: ../eranorris-srilanka/assets/images)
 //                 → src/images/experiences/ (longest side ≤ 1200, not cropped)
+//   galleries:    GALLERY_IMAGES in src/data/galleries.mjs ('tours:' = ~/villas/tours,
+//                 'villa-site:' = the villa site folder) → src/images/gallery/ (longest side ≤ 1600)
 import { mkdir } from 'node:fs/promises';
 import { homedir } from 'node:os';
 import path from 'node:path';
 import sharp from 'sharp';
 import { DESTS, PHOTO_SOURCES } from '../src/data/destinations.mjs';
 import { EXPERIENCE_PHOTO_SOURCES } from '../src/data/experiences.mjs';
+import { GALLERY_IMAGES } from '../src/data/galleries.mjs';
 
 const args = process.argv.slice(2);
 const srcDir = args.find((a) => !a.startsWith('--')) || path.join(homedir(), 'villas', 'destinations');
@@ -41,4 +44,18 @@ for (const [name, rel] of Object.entries(EXPERIENCE_PHOTO_SOURCES)) {
     .jpeg({ quality: 84, mozjpeg: true })
     .toFile(new URL(`${name}.jpg`, expOut).pathname);
   console.log(`${rel} → experiences/${name}.jpg (${info.width}×${info.height}, ${Math.round(info.size / 1024)} KB)`);
+}
+
+const galOut = new URL('../src/images/gallery/', import.meta.url);
+await mkdir(galOut, { recursive: true });
+const toursDir = path.join(homedir(), 'villas', 'tours');
+for (const [name, img] of Object.entries(GALLERY_IMAGES)) {
+  const [kind, rel] = img.from.split(/:(.*)/s);
+  const from = path.join(kind === 'tours' ? toursDir : expDir, rel);
+  const info = await sharp(from)
+    .rotate()
+    .resize(1600, 1600, { fit: 'inside', withoutEnlargement: true })
+    .jpeg({ quality: 84, mozjpeg: true })
+    .toFile(new URL(`${name}.jpg`, galOut).pathname);
+  console.log(`${img.from} → gallery/${name}.jpg (${info.width}×${info.height}, ${Math.round(info.size / 1024)} KB)`);
 }

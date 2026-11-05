@@ -1,15 +1,10 @@
 ---
-# Copy this file to src/content/places/<id>.md, where <id> is the destination id in
-# src/data/destinations.mjs (sigiriya, galle, hikkaduwa, kandy, …).
+# Copy this file to src/content/places/<id>.md (<id> from src/data/destinations.mjs).
+# Format, writing standard and publishing rules: docs/content-guide.md (Kandy is the example).
 #
-# Scaffolds for Sigiriya, Galle, Hikkaduwa, Ella and Kandy already exist — see
-# docs/content-plan.md for what each page needs.
-#
-# The page /places/<id>/ already exists as a draft (noindex, not in the sitemap). It is
-# published — indexable and listed in the sitemap — only when this file says
-# `status: published`, has at least 200 words of visible content and no [TODO]/TBD left.
-# The build stops with an explanation otherwise. Draft text appears only in
-# `npm run dev` / `npm run build:staging` previews, never in production.
+# The page stays a draft (noindex, out of the sitemap, text visible only in previews) until
+# it has status: published, a reviewed: date, no verify: items left, no [TODO]/TBD, at least
+# 200 words and only working internal links. The build stops with an explanation otherwise.
 status: draft
 
 # Optional. Defaults are generated from the destination data. Keep titles ≤ 60 characters

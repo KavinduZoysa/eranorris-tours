@@ -14,9 +14,10 @@ import sharp from 'sharp';
 import site from '../site.config.mjs';
 import { DESTS } from '../src/data/destinations.mjs';
 import { EXPERIENCES, EXP_CATS } from '../src/data/experiences.mjs';
+import { GALLERIES, GALLERY_IMAGES } from '../src/data/galleries.mjs';
 import { homeBody } from '../src/templates/home.mjs';
 import { esc, layout } from '../src/templates/layout.mjs';
-import { notFoundPage, placePage, tourPage } from '../src/templates/pages.mjs';
+import { activityPage, notFoundPage, placePage, tourPage } from '../src/templates/pages.mjs';
 import { resolveTarget } from './lib/target.mjs';
 
 const ROOT = path.resolve(fileURLToPath(new URL('..', import.meta.url)));
@@ -102,7 +103,43 @@ for (const d of DESTS) {
   }
 }
 
-// Experience thumbnails (square, smart-cropped), only for experiences that have a photo.
+// Generic 3:2 responsive set (WebP + AVIF) cropped around a focal point. Sizes wider than
+// the source crop are skipped rather than upscaled (w480 is always made).
+const SET = [['w480', 480, 320], ['w640', 640, 427], ['w800', 800, 533], ['w1200', 1200, 800]];
+async function photoSet(src, dir, base, focus = [0.5, 0.5]) {
+  const st = await stat(src);
+  const meta = await sharp(src).metadata();
+  const crop = region(meta.width, meta.height, 1.5, focus);
+  const set = { keys: [] };
+  for (const [key, w, h] of SET) {
+    if (w > crop.width && key !== 'w480') continue;
+    for (const [fmt, q, suffix] of [['webp', 66, ''], ['avif', 48, 'Avif']]) {
+      const name = `${base}-${w}x${h}.${fmt}`;
+      const cacheFile = path.join(CACHE, `${hash(`${st.size}:${st.mtimeMs}:${w}x${h}:${fmt}:${q}:${focus}`)}-${name}`);
+      if (!existsSync(cacheFile)) {
+        const img = sharp(src).extract(crop).resize(w, h);
+        await (fmt === 'webp' ? img.webp({ quality: q, effort: 5 }) : img.avif({ quality: q, effort: 4 })).toFile(cacheFile);
+      }
+      await mkdir(path.join(DIST, dir), { recursive: true });
+      await copyFile(cacheFile, path.join(DIST, dir, name));
+      imgBytes += (await stat(cacheFile)).size;
+      set[key + suffix] = u(`/${dir}/${name}`);
+    }
+    set.keys.push([key, w]);
+  }
+  return set;
+}
+// Destination galleries (src/data/galleries.mjs): extra photos after each main photo.
+const galleryPhotos = {};
+for (const [name, g] of Object.entries(GALLERY_IMAGES)) {
+  const src = r('src', 'images', 'gallery', `${name}.jpg`);
+  if (!existsSync(src)) continue; // reported by the data checks below
+  galleryPhotos[name] = { ...(await photoSet(src, 'img/gallery', name, g.focus)), alt: g.alt, caption: g.caption };
+}
+for (const d of DESTS) photos[d.id].keys = SET.map(([k, w]) => [k, w]);
+
+// Experience photos: 3:2 cards for destination pages, square thumbnails for the map card.
+const expCardPhotos = {};
 const expPhotos = {};
 for (const name of new Set(EXPERIENCES.filter((e) => e.image && e.available !== false).map((e) => e.image))) {
   const src = r('src', 'images', 'experiences', `${name}.jpg`);
@@ -115,6 +152,7 @@ for (const name of new Set(EXPERIENCES.filter((e) => e.image && e.available !== 
   await mkdir(path.join(DIST, 'img/experiences'), { recursive: true });
   await copyFile(cacheFile, path.join(DIST, 'img/experiences', file));
   expPhotos[name] = u('/img/experiences/' + file);
+  expCardPhotos[name] = await photoSet(src, 'img/experiences', name);
 }
 
 // ---------------------------------------------------------------------------
@@ -183,6 +221,12 @@ const js = await esbuild.build({
 const jsBuf = Buffer.from(js.outputFiles[0].contents);
 const jsRel = `assets/app.${hash(jsBuf)}.js`;
 await out(jsRel, jsBuf);
+// Photo gallery enhancement for destination and experience pages (works without it too).
+const galJs = await esbuild.build({ entryPoints: [r('src/js/gallery.js')], bundle: true, minify: true, format: 'iife', target: ['es2020'], write: false });
+const galBuf = Buffer.from(galJs.outputFiles[0].contents);
+const galRel = `assets/gallery.${hash(galBuf)}.js`;
+await out(galRel, galBuf);
+const galleryScript = `<script src="${u('/' + galRel)}" defer></script>`;
 
 // ---------------------------------------------------------------------------
 // Content: optional Markdown with a small front-matter block.
@@ -219,6 +263,23 @@ function parseFrontMatter(src) {
   return { data, body: m[2] };
 }
 const unquote = (s) => s.replace(/^(['"])(.*)\1$/, '$2');
+// "## Frequently asked questions" (or "## FAQ") becomes the FAQ component: each "### …?"
+// heading is a question and the text under it the answer.
+function splitFaq(md) {
+  const m = md.match(/^##\s+(frequently asked questions|faqs?)\s*$/im);
+  if (!m) return { md, faq: [] };
+  const rest = md.slice(m.index + m[0].length);
+  const next = rest.search(/^##\s+/m);
+  const faqMd = next === -1 ? rest : rest.slice(0, next);
+  const faq = faqMd
+    .split(/^###\s+/m)
+    .slice(1)
+    .map((part) => {
+      const nl = part.indexOf('\n');
+      return { q: (nl === -1 ? part : part.slice(0, nl)).trim(), a: nl === -1 ? '' : part.slice(nl + 1).trim() };
+    });
+  return { md: md.slice(0, m.index) + (next === -1 ? '' : rest.slice(next)), faq };
+}
 async function readDir(dir) {
   const full = r('src', 'content', dir);
   if (!existsSync(full)) return [];
@@ -227,21 +288,43 @@ async function readDir(dir) {
   return Promise.all(
     files.map(async (f) => {
       const { data, body } = parseFrontMatter(await readFile(path.join(full, f), 'utf8'));
-      // HTML comments are writing notes: never sent to the browser.
-      const html = body.trim() ? marked.parse(body).replace(/<!--[\s\S]*?-->/g, '').trim() : '';
-      return { file: `src/content/${dir}/${f}`, slug: f.replace(/\.md$/, ''), ...data, html };
+      const file = `src/content/${dir}/${f}`;
+      const { md, faq } = splitFaq(body);
+      // `<!-- experiences -->` marks where the "Things to do" cards go; other HTML comments are
+      // writing notes and never reach the browser.
+      const [before, after = ''] = marked.parse(md).split(/<!--\s*experiences\s*-->/);
+      const clean = (h) => h.replace(/<!--[\s\S]*?-->/g, '').trim();
+      const item = (v, what) =>
+        [].concat(v || []).map((x) => {
+          const [a, ...rest] = String(x).split('|');
+          if (!rest.length) contentErrors.push(`${file}: ${what} entries need "… | …" (got "${x}").`);
+          return [a.trim(), rest.join('|').trim()];
+        });
+      return {
+        file,
+        slug: f.replace(/\.md$/, ''),
+        ...data,
+        html: clean(before),
+        htmlAfter: clean(after),
+        faq: faq.map(({ q, a }) => ({ q: marked.parseInline(q), a: marked.parse(a).trim(), text: q })),
+        combine: item(data.combine, 'combine').map(([id, note]) => ({ id, note })),
+        sources: item(data.sources, 'sources').map(([label, href]) => ({ label, href })),
+        verify: [].concat(data.verify || []),
+        gallery: [].concat(data.gallery || []),
+      };
     }),
   );
 }
+const contentErrors = [];
 const placeContent = Object.fromEntries((await readDir('places')).filter((c) => !c.slug.startsWith('_')).map((c) => [c.slug, c]));
 const tours = await readDir('tours');
+const activities = (await readDir('experiences')).filter((c) => !c.slug.startsWith('_'));
 
 // Publication rules. A page is published only when its file says `status: published`, it has
 // real content and no placeholders. Anything else stays a draft: in production a draft place
 // page shows only the design's short summary (noindex), and a draft tour is not built at all.
 // Draft content is visible only in staging/development previews.
-const contentErrors = [];
-const MIN_WORDS = { places: 200, tours: 120 };
+const MIN_WORDS = { places: 200, tours: 120, experiences: 120 };
 const PLACEHOLDER = /\[TODO|\bTODO\b|\bTBD\b|lorem ipsum/i;
 const DEST_IDS = new Set(DESTS.map((d) => d.id));
 const words = (html) =>
@@ -254,16 +337,40 @@ function isPublished(c, kind) {
   }
   if (status !== 'published') return false;
   if (c.slug.startsWith('_')) contentErrors.push(`${c.file}: files starting with "_" are templates or examples and cannot be published.`);
-  const n = words(c.html);
+  const n = words([c.html, c.htmlAfter, ...c.faq.map((x) => x.a)].join(' '));
   if (n < MIN_WORDS[kind])
     contentErrors.push(`${c.file}: marked published but has ${n} words of visible content (minimum ${MIN_WORDS[kind]}). Finish the page or set status: draft.`);
-  const fields = [c.html, c.title, c.description, c.h1, c.summary, c.duration, c.pickup, c.groupSize, c.price, ...[].concat(c.includes || [], c.excludes || [])];
+  // Owner sign-off: a review date and no open verification items.
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(c.reviewed || '')) contentErrors.push(`${c.file}: marked published but has no "reviewed: YYYY-MM-DD" (the date the owner checked it).`);
+  if (c.verify.length) contentErrors.push(`${c.file}: marked published but has ${c.verify.length} open "verify:" item(s). Resolve them (and remove the list) first.`);
+  const fields = [c.html, c.htmlAfter, ...c.faq.flatMap((x) => [x.q, x.a]), c.title, c.description, c.h1, c.intro, c.stay, c.gettingThere, c.bestTime, c.goodFor, c.summary, c.duration, c.pickup, c.groupSize, c.price, ...[].concat(c.includes || [], c.excludes || [])];
   if (fields.some((f) => typeof f === 'string' && PLACEHOLDER.test(f))) contentErrors.push(`${c.file}: marked published but still contains placeholder text ([TODO], TBD…).`);
   return true;
 }
+const EXP_IDS = new Set(EXPERIENCES.map((e) => e.id));
+// Structure shared by destination and experience guides.
+function checkGuide(c) {
+  for (const { id } of c.combine) if (!DEST_IDS.has(id)) contentErrors.push(`${c.file}: combine — unknown destination id "${id}".`);
+  for (const { href } of c.sources) if (!/^https:\/\/[^\s]+$/.test(href)) contentErrors.push(`${c.file}: sources — "${href}" must be a full https:// URL.`);
+  for (const name of c.gallery) if (!GALLERY_IMAGES[name]) contentErrors.push(`${c.file}: gallery — unknown image "${name}" (see src/data/galleries.mjs).`);
+  const qs = new Set();
+  for (const x of c.faq) {
+    if (!x.text.endsWith('?')) contentErrors.push(`${c.file}: FAQ question "${x.text}" should end with "?".`);
+    if (!x.a) contentErrors.push(`${c.file}: FAQ question "${x.text}" has no answer.`);
+    if (qs.has(x.text)) contentErrors.push(`${c.file}: FAQ question "${x.text}" appears twice.`);
+    qs.add(x.text);
+  }
+}
 for (const c of Object.values(placeContent)) {
   if (!DEST_IDS.has(c.slug)) contentErrors.push(`${c.file}: no destination with id "${c.slug}" in src/data/destinations.mjs.`);
+  checkGuide(c);
   c.published = isPublished(c, 'places');
+}
+for (const a of activities) {
+  if (!EXP_IDS.has(a.experience)) contentErrors.push(`${a.file}: "experience:" must be an id from src/data/experiences.mjs (got "${a.experience}").`);
+  for (const k of ['title', 'description']) if (!a[k]) contentErrors.push(`${a.file}: missing ${k}.`);
+  checkGuide(a);
+  a.published = isPublished(a, 'experiences');
 }
 for (const t of tours) {
   const missing = ['title', 'description'].filter((k) => !t[k]);
@@ -294,13 +401,48 @@ for (const t of tours) {
     }
   }
 }
-if (contentErrors.length) fail(contentErrors);
-// Production builds only contain published tours; previews show drafts and examples too.
+// Galleries (src/data/galleries.mjs)
+for (const [id, names] of Object.entries(GALLERIES)) {
+  if (!DEST_IDS.has(id)) contentErrors.push(`src/data/galleries.mjs: unknown destination id "${id}".`);
+  for (const n of names) if (!GALLERY_IMAGES[n]) contentErrors.push(`src/data/galleries.mjs → ${id}: unknown image "${n}".`);
+}
+for (const [n, g] of Object.entries(GALLERY_IMAGES)) {
+  if (!g.alt) contentErrors.push(`src/data/galleries.mjs → ${n}: alt text is required.`);
+  if (!existsSync(r('src', 'images', 'gallery', `${n}.jpg`))) contentErrors.push(`src/data/galleries.mjs → ${n}: src/images/gallery/${n}.jpg not found (run npm run prepare:images).`);
+}
+for (const e of EXPERIENCES)
+  for (const k of ['where', 'details']) if (e[k] != null && (typeof e[k] !== 'string' || !e[k].trim())) contentErrors.push(`src/data/experiences.mjs → ${e.id}: ${k} must be text, or left out.`);
+
+// Production builds only contain published tours and experience guides; previews show drafts too.
 const builtTours = tours.filter((t) => t.published || !PROD);
+const builtActivities = activities.filter((a) => a.published || !PROD);
+const expGuide = Object.fromEntries(builtActivities.filter((a) => EXP_IDS.has(a.experience)).map((a) => [a.experience, a.slug]));
+
+// Internal links in guide content must point at real pages; a published page may only link
+// to pages that are published too (drafts aren't built in production).
+const routes = new Map([['/', true]]);
+for (const d of DESTS) routes.set(`/places/${d.id}/`, true);
+for (const t of tours) if (!t.slug.startsWith('_')) routes.set(`/private-tours/${t.slug}/`, t.published);
+for (const a of activities) routes.set(`/experiences/${a.slug}/`, a.published);
+for (const c of [...Object.values(placeContent), ...activities, ...tours]) {
+  const html = [c.html, c.htmlAfter, ...c.faq.map((x) => x.a)].join(' ');
+  for (const [, href] of html.matchAll(/href="(\/[^"#?]*)/g)) {
+    if (!routes.has(href)) contentErrors.push(`${c.file}: link to ${href} — no such page.`);
+    else if (c.published && !routes.get(href)) contentErrors.push(`${c.file}: published page links to ${href}, which is not published yet.`);
+  }
+}
+if (contentErrors.length) fail(contentErrors);
+// Root-relative links in content follow the site's base path.
+const rebase = (h) => (base ? h.replace(/href="\//g, `href="${base}/`) : h);
+for (const c of [...Object.values(placeContent), ...activities]) {
+  c.html = rebase(c.html);
+  c.htmlAfter = rebase(c.htmlAfter);
+  c.faq.forEach((x) => (x.a = rebase(x.a)));
+}
 
 // ---------------------------------------------------------------------------
 // Pages
-const ctx = { site, u, abs, photos, expPhotos, fontPreloads, assets: {}, toursFor: (id) => builtTours.filter((t) => (t.places || []).includes(id)) };
+const ctx = { site, u, abs, photos, expPhotos, expCardPhotos, galleryPhotos, expGuide, fontPreloads, assets: {}, toursFor: (id) => builtTours.filter((t) => (t.places || []).includes(id)) };
 ctx.assets.ogDefault = { src: photos.sigiriya.og, alt: DESTS[0].alt };
 const sitemap = [];
 const report = [];
@@ -363,9 +505,10 @@ for (const d of DESTS) {
   const c = placeContent[d.id] || {};
   if (!c.published) drafts.push(d.id);
   // Draft text is shown only in previews; production draft pages use the design summary alone.
-  await emit(placePage(ctx, d, c.published || !PROD ? c : {}), { published: !!c.published });
+  await emit({ ...placePage(ctx, d, c.published || !PROD ? c : {}), scripts: galleryScript }, { published: !!c.published });
 }
 for (const t of builtTours) await emit(tourPage(ctx, t), { published: t.published });
+for (const a of builtActivities) await emit({ ...activityPage(ctx, a), scripts: galleryScript }, { published: a.published });
 await emit(notFoundPage(ctx));
 
 // ---------------------------------------------------------------------------
@@ -408,6 +551,8 @@ if (drafts.length)
     `\n  ${drafts.length} place pages are drafts (noindex, not in the sitemap) until src/content/places/<id>.md\n  exists with "status: published" and real content: ${drafts.join(', ')}`,
   );
 const tourDrafts = tours.filter((t) => !t.published && !t.slug.startsWith('_'));
+const actDrafts = activities.filter((a) => !a.published);
+if (actDrafts.length) console.log(`\n  Draft experience guides (${PROD ? 'not built in production' : 'preview only'}): ${actDrafts.map((a) => a.slug).join(', ')}`);
 if (tourDrafts.length) console.log(`\n  Draft tours (${PROD ? 'not built in production' : 'preview only'}): ${tourDrafts.map((t) => t.slug).join(', ')}`);
 if (unconfirmed.length) warnings.push(`Not yet confirmed in site.config.mjs: ${unconfirmed.join(', ')}. npm run check:release fails until confirmed.`);
 if (target.test) warnings.push('Test build (reserved test domain). It cannot pass npm run check:release or be deployed.');

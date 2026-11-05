@@ -11,7 +11,7 @@
     "build": "node scripts/build.mjs",
     "build:staging": "node scripts/build.mjs --env=staging",
     "dev": "node scripts/build.mjs --env=development && node scripts/serve.mjs",
-    "test": "node scripts/build.mjs --test && node scripts/check.mjs",
+    "test": "node scripts/build.mjs --env=staging && node scripts/check.mjs && node scripts/build.mjs --test && node scripts/check.mjs",
     "check": "node scripts/check.mjs",
     "check:release": "node scripts/check.mjs --release",
     "serve": "node scripts/serve.mjs",

@@ -7,7 +7,7 @@ Node build, a single deferred script for the interactive map and planner, and no
 ```bash
 npm ci
 npm run dev             # local preview at http://localhost:4173 (noindex, drafts visible)
-npm test                # production build on a reserved test domain + all checks
+npm test                # preview build (drafts shown) + checks, then production test build + checks
 npm run build:staging   # noindex everywhere, robots "Disallow: /", drafts visible
 SITE_URL=https://www.your-domain.com npm run build   # real production build
 npm run check:release   # launch gate: also fails on unconfirmed business details
@@ -110,7 +110,11 @@ src/images/experiences/      experience photos (from eranorrissrilanka.com); the
 src/geo/, src/fonts/         precomputed map geometry and self-hosted fonts
 scripts/                     build, check, local server, one-off asset preparation
 scripts/lib/target.mjs       build modes and production-domain validation
-docs/content-plan.md         priorities and requirements for the destination pages
+docs/content-guide.md        how guides are written, checked and published (start here)
+docs/research/               research and verification record per destination / experience
+docs/content-plan.md         original priorities for the first destination pages
+src/data/galleries.mjs       extra gallery photos per destination
+src/content/experiences/     standalone experience guides
 design/                      the original export and screenshots, kept for reference
 dist/                        build output (git-ignored) – deploy this folder
 ```
@@ -227,40 +231,61 @@ map it in `EXPERIENCE_PHOTO_SOURCES` and run `npm run prepare:images`.
 | Destination | Experiences |
 |---|---|
 | Kandy | the three you requested; names only, so durations and what's included still need confirming |
-| Hikkaduwa | the cinnamon experience, Rathgama Lagoon kayaking, moonstone mine, turtle hatchery and rescue centre, Tsunami Museum, spice garden, Madu River safari (all from your villa site), plus sea turtles in the wild (design text) |
+| Hikkaduwa | the cinnamon experience, Rathgama Lagoon kayaking, moonstone mine, turtle hatchery and rescue centre, Tsunami Museum, spice garden (all from your villa site), plus sea turtles in the wild (design text) |
+| Bentota | river safari and mask museum (the design text's Bentota river safari combined with your villa site's Madu River tour, moved here from Hikkaduwa), plus water sports (design text) |
 | Galle, Mirissa, Yala | from your villa site's tours |
-| Sigiriya, Polonnaruwa, Nuwara Eliya, Ella, Adam's Peak, Bentota, Arugam Bay | only activities the design text already names |
+| Sigiriya, Polonnaruwa, Nuwara Eliya, Ella, Adam's Peak, Arugam Bay | only activities the design text already names |
 | Dambulla, Anuradhapura, Udawalawe, Trincomalee | none yet: their design text describes places rather than activities, so the section is simply hidden |
 
 Each entry's `source` field shows where it came from. No prices are shown.
 
-## Destination and tour pages (SEO landing pages)
+## Destination guides, experience guides and tours
 
-Every destination has a page at `/places/<id>/`, for example `/places/sigiriya/`. Each page
-has a photo, the design's description, an estimated drive time from the airport, nearby
-places and "Add to your trip" links (`/#add=<id>` opens the planner with that stop).
+**Destination guides** (`/places/<id>/`) exist for all 16 places. Each page has:
+- breadcrumbs and a photo gallery
+- the at-a-glance facts
+- the guide itself: overview, sights, practical advice, length of stay, best time, getting
+  there, and an FAQ
+- the "Things to do" cards (selectable on the map)
+- official links
+- "Plan a private tour with …" with planner deep links (`/#add=<id>`, `/#place=<id>`)
+- related tours
+- "Nearby places to combine", chosen for real routes, with qualified times
 
-They are **drafts** (`noindex`, not in the sitemap) until you publish them, because one
-sentence per place would be thin, duplicated content. See **`docs/content-plan.md`** for the
-first five pages to write (Sigiriya, Galle, Hikkaduwa, Ella, Kandy). It covers the search
-intent, sections, internal links and the business information each page needs. Draft
-scaffolds for those five already exist in `src/content/places/`.
+The guide text lives in `src/content/places/<id>.md`. Each one was researched online; the
+sources, verified facts and open questions are in `docs/research/<id>.md`.
+**`docs/content-guide.md`** explains the format and the writing standard, with Kandy as the
+reference.
 
-**Publication rules** (enforced by the build):
-- A page is published only with `status: published`. Valid values are `draft` and
-  `published`.
-- A published page needs at least 200 words (tours: 120) of visible content, and no
-  `[TODO]` or `TBD` left.
-- Draft text is shown only in staging and development previews. In production a draft
-  place page shows the design summary alone, and a draft tour is not built at all.
-- HTML comments in content files are writing notes and never reach the browser.
+**Experience guides** (`/experiences/<slug>/`) are kept for activities with their own search
+intent and enough to say: so far the Temple of the Sacred Tooth Relic and Mirissa whale
+watching. They live in `src/content/experiences/<slug>.md` and link back to their
+destination. The "Choose it on the map" button (`/#exp=<experience id>`) opens the planner
+with that experience in view.
 
-Tour pages come from `src/content/tours/<slug>.md` at `/private-tours/<slug>/`.
-`_example-sigiriya-private-tour.md` documents every field. Only the fields you fill in are
-shown and added to the `TouristTrip` structured data. Prices appear in structured data only
-when both `priceAmount` and `priceCurrency` are set. Each published tour is linked
-automatically from the destination pages it visits ("Private tours that include …").
-Preview the example with `INCLUDE_EXAMPLES=1 npm run dev`.
+**Galleries:** `src/data/galleries.mjs` maps each destination to extra photos after its main
+photo. Only the business's own photos are used, and only where the subject and place are
+identifiable. Places with one photo show no controls. The gallery is a swipeable strip with
+previous/next buttons, a counter, dots and arrow keys (`src/js/gallery.js`, about 1 KB), and
+it works without JavaScript. Gaps and the photos to confirm are in `docs/research/photos.md`.
+
+**Publishing rules.** Every guide is a **draft** until the owner signs it off. Drafts are
+`noindex`, out of the sitemap, and their text appears only in staging/development previews.
+In production a draft destination page shows just the design summary, photos, experiences
+and planner links, and draft experience guides and tours aren't built. To publish, the build
+requires:
+- `status: published`
+- a `reviewed:` date
+- no remaining `verify:` items
+- no `[TODO]`/`TBD`
+- at least 200 words (120 for experience guides and tours)
+- internal links that point at real, published pages
+
+Preview with `npm run build:staging && npm run serve`.
+
+**Tours** (`/private-tours/<slug>/`) come from `src/content/tours/<slug>.md`, documented in
+`_example-sigiriya-private-tour.md`. Only fields you fill in are shown or added to the
+`TouristTrip` structured data. Published tours are linked from the destinations they visit.
 
 ## SEO implementation
 
@@ -288,8 +313,12 @@ Preview the example with `INCLUDE_EXAMPLES=1 npm run dev`.
 - The map deep link uses a fragment (`/#add=galle`), not a query string, so the homepage keeps
   a single URL.
 - `npm run check` fails on:
-  - duplicate titles or descriptions, a page without exactly one `<h1>`, or a missing robots
-    meta tag
+  - duplicate titles or descriptions, a page without exactly one `<h1>`, a missing robots
+    meta tag, or duplicate element ids
+  - galleries without alt text, with controls that don't match the photos, or with the
+    wrong loading priority; FAQs with empty or repeated questions
+  - destination pages missing "Plan a private tour with …", "Nearby places to combine" or
+    the planner link for that destination; any `[TODO]`/`TBD` in a page
   - canonical, `og:url`, sitemap or robots disagreements; an indexable page missing from the
     sitemap, or a `noindex` page in it
   - any canonical, Open Graph or JSON-LD URL that isn't on the preferred origin and base
