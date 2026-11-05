@@ -12,7 +12,7 @@ const PORT = Number(process.env.PORT || 4173);
 const TYPES = {
   '.html': 'text/html; charset=utf-8', '.js': 'text/javascript; charset=utf-8', '.css': 'text/css; charset=utf-8',
   '.json': 'application/json', '.xml': 'application/xml', '.txt': 'text/plain; charset=utf-8', '.svg': 'image/svg+xml',
-  '.png': 'image/png', '.jpg': 'image/jpeg', '.webp': 'image/webp', '.woff2': 'font/woff2',
+  '.png': 'image/png', '.jpg': 'image/jpeg', '.webp': 'image/webp', '.avif': 'image/avif', '.woff2': 'font/woff2',
 };
 
 createServer((req, res) => {
@@ -31,4 +31,10 @@ createServer((req, res) => {
   res.writeHead(ok ? 200 : 404, { 'Content-Type': type, ...(gzip && { 'Content-Encoding': 'gzip', Vary: 'Accept-Encoding' }) });
   const stream = createReadStream(file);
   (gzip ? stream.pipe(createGzip()) : stream).pipe(res);
-}).listen(PORT, () => console.log(`Serving dist/ at http://localhost:${PORT}`));
+})
+  .on('error', (e) => {
+    if (e.code !== 'EADDRINUSE') throw e;
+    console.error(`Port ${PORT} is already in use (another preview server may still be running).\nStop it, or pick another port: PORT=4174 npm run serve`);
+    process.exit(1);
+  })
+  .listen(PORT, () => console.log(`Serving dist/ at http://localhost:${PORT}`));
