@@ -2,7 +2,8 @@
 // except where commented (photos, accessibility, deep links, real request hand-off).
 import L from 'leaflet';
 import { CATS, DESTS, PICKUPS, VEHICLES, SHUTTLE_FARES, SHUTTLE_TIMING, hav, legInfo, fmtDur, nightsTxt } from '../data/destinations.mjs';
-import { EXPERIENCES, EXP_CATS, experiencesFor } from '../data/experiences.mjs';
+import { EXPERIENCES, EXP_CATS, EXP_KINDS, experiencesFor } from '../data/experiences.mjs';
+import { initMenu } from './menu.js';
 
 // Injected at build time (scripts/build.mjs): brand, contact channels, asset URLs.
 const SITE = __SITE__;
@@ -50,6 +51,8 @@ function dateAt(off) {
   return d;
 }
 const fmtD = (d) => d.toLocaleDateString('en-GB', { weekday: 'short', day: 'numeric', month: 'short' });
+// A stop's day numbers, used when no start date has been chosen (a quote doesn't need one).
+const dayTxt = (r) => (r.s.nights ? `Day ${r.arrive + 1}–${r.depart + 1}` : `Day ${r.arrive + 1}`);
 const fmtDs = (d) => d.toLocaleDateString('en-GB', { day: 'numeric', month: 'short' });
 function pickupPt() {
   if (!S.pickup) return null;
@@ -134,7 +137,7 @@ const map = L.map('map', {
   ],
   maxBoundsViscosity: 0.8,
 });
-L.control.zoom({ position: 'bottomright' }).addTo(map);
+const zoomCtl = L.control.zoom({ position: 'bottomright' }).addTo(map);
 // Added: wording follows the input device ("Tap" on touch screens).
 const TAP = coarse ? 'Tap' : 'Click';
 // Added: short hint when a one-finger swipe on the map scrolls the page instead of panning it.
@@ -315,8 +318,13 @@ function padT() {
     m = mapwrap.getBoundingClientRect();
   return Math.max(30, o.bottom - m.top + 12);
 }
-let userMoved = false;
+// How the current view came about. 'overview': the whole island, refitted when the layout
+// changes. 'auto': the app panned to show a place; closing its card puts the overview back.
+// 'route': zoomed to the airport transfer route; changing or clearing the place (or switching
+// mode) puts the overview back. 'user': the visitor panned or zoomed, so the app leaves it.
+let view = 'overview';
 function fit() {
+  view = 'overview';
   map.invalidateSize({ pan: false });
   if (!map.getSize().x) {
     if (!map._loaded) map.setView([7.85, 80.75], 7.5);
@@ -333,24 +341,35 @@ function fit() {
   );
 }
 fit();
-map.on('dragstart', () => (userMoved = true));
-map.getContainer().addEventListener('wheel', () => (userMoved = true), { passive: true });
+const userView = () => (view = 'user');
+map.on('dragstart', userView);
+map.getContainer().addEventListener('wheel', userView, { passive: true });
+map.getContainer().addEventListener('touchstart', (e) => e.touches.length > 1 && userView(), { passive: true });
+map.getContainer().addEventListener('keydown', (e) => /^(Arrow|\+$|-$|=$)/.test(e.key) && userView());
+zoomCtl.getContainer().addEventListener('click', userView, true); // capture: Leaflet stops the buttons' clicks
 map.whenReady(() =>
   map.on('zoomstart', (e) => {
-    if (e && e.originalEvent) userMoved = true;
+    if (e && e.originalEvent) userView();
   }),
 );
 new ResizeObserver(() => {
   map.invalidateSize({ pan: false });
-  if (!userMoved && !active) fit();
+  if (view === 'overview') fit();
 }).observe(mapwrap);
 map.on('zoomend', () => mapwrap.classList.toggle('far', map.getZoom() < 7));
 mapwrap.classList.toggle('far', map.getZoom() < 7);
-function flyTo(ll, z) {
-  z = Math.max(map.getZoom(), z);
-  const pt = map.project(ll, z).subtract([padL() / 2, stacked() ? -padT() / 2 : 0]);
-  if (reduceMotion()) map.setView(map.unproject(pt, z), z, { animate: false });
-  else map.flyTo(map.unproject(pt, z), z, { duration: 0.8 });
+// Changed: showing a place no longer zooms in, so the rest of the island stays in view and
+// other places are easy to pick. The map only pans if the marker would be hidden behind the
+// card or the planner overlay.
+function reveal(ll) {
+  // On phones the card covers nearly all of the map; panning then would only shift the island.
+  if (stacked() && mapwrap.clientHeight - padT() - card.offsetHeight < 80) return;
+  if (view === 'overview') view = 'auto';
+  map.panInside(ll, {
+    animate: !reduceMotion(),
+    paddingTopLeft: [stacked() ? 20 : padL() + 40, stacked() ? padT() + 10 : 40],
+    paddingBottomRight: [40, stacked() ? card.offsetHeight + 30 : 40],
+  });
 }
 
 const markers = {};
@@ -364,7 +383,7 @@ DESTS.forEach((d) => {
   const m = L.marker([d.lat, d.lng], { icon, keyboard: true, title: d.name, riseOnHover: true }).addTo(map);
   // Changed: while dropping a pin, tapping a place puts the pin there (it used to do nothing,
   // which on phones made large parts of the map untappable in pin mode).
-  m.on('click', () => (picking ? map.fire('click', { latlng: L.latLng(d.lat, d.lng) }) : openDest(d.id, false)));
+  m.on('click', () => (picking ? map.fire('click', { latlng: L.latLng(d.lat, d.lng) }) : openDest(d.id)));
   // Added: markers are focusable (Leaflet) — make them announce properly and open with Enter/Space.
   const el = m.getElement();
   el.setAttribute('aria-label', `${d.name}, ${CATS[d.cat].label}: ${d.hl}`);
@@ -372,7 +391,7 @@ DESTS.forEach((d) => {
     if (e.key !== 'Enter' && e.key !== ' ') return;
     e.preventDefault();
     e.stopPropagation();
-    openDest(d.id, false, { focus: true });
+    openDest(d.id, { focus: true });
   });
   markers[d.id] = m;
 });
@@ -786,26 +805,19 @@ function pickResult(d, viaKeyboard) {
   q.value = '';
   hideList(q, resEl);
   q.blur();
-  openDest(d.id, true, { focus: viaKeyboard });
+  openDest(d.id, { focus: viaKeyboard });
 }
 
 /* destination card */
 const card = $('#dcard');
 // opts.focus (added): move keyboard focus into the card, for keyboard and search users.
-function openDest(id, fly, opts = {}) {
+function openDest(id, opts = {}) {
   if (picking) return;
   if (opts.focus) cardReturn = document.activeElement;
   active = id;
-  userMoved = true;
   renderPins();
   renderCard();
-  const d = D[id];
-  if (fly) flyTo([d.lat, d.lng], 8.5);
-  else
-    map.panInside([d.lat, d.lng], {
-      paddingTopLeft: [stacked() ? 20 : padL() + 40, stacked() ? padT() + 10 : 40],
-      paddingBottomRight: [40, stacked() ? card.offsetHeight + 30 : 40],
-    });
+  reveal([D[id].lat, D[id].lng]);
   if (opts.focus) {
     const t = ['[data-act="add"]', '[data-act="remove"]', '[data-act="sethotel"]', '.dc-x'].map((x) => card.querySelector(x)).find(Boolean);
     t.focus();
@@ -820,6 +832,8 @@ function closeCard() {
   renderPins();
   if (hadFocus && cardReturn && document.contains(cardReturn)) cardReturn.focus();
   cardReturn = null;
+  // Back to the whole island if the app had moved the map to show this place.
+  if (view === 'auto') fit();
 }
 function renderCard() {
   const d = D[active];
@@ -842,16 +856,18 @@ function renderCard() {
 // The card's "Things to do" list stays open for the next place once a visitor has opened it.
 let expOpen = false;
 const expsAt = (id) => S.exps.filter((x) => X[x].destinationId === id);
-const expMeta = (e) => [EXP_CATS[e.category], e.duration, e.price].filter(Boolean).map(esc).join(' · ');
+const expMeta = (e) => [EXP_KINDS[e.kind], EXP_CATS[e.category], e.duration, e.price].filter(Boolean).map(esc).join(' · ');
+// Excursions say where they are: they need extra travel.
+const expExtra = (e) => (e.kind === 'excursion' && e.where ? `<span class="exp-w">${esc(e.where)}</span>` : '');
 function expBlock(d) {
   const xs = experiencesFor(d.id);
   if (!xs.length) return '';
   const item = (e) => {
     const th = e.image && SITE.assets.expPhotos[e.image];
-    return `<li><label class="exp${th ? ' has-th' : ''}"><input type="checkbox" value="${e.id}" aria-labelledby="xn-${e.id}" aria-describedby="xd-${e.id}"${S.exps.includes(e.id) ? ' checked' : ''}><span class="exp-ck" aria-hidden="true"></span>${th ? `<img src="${th}" alt="" width="40" height="40" loading="lazy" decoding="async">` : ''}<span class="exp-b"><span class="exp-n" id="xn-${e.id}">${esc(e.name)}${e.featured ? ' <span class="exp-f">Featured</span>' : ''}</span><span class="exp-m">${expMeta(e)}</span><span class="exp-d" id="xd-${e.id}">${esc(e.shortDescription)}</span></span></label></li>`;
+    return `<li><label class="exp${th ? ' has-th' : ''}"><input type="checkbox" value="${e.id}" aria-labelledby="xn-${e.id}" aria-describedby="xd-${e.id}"${S.exps.includes(e.id) ? ' checked' : ''}><span class="exp-ck" aria-hidden="true"></span>${th ? `<img src="${th}" alt="" width="40" height="40" loading="lazy" decoding="async">` : ''}<span class="exp-b"><span class="exp-n" id="xn-${e.id}">${esc(e.name)}${e.featured ? ' <span class="exp-f">Featured</span>' : ''}</span><span class="exp-m">${expMeta(e)}</span>${expExtra(e)}<span class="exp-d" id="xd-${e.id}">${esc(e.shortDescription)}</span></span></label></li>`;
   };
   return `<div class="dc-exp" id="dcExp"><button type="button" class="dc-exp-t" data-act="exp" aria-expanded="${expOpen}" aria-controls="dcExpList"><span>Things to do in ${esc(d.name)} <span class="n">${xs.length}</span></span><span class="sel" id="dcExpSel"></span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"></path></svg></button>
- <div id="dcExpList"${expOpen ? '' : ' hidden'}><ul class="exp-list" aria-label="Things to do in ${esc(d.name)}">${xs.map(item).join('')}</ul><p class="exp-note">Ticked experiences are added to your quote request. Choosing one isn’t a booking, and it doesn’t change your route.</p></div></div>`;
+ <div id="dcExpList"${expOpen ? '' : ' hidden'}><ul class="exp-list" aria-label="Things to do in ${esc(d.name)}">${xs.map(item).join('')}</ul><p class="exp-note">Ticked experiences are added to your quote request. Choosing one isn’t a booking or part of a tour unless we confirm it, and it doesn’t change your route.</p></div></div>`;
 }
 function toggleExp(id, on) {
   if (on === S.exps.includes(id)) return;
@@ -949,7 +965,7 @@ card.addEventListener('click', (e) => {
     const list = DESTS.filter((d) => filter === 'all' || d.cat === filter);
     let i = list.findIndex((d) => d.id === active);
     i = (i + (act === 'next' ? 1 : -1) + list.length) % list.length;
-    openDest(list[i].id, true);
+    openDest(list[i].id);
   }
   // Added: the card re-renders its buttons; keep keyboard focus on the equivalent control.
   if (act !== 'close' && !card.hidden && !card.contains(document.activeElement)) {
@@ -1033,6 +1049,7 @@ $('#clearBtn').onclick = () => {
     Object.assign(S.sh, { place: null, arrDate: '', arrTime: '', depDate: '', depTime: '' });
     syncShInputs();
     update();
+    fit(); // back to the whole island
     toast('Transfer cleared');
     return;
   }
@@ -1063,9 +1080,7 @@ function renderStops() {
       ? r.s.nights
         ? `${fmtDs(dateAt(r.arrive))} – ${fmtDs(dateAt(r.depart))}`
         : fmtD(dateAt(r.arrive))
-      : r.s.nights
-        ? `Day ${r.arrive + 1}–${r.depart + 1}`
-        : `Day ${r.arrive + 1}`;
+      : dayTxt(r);
     h += `<li class="stop"><span class="num">${r.i + 1}</span><div><button class="s-name" data-open="${r.d.id}">${r.d.name}</button><div class="s-sub">${when}</div></div>
   <div class="stepper wide"><button data-n="${r.d.id}" data-d="-1" ${r.s.nights <= 0 ? 'disabled' : ''} aria-label="Fewer nights in ${esc(r.d.name)}">−</button><span>${r.s.nights}<small>${r.s.nights === 1 ? 'night' : 'nights'}</small></span><button data-n="${r.d.id}" data-d="1" ${r.s.nights >= 14 ? 'disabled' : ''} aria-label="More nights in ${esc(r.d.name)}">+</button></div>
   <button class="rm" data-rm="${r.d.id}" aria-label="Remove ${esc(r.d.name)}">×</button>${expListHtml(r.d.id)}</li>`;
@@ -1096,7 +1111,7 @@ function expOutsideHtml() {
 $('#stops').addEventListener('click', (e) => {
   const t = e.target.closest('button');
   if (!t) return;
-  if (t.dataset.open) openDest(t.dataset.open, true);
+  if (t.dataset.open) openDest(t.dataset.open);
   else if (t.dataset.rm) removeStop(t.dataset.rm);
   else if (t.dataset.addstop) addStop(t.dataset.addstop);
   else if (t.dataset.rmx) {
@@ -1237,8 +1252,8 @@ function renderDate() {
   const el = $('#dateInfo');
   if (!S.start) {
     el.innerHTML = S.stops.length
-      ? `Your route is <b>${p.nights + 1} days, ${p.nights} ${p.nights === 1 ? 'night' : 'nights'}</b>. Pick a start date to see dates for each stop.`
-      : 'Pick the day we collect you. Dates for each stop are worked out from here.';
+      ? `Your route is <b>${p.nights + 1} days, ${p.nights} ${p.nights === 1 ? 'night' : 'nights'}</b>. Pick a start date to see dates for each stop, or leave it for now: you can request a quote without one.`
+      : 'Pick the day we collect you and we’ll work out the dates for each stop, or leave it: you can ask for a quote without dates.';
     return;
   }
   el.innerHTML = S.stops.length
@@ -1296,12 +1311,11 @@ function renderSummary() {
   const miss = [];
   if (!n) miss.push('a destination');
   if (!S.pickup) miss.push('a pickup location');
-  if (!S.start) miss.push('a start date');
   const btn = $('#quoteBtn');
   btn.disabled = !!miss.length;
   $('#ctaHint').innerHTML = miss.length
     ? `Add ${miss.length > 1 ? miss.slice(0, -1).join(', ') + ' and ' + miss.at(-1) : miss[0]} to request a quote.`
-    : `<b>${p.nights + 1} days</b> · ${n} ${n === 1 ? 'stop' : 'stops'} · ${pax()} ${pax() === 1 ? 'traveller' : 'travellers'} · ${VEHICLES.find((v) => v.id === vehicleId()).name}`;
+    : `<b>${p.nights + 1} days</b>${S.start ? '' : ', dates flexible'} · ${n} ${n === 1 ? 'stop' : 'stops'} · ${pax()} ${pax() === 1 ? 'traveller' : 'travellers'} · ${VEHICLES.find((v) => v.id === vehicleId()).name}`;
 }
 $('#tripPill').onclick = () => window.scrollTo({ top: $('#panel').offsetTop - 60, behavior: reduceMotion() ? 'auto' : 'smooth' });
 
@@ -1350,8 +1364,8 @@ function openQuote() {
   const v = VEHICLES.find((x) => x.id === vehicleId());
   showModal(`<div class="modal" role="dialog" aria-modal="true" aria-labelledby="mTitle">
  <div class="m-sum"><p class="eyebrow">Your trip</p><h3>${p.nights + 1} days in Sri Lanka</h3>
-  <ol class="m-stops">${p.rows.map((r) => `<li><span class="n">${String(r.i + 1).padStart(2, '0')}</span><span class="nm">${r.d.name}</span><span class="dt">${r.s.nights ? `${fmtDs(dateAt(r.arrive))}–${fmtDs(dateAt(r.depart))}` : fmtDs(dateAt(r.arrive))}</span>${mExp(r.d.id)}</li>`).join('')}</ol>${mAlso()}
-  <dl class="m-facts"><div><dt>Pickup</dt><dd>${esc(pickupLabel())}</dd></div><div><dt>Dates</dt><dd>${fmtDs(dateAt(0))} – ${fmtDs(dateAt(p.nights))}</dd></div><div><dt>Travellers</dt><dd>${S.adults} ${S.adults === 1 ? 'adult' : 'adults'}${S.children ? `, ${S.children} ${S.children === 1 ? 'child' : 'children'}` : ''}</dd></div><div><dt>Vehicle</dt><dd>${v.name}</dd></div><div><dt>Driving (est.)</dt><dd>~${fmtDur(p.drive)} · ${p.km} km</dd></div></dl></div>
+  <ol class="m-stops">${p.rows.map((r) => `<li><span class="n">${String(r.i + 1).padStart(2, '0')}</span><span class="nm">${r.d.name}</span><span class="dt">${!S.start ? dayTxt(r) : r.s.nights ? `${fmtDs(dateAt(r.arrive))}–${fmtDs(dateAt(r.depart))}` : fmtDs(dateAt(r.arrive))}</span>${mExp(r.d.id)}</li>`).join('')}</ol>${mAlso()}
+  <dl class="m-facts"><div><dt>Pickup</dt><dd>${esc(pickupLabel())}</dd></div><div><dt>Dates</dt><dd>${S.start ? `${fmtDs(dateAt(0))} – ${fmtDs(dateAt(p.nights))}` : 'Flexible, not chosen yet'}</dd></div><div><dt>Travellers</dt><dd>${S.adults} ${S.adults === 1 ? 'adult' : 'adults'}${S.children ? `, ${S.children} ${S.children === 1 ? 'child' : 'children'}` : ''}</dd></div><div><dt>Vehicle</dt><dd>${v.name}</dd></div><div><dt>Driving (est.)</dt><dd>~${fmtDur(p.drive)} · ${p.km} km</dd></div></dl></div>
  <form class="m-form" id="qform" novalidate><button type="button" class="m-close" data-close aria-label="Close">×</button>
   <h2 id="mTitle">Request a quote</h2><p>${SITE.quoteEndpoint ? 'Send this route to our travel planners.' : 'Add your details, then send this route to us on WhatsApp or by email.'} We’ll reply with a price and any suggested changes.</p>
   <div class="f2"><label class="fl" data-f="name"><span>Full name</span><div class="field"><input name="name" autocomplete="name" aria-required="true"></div></label>
@@ -1385,11 +1399,8 @@ function requestText(sh, ref, f) {
       title = DIRS[S.sh.dir].title;
     out.push(`Hello ${SITE.name}, I’d like to book an airport transfer (ref ${ref}).`, '');
     out.push(`${title} · ${v.name} · $${shTotal()} fixed price per vehicle`);
-    if (needArr()) out.push(`Arrival: CMB Airport → ${shLabel()} · flight lands ${fmtLong(dOf(S.sh.arrDate, 0))} at ${S.sh.arrTime}`);
-    if (needDep())
-      out.push(
-        `Departure: ${shLabel()} → CMB Airport · flight leaves ${fmtLong(dOf(S.sh.depDate, 0))} at ${S.sh.depTime} · estimated pickup ${t.pickup}${t.pickupPrev ? ' the day before' : ''}`,
-      );
+    if (needArr()) out.push(`Arrival: CMB Airport → ${shLabel()} · ${flightTxt('arr', t)}`);
+    if (needDep()) out.push(`Departure: ${shLabel()} → CMB Airport · ${flightTxt('dep', t)}`);
     if (S.sh.place.id === 'pin') out.push(`Hotel location: ${mapsLink(S.sh.place)}`);
   } else {
     const p = plan();
@@ -1397,7 +1408,7 @@ function requestText(sh, ref, f) {
     out.push(`Route: ${p.nights + 1} days, ${p.nights} ${p.nights === 1 ? 'night' : 'nights'} · about ${fmtDur(p.drive)} driving, ${p.km} km (estimate)`);
     p.rows.forEach((r) => {
       out.push(
-        `${r.i + 1}. ${r.d.name} — ${nightsTxt(r.s.nights)} (${r.s.nights ? `${fmtDs(dateAt(r.arrive))} – ${fmtDs(dateAt(r.depart))}` : fmtDs(dateAt(r.arrive))})`,
+        `${r.i + 1}. ${r.d.name} — ${nightsTxt(r.s.nights)} (${!S.start ? dayTxt(r) : r.s.nights ? `${fmtDs(dateAt(r.arrive))} – ${fmtDs(dateAt(r.depart))}` : fmtDs(dateAt(r.arrive))})`,
       );
       expsAt(r.d.id).forEach((x) => out.push(`   • ${X[x].name}`)); // added: chosen experiences
     });
@@ -1410,7 +1421,7 @@ function requestText(sh, ref, f) {
       });
     }
     out.push(`Pickup and drop-off: ${pickupLabel()}${S.pickup.id === 'pin' ? ' ' + mapsLink(S.pickup) : ''}`);
-    out.push(`Start date: ${fmtLong(dateAt(0))}`, `Vehicle: ${v.name}`, `Hotels: ${hotel}`);
+    out.push(`Start date: ${S.start ? fmtLong(dateAt(0)) : 'flexible, not chosen yet'}`, `Vehicle: ${v.name}`, `Hotels: ${hotel}`);
   }
   out.push(`Travellers: ${travTxt()}`, '', `Name: ${f.name}`, `Email: ${f.email}`);
   if (f.phone) out.push(`Phone: ${f.phone}`);
@@ -1637,12 +1648,32 @@ function shErr() {
     return 'Your departure flight must be after your arrival flight.';
   return '';
 }
+// Only the place is needed to request a transfer; flight details can follow later.
 function shMissing() {
-  const m = [];
-  if (!S.sh.place) m.push('where you’re staying');
-  if (needArr() && !(S.sh.arrDate && S.sh.arrTime)) m.push('your arrival flight time');
-  if (needDep() && !(S.sh.depDate && S.sh.depTime)) m.push('your departure flight time');
-  return m;
+  return S.sh.place ? [] : ['where you’re staying'];
+}
+const flightsOpen = () => (needArr() && !(S.sh.arrDate && S.sh.arrTime)) || (needDep() && !(S.sh.depDate && S.sh.depTime));
+// A flight in the request message: whatever is known, and what will follow.
+function flightTxt(dir, t) {
+  const [d, tm] = dir === 'arr' ? [S.sh.arrDate, S.sh.arrTime] : [S.sh.depDate, S.sh.depTime];
+  const verb = dir === 'arr' ? 'lands' : 'leaves';
+  const pickup = dir === 'dep' && tm ? ` · estimated pickup ${t.pickup}${t.pickupPrev ? ' the day before' : ''}` : '';
+  if (d && tm) return `flight ${verb} ${fmtLong(dOf(d, 0))} at ${tm}${pickup}`;
+  if (d) return `flight ${verb} ${fmtLong(dOf(d, 0))}, time to follow`;
+  if (tm) return `flight ${verb} at ${tm}, date to follow${pickup}`;
+  return 'flight details to follow';
+}
+// The same, short, for the request summary.
+function flightShort(dir, t) {
+  const [d, tm] = dir === 'arr' ? [S.sh.arrDate, S.sh.arrTime] : [S.sh.depDate, S.sh.depTime];
+  if (dir === 'arr') {
+    if (d && tm) return `${fmtDs(dOf(d, 0))} · lands ${tm}`;
+    if (d) return `${fmtDs(dOf(d, 0))} · time to follow`;
+    return tm ? `Lands ${tm} · date to follow` : 'Flight details to follow';
+  }
+  if (d && tm) return `${fmtDs(dOf(d, t.pickupPrev ? -1 : 0))} · estimated pickup ${t.pickup}`;
+  if (d) return `Flight ${fmtDs(dOf(d, 0))} · time to follow`;
+  return tm ? `Estimated pickup ${t.pickup}${t.pickupPrev ? ' the day before' : ''} · date to follow` : 'Flight details to follow';
 }
 
 const ovEb = $('.overlay .eyebrow'),
@@ -1661,6 +1692,7 @@ function setMode(m) {
   if (picking) stopPin();
   S.mode = m;
   update();
+  if (view === 'auto' || view === 'route') fit(); // e.g. don't carry a zoomed transfer route into the tour planner
 }
 $('#modes').addEventListener('click', (e) => {
   const b = e.target.closest('[data-mode]');
@@ -1738,6 +1770,7 @@ $('#shChosen').addEventListener('click', (e) => {
   if (e.target.closest('[data-shchange]')) {
     S.sh.place = null;
     update();
+    fit(); // the map had zoomed to the old transfer route
     setTimeout(() => shIn.focus(), 0);
   }
 });
@@ -1748,7 +1781,6 @@ function setShPlace(p) {
   hideList(shIn, shList);
   update();
   const pt = shPt();
-  userMoved = true;
   map.fitBounds(
     L.latLngBounds([
       [AIR.lat, AIR.lng],
@@ -1760,6 +1792,7 @@ function setShPlace(p) {
       maxZoom: 10,
     },
   );
+  view = 'route';
   toast('Hotel location set · ' + shLabel());
 }
 $('#shDir').addEventListener('click', (e) => {
@@ -1815,12 +1848,12 @@ function renderShuttle() {
   $('#shArr').hidden = !needArr();
   $('#shDep').hidden = !needDep();
   $('#shArrInfo').innerHTML = !S.sh.arrTime
-    ? 'Local time. Your driver waits for you in the arrivals hall.'
+    ? 'Local time, if you know it; you can also send it later. Your driver waits for you in the arrivals hall.'
     : !l
       ? 'Add where you’re staying to see your drop-off time.'
       : `Your driver waits in arrivals. You’ll reach ${lbl} around <b>${t.hotelAt}${t.hotelNext ? ' the next day' : ''}</b>, allowing ${SHUTTLE_TIMING.arrivalBufferMin} min for immigration and bags (estimate).`;
   $('#shDepInfo').innerHTML = !S.sh.depTime
-    ? 'Local time. We’ll work out when to collect you.'
+    ? 'Local time, if you know it; you can also send it later. We’ll work out when to collect you.'
     : !l
       ? 'Add where you’re staying to see your pickup time.'
       : `Estimated pickup from ${lbl} at <b>${t.pickup}${t.pickupPrev ? ' the day before' : ''}</b>, aiming to reach the airport ${SHUTTLE_TIMING.departureBufferMin / 60} hours before your flight.`;
@@ -1847,7 +1880,14 @@ function renderShSummary() {
   $('#ctaHint').innerHTML =
     (total
       ? `<span class="cta-price"><b>$${total}</b><span>${DIRS[s.dir].title} · ${v.name}<br>Fixed price per vehicle</span></span>`
-      : '') + (miss.length ? `<span>Add ${andList(miss)} to request a transfer.</span>` : err ? `<span>${err}</span>` : '');
+      : '') +
+    (miss.length
+      ? `<span>Add ${andList(miss)} to request a transfer.</span>`
+      : err
+        ? `<span>${err}</span>`
+        : flightsOpen()
+          ? '<span>You can send your flight details later.</span>'
+          : '');
 }
 const PLANE =
   '<svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M21 16v-2l-8-5V3.5c0-.83-.67-1.5-1.5-1.5S10 2.67 10 3.5V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z"></path></svg>';
@@ -1902,9 +1942,8 @@ function openShuttle() {
     total = shTotal(),
     lbl = esc(shLabel()),
     legs = [];
-  if (needArr()) legs.push({ r: `CMB → ${lbl}`, dt: `${fmtDs(dOf(S.sh.arrDate, 0))} · lands ${S.sh.arrTime}` });
-  if (needDep())
-    legs.push({ r: `${lbl} → CMB`, dt: `${fmtDs(dOf(S.sh.depDate, t.pickupPrev ? -1 : 0))} · estimated pickup ${t.pickup}` });
+  if (needArr()) legs.push({ r: `CMB → ${lbl}`, dt: flightShort('arr', t) });
+  if (needDep()) legs.push({ r: `${lbl} → CMB`, dt: flightShort('dep', t) });
   showModal(`<div class="modal" role="dialog" aria-modal="true" aria-labelledby="mTitle">
  <div class="m-sum"><p class="eyebrow">Airport transfer</p><h3>${DIRS[S.sh.dir].title}</h3>
   <ol class="m-stops">${legs.map((g, i) => `<li><span class="n">0${i + 1}</span><span class="nm">${g.r}</span><span class="dt">${g.dt}</span></li>`).join('')}</ol>
@@ -1934,7 +1973,7 @@ window.addEventListener('resize', () => {
   clearTimeout(rt);
   rt = setTimeout(() => {
     map.invalidateSize({ pan: false });
-    if (!userMoved && !active) fit();
+    if (view === 'overview') fit();
     sizeCard();
   }, 150);
 });
@@ -1963,13 +2002,19 @@ if (staleDates) setTimeout(() => toast('The dates in your saved trip have passed
 // does the same with focus on that experience.
 // A fragment (not a query string) so the homepage keeps a single crawlable URL.
 function openFromHash() {
+  // /#transfer (the menu's "Airport transfers") opens the planner in airport-shuttle mode.
+  if (location.hash === '#transfer') {
+    history.replaceState(null, '', location.pathname + location.search);
+    setMode('shuttle');
+    return;
+  }
   const m = location.hash.match(/^#(add|place|experiences|exp)=([a-z-]+)$/);
   if (m && m[1] === 'exp' && X[m[2]]) {
     // From an experience guide: open its place with the list expanded, focused on it (not ticked).
     history.replaceState(null, '', location.pathname + location.search);
     if (S.mode === 'shuttle') setMode('tour');
     expOpen = true;
-    openDest(X[m[2]].destinationId, true);
+    openDest(X[m[2]].destinationId);
     const box = card.querySelector(`#dcExpList input[value="${m[2]}"]`);
     if (box) {
       box.closest('label').scrollIntoView({ block: 'nearest' });
@@ -1982,7 +2027,8 @@ function openFromHash() {
   if (S.mode === 'shuttle') setMode('tour');
   if (m[1] === 'add') addStop(m[2]);
   if (m[1] === 'experiences') expOpen = true;
-  openDest(m[2], true);
+  openDest(m[2]);
 }
 openFromHash();
 window.addEventListener('hashchange', openFromHash);
+initMenu();

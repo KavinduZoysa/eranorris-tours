@@ -127,6 +127,7 @@ kbd{font:500 11px var(--mono);border:1px solid rgba(20,17,14,.18);border-radius:
 .step-h{display:flex;align-items:baseline;gap:12px;margin-bottom:14px}
 .step-h .n{font:500 12px var(--mono);color:var(--lat)}
 .step-h h3{font:600 15px var(--sans);margin:0}
+.step-h .opt{margin-left:auto;font:500 10.5px var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--mut)}
 .step-h .act{margin-left:auto}
 .empty-stops{border:1.5px dashed rgba(20,17,14,.22);border-radius:14px;padding:16px 18px;font-size:14px;color:var(--mut);line-height:1.5}
 .stops{list-style:none;margin:0;padding:0}
@@ -134,7 +135,13 @@ kbd{font:500 11px var(--mono);border:1px solid rgba(20,17,14,.18);border-radius:
 .stop .num{width:28px;height:28px;border-radius:50%;background:var(--lat);color:#fff;display:grid;place-items:center;font:600 12px var(--mono)}
 .s-name{border:0;background:none;padding:0;font:400 24px/1.05 var(--serif);text-align:left;color:var(--ink)}
 .s-name:hover{color:var(--lat)}
-.s-sub{font-size:12.5px;color:var(--mut);margin-top:3px}
+.s-sub{font-size:12.5px;color:var(--mut);margin-top:3px;white-space:nowrap}
+/* Small phones: the nights stepper moves under the place name, so the name isn't squeezed. */
+@media (max-width:380px){
+  .stop{grid-template-columns:28px minmax(0,1fr) 28px;row-gap:8px}
+  .stop .stepper{grid-column:2;grid-row:2;justify-self:start}
+  .stop .rm{grid-column:3;grid-row:1}
+}
 .stepper{display:flex;align-items:center;gap:2px;border:1px solid rgba(20,17,14,.18);border-radius:999px;height:36px;padding:0 3px;background:var(--paper)}
 .stepper button{width:30px;height:30px;border-radius:50%;border:0;background:none;font-size:17px;line-height:1;display:grid;place-items:center}
 .stepper button:hover:not(:disabled){background:rgba(20,17,14,.07)}
@@ -288,17 +295,6 @@ html:not(.js) .search,html:not(.js) .chips,html.map-failed .search,html.map-fail
 .places-h h2{font:400 46px/1 var(--serif);margin:0;letter-spacing:-.01em;max-width:640px;text-wrap:balance}
 .places-h p{margin:0;max-width:440px;font-size:15px;line-height:1.55;color:var(--mut);text-wrap:pretty}
 .pl-grid{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:20px}
-.pl-card{position:relative;display:flex;flex-direction:column;background:#fff;border:1px solid var(--line);border-radius:20px;overflow:hidden;transition:box-shadow .2s,transform .2s}
-.pl-card:hover{box-shadow:0 18px 40px rgba(20,17,14,.12);transform:translateY(-2px)}
-.pl-card img{display:block;width:100%;height:auto;aspect-ratio:3/2;object-fit:cover;background:#d9cfbf}
-.pl-body{padding:14px 18px 18px;display:flex;flex-direction:column;gap:6px}
-.pl-body h3{font:400 28px/1.05 var(--serif);margin:4px 0 0;letter-spacing:-.005em}
-.pl-body h3 a{color:var(--ink)}
-.pl-body h3 a::after{content:'';position:absolute;inset:0;border-radius:20px}
-.pl-body h3 a:hover{color:var(--lat);text-decoration:none}
-.pl-body h3 a:focus-visible{outline:none}
-.pl-card:focus-within{outline:2px solid var(--lat);outline-offset:2px}
-.pl-body p{margin:0;font-size:14px;line-height:1.5;color:#3b342d;text-wrap:pretty}
 @media (max-width:900px){.places{padding:48px 16px 56px}.places-h h2{font-size:36px}}
 .nojs-note{display:none;margin:0;padding:22px 28px;font-size:14px;line-height:1.5;color:var(--mut)}
 html:not(.js) .nojs-note,html.map-failed .nojs-note{display:block}
@@ -364,9 +360,11 @@ html.map-failed .panel .modes,html.map-failed .panel .step,html.map-failed .pane
   /* Bigger touch targets without changing how the controls look. */
   .chip,.linkbtn,.rm,.stepper button,.dc-nav button{position:relative}
   .chip::after,.linkbtn::after,.rm::after,.stepper button::after,.dc-x::after,.m-close::after{content:'';position:absolute;inset:-6px}
-  .linkbtn::after{inset:-10px -6px}
+  .stepper button::after{inset:-7px}
+  .linkbtn::after{inset:-14px -6px}
+  .modes button{height:44px}
   .dc-nav button::after{content:'';position:absolute;inset:-3px}
-  .leaflet-bar a{width:40px!important;height:40px!important;line-height:40px!important}
+  .leaflet-bar a{width:44px!important;height:44px!important;line-height:44px!important}
 }
 /* Hover effects only where there is a real hover (no "stuck" states after a tap). */
 @media (hover:none){
@@ -419,6 +417,7 @@ html.map-failed .panel .modes,html.map-failed .panel .step,html.map-failed .pane
 .exp-f{font:600 9px var(--mono);text-transform:uppercase;letter-spacing:.06em;color:var(--lat);margin-left:4px}
 .exp-m{display:block;margin-top:3px;font:500 10px var(--mono);text-transform:uppercase;letter-spacing:.06em;color:var(--mut)}
 .exp-d{display:block;margin-top:4px;font-size:12.5px;line-height:1.45;color:#3b342d;overflow-wrap:anywhere}
+.exp-w{display:block;margin-top:3px;font-size:12px;line-height:1.35;color:var(--mut);overflow-wrap:anywhere}
 .exp-note{margin:8px 2px 2px;font-size:12px;line-height:1.4;color:var(--mut)}
 
 .s-exp{list-style:none;margin:6px 0 0;padding:0;display:grid;gap:2px}

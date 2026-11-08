@@ -1,0 +1,7 @@
+{
+  "drop": ["arugam-bay-elephant-rock"],
+  "override": { "udawalawe-elephant-transit-home": { "kind": "activity" } },
+  "image": {},
+  "skipExisting": [],
+  "candidates": []
+}

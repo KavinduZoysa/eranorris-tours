@@ -123,3 +123,10 @@ compliance problems; choosing an operator; seasickness and comfort; the east-coa
 - The harbour at dawn with boats loading, passengers in life jackets.
 - On-deck view showing seating and shade (helps travellers judge comfort).
 - Avoid: images showing boats crowding a whale, people in the water with whales, or drones.
+
+### Navy whale-watching cruises removed (2026-11-07)
+The audit had added the Sri Lanka Navy's whale-watching cruise "from Galle harbour" as an option.
+Its site (https://whalewatching.navy.lk/, checked 2026-11-07) says cruises are suspended for ship
+maintenance and that the last schedule ran from the naval base at Trincomalee (from July 2025),
+not Galle. The mention and the source were removed; re-add only if cruises resume from a
+southern port.

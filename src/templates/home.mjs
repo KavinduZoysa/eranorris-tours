@@ -3,7 +3,7 @@
 // (#chips, #stops, #vehicles, …) are pre-rendered in their initial state so the page
 // is complete before JavaScript runs and nothing shifts when it does.
 import { CATS, DESTS, VEHICLES } from '../data/destinations.mjs';
-import { brand, esc, picture, waLink } from './layout.mjs';
+import { brand, esc, menu, picture, waLink } from './layout.mjs';
 
 const SEARCH_ICON = (s) =>
   `<svg width="${s}" height="${s}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-3.5-3.5"></path></svg>`;
@@ -30,7 +30,7 @@ function placeCards(ctx) {
   return DESTS.map((d) => {
     const ph = ctx.photos[d.id];
     return `<li class="pl-card">
-      ${picture(ph, [['w480', 480], ['w640', 640], ['w800', 800]], { sizes: '(max-width: 600px) calc(100vw - 32px), (max-width: 1240px) 33vw, 300px', alt: d.alt, width: 480, height: 320, attrs: 'loading="lazy" decoding="async"' })}
+      ${picture(ph, [['w480', 480], ['w640', 640], ['w800', 800]], { sizes: '(max-width: 560px) 108px, (max-width: 600px) calc(100vw - 32px), (max-width: 1240px) 33vw, 300px', alt: d.alt, width: 480, height: 320, attrs: 'loading="lazy" decoding="async"' })}
       <div class="pl-body">
         <div class="dc-meta"><span class="tag" style="--c:${CATS[d.cat].c}">${CATS[d.cat].label}</span><span>${esc(d.hl)}</span></div>
         <h3><a href="${ctx.u(`/places/${d.id}/`)}">${esc(d.name)}</a></h3>
@@ -44,7 +44,7 @@ export function homeBody(ctx) {
   const { site } = ctx;
   return `<header class="top">
   ${brand(ctx)}
-  <button class="trip-pill" id="tripPill"><span id="pillLbl">Your trip</span> <b id="pillCount">0</b></button>
+  <div class="top-r"><button class="trip-pill" id="tripPill"><span id="pillLbl">Your trip</span> <b id="pillCount">0</b></button>${menu(ctx)}</div>
 </header>
 
 <main id="content">
@@ -102,12 +102,12 @@ export function homeBody(ctx) {
     </section>
 
     <section class="step" aria-labelledby="st3">
-      <div class="step-h"><span class="n">03</span><h3 id="st3">Start date</h3></div>
+      <div class="step-h"><span class="n">03</span><h3 id="st3">Start date</h3><span class="opt">Optional</span></div>
       <label class="field">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><rect x="3.5" y="5" width="17" height="15" rx="2"></rect><path d="M3.5 10h17M8 3v4M16 3v4"></path></svg>
         <input id="startDate" type="date" aria-label="Start date" aria-describedby="dateInfo">
       </label>
-      <p class="hint" id="dateInfo">Pick the day we collect you. Dates for each stop are worked out from here.</p>
+      <p class="hint" id="dateInfo">Pick the day we collect you and we’ll work out the dates for each stop, or leave it: you can ask for a quote without dates.</p>
     </section>
     </div>
 
@@ -143,7 +143,7 @@ export function homeBody(ctx) {
     </section>
 
     <section class="step" aria-labelledby="sh3">
-      <div class="step-h"><span class="n">03</span><h3 id="sh3">Flight times</h3></div>
+      <div class="step-h"><span class="n">03</span><h3 id="sh3">Flight times</h3><span class="opt">Optional</span></div>
       <div class="flt" id="shArr">
         <span class="tagl" style="display:block;margin-bottom:8px">Arrival flight lands</span>
         <div class="f2">
@@ -172,7 +172,7 @@ export function homeBody(ctx) {
     </section>
 
     <div class="cta">
-      <p id="ctaHint">Add a destination, a pickup location and a start date to request a quote.</p>
+      <p id="ctaHint">Add a destination and a pickup location to request a quote.</p>
       <button class="btn primary" id="quoteBtn" disabled aria-describedby="ctaHint">Request a quote</button>
     </div>
     <p class="nojs-note">The trip planner needs JavaScript. To plan a private tour, message us on <a href="${waLink(ctx, `Hello ${site.name}, I’d like to plan a private tour of Sri Lanka.`)}" target="_blank" rel="noopener">WhatsApp</a> or email <a href="mailto:${esc(site.contact.email)}">${esc(site.contact.email)}</a>.</p>

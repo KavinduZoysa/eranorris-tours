@@ -132,3 +132,120 @@ points".
 - **Elephants at Lahugala**, taken from a distance and from a vehicle.
 - **Kumana:** waterbirds at the villu.
 - **Muhudu Maha Vihara or Kudumbigala** (respectful, no posing with Buddha statues).
+
+## Audit 2026-11-06
+
+Audit and improvement pass on `src/content/places/arugam-bay.md` (status stays `draft`). The
+session's web-search quota ran out during the audit; road conditions after Cyclone Ditwah could not
+be checked and are left as an owner question.
+
+### Sources consulted
+- Travel advice and security:
+  - UK FCDO Sri Lanka advice, updated 21 Sep 2026 (terrorism and safety pages do not mention Arugam
+    Bay; general warnings on rip currents, elephants and crocodiles): https://www.gov.uk/foreign-travel-advice/sri-lanka/terrorism ;
+    https://www.gov.uk/foreign-travel-advice/sri-lanka/safety-and-security
+  - Daily Mirror, 10 Mar 2026 (police and STF 24-hour security framework in tourist zones including
+    Arugam Bay; Chabad house closed early 2026; low off-season numbers): https://www.dailymirror.lk/breaking-news/Low-number-of-Israeli-tourists-in-Arugam-Bay-amid-off-season-and-regional-tensions/108-334885
+  - 2024 alert and lifting (earlier record): https://adaderana.lk/news/103383 ;
+    https://www.ft.lk/Front-Page/Israel-removes-severe-travel-warning-for-Arugam-Bay/44-769257
+- Surf: The Surf Atlas, updated 15 Oct 2026 (Lighthouse about 45 min north, quiet; Whisky Point
+  damaged by erosion; crocodiles at Pottuvil Point, Peanut Farm and Elephant Rock; elephants on the
+  roads and charging tuk-tuks; Okanda about 23 km south, shoulder-season days in Oct–Nov; Pottuvil
+  Lagoon boat tours; Elephant Rock sunset; Kudumbigala climb not for rain or vertigo):
+  https://thesurfatlas.com/sri-lanka-surf/arugam-bay-surf/
+- Surfing championship 10–12 Sep 2026: The Morning (via search) https://www.themorning.lk/articles/rQISvYiRvKcYTNvCMxJg
+- Kumana:
+  - Sri Lanka Tourism (permit and guide at Okanda; 255 bird species; about 20 shallow lagoons; on the
+    foot-pilgrimage route): https://www.srilanka.travel/attraction?attraction_id=166
+  - Newswire, 2 Sep 2026 (drought: Kumana and Gal Oya campsites closed, bookings cancelled):
+    https://www.newswire.lk/ug2o
+  - Newsfirst, 27 Nov 2025 (Kumana among parks closed for heavy rain): https://english.newsfirst.lk/2025/11/27/sri-lanka%E2%80%99s-national-parks-shut-down-as-heavy-rains-lash-island
+  - Daily Mirror (poaching; leopard "Ritta" regularly sighted in Kumana): https://www.dailymirror.lk/news-features/Poaching-at-Kumana-National-Park-Commonly-sighted-leopard-Ritta-missing-from-its-territory/131-333435
+  - Pada Yatra 2026: Newsfirst 10 Jul 2026 https://www.newsfirst.lk/2026/07/10/kumana-entrance-of-yala-national-park-opened-for-pada-yatra-pilgrims ;
+    Hiru News (over 10,000 pilgrims at the Okanda devalaya) https://hirunews.lk/goldfmnews/476659/hardships-mount-for-pada-yatra-pilgrims-at-kumana ;
+    Newsfirst 20 Jun 2025 (30,000+ pilgrims; 2025 gate opening in June) https://english.newsfirst.lk/2025/06/20/30-000-devotees-embark-on-foot-pilgrimage-to-kataragama-through-national-parks
+- Lahugala: Sri Lanka Tourism (calls it "Lahugala Kitulana Forest Reserve"; about 1,554 ha; Lahugala,
+  Kitulana and Sengamuwa tanks; nearly 200 elephants): https://www.srilanka.travel/attraction?attraction_id=141
+- Arugam Bay: Wikipedia (Ullae predominantly Muslim; Kumana about 44 km via Panama and Okanda; 2024
+  events): https://en.wikipedia.org/wiki/Arugam_Bay
+- Kirinda/Muhudu Maha Vihara landing-site debate: Amazing Lanka https://amazinglanka.com/wp/kirinda/
+
+### Facts verified
+- No current government advisory names Arugam Bay (UK FCDO, Sept 2026). The October 2024 alerts were
+  lifted in November 2024. Security forces maintain a presence (Daily Mirror, Mar 2026).
+- Surf season about April–October; October–November shoulder days (Surf Atlas); Whiskey Point no longer
+  reliable; Lighthouse is a quieter break to the north.
+- Crocodiles near several breaks and lagoons; elephants on the roads south of town.
+- Kumana: permit and guide at Okanda; jeep entry; campsites closed for drought from 2 Sep 2026; park
+  closed for rain in late Nov 2025; foot-pilgrimage gate opened 10 Jul 2026 (June in 2025).
+- Kumana from Arugam Bay: about 40–44 km; about 1–1.5 hours (Surf Atlas: about 1.5 hours).
+
+### Corrections made (old → new, why)
+- `bestTime`: "April to October" → "About April to October" (qualified season, content guide).
+- "When to go": "April to October" / "November to March" → "About …", and added the October–early
+  November shoulder (Surf Atlas).
+- Surf: added the Lighthouse break; added that Whiskey Point has been unreliable since erosion; added
+  crocodile and elephant safety (Surf Atlas; FCDO general warning).
+- Lagoons: added Pottuvil Lagoon boat trips and an Elephant Rock bullet (Surf Atlas).
+- Kumana: "Entry requires a permit and a guide" → visitors go in by jeep with a permit and guide;
+  added other wildlife and the 2025 and 2026 closures (Newsfirst; Newswire).
+- Temples: added a safety and etiquette note for Kudumbigala and a bullet on Okanda and the Pada Yatra.
+- Kumana FAQ: added the drive time and jeep entry.
+- New FAQ on checking travel advice (neutral; mentions the 2024 alert and its lifting). Owner to
+  decide whether to keep it (verify).
+- Added sources: Sri Lanka Tourism Okanda, DWC, UK FCDO.
+
+### Uncertainties and conflicts
+- Lahugala's status: Sri Lanka Tourism calls it a forest reserve; Wikipedia and others a national park
+  (declared 1980). The page keeps "Lahugala Kitulana National Park". Visitor access rules (jeeps vs
+  viewing from the road) are still unclear.
+- Pottuvil Lagoon trip length and operators: travel sources only; the page gives no duration.
+- Elephant Rock and Kudumbigala distances: approximate (Kudumbigala about 25 km south).
+- Cyclone Ditwah effects on the A4 (Monaragala–Pottuvil) and Ella–Wellawaya roads in 2026: not checked
+  (search quota exhausted). In verify.
+- Kumana's leopards: a known individual was regularly sighted, but poaching was reported; the page
+  says "occasionally".
+
+### Owner questions (also in `verify:`)
+- Earlier questions remain (coverage, surfboards, activities arranged, stay, hero photo, times).
+- Updated: keep, shorten or remove the travel-advice FAQ.
+- New: whether drivers go on to Kumana, Kudumbigala or Lahugala and wait during a Kumana safari.
+- New: confirm the roads to Arugam Bay are normal after Cyclone Ditwah.
+
+### Re-check before publishing
+- Government travel advice (UK, US, Australia, Canada, Israel) for the Eastern Province.
+- Kumana opening and campsite status (DWC); Pada Yatra gate dates.
+- Seasonal opening of guesthouses and surf schools; any new surf-break changes.
+
+## Experience cards added (2026-11-07)
+Merged into `src/data/experiences.mjs` with `source: 'research'`. Who provides each one
+is unconfirmed (see docs/research/owner-checklist.md).
+
+- **Kumana National Park safari** (`arugam-bay-kumana-safari`, excursion)
+  - https://www.srilanka.travel/attraction?attraction_id=166
+  - https://www.newswire.lk/ug2o
+  - https://thesurfatlas.com/sri-lanka-surf/arugam-bay-surf/
+  - Note: Check DWC notices: campsites closed for drought from 2 Sep 2026; park closed for rain Nov 2025. Owner: offered, and does the driver wait?
+- **Pottuvil Lagoon mangrove boat trip** (`arugam-bay-pottuvil-lagoon-boat-trip`, activity)
+  - https://thesurfatlas.com/sri-lanka-surf/arugam-bay-surf/
+  - https://en.wikipedia.org/wiki/Arugam_Bay
+  - Note: No official source for the boat trips; operators are local. Duration is approximate. Category nature (could be 'water').
+- **Kudumbigala forest hermitage** (`arugam-bay-kudumbigala`, excursion)
+  - https://www.srilanka.travel/attraction?attraction_id=113
+  - https://thesurfatlas.com/sri-lanka-surf/arugam-bay-surf/
+  - Note: Distance approximate (on the road to Okanda/Kumana).
+- **Muhudu Maha Vihara** (`arugam-bay-muhudu-maha-vihara`, attraction)
+  - https://www.srilanka.travel/attraction?attraction_id=142
+  - https://amazinglanka.com/wp/kirinda/
+  - Note: Landing-site legend contested with Kirinda (Yala).
+- **Elephants at Lahugala** (`arugam-bay-lahugala-elephants`, excursion)
+  - https://www.srilanka.travel/attraction?attraction_id=141
+  - https://lk.chm-cbd.net/es/node/708
+  - Note: Visitor access rules (jeep entry vs viewing from the road) are unclear; Sri Lanka Tourism calls it a forest reserve, others a national park. Lies on the road from Ella/Monaragala, so it can also be a stop on arrival.
+
+## Main photo replaced (2026-11-07)
+The supplied main photo was replaced because it was watermarked, low quality or not of the place
+(owner's request). New photo: "Beach of Arugam Bay" by Dennis Sylvester Hurd, CC0 1.0, Wikimedia Commons —
+https://commons.wikimedia.org/wiki/File:Beach_of_Arugam_Bay.jpg. Place confirmed from the file itself: GPS on the file (6.8414, 81.8334) is Arugam Bay; category "Arugam Bay". It is credited under the photo on the
+page and on /photo-credits/; the site's copy is cropped and resized. The old photo question was
+removed from the guide's `verify:` list.

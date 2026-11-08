@@ -135,3 +135,67 @@ Ditwah and later landslides; road and rail access via Hatton.
 - The cone of the mountain seen from the Maskeliya side or the Maussakelle reservoir.
 - Dalhousie village and the trailhead arch.
 - The current hero is an aerial summit view; confirm it was lawfully taken.
+
+## Audit 2026-11-06
+
+Audit pass. The web-search budget ran out partway through; flagged where relevant.
+
+### Sources consulted
+- 2026–27 season dates:
+  - Unduvap Poya 23 Dec 2026: Government 2026 desk calendar (documents.gov.lk, "subject to
+    variation", seen in search extract), https://publicholidays.lk/poya-day/ ,
+    https://www.officeholidays.com/holidays/sri-lanka/unduvap-full-moon-poya
+  - Vesak Poya 19 May 2027: Central Bank of Sri Lanka holiday list for 2027
+    https://www.cbsl.gov.lk/en/node/20573 and the Daily Mirror report of the gazette (No. 2493/05,
+    6 Jul 2026) https://www.dailymirror.lk/breaking-news/2027-public-and-bank-holidays-gazetted/108-344844
+  - Conflict: publicholidays.lk and lunar-calendar sites give Vesak 2027 as 20 May. The gazette
+    and CBSL say 19 May (20 May is the day following Vesak).
+- Landslide on the Nallathanni route (6 Aug 2026): https://www.adaderana.lk/news/cmsh2zmtq000o356pbslfisvz
+  (no later report of clearance found before the search budget ran out).
+- Rail: as in `docs/research/kandy.md` (Audit 2026-11-06).
+- Landslide warnings for Ambagamuwa and Norwood DS divisions (the Hatton–Maskeliya–Dalhousie
+  area): Ada Derana 22 Oct 2026 (amber for Ambagamuwa), 4 Nov 2026 (yellow for Ambagamuwa and
+  Norwood) https://adaderana.lk/news/251105 ; NBRI https://nbri.gov.lk/
+- 2025–26 season opening and arrangements (Daily Mirror): https://www.dailymirror.lk/breaking-news/Sripada-pilgrimage-season-begins/108-326921
+
+### Facts verified
+- The season opens on Unduvap Poya and closes on Vesak Poya (unchanged).
+- 2026–27: Unduvap Poya 23 Dec 2026; Vesak Poya 19 May 2027 (gazette/CBSL).
+- No official 2026–27 arrangements (plastic rules, security, route status) were found by
+  6 Nov 2026; such notices usually come in the weeks before Unduvap.
+- Hatton is on Gampola–Nanu Oya, still closed in early November 2026.
+
+### Corrections made (old → new, why)
+- Season: adds the 2026–27 dates to the body and the FAQ.
+- Off-season: adds the August 2026 landslide on the Dalhousie route and the police advice to use
+  the Ratnapura side.
+- Plastic rules: "For the 2025–26 season …" kept, plus "Expect the same rules in later seasons and
+  look out for local notices" (no 2026–27 decision found).
+- Rail: "several sections were still closed for repair at the time of writing" → "Hatton is on
+  the … section between Gampola and Nanu Oya, still closed … in early November 2026, when no
+  trains were reaching Hatton. Officials aim to reopen it by the end of 2026."
+- Added a short "Roads in the rain" line (landslide warnings).
+
+### Experiences
+- No new experience cards proposed: the climb is the single purpose of the destination. The
+  waterfalls on the Hatton–Talawakele road are proposed under Nuwara Eliya instead.
+
+### Uncertainties and conflicts
+- Vesak 2027: 19 May (gazette, CBSL) vs 20 May (lunar calendars, publicholidays.lk).
+- Whether the August 2026 debris has been cleared before 23 December.
+- Plastic rules for 2026–27.
+
+### Owner questions (also in `verify:`)
+- Confirm the 2026–27 opening from an official announcement; route clearance; plastic rules.
+- Rail status re-check.
+
+### Re-check before publishing
+- Official season notices (Nuwara Eliya District Secretariat, Sri Pada temple, police).
+- Rail to Hatton.
+
+## Main photo replaced (2026-11-07)
+The supplied main photo was replaced because it was watermarked, low quality or not of the place
+(owner's request). New photo: "Triangular shadow of Sri Pada at sunrise" by Bernard Gagnon, CC BY-SA 3.0, Wikimedia Commons —
+https://commons.wikimedia.org/wiki/File:Sri_Pada_07.jpg. Place confirmed from the file itself: GPS on the file (6.8114, 80.4997) is the summit; the description names the shadow of Sri Pada. It is credited under the photo on the
+page and on /photo-credits/; the site's copy is cropped and resized. The old photo question was
+removed from the guide's `verify:` list.

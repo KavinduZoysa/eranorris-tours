@@ -1,0 +1,404 @@
+{
+ "region": "hill-country",
+ "destinations": {
+  "kandy": {
+   "existingExperiences": [],
+   "newExperiences": [
+    {
+     "id": "kandy-lake-walk",
+     "destinationId": "kandy",
+     "kind": "attraction",
+     "category": "history",
+     "name": "Kandy Lake and the old city",
+     "shortDescription": "Walk around the lake the last king of Kandy created in the early 1800s, past the Temple of the Tooth and the old royal buildings.",
+     "details": "Sri Wickrama Rajasinghe, the last king of Kandy, had paddy fields flooded below his palace to make the lake in the early 1800s; its scalloped parapet wall was still unfinished when the kingdom fell in 1815. A path follows the shore past the Temple of the Tooth and the old palace buildings, with the forest of Udawattakele behind. A full circuit takes about an hour at a gentle pace.",
+     "sources": [
+      "https://whc.unesco.org/en/list/450",
+      "https://en.wikipedia.org/wiki/Kandy_Lake",
+      "docs/research/kandy.md (Audit 2026-11-06)"
+     ],
+     "notes": ""
+    },
+    {
+     "id": "kandy-udawattakele",
+     "destinationId": "kandy",
+     "kind": "activity",
+     "category": "nature",
+     "name": "Udawattakele forest walk",
+     "shortDescription": "Walk shaded paths through the forest reserve on the ridge behind the Temple of the Tooth, once the royal pleasure garden, minutes from the centre.",
+     "details": "The forest on the ridge behind the temple was the Kandyan kings’ pleasure garden, became a forest reserve in 1856 and a sanctuary in 1938, and covers about 104 ha. Shaded paths wind past ponds and old trees, with plenty of birds and monkeys. It is quieter early in the morning; most visitors walk for one to two hours.",
+     "sources": [
+      "https://en.wikipedia.org/wiki/Udawattakele_Forest_Reserve",
+      "https://www.ft.lk/FT-Lite/a-royal-sanctuary-in-the-city/6-252398",
+      "docs/research/kandy.md (Audit 2026-11-06)"
+     ],
+     "notes": "Sources disagree on whether the DWC or the Forest Department runs the visitor side; the card does not say."
+    },
+    {
+     "id": "kandy-bahirawakanda",
+     "destinationId": "kandy",
+     "kind": "attraction",
+     "category": "culture",
+     "name": "Bahirawakanda Buddha viewpoint",
+     "shortDescription": "Climb to the large white seated Buddha on a hill above Kandy for one of the best views over the city and the lake.",
+     "details": "On a hill about 2 km from the centre, a white seated Buddha about 27 m tall, completed in 1992, looks out over Kandy. The terrace around it is one of the best viewpoints over the city, the lake and the surrounding hills, especially late in the afternoon. It is a place of worship: cover shoulders and knees and remove shoes where asked.",
+     "sources": [
+      "https://en.wikipedia.org/wiki/Sri_Maha_Bodhi_Viharaya",
+      "https://tourism.cp.gov.lk/en/destination/kandy-district/bahirawa-kanda-vihara-buddha-statue",
+      "docs/research/kandy.md (Audit 2026-11-06)"
+     ],
+     "notes": "Central Province tourism page calls the statue standing; it is seated (photos, Wikipedia)."
+    },
+    {
+     "id": "kandy-three-temples",
+     "destinationId": "kandy",
+     "kind": "excursion",
+     "category": "history",
+     "name": "Gadaladeniya, Lankatilaka and Embekke temples",
+     "shortDescription": "A quiet half-day loop to three 14th-century temples west of Kandy, built in stone, brick and wood; Embekke is known for its carved pillars.",
+     "details": "These three temples date from the 14th-century Gampola period. Gadaladeniya is built of stone, Lankatilaka of brick on a rock outcrop, and the Embekke devale is famous for the carved wooden pillars of its drumming hall. They are quiet working temples, so dress modestly and remove shoes. Together they make an easy half-day away from the crowds.",
+     "sources": [
+      "https://mihipedia.lk/gadaladeniya-lankatilake-and-embekke-14th-century-temples-made-of-rock-brick-and-wood/",
+      "https://archives1.sundayobserver.lk/node/51819",
+      "docs/research/kandy.md (Audit 2026-11-06)"
+     ],
+     "notes": "",
+     "where": "Off the Colombo road, roughly 15 km west of Kandy"
+    },
+    {
+     "id": "kandy-ceylon-tea-museum",
+     "destinationId": "kandy",
+     "kind": "activity",
+     "category": "local-life",
+     "name": "Ceylon Tea Museum, Hanthana",
+     "shortDescription": "See old tea machinery and the story of Ceylon tea in a 1925 tea factory in the hills just south of Kandy, with a tea room at the top.",
+     "details": "Set up by the Sri Lanka Tea Board and the Planters’ Association, the museum opened in 2001 in the Hanthana tea factory, built in 1925. Its floors hold rollers, dryers and other old machinery, a library and displays on pioneers such as James Taylor and Thomas Lipton, with a tea room on the top floor. Most visitors spend about an hour.",
+     "sources": [
+      "https://srilankateaboard.lk/sri-lanka-tea-board/related-institutions/ceylon-tea-museum/",
+      "https://en.wikipedia.org/wiki/Ceylon_Tea_Museum",
+      "docs/research/kandy.md (Audit 2026-11-06)"
+     ],
+     "notes": "",
+     "where": "Hanthana, a few kilometres south of Kandy"
+    },
+    {
+     "id": "kandy-hanthana-pekoe-trail",
+     "destinationId": "kandy",
+     "kind": "activity",
+     "category": "adventure",
+     "name": "Hanthana hills and the Pekoe Trail",
+     "shortDescription": "Walk in the Hanthana range just south of Kandy, where the long-distance Pekoe Trail begins its route through the tea country.",
+     "details": "The Hanthana range rises to about 1,240 m just south of the city, with tea estates, grassland and views back over Kandy. The first stage of the Pekoe Trail, a 300 km waymarked route through the hills, runs from Hanthana to Galaha and is graded easy. Start early, carry water and check the trail organisers’ stage conditions, which change with the weather.",
+     "sources": [
+      "https://tourism.cp.gov.lk/en/destination/hanthana",
+      "https://thepekoetrail.org/pekoe-stages",
+      "docs/research/kandy.md (Audit 2026-11-06)"
+     ],
+     "notes": ""
+    },
+    {
+     "id": "kandy-esala-perahera",
+     "destinationId": "kandy",
+     "kind": "activity",
+     "category": "culture",
+     "name": "Esala Perahera festival",
+     "shortDescription": "Watch the torch-lit processions of dancers, drummers and decorated elephants that carry the relic casket through Kandy for ten nights each year.",
+     "details": "Kandy’s great festival honours the Sacred Tooth Relic. Processions of dancers, drummers, fire-twirlers and decorated elephants parade through the streets at night, growing larger each evening, and end with a daytime procession. The temple sets the dates each year from the lunar calendar, usually in July or August. Hotels fill early and the streets are packed, so plan well ahead.",
+     "sources": [
+      "https://sridaladamaligawa.lk/?p=310",
+      "https://www.cbsl.gov.lk/en/node/20573",
+      "docs/research/kandy.md (Audit 2026-11-06)"
+     ],
+     "notes": "Elephants are used in the procession (captive temple elephants); the card does not promote any interaction. 2027 dates not announced by Nov 2026.",
+     "season": "Usually July or August; the temple publishes the dates each year"
+    }
+   ]
+  },
+  "nuwara-eliya": {
+   "existingExperiences": [],
+   "newExperiences": [
+    {
+     "id": "nuwara-eliya-horton-plains",
+     "destinationId": "nuwara-eliya",
+     "kind": "excursion",
+     "category": "nature",
+     "name": "Horton Plains and World’s End walk",
+     "shortDescription": "Walk the 9 km loop across a high plateau to World’s End, where the escarpment drops about 870 m, and Baker’s Falls. Start at dawn, before the cloud.",
+     "details": "Horton Plains National Park protects grassland and cloud forest at about 2,100–2,300 m. The loop of about 9 km takes around three hours on mostly level, rocky paths, past Mini World’s End, World’s End and Baker’s Falls. Cloud often hides the view by mid-morning, so most people arrive early. There are no railings at the edge. Plastic bags are banned; sambar deer are often seen.",
+     "sources": [
+      "https://srilanka.travel/attraction?attraction_id=158",
+      "https://www.dwc.gov.lk/?page_id=544",
+      "https://whc.unesco.org/en/list/1203",
+      "docs/research/nuwara-eliya.md (Audit 2026-11-06)"
+     ],
+     "notes": "Experience id of the guide /experiences/horton-plains-worlds-end/.",
+     "where": "Horton Plains National Park, about 32 km by road from Nuwara Eliya",
+     "season": "Open all year; clearest from about January to March"
+    },
+    {
+     "id": "nuwara-eliya-gregory-lake",
+     "destinationId": "nuwara-eliya",
+     "kind": "attraction",
+     "category": "nature",
+     "name": "Gregory Lake",
+     "shortDescription": "Stroll the lakeside path or take a boat on the lake at the edge of town, made in the 1870s below Pidurutalagala.",
+     "details": "The lake was created in the 1870s by damming streams below Pidurutalagala, the island’s highest mountain. A path follows the shore, and boats are available, which makes it an easy evening stroll after a day on the road. It is busiest at weekends and in the April holiday season.",
+     "sources": [
+      "https://en.wikipedia.org/wiki/Gregory_Lake",
+      "docs/research/nuwara-eliya.md (Audit 2026-11-06)"
+     ],
+     "notes": ""
+    },
+    {
+     "id": "nuwara-eliya-hakgala",
+     "destinationId": "nuwara-eliya",
+     "kind": "attraction",
+     "category": "nature",
+     "name": "Hakgala Botanic Gardens",
+     "shortDescription": "Walk the terraced gardens below Hakgala Rock, founded in 1861 to grow cinchona, with roses and other flowers at their best from mid-March to April.",
+     "details": "Hakgala was set up in 1861 to trial cinchona, the source of quinine, and later turned into a garden of roses, ferns, temperate flowers and trees on terraces at about 1,745 m below the rock. It covers about 28 ha. Allow one to two hours; paths are steep in places.",
+     "sources": [
+      "https://botanicgardens.gov.lk/?p=1546",
+      "docs/research/nuwara-eliya.md (Audit 2026-11-06)"
+     ],
+     "notes": "",
+     "where": "About 9.5 km south-east of Nuwara Eliya on the Badulla road",
+     "season": "Flowers usually peak from about mid-March to April"
+    },
+    {
+     "id": "nuwara-eliya-seetha-amman",
+     "destinationId": "nuwara-eliya",
+     "kind": "activity",
+     "category": "culture",
+     "name": "Seetha Amman Temple",
+     "shortDescription": "Visit the Hindu temple at Sita Eliya dedicated to Sita, where tradition says Ravana held her captive, as told in the Ramayana.",
+     "details": "This small, colourful temple is dedicated to Sita and has a shrine to Hanuman. By tradition this is where Ravana kept her captive in the Ramayana, and many pilgrims come from India. It stands beside a stream a little before Hakgala on the Badulla road, so the two fit one outing. Shoes come off at the entrance.",
+     "sources": [
+      "https://en.wikipedia.org/wiki/Seetha_Amman_Temple",
+      "docs/research/nuwara-eliya.md (Audit 2026-11-06)"
+     ],
+     "notes": "Wikipedia places it on the Kandy road, which contradicts the location near Hakgala on the Badulla road; the card follows the Hakgala location (research record). Distance derived from Hakgala 9.5 km minus about 1.7 km.",
+     "where": "Sita Eliya, a little before Hakgala on the Badulla road"
+    },
+    {
+     "id": "nuwara-eliya-lovers-leap",
+     "destinationId": "nuwara-eliya",
+     "kind": "activity",
+     "category": "nature",
+     "name": "Lover’s Leap waterfall walk",
+     "shortDescription": "Walk up through the tea of Pedro estate to Lover’s Leap, a waterfall of about 30 m on the slopes just outside town.",
+     "details": "The path to Lover’s Leap climbs through Pedro estate’s tea bushes to a waterfall of about 30 m, with views back over Nuwara Eliya. The round trip from the estate is about 5 km, shorter from a tuk-tuk drop-off. Rocks near the falls are slippery, so keep to the path.",
+     "sources": [
+      "https://en.wikipedia.org/wiki/Lovers_Leap_Falls",
+      "https://www.lonelyplanet.com/sri-lanka/the-hill-country/nuwara-eliya/attractions/lovers-leap/a/poi-sig/1395281/357478",
+      "docs/research/nuwara-eliya.md (Audit 2026-11-06)"
+     ],
+     "notes": "Distances from Lonely Planet (research record). Pedro estate named as a location only, not as a partner.",
+     "where": "Pedro estate, a few kilometres east of the town centre"
+    },
+    {
+     "id": "nuwara-eliya-moon-plains",
+     "destinationId": "nuwara-eliya",
+     "kind": "activity",
+     "category": "nature",
+     "name": "Moon Plains viewpoint",
+     "shortDescription": "A grassland reserve near town with a cliff-edge viewpoint often called a mini World’s End. Authorised jeeps usually cover the last stretch.",
+     "details": "The Nuwara Eliya Municipal Council declared Moon Plains (Sandatenna) a tourism zone in 2014. Grassland and farmland lead to a viewpoint over the surrounding mountains, often called a mini World’s End, and the last few kilometres are usually covered in authorised jeeps. Mornings are clearest; check the current access arrangements locally.",
+     "sources": [
+      "docs/research/nuwara-eliya.md (blogs only; no official page found)",
+      "docs/research/nuwara-eliya.md (Audit 2026-11-06)"
+     ],
+     "notes": "Blog sources only; access arrangements unconfirmed (verify: list). Drop if the owner prefers.",
+     "where": "Moon Plains (Sandatenna), a short drive from Nuwara Eliya"
+    },
+    {
+     "id": "nuwara-eliya-waterfalls",
+     "destinationId": "nuwara-eliya",
+     "kind": "excursion",
+     "category": "nature",
+     "name": "Ramboda, St Clair’s and Devon falls",
+     "shortDescription": "See three of the hill country’s best-known waterfalls from viewpoints on the hill roads: Ramboda on the Kandy road, St Clair’s and Devon near Talawakele.",
+     "details": "Ramboda Falls tumbles down beside the Kandy road, an easy stop on the drive between Kandy and Nuwara Eliya. St Clair’s and Devon falls are seen from roadside viewpoints near Talawakele, on the road towards Hatton and Adam’s Peak. All three are fullest after the monsoon rains. Keep to the viewpoints; rocks near falls are slippery.",
+     "sources": [
+      "https://en.wikipedia.org/wiki/St._Clair%27s_Falls",
+      "docs/research/nuwara-eliya.md (Audit 2026-11-06)"
+     ],
+     "notes": "The Adam’s Peak researcher placed these waterfalls under Nuwara Eliya. Times omitted (they are stops on through-routes).",
+     "where": "Ramboda on the Kandy road; St Clair’s and Devon near Talawakele, west of Nuwara Eliya"
+    },
+    {
+     "id": "nuwara-eliya-birdwatching",
+     "destinationId": "nuwara-eliya",
+     "kind": "activity",
+     "category": "wildlife",
+     "name": "Birdwatching at Victoria Park and Galway’s Land",
+     "shortDescription": "Look for hill-country birds, including endemics, in the town park and the small Galway’s Land National Park. Early morning is best.",
+     "details": "Victoria Park in the centre and Galway’s Land National Park, about 2 km east, are both known among birders for hill-country species, including some found only in Sri Lanka, and winter migrants. Go early in the morning, when birds are most active and the paths are quiet. Sightings are never guaranteed.",
+     "sources": [
+      "https://en.wikipedia.org/wiki/Galway%27s_Land_National_Park",
+      "https://www.dwc.gov.lk/",
+      "docs/research/nuwara-eliya.md (Audit 2026-11-06)"
+     ],
+     "notes": "From the guide text; no specific species promised."
+    }
+   ]
+  },
+  "ella": {
+   "existingExperiences": [
+    {
+     "id": "ella-little-adams-peak",
+     "kind": "activity",
+     "changes": {
+      "category": "nature"
+     },
+     "reason": "An easy walk; nature fits better than adventure (research note)."
+    }
+   ],
+   "newExperiences": [
+    {
+     "id": "ella-rock-hike",
+     "destinationId": "ella",
+     "kind": "activity",
+     "category": "adventure",
+     "name": "Ella Rock hike",
+     "shortDescription": "The harder of Ella’s two classic hikes: along the railway, then a steep forest path to a high viewpoint over the Ella Gap. Allow 3–4 hours.",
+     "details": "The usual route follows the railway for about 2.5 km towards Kital Ella station, then climbs a steep path through forest and eucalyptus to the top, with views down the gap. Plan on three to four hours for the round trip. Paths branch and people sometimes offer to show the way for a fee, so an offline map helps. Start early, and step well clear of the line when a train comes.",
+     "sources": [
+      "docs/research/ella.md (Audit 2026-11-06)"
+     ],
+     "notes": ""
+    },
+    {
+     "id": "ella-ravana-falls",
+     "destinationId": "ella",
+     "kind": "attraction",
+     "category": "nature",
+     "name": "Ravana Falls",
+     "shortDescription": "A 25 m waterfall beside the Wellawaya road just below Ella, linked by legend to King Ravana of the Ramayana. Fullest after rain.",
+     "details": "About 6 km from Ella station on the Wellawaya road, the falls drop about 25 m in tiers and can be seen from the roadside; they are part of the Ravana Ella Wildlife Sanctuary. Legend links the falls and a nearby cave to Ravana. The flow drops sharply in the dry season. The rocks are slippery and the water can run fast after rain, so don’t climb the falls.",
+     "sources": [
+      "https://en.wikipedia.org/wiki/Ravana_Falls",
+      "docs/research/ella.md (Audit 2026-11-06)"
+     ],
+     "notes": "",
+     "where": "About 6 km south of Ella on the Wellawaya road"
+    },
+    {
+     "id": "ella-hill-country-train",
+     "destinationId": "ella",
+     "kind": "activity",
+     "category": "nature",
+     "name": "Hill-country train ride",
+     "shortDescription": "Ride the line through the tea country to or from Ella, one of Sri Lanka’s best-known train journeys. Services were disrupted after Cyclone Ditwah; check before planning.",
+     "details": "The section between Nanu Oya, near Nuwara Eliya, and Ella climbs over the line’s highest point near Pattipola and runs along hillsides past Haputale with long views. It takes roughly 2.5–3 hours and delays are common. Reserved seats can be booked online with each passenger’s passport number. Stay inside the carriage: people have been badly hurt leaning out of doors.",
+     "sources": [
+      "https://seatreservation.railway.gov.lk/mtktwebslr/",
+      "https://www.newswire.lk/2026/09/08/nanu-oya-great-western-railway-repairs-to-be-completed-by-december/",
+      "docs/research/ella.md (Audit 2026-11-06)"
+     ],
+     "notes": "Worded so the card stays accurate as repairs progress; the guide carries the dated status.",
+     "season": "Check the current timetable: parts of the line were still being repaired in late 2026"
+    },
+    {
+     "id": "ella-liptons-seat",
+     "destinationId": "ella",
+     "kind": "excursion",
+     "category": "nature",
+     "name": "Lipton’s Seat, Haputale",
+     "shortDescription": "Go early to the viewpoint above Dambatenne tea estate where Thomas Lipton is said to have surveyed his plantations, before the mist rolls in.",
+     "details": "The viewpoint sits high above the Dambatenne tea factory near Haputale, looking over tea estates and, on clear mornings, far across the southern plains. Mist usually arrives by mid-morning, so most people go at dawn. The road climbs through the estate; some walk the last stretch through the tea.",
+     "sources": [
+      "https://visituva.lk/destination/liptons-seat",
+      "docs/research/ella.md (Audit 2026-11-06)"
+     ],
+     "notes": "Covers the Haputale candidate: better as an excursion from Ella than its own page.",
+     "where": "Near Haputale, roughly an hour by road from Ella"
+    },
+    {
+     "id": "ella-diyaluma-falls",
+     "destinationId": "ella",
+     "kind": "excursion",
+     "category": "nature",
+     "name": "Diyaluma Falls",
+     "shortDescription": "One of Sri Lanka’s highest waterfalls, about 220 m, near Koslanda. Paths lead to pools near the top; stay well back from the edge.",
+     "details": "Diyaluma drops about 220 m off an escarpment near Koslanda. Paths lead up to rock pools near the top, just above the drop, which are popular for swimming in calm conditions, but people have drowned and fallen here. Keep well back from the edge, stay out of the water after rain, and ask locally about conditions. Allow half a day from Ella.",
+     "sources": [
+      "https://en.wikipedia.org/wiki/Diyaluma_Falls",
+      "docs/research/ella.md (Audit 2026-11-06)"
+     ],
+     "notes": "Safety reports from secondary sources (research record).",
+     "where": "Near Koslanda, roughly 1.5–2 hours by road from Ella"
+    },
+    {
+     "id": "ella-dowa-rock-temple",
+     "destinationId": "ella",
+     "kind": "excursion",
+     "category": "history",
+     "name": "Dowa rock temple",
+     "shortDescription": "An unfinished Buddha about 11 m tall carved into a rock face beside a painted cave shrine, on the Badulla road north of Bandarawela.",
+     "details": "The standing Buddha was carved into the granite face but never finished; tradition dates it to King Valagamba in the 1st century BC. Beside it, a cave shrine holds paintings and images. It is a working temple: dress modestly and remove shoes. A visit takes under an hour.",
+     "sources": [
+      "https://en.wikipedia.org/wiki/Dhowa_rock_temple",
+      "https://www.sundayobserver.lk/2025/05/04/spectrum/51226/historically-significant-dowa-temple",
+      "docs/research/ella.md (Audit 2026-11-06)"
+     ],
+     "notes": "",
+     "where": "On the Badulla road north of Bandarawela, roughly half an hour from Ella"
+    },
+    {
+     "id": "ella-tea-factory",
+     "destinationId": "ella",
+     "kind": "activity",
+     "category": "local-life",
+     "name": "Tea factory visit near Ella",
+     "shortDescription": "See how Uva tea is made at a working factory near Ella, from withering to grading, and taste the result.",
+     "details": "Several factories in the Ella area show visitors the process of making black tea: withering the leaf, rolling, fermenting, drying and grading, usually followed by a tasting. Uva teas are known for a bright, brisk flavour. As in the other tea districts, some machines may be idle by day, and photography may not be allowed inside.",
+     "sources": [
+      "docs/research/ella.md (Audit 2026-11-06)"
+     ],
+     "notes": "Generic card; the guide names Uva Halpewatte as an example only (owner question about which factory)."
+    },
+    {
+     "id": "ella-pekoe-trail",
+     "destinationId": "ella",
+     "kind": "activity",
+     "category": "adventure",
+     "name": "Pekoe Trail stage from Ella",
+     "shortDescription": "Walk an easy 9.5 km stage of the Pekoe Trail from Ella to Demodara, through tea and villages, passing near the Nine Arches Bridge.",
+     "details": "The Pekoe Trail is a 300 km waymarked route through the hill country. Two stages start or end in Ella: an easy 9.5 km walk to Demodara and a moderate 9.6 km stage from Makulella. The trail organisers publish each stage’s conditions, which change with the weather. Carry water, and start early.",
+     "sources": [
+      "https://thepekoetrail.org/pekoe-stages",
+      "docs/research/ella.md (Audit 2026-11-06)"
+     ],
+     "notes": "Stage numbers 15 and 16; both at \"Advisory\" on 6 Nov 2026."
+    }
+   ]
+  },
+  "adams-peak": {
+   "existingExperiences": [],
+   "newExperiences": []
+  }
+ },
+ "candidates": [
+  {
+   "place": "Haputale",
+   "recommendation": "Not its own page for now: cover it from Ella (Lipton’s Seat card, guide day trips). Reconsider if routes regularly stay there.",
+   "priority": "low",
+   "nearestExisting": "ella",
+   "summary": "A tea-country town on a ridge about an hour west of Ella, known for Lipton’s Seat, Dambatenne and the Adisham bungalow; on the railway, and on the way between Ella and Horton Plains.",
+   "attractions": [
+    "Lipton’s Seat",
+    "Dambatenne tea factory",
+    "Adisham"
+   ],
+   "routes": "About an hour from Ella; 2–2.5 hours from Nuwara Eliya via Welimada or Horton Plains.",
+   "season": "Clearest mornings about January to March",
+   "sources": [
+    "https://visituva.lk/destination/liptons-seat"
+   ],
+   "proposedExperiences": [
+    "ella-liptons-seat"
+   ]
+  }
+ ]
+}

@@ -99,3 +99,50 @@ For `src/data/experiences.mjs` (not edited; for the owner to apply once confirme
 - Coconut Tree Hill (without identifiable people, or with consent).
 - The fisheries harbour at dawn, with whale-watching boats (for this page and the experience page).
 - A monsoon-season sea or red-flag photo could illustrate the safety section, if available.
+
+## Audit 2026-11-06
+
+Audit and improvement pass. The researcher's run stopped before writing this section, so it
+is compiled from the audit's proposal file: each correction lists the sources it relied on.
+The web-search budget ran out partway through, so some items rest on fewer sources; they are
+flagged in the notes and under `verify:`.
+
+### Corrections made (old → new, why)
+- "Its tall white lighthouse was first lit in 1890." → "Its 49 m white lighthouse was completed in 1890.". Sources say 'completed and commissioned in March 1890'; adds the height.
+  - https://en.wikipedia.org/wiki/Dondra_Head_Lighthouse
+
+### Gaps found and what was done
+- Weligama surf lessons had one clause → expanded, FAQ added, proposed mirissa-weligama-surf-lesson
+- Matara (Dutch fort, Star Fort) → added; Dondra lighthouse height (49 m) added; proposed mirissa-matara-dondra-head
+- Hiriketiya and the Hummanaya blowhole → added as one 'Along the coast' bullet (see candidates)
+- Koggala/Ahangama stilt fishing → one bullet pointing to the Galle guide
+- Whale-watching rules (licensed boat, registered guide, 100 m) → one sentence in the whale section
+- Snorkelling spots at Mirissa → left out: no reliable source on safe spots
+- Parrot Rock and Secret Beach as cards → not proposed: already in the guide; little value as planner items
+- Kushtarajagala rock carving at Weligama (6th–9th century bodhisattva relief, 3 m) → left out: single source (Wikipedia); worth adding if confirmed
+
+### Owner questions
+- Whale-watching pickup 'around 8 a.m.' on the villa site vs 6–7 am Mirissa departures — which is right?
+- Do you suggest Weligama surf lessons, Matara/Dondra Head, Hiriketiya or Tangalle to tour guests?
+- Unchanged from the October draft: whale-watching terms and boat licensing, Coconut Tree Hill access, stay length, hero/experience photo rights.
+
+### Experience guide ideas
+- **Learning to surf at Weligama** — weligama surf lessons / learn to surf sri lanka beginners: Big beginner-surf query; fits a Mirissa stay.
+- **Mirissa, Weligama, Hiriketiya or Tangalle: where to stay on the south coast** — mirissa vs weligama / where to stay south coast sri lanka: Comparison query that helps route planning and covers the candidate places without new destination pages.
+
+## Experience cards added (2026-11-07)
+Merged into `src/data/experiences.mjs` with `source: 'research'`. Who provides each one
+is unconfirmed (see docs/research/owner-checklist.md).
+
+- **Surf lesson at Weligama** (`mirissa-weligama-surf-lesson`, activity)
+  - https://www.roughguides.com/sri-lanka/best-surf-spots/
+  - https://en.wikipedia.org/wiki/Ahangama
+  - https://en.wikipedia.org/wiki/Weligama
+  - Note: No official surf-season source for Weligama; Rough Guides and general south-coast seasons. Some schools operate year-round in the bay — 'mainly' covers that. Kind 'activity' with where (about 10–15 minutes).
+- **Matara forts and Dondra Head lighthouse** (`mirissa-matara-dondra-head`, excursion)
+  - https://en.wikipedia.org/wiki/Star_Fort,_Matara
+  - https://en.wikipedia.org/wiki/Dondra_Head_Lighthouse
+  - Note: Wikipedia only (two articles); no official tourism page checked. Whether visitors can climb the Dondra lighthouse is not confirmed — not claimed. The Paravi Duwa island temple in Matara could be added if verified. 'Two to three hours' is an estimate.
+- **Hummanaya blowhole** (`mirissa-hummanaya-blowhole`, excursion)
+  - https://en.wikipedia.org/wiki/Hummanaya
+  - Note: Single source (Wikipedia). Which months are best could not be confirmed (often said to be the south-west monsoon). 'Keep behind the barriers' assumes barriers exist — verify. Move to a Tangalle page if one is created (it is 12 km from Tangalle).

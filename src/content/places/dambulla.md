@@ -21,6 +21,8 @@ verify:
   - Do we include the Dambulla cave temple ticket, or do guests pay at the counter?
   - The design lists Dambulla as a day visit with no nights. The page says 2–3 hours, usually from a base near Sigiriya. Confirm.
   - Do our drivers stop at spice gardens on the Kandy–Dambulla road? The page describes them neutrally as places where buying is expected.
+  - Experience cards proposed for Dambulla (cave temple, Nalanda Gedige, Popham's Arboretum, Ibbankatuwa) — which can the driver include, and does the arboretum's night walk work with our timings?
+  - Who sells the cave temple ticket in 2026? The CCF ticket page lists the cave temple, but the CCF's 2025 visitor figures (SLTDA Year in Review) include only the Dambulla Museum. Confirm on site.
   - Dambulla hero photo — rights confirmed? It shows the modern golden Buddha above the museum at the foot of the hill, not the historic caves. Would a cave interior suit the page better?
 ---
 
@@ -55,13 +57,15 @@ The path climbs the rock's gentler slope on stone steps. Most people take 10–2
 
 Beside the main road, a modern temple and Buddhist museum building is topped by a large golden seated Buddha. The name "Golden Temple" is often used for the whole site, so it is easy to confuse the two. The historic caves are the climb above it.
 
+<!-- experiences -->
+
 ## Around Dambulla
 
 - **Ibbankatuwa megalithic tombs.** A short drive south-west on the Kurunegala road, stone-slab graves about 2,700 years old have yielded pottery, beads and cremated remains. A visit takes about half an hour.
 - **Popham's Arboretum.** On the Kandalama road, Sam Popham began restoring this small patch of dry-zone forest in 1963. Marked trails make a quiet hour's walk, and night walks look for slender lorises.
 - **The wholesale market.** Dambulla is the hub of the island's vegetable trade, and its large wholesale market shows a side of the town most visitors drive past.
-- **On the Kandy road.** Nalanda Gedige is a stone shrine built between the 8th and 10th centuries, which mixes a Hindu temple plan with Buddhist use. Near Matale, the Aluvihare cave temple is linked with the first writing down of the Buddhist scriptures. Spice gardens line the same road. Entry is usually free, but buying is expected, often at high prices.
-- **Aukana.** The 5th-century standing Buddha at Aukana, nearly 12 m tall and carved from the living rock, faces the Kala Wewa reservoir. It is an easy detour on the road to [Anuradhapura](/places/anuradhapura/).
+- **On the Kandy road.** About 25 km south, a short way off the main road, Nalanda Gedige is a stone shrine built between the 8th and 10th centuries. It mixes a South Indian Hindu temple plan with Buddhist use, and was moved stone by stone to its present site when a new reservoir threatened the original one. Near Matale, the Aluvihare cave temple is linked with the first writing down of the Buddhist scriptures. Spice gardens line the same road. Entry is usually free, but buying is expected, often at high prices.
+- **Aukana.** The 5th-century standing Buddha at Aukana, nearly 12 m tall and carved from the living rock, faces the Kala Wewa reservoir. It is about an hour's drive north-west, a detour on the way to [Anuradhapura](/places/anuradhapura/).
 
 ## How long to spend
 

@@ -140,3 +140,136 @@ Ella and Dalhousie; the state of the hill-country railway after Cyclone Ditwah.
 - Hakgala Botanic Gardens: the rose garden or terraces under Hakgala Rock.
 - The existing gallery has a generic tea-estate photo and the Labookellie sign
   (`nuwara-eliya-labookellie`); confirm both were taken around Nuwara Eliya.
+
+## Audit 2026-11-06
+
+Audit and improvement pass. The web-search budget ran out partway through; items resting on a
+single or non-official source are flagged.
+
+### Sources consulted
+- Rail (see `docs/research/kandy.md`, Audit 2026-11-06, for the full list): Newswire 25 Oct 2026;
+  Daily Mirror 23 Oct 2026; Sunday Times 11 Oct 2026; Newswire 8 Sep 2026 (Nanu Oya–Great Western
+  by December); Newsfirst 20 Jun 2026 (Nanu Oya–Badulla reopened); BYC.lk table (blog, 4 Nov 2026,
+  also reports a brief landslide stoppage near Bandarawela on 4 Nov).
+- Landslide warnings including Nuwara Eliya DS divisions: Ada Derana 17 Oct 2026
+  https://adaderana.lk/news/250111 , 4 Nov 2026 https://adaderana.lk/news/251105 ; NBRI https://nbri.gov.lk/
+- Horton Plains: see `docs/research/experience-horton-plains-worlds-end.md` (Sri Lanka Tourism,
+  DWC, IUCN Outlook 2025, Wikipedia, Daily Mirror 9 Dec 2025, Pekoe Trail closure notice of
+  29 Nov 2025, 2018 fatal-fall reports).
+- Hakgala (re-checked, official): https://botanicgardens.gov.lk/?p=1546
+- Seetha Amman Temple: https://en.wikipedia.org/wiki/Seetha_Amman_Temple
+- Lover’s Leap: https://en.wikipedia.org/wiki/Lovers_Leap_Falls ; Lonely Planet POI
+  https://www.lonelyplanet.com/sri-lanka/the-hill-country/nuwara-eliya/attractions/lovers-leap/a/poi-sig/1395281/357478
+- Moon Plains (no official page found): https://amazinglanka.com/wp/moon-plains-nuwara-eliya/ ;
+  https://www.trawell.in/sri-lanka/nuwara-eliya/moon-plains
+- Ambewela farms: https://www.timeout.com/sri-lanka/attractions-and-museums/ambewela-farm ;
+  Lanka Milk Foods https://lmfgroup.lk/?p=410
+- Pekoe Trail stages and status: https://thepekoetrail.org/pekoe-stages ; https://thepekoetrail.org/
+
+### Facts verified
+- Rail as of 6 Nov 2026: Nanu Oya–Badulla running (since 20 June 2026); nothing west of Nanu Oya.
+  Gampola–Nanu Oya under repair (December 2026 target for Nanu Oya–Great Western); Colombo–
+  Peradeniya/Gampola reopened 2 Oct and suspended again from 25 Oct.
+- Horton Plains: no railings at World’s End and fatal falls (2018 and earlier); DWC closed the park
+  temporarily in late November 2025 (Pekoe Trail notice); park roads restricted to ticketed
+  visitors from 7 Dec 2025 (Daily Mirror).
+- Hakgala: 1861, cinchona, about 28 ha, about 1,745 m, 9.5 km south-east on the Badulla road,
+  flowers mid-March to end of April (official, re-checked).
+- Seetha Amman: in Sita Eliya; dedicated to Sita, with a Hanuman shrine; tradition of Sita’s
+  captivity in the Ramayana; mainly Indian pilgrims; Hakgala about 1.7 km to the south-east.
+  (Wikipedia says "on the road to Kandy", which contradicts the location near Hakgala on the
+  Badulla road; the page follows the Hakgala location.)
+- Lover’s Leap: about 30 m (Wikipedia, Lakpura); reached through Pedro estate (Lonely Planet:
+  about 5 km round trip from the estate; shorter from a tuk-tuk drop-off).
+- Moon Plains (Sandatenna): declared an agricultural and environmental tourism zone by the
+  Nuwara Eliya Municipal Council in March 2014; viewpoint called a "mini World’s End";
+  authorised jeeps for the last few km. Blogs only.
+- Pekoe Trail: about 300 km, 22 stages, Hanthana ⇌ Pedro; stage 22 Kandapola–Pedro 11.3 km.
+  On 6 Nov 2026 stage 2 was closed and several stages under amber "precaution" for the
+  north-east monsoon.
+
+### Corrections made (old → new, why)
+- Gregory Lake: "has a lakeside path, boats and pony rides" → "has a lakeside path and boats".
+  Why: the brief and content rules do not promote animal rides.
+- Rail bullet: "At the time of writing, trains had resumed between Nanu Oya and Badulla via Ella
+  (since June 2026), but parts of the line from Kandy to Nanu Oya were still under repair" →
+  November 2026 status (nothing west of Nanu Oya; Colombo–Peradeniya/Gampola suspended again;
+  end-2026 target).
+- Rail FAQ: "At the time of writing, yes …" → dated to early November 2026, notes it is the only
+  open part of the line and that landslides can interrupt services.
+- Seetha Amman: "A Hindu temple on the same road, linked by tradition to the Ramayana" → location
+  (Sita Eliya, a little before Hakgala), dedication to Sita, Indian pilgrims, shoes off.
+
+### Added
+- World’s End safety (no railings, fatal falls); weather closures; a link to the new experience
+  guide `/experiences/horton-plains-worlds-end/`.
+- Tea-estate etiquette (private working land, keep to paths, factory photo rules, no obligation
+  to buy in the shop).
+- Moon Plains, Lover’s Leap, the Pekoe Trail, and a landslide note for hill roads.
+
+### Left out
+- Ambewela dairy farms: a working state-linked dairy area on the road to Horton Plains. Sources
+  conflict on which farm admits visitors, and farm visits include handling animals (rabbits,
+  calves), so it is not proposed as an experience and not added to the page.
+- Pidurutalagala, Single Tree Hill, Galway’s Land detail: no new verification.
+
+### Uncertainties and conflicts
+- Moon Plains: no official page; entry and jeep arrangements are from blogs (owner question in
+  `verify:`).
+- Lover’s Leap walking distance depends on where you start.
+- Rail status is volatile; one blog is the only dated source for 4 Nov.
+
+### Owner questions (also in `verify:`)
+- Moon Plains access and whether guests are taken there.
+- Rail status re-check.
+
+### Re-check before publishing
+- Rail status and the "early November 2026" wording.
+- DWC hours and fees for Horton Plains; any fencing added at World’s End.
+- Pekoe Trail stage conditions (closures after the north-east monsoon).
+
+## Experience cards added (2026-11-07)
+Merged into `src/data/experiences.mjs` with `source: 'research'`. Who provides each one
+is unconfirmed (see docs/research/owner-checklist.md).
+
+- **Horton Plains and World’s End walk** (`nuwara-eliya-horton-plains`, excursion)
+  - https://srilanka.travel/attraction?attraction_id=158
+  - https://www.dwc.gov.lk/?page_id=544
+  - https://whc.unesco.org/en/list/1203
+  - docs/research/nuwara-eliya.md (Audit 2026-11-06)
+  - Note: Experience id of the guide /experiences/horton-plains-worlds-end/.
+- **Gregory Lake** (`nuwara-eliya-gregory-lake`, attraction)
+  - https://en.wikipedia.org/wiki/Gregory_Lake
+  - docs/research/nuwara-eliya.md (Audit 2026-11-06)
+- **Hakgala Botanic Gardens** (`nuwara-eliya-hakgala`, attraction)
+  - https://botanicgardens.gov.lk/?p=1546
+  - docs/research/nuwara-eliya.md (Audit 2026-11-06)
+- **Seetha Amman Temple** (`nuwara-eliya-seetha-amman`, activity)
+  - https://en.wikipedia.org/wiki/Seetha_Amman_Temple
+  - docs/research/nuwara-eliya.md (Audit 2026-11-06)
+  - Note: Wikipedia places it on the Kandy road, which contradicts the location near Hakgala on the Badulla road; the card follows the Hakgala location (research record). Distance derived from Hakgala 9.5 km minus about 1.7 km.
+- **Lover’s Leap waterfall walk** (`nuwara-eliya-lovers-leap`, activity)
+  - https://en.wikipedia.org/wiki/Lovers_Leap_Falls
+  - https://www.lonelyplanet.com/sri-lanka/the-hill-country/nuwara-eliya/attractions/lovers-leap/a/poi-sig/1395281/357478
+  - docs/research/nuwara-eliya.md (Audit 2026-11-06)
+  - Note: Distances from Lonely Planet (research record). Pedro estate named as a location only, not as a partner.
+- **Moon Plains viewpoint** (`nuwara-eliya-moon-plains`, activity)
+  - docs/research/nuwara-eliya.md (blogs only; no official page found)
+  - docs/research/nuwara-eliya.md (Audit 2026-11-06)
+  - Note: Blog sources only; access arrangements unconfirmed (verify: list). Drop if the owner prefers.
+- **Ramboda, St Clair’s and Devon falls** (`nuwara-eliya-waterfalls`, excursion)
+  - https://en.wikipedia.org/wiki/St._Clair%27s_Falls
+  - docs/research/nuwara-eliya.md (Audit 2026-11-06)
+  - Note: The Adam’s Peak researcher placed these waterfalls under Nuwara Eliya. Times omitted (they are stops on through-routes).
+- **Birdwatching at Victoria Park and Galway’s Land** (`nuwara-eliya-birdwatching`, activity)
+  - https://en.wikipedia.org/wiki/Galway%27s_Land_National_Park
+  - https://www.dwc.gov.lk/
+  - docs/research/nuwara-eliya.md (Audit 2026-11-06)
+  - Note: From the guide text; no specific species promised.
+
+## Main photo replaced (2026-11-07)
+The supplied main photo was replaced because it was watermarked, low quality or not of the place
+(owner's request). New photo: "Highland tea plantation, Nuwara Eliya" by Bergentroll, CC0 1.0, Wikimedia Commons —
+https://commons.wikimedia.org/wiki/File:Tea-plantation_Nuwara_Eliya-2567.jpg. Place confirmed from the file itself: the description names Nuwara Eliya; category "Economy of Nuwara Eliya". It is credited under the photo on the
+page and on /photo-credits/; the site's copy is cropped and resized. The old photo question was
+removed from the guide's `verify:` list.

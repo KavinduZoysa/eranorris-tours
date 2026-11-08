@@ -16,10 +16,13 @@ combine:
 sources:
   - Department of Wildlife Conservation | https://www.dwc.gov.lk/
   - Department of Wildlife Conservation — online park permits | https://dwc.lankagate.gov.lk/DWCEpermitApp/homeAction.action?lang=en
+  - UNESCO World Heritage — Sinharaja Forest Reserve | https://whc.unesco.org/en/list/405
 verify:
   - Do we offer an Udawalawe safari or an Elephant Transit Home visit to tour guests? If so, what is included (jeep, permits, guide) and on what terms? There are no Udawalawe experiences in experiences.mjs yet.
   - Do we help guests choose or book a safari jeep and park permits, or do guests arrange them locally? (The page makes no claim.)
   - Recommended stay — the design suggests 1 night; the page says 1 night or a half-day stop. Confirm.
+  - Do drivers take guests to Maduwanwela Walawwa or Sinharaja from here, and would a night near Sinharaja (Deniyaya) fit our routes? The page mentions both only as nearby places.
+  - Maduwanwela Walawwa opening days and current condition — no official visitor page was found. Confirm it is open to visitors, or remove it.
   - Udawalawe hero photo (udawalawe-elephants) — rights confirmed, and taken in Udawalawe. It shows an elephant and calf right beside a jeep; are we happy with how close the vehicle is, given the page's advice on distance?
 ---
 
@@ -53,9 +56,17 @@ Visitors watch the calves come in for milk at set feeding times, from a viewing 
 ## Responsible viewing
 
 - **Don’t feed elephants.** For years, some elephants have waited at the park fence along the reservoir road for food from passing vehicles. Feeding wild animals is against the rules. It is also dangerous, and it teaches elephants to approach people.
-- **Give them space.** Ask your safari driver to keep a good distance, especially from mothers with calves. Never let the jeep come between a calf and its herd, or block an elephant’s path.
+- **Give them space.** Ask your safari driver to keep a good distance, especially from mothers with calves. Never let the jeep come between a calf and its herd, or block an elephant’s path. If several jeeps have already gathered around a herd, hold back or move on.
 - **Read the signs.** Head-shaking, spread ears or a step towards the jeep are common warnings. Back off quietly.
 - **Stay in the vehicle** and keep noise and litter to yourself.
+
+## Around Udawalawe
+
+Most people come only for the park, but a few places nearby reward a longer stay or a different route:
+
+- **Maduwanwela Walawwa.** Roughly an hour west, beyond Embilipitiya, this rambling manor house of a local chieftain family dates back to the 1700s and was enlarged until 1905. It once had more than a hundred rooms around 21 courtyards; fewer than half survive. The Department of Archaeology runs it as a museum, and few tourists find it. Check that it is open before you go.
+- **Sinharaja Forest Reserve.** The southern edge of this UNESCO-listed rainforest, around Deniyaya, is about 2–2.5 hours away via Embilipitiya. That is a long return trip; it works better as a night of its own on the way to or from the south coast.
+- **Lunugamvehera National Park**, near Thanamalwila on the road to Yala, protects a corridor that elephants use between the two parks, and sees few jeeps.
 
 ## How long to stay
 

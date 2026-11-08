@@ -138,3 +138,116 @@ road times to Nuwara Eliya, Kandy, the airport, Yala, Udawalawe and Arugam Bay.
   not from a door.
 - Ella Gap at sunrise; the town and station.
 - Ravana Falls; Lipton’s Seat on a clear morning.
+
+## Audit 2026-11-06
+
+Audit and improvement pass. The web-search budget ran out partway through; items resting on a
+single or non-official source are flagged.
+
+### Sources consulted
+- Rail: as in `docs/research/kandy.md` (Audit 2026-11-06) — Newswire 25 Oct and 8 Sep 2026, Daily
+  Mirror 23 Oct 2026, Sunday Times 11 Oct 2026, Newsfirst 20 Jun 2026, BYC.lk (blog, 4 Nov 2026).
+- Roads: Ada Derana, Ella–Wellawaya road reopened (Dec 2025): https://www.adaderana.lk/news/115417/ella-wellawaya-road-reopens-for-traffic ;
+  earlier closures: https://english.newsfirst.lk/2025/3/14/ella-wellawaya-road-blocked-motorists-advised-to-detour ;
+  https://adaderana.lk/news/106555/ella-wellawaya-road-blocked-due-to-earthslip . Landslide warnings
+  for Ella, Haputale and Passara DS divisions: https://adaderana.lk/news/250111 (17 Oct 2026, amber
+  for Haputale and Passara), https://adaderana.lk/news/251105 (4 Nov 2026, yellow for Ella).
+- Diyaluma: https://en.wikipedia.org/wiki/Diyaluma_Falls ; travel guides on the upper pools
+  (https://www.thecommonwanderer.com/blog/guide-to-diyaluma-falls-sri-lanka ) and a reported fatal
+  fall at Uda Diyaluma in December 2018 (secondary report; original not opened).
+- Ravana Falls: https://en.wikipedia.org/wiki/Ravana_Falls
+- Dowa rock temple: https://en.wikipedia.org/wiki/Dhowa_rock_temple ; Sunday Observer feature
+  https://www.sundayobserver.lk/2025/05/04/spectrum/51226/historically-significant-dowa-temple
+- Uva Halpewatte: Uva tourism https://visituva.lk/thingstodoinuvaprovince/uva-halpewatte-tea-factory-tour-a-journey-through-uvas-tea-heritage ;
+  booking listings (address "Badulla Road, Hela Halpe, Ella"; about 1,230 m; tours about an hour).
+- Flying Ravana zipline: Life.lk review https://www.life.lk/article/Flying-through-Ella---Flying-Ravana/18895
+  (not fetchable; summary from search); booking listings (about 550 m, twin lines, off the
+  Ella–Passara road about 2 km from Ella).
+- Pekoe Trail stages: https://thepekoetrail.org/pekoe-stages
+- Lipton’s Seat: https://visituva.lk/destination/liptons-seat ; https://en.wikipedia.org/wiki/Haputale
+- Nine Arches crack rumour fact-check (no recent crack; trains running):
+  https://srilanka.factcrescendo.com/english/a-misleading-post-circulating-on-social-media-claims-that-a-crack-has-recently-appeared-on-the-nine-arch-bridge
+
+### Facts verified
+- Rail as of 6 Nov 2026: Nanu Oya–Badulla running since 20 June 2026 and the only open part of
+  the hill-country line; end-2026 target for the rest.
+- Ella–Wellawaya road: closed by slips in 2019, 2023, May 2024, March 2025 and after Ditwah;
+  fully reopened in December 2025 (Badulla District Secretary via Ada Derana). No 2026 closure found.
+- Diyaluma: 220 m, second-highest in Sri Lanka, about 6 km from Koslanda; upper pools reached on
+  foot; drownings/near-drownings and a fatal fall reported (secondary sources).
+- Ravana Falls: about 25 m, 6 km from Ella station, part of the Ravana Ella Wildlife Sanctuary;
+  flow drops sharply in the dry season.
+- Dowa: unfinished Buddha about 11 m in a granite face; about 7.5 km north of Bandarawela on the
+  Badulla road; tradition ascribes it to King Valagamba (1st century BC); protected monument 1996.
+- Pekoe Trail: stage 15 Makulella ⇌ Ella 9.61 km (moderate); stage 16 Ella ⇌ Demodara 9.50 km
+  (easy); both "Advisory" on 6 Nov 2026.
+
+### Corrections made (old → new, why)
+- Train section: "At the time of writing, trains had been running between Nanu Oya and Badulla
+  via Ella since June 2026, but parts of the route from Kandy to Nanu Oya were still under repair"
+  → early-November 2026 status (only open section; bridge into Kandy and Gampola–Nanu Oya still
+  being rebuilt; end-2026 target; landslides can interrupt services).
+- Train FAQ updated the same way.
+- Ravana Falls: "Take care on wet rocks" → slippery rocks, fast water after rain, don’t climb the
+  falls.
+- Diyaluma: adds a safety line about the pools above the drop.
+
+### Added
+- Dowa rock temple; a short paragraph on Uva Halpewatte, the zipline and the two Ella Pekoe Trail
+  stages; the Ella–Wellawaya landslide note; a link to the Horton Plains experience guide.
+
+### Uncertainties and conflicts
+- Uva Halpewatte distance and route from Ella not verified (listings say "Badulla Road, Hela
+  Halpe"); the page says only "closer to town".
+- Zipline: commercial operator; current safety standards, limits and prices not verified.
+- Dowa from Ella "roughly half an hour" is an estimate.
+- Ella Rock, track-walking safety and Ravana Falls drowning reports could not be re-checked after
+  the search budget ran out.
+
+### Owner questions (also in `verify:`)
+- Rail status re-check.
+- Whether guests are taken to the zipline or the Uva Halpewatte factory, or an operator recommended.
+
+### Re-check before publishing
+- Rail status; Ella–Wellawaya road; Pekoe Trail stage status.
+
+## Experience cards added (2026-11-07)
+Merged into `src/data/experiences.mjs` with `source: 'research'`. Who provides each one
+is unconfirmed (see docs/research/owner-checklist.md).
+
+- **Ella Rock hike** (`ella-rock-hike`, activity)
+  - docs/research/ella.md (Audit 2026-11-06)
+- **Ravana Falls** (`ella-ravana-falls`, attraction)
+  - https://en.wikipedia.org/wiki/Ravana_Falls
+  - docs/research/ella.md (Audit 2026-11-06)
+- **Hill-country train ride** (`ella-hill-country-train`, activity)
+  - https://seatreservation.railway.gov.lk/mtktwebslr/
+  - https://www.newswire.lk/2026/09/08/nanu-oya-great-western-railway-repairs-to-be-completed-by-december/
+  - docs/research/ella.md (Audit 2026-11-06)
+  - Note: Worded so the card stays accurate as repairs progress; the guide carries the dated status.
+- **Lipton’s Seat, Haputale** (`ella-liptons-seat`, excursion)
+  - https://visituva.lk/destination/liptons-seat
+  - docs/research/ella.md (Audit 2026-11-06)
+  - Note: Covers the Haputale candidate: better as an excursion from Ella than its own page.
+- **Diyaluma Falls** (`ella-diyaluma-falls`, excursion)
+  - https://en.wikipedia.org/wiki/Diyaluma_Falls
+  - docs/research/ella.md (Audit 2026-11-06)
+  - Note: Safety reports from secondary sources (research record).
+- **Dowa rock temple** (`ella-dowa-rock-temple`, excursion)
+  - https://en.wikipedia.org/wiki/Dhowa_rock_temple
+  - https://www.sundayobserver.lk/2025/05/04/spectrum/51226/historically-significant-dowa-temple
+  - docs/research/ella.md (Audit 2026-11-06)
+- **Tea factory visit near Ella** (`ella-tea-factory`, activity)
+  - docs/research/ella.md (Audit 2026-11-06)
+  - Note: Generic card; the guide names Uva Halpewatte as an example only (owner question about which factory).
+- **Pekoe Trail stage from Ella** (`ella-pekoe-trail`, activity)
+  - https://thepekoetrail.org/pekoe-stages
+  - docs/research/ella.md (Audit 2026-11-06)
+  - Note: Stage numbers 15 and 16; both at "Advisory" on 6 Nov 2026.
+
+## Main photo replaced (2026-11-07)
+The supplied main photo was replaced because it was watermarked, low quality or not of the place
+(owner's request). New photo: "Civilization meets Jungle" by Fabian Greiler, CC BY 2.0, Wikimedia Commons —
+https://commons.wikimedia.org/wiki/File:Civilization_meets_Jungle_(44753903400).jpg. Place confirmed from the file itself: Commons category "Nine Arches Bridge, Demodara". It is credited under the photo on the
+page and on /photo-credits/; the site's copy is cropped and resized. The old photo question was
+removed from the guide's `verify:` list.

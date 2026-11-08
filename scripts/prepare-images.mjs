@@ -1,11 +1,16 @@
 // One-off: copies the supplied photos into src/images/ with descriptive file names and
 // metadata stripped. The build generates the web sizes from these masters.
 //
-//   node scripts/prepare-images.mjs [destination photo folder] [--experiences=<folder>]
+//   node scripts/prepare-images.mjs [destination photo folder] [--experiences=<folder>] [--only=a,b]
 //
-//   destinations: ~/villas/destinations by default → src/images/destinations/ (1200×800)
-//   experiences:  the villa site's assets/images folder (default: ../eranorris-srilanka/assets/images)
-//                 → src/images/experiences/ (longest side ≤ 1200, not cropped)
+//   destinations: PHOTO_SOURCES — a file in ~/villas/destinations by default, or an https URL
+//                 (Wikimedia Commons originals, credited in PHOTO_CREDITS) → src/images/destinations/
+//                 (1200×800)
+//   experiences:  EXPERIENCE_PHOTO_SOURCES — paths in the villa site's assets/images folder
+//                 (default: ../eranorris-srilanka/assets/images), or 'tours:<path under
+//                 ~/villas/tours>' → src/images/experiences/ (longest side ≤ 1200, not cropped)
+//   --only:       process just these output names (e.g. --only=stilt-fishing,herbal-cloth-weaving),
+//                 leaving every other master untouched
 //   galleries:    GALLERY_IMAGES in src/data/galleries.mjs ('tours:' = ~/villas/tours,
 //                 'villa-site:' = the villa site folder) → src/images/gallery/ (longest side ≤ 1600)
 import { mkdir } from 'node:fs/promises';
@@ -21,24 +26,38 @@ const srcDir = args.find((a) => !a.startsWith('--')) || path.join(homedir(), 'vi
 const expDir =
   args.find((a) => a.startsWith('--experiences='))?.slice(14) ||
   new URL('../../eranorris-srilanka/assets/images/', import.meta.url).pathname;
+const only = args.find((a) => a.startsWith('--only='))?.slice(7).split(',');
+const wanted = (name) => !only || only.includes(name);
+const toursDir = path.join(homedir(), 'villas', 'tours');
+const source = (from) => {
+  const [kind, rel] = from.split(/:(.*)/s);
+  return rel !== undefined && kind === 'tours' ? path.join(toursDir, rel) : path.join(expDir, rel ?? from);
+};
 const outDir = new URL('../src/images/destinations/', import.meta.url);
 await mkdir(outDir, { recursive: true });
 
-for (const d of DESTS) {
-  const from = path.join(srcDir, PHOTO_SOURCES[d.id]);
+// Remote originals are downloaded (Wikimedia asks automated clients to identify themselves).
+const load = async (src) => {
+  if (!/^https:\/\//.test(src)) return path.join(srcDir, src);
+  const res = await fetch(src, { headers: { 'User-Agent': 'EranorrisTours-prepare-images/1.0 (https://github.com/KavinduZoysa/eranorris-tours)' } });
+  if (!res.ok) throw new Error(`${src}: HTTP ${res.status}`);
+  return Buffer.from(await res.arrayBuffer());
+};
+for (const d of DESTS.filter((x) => wanted(x.photo))) {
+  const from = await load(PHOTO_SOURCES[d.id]);
   const to = new URL(`${d.photo}.jpg`, outDir);
   const info = await sharp(from)
     .rotate()
     .resize(1200, 800, { fit: 'cover' })
     .jpeg({ quality: 84, mozjpeg: true })
     .toFile(to.pathname);
-  console.log(`${PHOTO_SOURCES[d.id]} → ${d.photo}.jpg (${Math.round(info.size / 1024)} KB)`);
+  console.log(`${PHOTO_SOURCES[d.id].split('/').pop()} → ${d.photo}.jpg (${Math.round(info.size / 1024)} KB)`);
 }
 
 const expOut = new URL('../src/images/experiences/', import.meta.url);
 await mkdir(expOut, { recursive: true });
-for (const [name, rel] of Object.entries(EXPERIENCE_PHOTO_SOURCES)) {
-  const info = await sharp(path.join(expDir, rel))
+for (const [name, rel] of Object.entries(EXPERIENCE_PHOTO_SOURCES).filter(([n]) => wanted(n))) {
+  const info = await sharp(source(rel))
     .rotate()
     .resize(1200, 1200, { fit: 'inside', withoutEnlargement: true })
     .jpeg({ quality: 84, mozjpeg: true })
@@ -48,11 +67,8 @@ for (const [name, rel] of Object.entries(EXPERIENCE_PHOTO_SOURCES)) {
 
 const galOut = new URL('../src/images/gallery/', import.meta.url);
 await mkdir(galOut, { recursive: true });
-const toursDir = path.join(homedir(), 'villas', 'tours');
-for (const [name, img] of Object.entries(GALLERY_IMAGES)) {
-  const [kind, rel] = img.from.split(/:(.*)/s);
-  const from = path.join(kind === 'tours' ? toursDir : expDir, rel);
-  const info = await sharp(from)
+for (const [name, img] of Object.entries(GALLERY_IMAGES).filter(([n]) => wanted(n))) {
+  const info = await sharp(source(img.from))
     .rotate()
     .resize(1600, 1600, { fit: 'inside', withoutEnlargement: true })
     .jpeg({ quality: 84, mozjpeg: true })

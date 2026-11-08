@@ -19,6 +19,8 @@ sources:
   - Sri Lanka Tea Board — the Nuwara Eliya tea district | https://srilankateaboard.lk/?p=288
   - Sri Lanka Railways — train schedules | https://eservices.railway.gov.lk/schedule/searchTrain.action?lang=en
   - UNESCO World Heritage — Central Highlands of Sri Lanka | https://whc.unesco.org/en/list/1203
+  - National Building Research Institute — landslide early warnings | https://nbri.gov.lk/
+  - The Pekoe Trail — stages and current conditions | https://thepekoetrail.org/pekoe-stages
 verify:
   - Which Nuwara Eliya visits do we actually arrange — a tea factory, Horton Plains, Hakgala, Gregory Lake — and is it driver-only or with a guide?
   - Do we buy Horton Plains permits or any entrance tickets, or do guests pay themselves?
@@ -27,7 +29,8 @@ verify:
   - Do we visit a particular tea factory? The page names Pedro and Labookellie only as examples, not as partners.
   - Can we help with a train section (e.g. Nanu Oya to Ella), and how does the driver fit around it?
   - The design highlight says 1,900 m; the official figure is about 1,868 m. Keep the rounded figure?
-  - Nuwara Eliya hero photo — rights confirmed, and it shows an estate around Nuwara Eliya (not elsewhere in the hills).
+  - Rail status — last checked 6 November 2026 (Nanu Oya–Badulla running; Kandy/Gampola–Nanu Oya closed). Re-check before publishing and update "Getting there" and the FAQ.
+  - Moon Plains — is the jeep-only access and the municipal ticket still current, and do we take guests there? The page describes it only in general terms.
 ---
 
 ## A hill station in tea country
@@ -42,7 +45,7 @@ The Sri Lanka Tea Board describes Nuwara Eliya as the most rugged of the island�
 
 Several estates near town and along the Kandy road show visitors how tea is made: plucking, withering, rolling, fermenting, firing and grading, usually followed by a cup in the tasting room. Pedro estate, a few kilometres from the centre, and the Labookellie tea centre beside the Kandy road are two well-known examples. Some factories do much of their processing at night, when it is cooler, so a daytime visit may find the machines idle, and photography is not allowed inside some of them.
 
-If you want to photograph tea pluckers, ask first. They are at work, and some will ask for a tip.
+If you want to photograph tea pluckers, ask first. They are at work, and some will ask for a tip. Estates are private, working land, so keep to the roads and paths rather than walking into the rows, and follow each factory’s rules on photography. Most tours end in a shop, with no obligation to buy.
 
 <!-- experiences -->
 
@@ -53,23 +56,30 @@ Horton Plains National Park is the main reason to stay a second night. It protec
 The standard walk is a loop of about 9 km, taking around three hours on mostly level paths with rocky and muddy stretches. It passes Mini World’s End, then World’s End, where the escarpment drops roughly 870–880 m towards the lowlands, and returns past Baker’s Falls. The steps down to the falls are steep and slippery when wet.
 
 - **Go early.** Cloud often fills the view from World’s End by mid-morning, especially from April to September, so most visitors leave town before dawn.
+- **Mind the edge.** There are no railings at World’s End, the edge can crumble, and visitors have fallen to their deaths. Stay well back, especially for photos.
 - **Wildlife.** Sambar deer are often seen on the grasslands, and the forest holds endemic birds. Leopards live here but are rarely seen.
 - **No polythene.** Plastic bags are banned, after sambar died from eating litter. Carry everything out.
-- **Permits and crowds.** The Wildlife Department publishes permit, fee and opening details. Sundays and public holidays are busiest.
+- **Permits and crowds.** The Wildlife Department publishes permit, fee and opening details. Sundays and public holidays are busiest, and the park can close in severe weather, as it did briefly after Cyclone Ditwah in late 2025.
+
+For the walk, permits and timing in more detail, see the [Horton Plains and World’s End guide](/experiences/horton-plains-worlds-end/).
 
 ## In and around town
 
-- **Gregory Lake.** Made in the 1870s by damming streams below Pidurutalagala, the lake on the edge of town has a lakeside path, boats and pony rides. It suits an evening stroll.
+- **Gregory Lake.** Made in the 1870s by damming streams below Pidurutalagala, the lake on the edge of town has a lakeside path and boats. It suits an evening stroll.
 - **Victoria Park and Galway’s Land.** The town park and the small Galway’s Land National Park, about 2 km east of the centre, are both known for birdwatching. Early morning is best.
 - **Hakgala Botanic Gardens.** Founded in 1861 to trial cinchona, the source of quinine, these terraced gardens lie about 9.5 km south-east on the Badulla road, below Hakgala Rock. Roses and other flowers peak from mid-March to April.
-- **Seetha Amman Temple.** A Hindu temple on the same road, linked by tradition to the Ramayana.
-- **Waterfalls.** Ramboda Falls is beside the Kandy road; St Clair’s and Devon falls are seen from viewpoints near Talawakele.
+- **Seetha Amman Temple.** A little before Hakgala at Sita Eliya, this Hindu temple is dedicated to Sita. Tradition holds that Ravana kept her captive here, as told in the Ramayana, and many pilgrims come from India. Shoes come off at the entrance.
+- **Moon Plains.** A grassland reserve run by the municipal council, a short drive from town, with a cliff-edge viewpoint often called a mini World’s End. Authorised jeeps usually cover the last stretch, and mornings are clearest.
+- **Waterfalls.** Lover’s Leap, about 30 m high, is reached on foot through Pedro estate. Ramboda Falls is beside the Kandy road; St Clair’s and Devon falls are seen from viewpoints near Talawakele.
+- **The Pekoe Trail.** This 300 km walking route through the hills runs from Hanthana, above Kandy, to Pedro estate. Its organisers publish stage conditions, which change with the weather.
 
 ## Weather and when to go
 
 This is the coolest town in Sri Lanka. Long-term averages put daytime highs at about 19–22 °C all year and night-time lows around 10–14 °C, and frost is possible on clear nights from about December to March.
 
 It is usually driest from January to March, which is also the clearest time for Horton Plains. The south-west monsoon brings frequent rain and mist from about May to September, and October and November are the wettest months. In April the town fills up for the Sinhala and Tamil New Year holidays, with horse racing and other events, so book well ahead if you are travelling then.
+
+Heavy rain in either monsoon can trigger landslides that close hill roads for hours or longer; the National Building Research Institute publishes landslide warnings when the rain is heavy.
 
 ## How long to stay
 
@@ -86,7 +96,7 @@ A typical full day:
 
 - **From Kandy.** About 75–80 km, around 3 hours on a winding road that climbs through tea estates past Ramboda Falls.
 - **From the airport or Colombo.** Roughly 4.5–6 hours by road, via Kandy or Hatton. Traffic and weather make a big difference.
-- **By train.** The nearest station is Nanu Oya, about 8 km from town. Cyclone Ditwah badly damaged the hill-country line in late 2025. At the time of writing, trains had resumed between Nanu Oya and Badulla via Ella (since June 2026), but parts of the line from Kandy to Nanu Oya were still under repair. Check Sri Lanka Railways before planning a rail section.
+- **By train.** The nearest station is Nanu Oya, about 8 km from town. Cyclone Ditwah badly damaged the hill-country line in late 2025. In early November 2026 trains were running between Nanu Oya and Badulla via Ella (since June 2026), but not west of Nanu Oya: the line from Gampola and the bridge into Kandy were still being rebuilt, and Colombo services to Peradeniya and Gampola had been suspended again after a landslide. Officials aim to reopen the whole line by the end of 2026. Check Sri Lanka Railways before planning a rail section.
 - **To Ella.** About 2–3 hours to [Ella](/places/ella/) by road, or roughly 2.5–3 hours by train from Nanu Oya.
 - **To Adam’s Peak.** About 2.5–3.5 hours to Dalhousie, the start of the [Adam’s Peak](/places/adams-peak/) climb.
 
@@ -108,7 +118,7 @@ Yes. Several factories near town show visitors each stage and end with a tasting
 
 ### Is the train running between Nuwara Eliya and Ella?
 
-At the time of writing, yes: trains were running again between Nanu Oya, the station for Nuwara Eliya, and Ella after repairs following Cyclone Ditwah. Check Sri Lanka Railways before you plan around it.
+Yes, at the time of writing (early November 2026): trains were running between Nanu Oya, the station for Nuwara Eliya, and Badulla via Ella, the only part of the hill-country line open after Cyclone Ditwah. Landslides can still interrupt services after heavy rain, so check Sri Lanka Railways before you plan around it.
 
 ### Why is Nuwara Eliya so busy in April?
 

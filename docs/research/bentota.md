@@ -117,3 +117,57 @@ Bentota (same figure as the guide). The two rivers are different places, so the 
 - **Lunuganga / Brief:** the Trust allows personal photography outdoors only; publishing needs
   the Trust’s written approval, so ask before using any Lunuganga photo. Brief Garden would need
   permission too.
+
+## Audit 2026-11-06
+
+Audit and improvement pass. The researcher's run stopped before writing this section, so it
+is compiled from the audit's proposal file: each correction lists the sources it relied on.
+The web-search budget ran out partway through, so some items rest on fewer sources; they are
+flagged in the notes and under `verify:`.
+
+### Corrections made (old → new, why)
+- "Ambalangoda, a little further south, is known for its carved wooden masks." → "Ambalangoda, about 25 km south beyond the Madu Ganga, is known for its carved wooden masks, used in healing rituals and folk theatre, with workshops and museums.". Gives a distance (Colombo–Bentota about 65 km, Colombo–Ambalangoda about 87 km) and what the masks are.
+  - https://en.wikipedia.org/wiki/Bentota
+  - https://en.wikipedia.org/wiki/Ambalangoda
+  - https://srilanka.travel/wellness-tourism/The_masks_of_Ambalangoda_from_healing_to_performance
+
+### Gaps found and what was done
+- The guide never mentioned the Madu Ganga except in 'More to see', though the card is built on it → paragraph in 'On the river' plus an FAQ ('Is the Madu River the same as the Bentota River?')
+- Captive-animal extras on Madu River trips (baby crocodile photos, 'fish therapy') → described neutrally as captive animals, handling discouraged; owner question
+- Water-sports safety was one line → expanded (briefing, fitted life jacket, keep away from swimmers, no alcohol)
+- Induruwa and Ayurveda → added to 'More to see nearby'
+- Lunuganga and Brief Garden had no cards → proposed bentota-lunuganga and bentota-brief-garden
+- Kosgoda hatcheries → kept as a neutral captive-facility mention; not proposed as an experience (per brief)
+- Galapata Raja Maha Vihara → stays in the guide; no card (little demand)
+
+### Owner questions
+- The villa Madu River tour lists a 'baby crocodile photo' and 'fish therapy' as extras. Are these still part of it? The site must not promote them; can tour guests take the trip without them?
+- From Bentota, which river do guests use — Bentota River, Madu Ganga or either — and is the Ambalangoda mask museum always included?
+- Do you suggest Lunuganga and/or Brief Garden? Is Brief Garden currently open (its website shows no visiting details)?
+- Do you recommend particular water-sports operators, and are they SLTDA-registered with life jackets for all sizes?
+- Unchanged from the October draft: stay length, end-of-tour beach, hero photo, journey times.
+
+### Experience guide ideas
+- **Madu River boat safari: what to expect** — madu river safari / madu ganga boat tour / balapitiya boat ride: High-volume query; a page could explain the Ramsar wetland, the island temple, and honestly flag the crocodile-photo and fish-pool stops.
+- **Visiting Lunuganga and Brief Garden** — lunuganga tour / geoffrey bawa house bentota / brief garden bentota: Architecture travellers search for this; the Trust's tour-only rule and booking options are often misunderstood.
+
+## Experience cards added (2026-11-07)
+Merged into `src/data/experiences.mjs` with `source: 'research'`. Who provides each one
+is unconfirmed (see docs/research/owner-checklist.md).
+
+- **Lunuganga, Geoffrey Bawa's garden** (`bentota-lunuganga`, attraction)
+  - https://geoffreybawa.com/lunuganga
+  - https://en.wikipedia.org/wiki/Bentota
+  - Note: Trust page (Nov 2026): garden tours daily at 11:00, 14:00 and 15:00, no reservation needed; private and curatorial tours booked ahead; third-party tours not permitted; publishing photos needs written approval. Not quoted on the card. Exact distance from Bentota not confirmed — 'short drive'. Kind 'attraction' with where; change to 'excursion' if the drive is more than about 20 minutes.
+- **Brief Garden (Bevis Bawa's garden)** (`bentota-brief-garden`, excursion)
+  - https://livingmagazine.lk/bevis-bawas-brief-garden/
+  - https://www.life.lk/article/travel/A-Visit-to-Brief-Garden/58/21446
+  - https://en.wikipedia.org/wiki/Bentota
+  - Note: Start date conflict: 1929 (most sources, Wikipedia) vs 1949 — left out. briefgarden.com showed no visiting information when fetched (Nov 2026); current opening unconfirmed — owner question. 'About an hour' is an estimate.
+
+## Main photo replaced (2026-11-07)
+The supplied main photo was replaced because it was watermarked, low quality or not of the place
+(owner's request). New photo: "Bentota Estuary" by Miniace, CC BY-SA 4.0, Wikimedia Commons —
+https://commons.wikimedia.org/wiki/File:Bentota_Estuary.jpg. Place confirmed from the file itself: Commons category "Bentota"; the description names the Bentota estuary. It is credited under the photo on the
+page and on /photo-credits/; the site's copy is cropped and resized. The old photo question was
+removed from the guide's `verify:` list.

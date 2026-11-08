@@ -17,7 +17,10 @@ sources:
   - Sri Lanka Tourism — whale watching | https://srilanka.travel/whale-watching
   - Sri Lanka Coast Guard (lifesaving posts and sea-safety notices) | https://coastguard.gov.lk/
   - Department of Wildlife Conservation | https://www.dwc.gov.lk/
+  - Sea Mammals (Observation, Regulation and Control) Regulations No. 1 of 2012, Gazette 1774/27 (FAOLEX copy) | https://faolex.fao.org/docs/pdf/srl133799.pdf
 verify:
+  - Do we suggest Weligama surf lessons, Matara and Dondra Head, or the beaches further east (Hiriketiya, Tangalle) to tour guests? The page describes them as nearby options only.
+  - The villa site's whale-watching tour mentions a villa pickup "around 8 a.m.", while Mirissa boats usually leave between about 6 and 7 am. Which is right for tour guests?
   - Is whale watching (listed on the villa site as part of the "Whale Watching Mirissa & Galle Tour") offered to tour guests? If so, on what terms, which boat or operator, and is the boat licensed under the 2012 sea-mammal regulations?
   - Do we offer Coconut Tree Hill as a stop, and do we know the current access arrangements on the private land?
   - Recommended stay — the design suggests 2 nights; the page says 2–3, with a spare morning for whale watching. Which do we advise?
@@ -40,7 +43,7 @@ It is busiest from about December to March. In the evenings, the beach restauran
 
 ## Whale watching
 
-From about November to April, boats leave the harbour around dawn and head for the deep water off the south coast, where blue whales, sperm whales and spinner dolphins feed. Most trips take several hours, and sightings are common in season but never guaranteed. The sea can be lively even in good months, so plan this for a morning when you have nothing else on. For the species, what a trip involves, the rules and seasickness tips, see the [Mirissa whale-watching guide](/experiences/mirissa-whale-watching/).
+From about November to April, boats leave the harbour around dawn and head for the deep water off the south coast, where blue whales, sperm whales and spinner dolphins feed. Most trips take several hours, and sightings are common in season but never guaranteed. Under the 2012 sea-mammal regulations, boats must be licensed by the wildlife department, carry a registered guide and stay at least 100 m from whales. The sea can be lively even in good months, so plan this for a morning when you have nothing else on. For the species, what a trip involves, the rules and seasickness tips, see the [Mirissa whale-watching guide](/experiences/mirissa-whale-watching/).
 
 <!-- experiences -->
 
@@ -56,8 +59,11 @@ Wherever you swim, stay near other bathers and any lifeguards, respect red flags
 
 ## Along the coast
 
-- **Weligama**, about 5 km west, has a long, sandy bay that is a popular place to learn to surf.
-- **Dondra Head**, about half an hour east beyond Matara, is the southernmost point of Sri Lanka. Its tall white lighthouse was first lit in 1890.
+- **Weligama**, about 5 km west, has a long, sandy bay with gentle waves and many surf schools, one of the most popular places in Sri Lanka to learn to surf. Lessons run mainly in the calmer months, from about November to April. Taprobane, the tiny wooded island off the beach, is a private villa.
+- **Koggala and Ahangama**, about half an hour west, are known for stilt fishermen, though many now pose for paid photographs; the [Galle guide](/places/galle/) covers them with Koggala Lake.
+- **Matara**, about 20 minutes east at the mouth of the Nilwala River, keeps a Dutch fort and the small Star Fort of the 1760s.
+- **Dondra Head**, about half an hour east beyond Matara, is the southernmost point of Sri Lanka. Its 49 m white lighthouse was completed in 1890.
+- **Hiriketiya**, a small horseshoe bay near Dikwella, about 45 minutes to an hour east, is popular with surfers. Nearby, the Hummanaya blowhole at Kudawella throws up spray when the swell is big.
 - **Tangalle**, about an hour east, has quieter beaches and a slower pace.
 - **Galle** and Unawatuna are about an hour west. The fort makes a day trip, or a stop on the way to or from Colombo.
 
@@ -69,7 +75,7 @@ A typical three days:
 
 - **Day 1:** arrive in the afternoon, swim, and walk out to Coconut Tree Hill or Parrot Rock for sunset.
 - **Day 2:** an early start for whale watching, back by late morning or midday, then a slow afternoon.
-- **Day 3:** a morning at Weligama or Dondra Head, or the drive to Galle Fort.
+- **Day 3:** a surf lesson at Weligama, Matara and Dondra Head, or the drive to Galle Fort.
 
 ## Best time to visit
 
@@ -101,6 +107,10 @@ Yes, at low tide, by wading a short channel from the beach. Check the tide first
 ### Is Coconut Tree Hill open to visitors?
 
 It is usually open to walk up, but it is on private land and access has been disputed in the past. Check locally before you go.
+
+### Where can I learn to surf near Mirissa?
+
+Weligama, about 5 km west, is the usual choice: a long sandy bay with gentle waves and plenty of surf schools. Lessons run mainly from about November to April; ask the school about the day’s conditions.
 
 ### How many nights should I spend in Mirissa?
 

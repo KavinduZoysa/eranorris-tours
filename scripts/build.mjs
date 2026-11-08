@@ -12,12 +12,13 @@ import * as esbuild from 'esbuild';
 import { marked } from 'marked';
 import sharp from 'sharp';
 import site from '../site.config.mjs';
-import { DESTS } from '../src/data/destinations.mjs';
-import { EXPERIENCES, EXP_CATS } from '../src/data/experiences.mjs';
+import { DESTS, PHOTO_CREDITS } from '../src/data/destinations.mjs';
+import { EXPERIENCES, EXP_CATS, EXP_KINDS, experiencesFor } from '../src/data/experiences.mjs';
 import { GALLERIES, GALLERY_IMAGES } from '../src/data/galleries.mjs';
 import { homeBody } from '../src/templates/home.mjs';
 import { esc, layout } from '../src/templates/layout.mjs';
-import { activityPage, notFoundPage, placePage, tourPage } from '../src/templates/pages.mjs';
+import { activityPage, creditsPage, notFoundPage, placePage, tourPage } from '../src/templates/pages.mjs';
+import { parseFrontMatter } from './lib/frontmatter.mjs';
 import { resolveTarget } from './lib/target.mjs';
 
 const ROOT = path.resolve(fileURLToPath(new URL('..', import.meta.url)));
@@ -208,8 +209,26 @@ const clientSite = {
     ),
   },
 };
+// The map shows each experience's name, labels, location and short description. The longer
+// page-only fields (details, source, imageAlt) stay out of the bundle, so the app gets a
+// trimmed copy of src/data/experiences.mjs generated from the data already loaded here.
+const experiencesForApp = {
+  name: 'experiences-for-app',
+  setup(b) {
+    b.onLoad({ filter: /[\\/]src[\\/]data[\\/]experiences\.mjs$/ }, () => ({
+      loader: 'js',
+      contents: [
+        `export const EXP_CATS = ${JSON.stringify(EXP_CATS)};`,
+        `export const EXP_KINDS = ${JSON.stringify(EXP_KINDS)};`,
+        `export const EXPERIENCES = ${JSON.stringify(EXPERIENCES.map(({ details, source, imageAlt, ...e }) => e))};`,
+        `export ${experiencesFor}`,
+      ].join('\n'),
+    }));
+  },
+};
 const js = await esbuild.build({
   entryPoints: [r('src/js/app.js')],
+  plugins: [experiencesForApp],
   bundle: true,
   minify: true,
   format: 'iife',
@@ -221,12 +240,12 @@ const js = await esbuild.build({
 const jsBuf = Buffer.from(js.outputFiles[0].contents);
 const jsRel = `assets/app.${hash(jsBuf)}.js`;
 await out(jsRel, jsBuf);
-// Photo gallery enhancement for destination and experience pages (works without it too).
-const galJs = await esbuild.build({ entryPoints: [r('src/js/gallery.js')], bundle: true, minify: true, format: 'iife', target: ['es2020'], write: false });
-const galBuf = Buffer.from(galJs.outputFiles[0].contents);
-const galRel = `assets/gallery.${hash(galBuf)}.js`;
-await out(galRel, galBuf);
-const galleryScript = `<script src="${u('/' + galRel)}" defer></script>`;
+// Content pages: photo galleries, the site menu and the phone action bar (all work without it).
+const pageJs = await esbuild.build({ entryPoints: [r('src/js/page.js')], bundle: true, minify: true, format: 'iife', target: ['es2020'], write: false });
+const pageBuf = Buffer.from(pageJs.outputFiles[0].contents);
+const pageRel = `assets/page.${hash(pageBuf)}.js`;
+await out(pageRel, pageBuf);
+const pageScript = `<script src="${u('/' + pageRel)}" defer></script>`;
 
 // ---------------------------------------------------------------------------
 // Content: optional Markdown with a small front-matter block.
@@ -237,32 +256,17 @@ const galleryScript = `<script src="${u('/' + galRel)}" defer></script>`;
 //   includes:                # lists use "- item" lines
 //     - …
 //   ---
-function parseFrontMatter(src) {
-  const m = src.match(/^---\r?\n([\s\S]*?)\r?\n---\r?\n?([\s\S]*)$/);
-  if (!m) return { data: {}, body: src };
-  const data = {};
-  let listKey = null;
-  for (const line of m[1].split(/\r?\n/)) {
-    if (!line.trim() || line.trim().startsWith('#')) continue;
-    const li = line.match(/^\s+-\s+(.*)$/);
-    if (li && listKey) {
-      data[listKey].push(unquote(li[1]));
-      continue;
-    }
-    const kv = line.match(/^([A-Za-z][\w-]*):\s*(.*)$/);
-    if (!kv) throw new Error(`Cannot parse front matter line: ${line}`);
-    const v = kv[2].replace(/\s+#.*$/, '').trim();
-    if (v === '') {
-      data[kv[1]] = [];
-      listKey = kv[1];
-    } else {
-      data[kv[1]] = /^\[.*\]$/.test(v) ? v.slice(1, -1).split(',').map((s) => unquote(s.trim())).filter(Boolean) : unquote(v);
-      listKey = null;
-    }
-  }
-  return { data, body: m[2] };
+// Section headings get ids, so the "On this page" list can link to them.
+function headingIds(html) {
+  const used = new Set();
+  return html.replace(/<h2>([\s\S]*?)<\/h2>/g, (m, inner) => {
+    const base = inner.replace(/<[^>]+>/g, '').replace(/&[#a-z0-9]+;/gi, '').normalize('NFKD').replace(/[\u0300-\u036f’']/g, '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '') || 'section';
+    let id = base;
+    for (let n = 2; used.has(id); n++) id = `${base}-${n}`;
+    used.add(id);
+    return `<h2 id="${id}">${inner}</h2>`;
+  });
 }
-const unquote = (s) => s.replace(/^(['"])(.*)\1$/, '$2');
 // "## Frequently asked questions" (or "## FAQ") becomes the FAQ component: each "### …?"
 // heading is a question and the text under it the answer.
 function splitFaq(md) {
@@ -292,7 +296,7 @@ async function readDir(dir) {
       const { md, faq } = splitFaq(body);
       // `<!-- experiences -->` marks where the "Things to do" cards go; other HTML comments are
       // writing notes and never reach the browser.
-      const [before, after = ''] = marked.parse(md).split(/<!--\s*experiences\s*-->/);
+      const [before, after = ''] = headingIds(marked.parse(md)).split(/<!--\s*experiences\s*-->/);
       const clean = (h) => h.replace(/<!--[\s\S]*?-->/g, '').trim();
       const item = (v, what) =>
         [].concat(v || []).map((x) => {
@@ -392,6 +396,10 @@ for (const t of tours) {
     seen.add(e.id);
     if (!DEST_IDS.has(e.destinationId)) contentErrors.push(`${at}: unknown destinationId "${e.destinationId}".`);
     if (!EXP_CATS[e.category]) contentErrors.push(`${at}: category "${e.category}" is not one of ${Object.keys(EXP_CATS).join(', ')}.`);
+    if (!EXP_KINDS[e.kind]) contentErrors.push(`${at}: kind "${e.kind}" is not one of ${Object.keys(EXP_KINDS).join(', ')}.`);
+    if (e.kind === 'excursion' && !e.where) contentErrors.push(`${at}: a nearby excursion needs "where" (the place, and roughly how far it is).`);
+    if (!['eranorrissrilanka.com', 'design', 'brief', 'research'].includes(e.source)) contentErrors.push(`${at}: source must be 'eranorrissrilanka.com', 'design', 'brief' or 'research'.`);
+    if ((e.shortDescription || '').length > 200) contentErrors.push(`${at}: shortDescription is ${e.shortDescription.length} characters; keep it to 200 for the map list (longer text goes in details).`);
     for (const k of ['name', 'shortDescription']) if (typeof e[k] !== 'string' || !e[k].trim()) contentErrors.push(`${at}: ${k} is required.`);
     for (const k of ['duration', 'price']) if (e[k] != null && (typeof e[k] !== 'string' || !e[k].trim())) contentErrors.push(`${at}: ${k} must be text, or left out.`);
     for (const k of ['featured', 'available']) if (e[k] != null && typeof e[k] !== 'boolean') contentErrors.push(`${at}: ${k} must be true or false.`);
@@ -400,6 +408,13 @@ for (const t of tours) {
       if (!e.imageAlt) contentErrors.push(`${at}: imageAlt is required with an image.`);
     }
   }
+}
+// Credits for openly licensed main photos (src/data/destinations.mjs → PHOTO_CREDITS)
+for (const [id, c] of Object.entries(PHOTO_CREDITS)) {
+  const at = `src/data/destinations.mjs → PHOTO_CREDITS.${id}`;
+  if (!DEST_IDS.has(id)) contentErrors.push(`${at}: unknown destination id.`);
+  for (const k of ['title', 'author', 'license']) if (!c[k]) contentErrors.push(`${at}: ${k} is required.`);
+  for (const k of ['licenseUrl', 'source', 'authorUrl']) if ((k !== 'authorUrl' || c[k]) && !/^https?:\/\/\S+$/.test(c[k] || '')) contentErrors.push(`${at}: ${k} must be a URL.`);
 }
 // Galleries (src/data/galleries.mjs)
 for (const [id, names] of Object.entries(GALLERIES)) {
@@ -411,7 +426,7 @@ for (const [n, g] of Object.entries(GALLERY_IMAGES)) {
   if (!existsSync(r('src', 'images', 'gallery', `${n}.jpg`))) contentErrors.push(`src/data/galleries.mjs → ${n}: src/images/gallery/${n}.jpg not found (run npm run prepare:images).`);
 }
 for (const e of EXPERIENCES)
-  for (const k of ['where', 'details']) if (e[k] != null && (typeof e[k] !== 'string' || !e[k].trim())) contentErrors.push(`src/data/experiences.mjs → ${e.id}: ${k} must be text, or left out.`);
+  for (const k of ['where', 'details', 'season']) if (e[k] != null && (typeof e[k] !== 'string' || !e[k].trim())) contentErrors.push(`src/data/experiences.mjs → ${e.id}: ${k} must be text, or left out.`);
 
 // Production builds only contain published tours and experience guides; previews show drafts too.
 const builtTours = tours.filter((t) => t.published || !PROD);
@@ -442,7 +457,8 @@ for (const c of [...Object.values(placeContent), ...activities]) {
 
 // ---------------------------------------------------------------------------
 // Pages
-const ctx = { site, u, abs, photos, expPhotos, expCardPhotos, galleryPhotos, expGuide, fontPreloads, assets: {}, toursFor: (id) => builtTours.filter((t) => (t.places || []).includes(id)) };
+const guides = builtActivities.map((a) => ({ slug: a.slug, name: a.h1 || EXPERIENCES.find((e) => e.id === a.experience)?.name || a.slug }));
+const ctx = { site, u, abs, photos, expPhotos, expCardPhotos, galleryPhotos, expGuide, guides, fontPreloads, assets: {}, toursFor: (id) => builtTours.filter((t) => (t.places || []).includes(id)) };
 ctx.assets.ogDefault = { src: photos.sigiriya.og, alt: DESTS[0].alt };
 const sitemap = [];
 const report = [];
@@ -505,11 +521,12 @@ for (const d of DESTS) {
   const c = placeContent[d.id] || {};
   if (!c.published) drafts.push(d.id);
   // Draft text is shown only in previews; production draft pages use the design summary alone.
-  await emit({ ...placePage(ctx, d, c.published || !PROD ? c : {}), scripts: galleryScript }, { published: !!c.published });
+  await emit({ ...placePage(ctx, d, c.published || !PROD ? c : {}), scripts: pageScript }, { published: !!c.published });
 }
-for (const t of builtTours) await emit(tourPage(ctx, t), { published: t.published });
-for (const a of builtActivities) await emit({ ...activityPage(ctx, a), scripts: galleryScript }, { published: a.published });
-await emit(notFoundPage(ctx));
+for (const t of builtTours) await emit({ ...tourPage(ctx, t), scripts: pageScript }, { published: t.published });
+for (const a of builtActivities) await emit({ ...activityPage(ctx, a), scripts: pageScript }, { published: a.published });
+await emit({ ...creditsPage(ctx), scripts: pageScript });
+await emit({ ...notFoundPage(ctx), scripts: pageScript });
 
 // ---------------------------------------------------------------------------
 // Crawl directives and static files

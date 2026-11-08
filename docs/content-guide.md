@@ -86,6 +86,50 @@ Special pieces:
   - Make no claims about welfare or conservation benefits.
 - **Original wording.** Summarise sources in your own words; don't copy paragraphs.
 
+## Experience cards (`src/data/experiences.mjs`)
+
+Experiences are the "Things to do" cards on a destination page and in the map planner, where
+visitors tick them to add to a quote request. The field list is at the top of the file; the
+build rejects entries that break these rules.
+
+- **Kind** (required): `attraction` — one of the main sights of the place; `activity` —
+  something you do or visit there (a safari drive, hike, class, show, boat trip, workshop);
+  `excursion` — a separate place that needs extra travel. An excursion must have `where`,
+  naming the place and roughly how far it is ("Minneriya National Park, about 45 minutes by
+  road from Sigiriya"). Cards are listed and grouped in that order.
+- **Category**: culture, history, nature, wildlife, local life, food, adventure, or beach &
+  water.
+- **Text**: `shortDescription` (≤ 200 characters) is what the map shows; `details` is the
+  fuller card text on the page. Both are general facts, checked like guide text. Typical
+  durations go in `details`, in words. The `duration` and `price` fields are only for what you
+  have confirmed for your own offer.
+- **Who provides it** is not shown. All experiences are arranged through partners (owner,
+  November 2026), so cards never say who runs them, and never claim Eranorris does.
+- **Source**: `eranorrissrilanka.com`, `design`, `brief` or `research`. Research entries have
+  their sources in `docs/research/<destination>.md`.
+- **Responsible travel**: never promise sightings; label captive or managed facilities as
+  such; don't list captive-animal interactions (rides, bathing, feeding, handling).
+- **Ids are permanent**: they are saved in visitors' trips. To retire one, set
+  `available: false`.
+
+## Photos
+
+- Use the business's own photos, or openly licensed photos (CC0, CC BY or CC BY-SA, never NC or
+  ND) from Wikimedia Commons, where each file's place and licence are documented.
+- A photo must show the place it illustrates — never one place standing in for another — and
+  carry no watermark. Check the file's description, category or GPS position, not just its
+  title.
+- Openly licensed main photos go in `PHOTO_SOURCES` (the Commons URL) and `PHOTO_CREDITS` (title,
+  photographer, licence, source) in `src/data/destinations.mjs`; the credit is then shown under
+  the photo and on `/photo-credits/`. Record the choice in `docs/research/photos.md`.
+- Alt text says what the photo shows ("A train curving across the Nine Arches Bridge…").
+
+## Owner checklist
+
+`npm run checklist` writes `docs/research/owner-checklist.md`: the unconfirmed site-wide facts,
+every open `verify:` question and every experience whose provider isn't confirmed. Answer the
+items in their own files and run it again.
+
 ## Publishing
 
 A page goes live (indexable, in the sitemap, content visible in production) only when all

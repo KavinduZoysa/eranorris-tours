@@ -19,12 +19,14 @@ sources:
   - Central Cultural Fund — current ticket prices | https://ccf.gov.lk/is/index.php
   - UNESCO World Heritage — Ancient City of Polonnaruwa | https://whc.unesco.org/en/list/201
   - Sri Lanka Railways — train schedules | https://eservices.railway.gov.lk/schedule/searchTrain.action?lang=en
+  - Department of Wildlife Conservation — national park permits online | https://dwc.lankagate.gov.lk/DWCEpermitApp/homeAction.action?lang=en
 verify:
   - Do we include the Polonnaruwa entrance ticket, or do guests buy it at the museum?
   - Cycling — do we arrange bicycles, or do guests hire them locally? Can the driver follow with the vehicle or meet guests at Gal Vihara?
   - Do we arrange jeep safaris in Minneriya or Kaudulla, or do guests book them locally?
   - Recommended stay — the design says 1 night; many routes visit as a day trip from Sigiriya. Which do we advise?
-  - Polonnaruwa hero photo — rights confirmed? It shows carved steps and a moonstone; which monument is it (the Vatadage?), so the alt text can name it?
+  - Medirigiriya and Dimbulagala — are these stops the driver can include from Polonnaruwa? Neither is an experience card yet; Medirigiriya is proposed as one.
+  - Polonnaruwa hero photo — rights confirmed? It shows the Vatadage (identified from the photo in November 2026; the alt text now names it).
 ---
 
 ## The medieval capital
@@ -64,7 +66,12 @@ From the museum, the ruins stretch for several kilometres north along flat, tree
 
 ## Minneriya, Kaudulla and the tanks
 
-Minneriya National Park is about 25–30 km west, on the road to Habarana, and Kaudulla lies to its north. In the dry season, roughly July to October, elephants come to graze around the shrinking reservoirs, and large numbers gather at Minneriya around August and September. Herds move between the parks, and sightings are never guaranteed. The Giritale tank, built in the 7th century, lies on the same road.
+Minneriya National Park's entrance is about 25–30 km west, on the road to Habarana, and Kaudulla lies to its north. Both are built around ancient reservoirs; Minneriya's was made by King Mahasen in the 3rd century AD. In the dry season, roughly July to October, elephants come out to graze the grass that grows as the water recedes, and the gathering at Minneriya usually peaks around August and September. Herds move between the parks and numbers change from year to year, so drivers often choose the park on the day, and sightings are never guaranteed. The [Minneriya elephant safari guide](/experiences/minneriya-elephant-safari/) covers timing and responsible viewing. The Giritale tank, built in the 7th century, lies on the same road.
+
+## Further afield
+
+- **Medirigiriya.** About 35 km north, a circular relic house of the 7th century stands on a low rock, where three circles of slender stone pillars surround a small stupa and Buddha images. It is among the best-preserved buildings of its kind and is usually quiet; the drive takes about 45 minutes to an hour each way.
+- **Dimbulagala.** About 20 km south-east, across the Mahaweli, a forest hermitage lies at the foot of a long rock ridge, with ancient cave shelters along the path to a small stupa on the summit. Monks still live here, so dress modestly and keep your voice down.
 
 ## How long to stay
 
@@ -78,7 +85,7 @@ Minneriya National Park is about 25–30 km west, on the road to Habarana, and K
 ## Getting there and moving on
 
 - **From the airport.** Polonnaruwa is roughly 220 km away by road, usually 5–6 hours. Most routes reach it from [Sigiriya](/places/sigiriya/), about 60 km and 1.5 hours to the west, either as a day trip or for a night.
-- **By rail.** Trains from Colombo Fort usually take about 5–6 hours. Services were disrupted after Cyclone Ditwah in late 2025, so check the current timetable with Sri Lanka Railways.
+- **By rail.** Trains from Colombo Fort on the Batticaloa line usually take about 5–6 hours. Cyclone Ditwah damaged the track east of Polonnaruwa in late 2025, and daily trains were running again from January 2026. Check the current timetable with Sri Lanka Railways.
 - **Onward.** [Trincomalee](/places/trincomalee/) is about 105 km north-east, around 2–2.5 hours. [Dambulla](/places/dambulla/) is about 1.5 hours west, [Anuradhapura](/places/anuradhapura/) about 2–2.5 hours north-west, and [Kandy](/places/kandy/) about 3.5–4 hours.
 
 In a private tour you add Polonnaruwa to your route on the map, and your driver handles the roads. The drive times shown in the planner are rough estimates, not road-tested figures.

@@ -19,6 +19,8 @@ sources:
   - Central Cultural Fund — current ticket prices | https://ccf.gov.lk/is/index.php
   - UNESCO World Heritage — Sacred City of Anuradhapura | https://whc.unesco.org/en/list/200
   - Sri Lanka Railways — train schedules | https://eservices.railway.gov.lk/schedule/searchTrain.action?lang=en
+  - Sri Lanka Tourism — Wilpattu National Park | https://srilanka.travel/attraction&attraction_id=219
+  - Department of Wildlife Conservation — national park permits online | https://dwc.lankagate.gov.lk/DWCEpermitApp/homeAction.action?lang=en
 verify:
   - Do we include the Anuradhapura archaeological ticket, or do guests buy it on the day?
   - Does the driver take guests between the site clusters, or do we suggest bicycles or a local guide? Do we arrange a guide?
@@ -26,6 +28,8 @@ verify:
   - Recommended stay — the design says 1 night; the page says 1 night, or 2 with Mihintale or Wilpattu. Confirm.
   - The design calls Anuradhapura "the island's first capital". The chronicles name earlier royal seats, and Sri Lanka Tourism calls it the third. Keep the design wording?
   - Anuradhapura hero photo — rights confirmed, and it shows Ruwanwelisaya.
+  - Experience cards proposed (Sri Maha Bodhi and the great stupas, the sacred city by bicycle, Mihintale, Aukana, Wilpattu) — which can the driver include, and is a Wilpattu day realistic with our timings (about 1–1.5 hours each way to the gate)?
+  - Rail — re-check the Northern Line timetable (intercity days were cut from July 2026) before publishing.
 ---
 
 ## The sacred city
@@ -61,12 +65,14 @@ To the east, King Mahasena began the **Jetavanaramaya** in the 3rd century AD. A
 - **Heat.** You walk barefoot on stone and sand, which become very hot by midday. Visit early and late, and carry light socks.
 - **Full-moon days.** Each month's poya day brings crowds of pilgrims, and many temples stay open into the night: memorable for worship, slow for sightseeing.
 
+<!-- experiences -->
+
 ## Mihintale and other side trips
 
 - **Mihintale.** About 12 km east, this hill is where tradition says the monk Mahinda met King Devanampiya Tissa and brought Buddhism to Sri Lanka. A stairway of 1,840 granite steps climbs past the ruins of a monastery hospital to stupas and the rock of Aradhana Gala. Climb early or late in the day. It is busiest at the Poson full moon in June.
 - **Aukana.** A 5th-century standing Buddha nearly 12 m tall, off the road south to [Dambulla](/places/dambulla/).
 - **Ritigala.** Forest monastery ruins about 40 km south-east, on a mountain that is otherwise a closed nature reserve.
-- **Wilpattu National Park.** The park's main gate is about 30 km west. Dense forest surrounds natural lakes, and leopards, sloth bears and elephants live here. Visits are by jeep, and sightings are never guaranteed.
+- **Wilpattu National Park.** Sri Lanka's largest national park lies west of the city; its main gate at Hunuwilagama is roughly 40–50 km by road, usually 1–1.5 hours. Dense forest surrounds dozens of *villus*, shallow natural lakes that fill with rain, and leopards, sloth bears and elephants live here. Visits are by jeep, often for a half or full day. It is quieter than Yala, but sightings are never guaranteed, and heavy rain can flood the tracks and close the park, as it did in late 2025.
 
 ## How long to stay
 
@@ -80,7 +86,7 @@ To the east, King Mahasena began the **Jetavanaramaya** in the 3rd century AD. A
 ## Getting there and moving on
 
 - **From the airport.** Anuradhapura is roughly 190–200 km by road, usually 4–5 hours, depending on traffic.
-- **By rail.** Trains from Colombo Fort usually take about 4.5–5 hours. The Northern Line was closed for several months after Cyclone Ditwah in late 2025, so check the current timetable with Sri Lanka Railways.
+- **By rail.** Trains from Colombo Fort usually take about 4.5–5 hours. After Cyclone Ditwah the Northern Line was repaired in stages, and full services to Jaffna resumed on 9 April 2026. A shortage of trains has since cut some intercity departures to four days a week, so check the current timetable with Sri Lanka Railways.
 - **Onward.** [Sigiriya](/places/sigiriya/) is around 2 hours south-east. Dambulla is 1.5–2 hours south, and [Polonnaruwa](/places/polonnaruwa/) about 100 km away, 2–2.5 hours. [Trincomalee](/places/trincomalee/) is about 107 km east, 2–2.5 hours via Mihintale.
 
 In a private tour you add Anuradhapura to your route on the map, and your driver handles the roads. The drive times shown in the planner are rough estimates, not road-tested figures.
@@ -102,6 +108,10 @@ Clothes that cover your shoulders and knees, and shoes you can slip off easily, 
 ### Is Mihintale worth the climb?
 
 Yes, if you are interested in how Buddhism came to Sri Lanka. There are 1,840 steps, which you can take at your own pace, and the summit looks out over the plains. Go early or late, and expect large crowds at Poson in June.
+
+### Can I cycle around the sacred city?
+
+Yes. The roads between the sites are flat, and bicycles can be hired in town. You will leave the bicycle and your shoes at each stupa or temple, so start early, carry water and plan for a few kilometres between the clusters.
 
 ### Can I visit Anuradhapura as a day trip from Sigiriya?
 

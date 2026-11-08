@@ -67,11 +67,34 @@ export function brand(ctx, tag = 'a') {
   return tag === 'a' ? `<a class="brand" href="${u('/')}">${inner}</a>` : `<span class="brand">${inner}</span>`;
 }
 
-export function header(ctx, right = `<a class="top-link" href="${ctx.u('/')}">Plan your trip</a>`) {
+export function header(ctx, right = `<a class="top-link" href="${ctx.u('/')}"><span>Plan<span class="tl-x"> your</span> trip</span></a>`) {
   return `<header class="top">
   ${brand(ctx)}
-  ${right}
+  <div class="top-r">${right}${menu(ctx)}</div>
 </header>`;
+}
+
+// Site menu: places by category, experience guides (ctx.guides: the built ones), airport
+// transfers and contact. A <details> element, so it opens without JavaScript; src/js/menu.js
+// adds Escape, outside-click closing and no background scrolling on phones.
+const ICON_MENU = '<svg class="i-m" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"></path></svg><svg class="i-x" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"></path></svg>';
+export function menu(ctx) {
+  const { site, u } = ctx;
+  const group = (id, title, links, wide) =>
+    `<div class="menu-g${wide ? ' wide' : ''}"><p class="menu-h" id="mh-${id}">${esc(title)}</p><ul aria-labelledby="mh-${id}">${links.map(([href, text, ext]) => `<li><a href="${href}"${ext ? ' target="_blank" rel="noopener"' : ''}>${esc(text)}</a></li>`).join('')}</ul></div>`;
+  const places = Object.entries(CATS).map(([c, { label }]) => group(c, label, DESTS.filter((d) => d.cat === c).map((d) => [u(`/places/${d.id}/`), d.name])));
+  const guides = (ctx.guides || []).length ? group('guides', 'Experience guides', ctx.guides.map((g) => [u(`/experiences/${g.slug}/`), g.name]), true) : '';
+  const contact = group('contact', 'Contact', [
+    [waLink(ctx, `Hello ${site.name}, I’d like to ask about a private tour of Sri Lanka.`), `WhatsApp ${site.contact.phone}`, true],
+    [`mailto:${site.contact.email}`, site.contact.email],
+  ], true);
+  return `<details class="menu">
+    <summary class="menu-btn">${ICON_MENU}<span class="menu-lbl">Menu</span><span class="sr-only"> (site menu)</span></summary>
+    <nav class="menu-p" aria-label="Site menu">
+      <div class="menu-act"><a class="btn primary" href="${u('/')}">Plan your trip on the map</a><a class="btn menu-alt" href="${u('/')}#transfer">Airport transfers</a></div>
+      <div class="menu-gs">${places.join('')}${guides}${contact}</div>
+    </nav>
+  </details>`;
 }
 
 export function waLink(ctx, text) {
@@ -104,6 +127,6 @@ export function footer(ctx) {
       </ul>
     </div>
   </div>
-  <p class="foot-base">© ${year} ${esc(site.name)}</p>
+  <p class="foot-base">© ${year} ${esc(site.name)} · <a href="${u('/photo-credits/')}">Photo credits</a></p>
 </footer>`;
 }

@@ -1,7 +1,7 @@
 // Inner page templates: destination guides (/places/<id>/), experience guides
-// (/experiences/<slug>/), tours (/private-tours/<slug>/) and the 404 page.
-import { CATS, DESTS, PICKUPS, hav, legInfo, fmtDur, nightsTxt } from '../data/destinations.mjs';
-import { EXPERIENCES, EXP_CATS, experiencesFor } from '../data/experiences.mjs';
+// (/experiences/<slug>/), tours (/private-tours/<slug>/), photo credits and the 404 page.
+import { CATS, DESTS, PHOTO_CREDITS, PICKUPS, hav, legInfo, fmtDur, nightsTxt } from '../data/destinations.mjs';
+import { EXPERIENCES, EXP_CATS, experiencesFor, EXP_KINDS } from '../data/experiences.mjs';
 import { GALLERIES } from '../data/galleries.mjs';
 import { esc, picture, waLink } from './layout.mjs';
 
@@ -9,6 +9,8 @@ const D = Object.fromEntries(DESTS.map((d) => [d.id, d]));
 const X = Object.fromEntries(EXPERIENCES.map((e) => [e.id, e]));
 const AIRPORT = PICKUPS.find((p) => p.id === 'cmb');
 const CARD_KEYS = [['w480', 480], ['w640', 640], ['w800', 800]];
+// Place cards are a 108px thumbnail on phones (see .pl-card in base.css).
+const CARD_SIZES = '(max-width: 560px) 108px, (max-width: 600px) calc(100vw - 32px), 300px';
 
 // Photo gallery: a native scroll-snap strip (swipeable, works without JavaScript) that
 // src/js/gallery.js enhances with previous/next buttons, a counter, dots and arrow keys.
@@ -24,7 +26,8 @@ function gallery(label, slides) {
         height: 800,
         attrs: i === 0 ? 'fetchpriority="high"' : 'loading="lazy" decoding="async"',
       });
-      return `<figure class="gal-slide"${n > 1 ? ` role="group" aria-roledescription="slide" aria-label="${i + 1} of ${n}"` : ''}>${pic}${s.caption ? `<figcaption>${esc(s.caption)}</figcaption>` : ''}</figure>`;
+      const cap = s.credit ? `<figcaption class="gal-credit">${s.credit}</figcaption>` : s.caption ? `<figcaption>${esc(s.caption)}</figcaption>` : '';
+      return `<figure class="gal-slide"${n > 1 ? ` role="group" aria-roledescription="slide" aria-label="${i + 1} of ${n}"` : ''}>${pic}${cap}</figure>`;
     })
     .join('');
   if (n === 1) return `<div class="gal gal-one">${`<div class="gal-track">${items}</div>`}</div>`;
@@ -37,14 +40,19 @@ function gallery(label, slides) {
       <div class="gal-dots">${slides.map((_, i) => `<button type="button" aria-label="Show photo ${i + 1} of ${n}"${i === 0 ? ' aria-current="true"' : ''}></button>`).join('')}</div>
     </div>`;
 }
+// Credit line for an openly licensed main photo (PHOTO_CREDITS): photographer, licence, source.
+export function photoCredit(c) {
+  const by = c.authorUrl ? `<a href="${esc(c.authorUrl)}" rel="noopener">${esc(c.author)}</a>` : esc(c.author);
+  return `Photo: ${by} · <a href="${esc(c.licenseUrl)}" rel="license noopener">${esc(c.license)}</a> · <a href="${esc(c.source)}" rel="noopener">Wikimedia Commons</a>`;
+}
 function destinationSlides(ctx, d) {
-  return [{ ph: ctx.photos[d.id], alt: d.alt }, ...(GALLERIES[d.id] || []).filter((n) => ctx.galleryPhotos[n]).map((n) => ({ ph: ctx.galleryPhotos[n], alt: ctx.galleryPhotos[n].alt, caption: ctx.galleryPhotos[n].caption }))];
+  return [{ ph: ctx.photos[d.id], alt: d.alt, credit: PHOTO_CREDITS[d.id] && photoCredit(PHOTO_CREDITS[d.id]) }, ...(GALLERIES[d.id] || []).filter((n) => ctx.galleryPhotos[n]).map((n) => ({ ph: ctx.galleryPhotos[n], alt: ctx.galleryPhotos[n].alt, caption: ctx.galleryPhotos[n].caption }))];
 }
 
 function card(ctx, d, extra = '') {
   const ph = ctx.photos[d.id];
   return `<li class="pl-card">
-      ${picture(ph, CARD_KEYS, { sizes: '(max-width: 600px) calc(100vw - 32px), 300px', alt: d.alt, width: 480, height: 320, attrs: 'loading="lazy" decoding="async"' })}
+      ${picture(ph, CARD_KEYS, { sizes: CARD_SIZES, alt: d.alt, width: 480, height: 320, attrs: 'loading="lazy" decoding="async"' })}
       <div class="pl-body">
         <div class="dc-meta"><span class="tag" style="--c:${CATS[d.cat].c}">${CATS[d.cat].label}</span><span>${esc(d.hl)}</span></div>
         <h3><a href="${ctx.u(`/places/${d.id}/`)}">${esc(d.name)}</a></h3>
@@ -59,7 +67,7 @@ function tourCard(ctx, t) {
   const lead = D[t.image] || D[(t.places || [])[0]];
   const ph = lead && ctx.photos[lead.id];
   return `<li class="pl-card">
-      ${ph ? picture(ph, CARD_KEYS, { sizes: '(max-width: 600px) calc(100vw - 32px), 300px', alt: lead.alt, width: 480, height: 320, attrs: 'loading="lazy" decoding="async"' }) : ''}
+      ${ph ? picture(ph, CARD_KEYS, { sizes: CARD_SIZES, alt: lead.alt, width: 480, height: 320, attrs: 'loading="lazy" decoding="async"' }) : ''}
       <div class="pl-body">
         <div class="dc-meta"><span>Private tour${t.duration ? ' · ' + esc(t.duration) : ''}</span></div>
         <h3><a href="${ctx.u(`/private-tours/${t.slug}/`)}">${esc(t.h1 || t.title)}</a></h3>
@@ -71,30 +79,50 @@ function tourCard(ctx, t) {
 // Things to do at a destination (src/data/experiences.mjs), as plain HTML. Choosing them
 // happens on the map; this keeps the text crawlable and links there.
 export function experienceMeta(e) {
-  return [EXP_CATS[e.category], e.duration, e.price].filter(Boolean).map(esc).join(' · ');
+  return [EXP_KINDS[e.kind], EXP_CATS[e.category], e.duration, e.price].filter(Boolean).map(esc).join(' · ');
 }
+const KIND_HEADINGS = { attraction: 'Main attractions', activity: 'Activities', excursion: 'Nearby excursions' };
 function experienceCard(ctx, e, h = 'h3') {
   const ph = e.image && ctx.expCardPhotos[e.image];
   const guide = ctx.expGuide[e.id];
   return `<li class="xp${ph ? ' has-ph' : ''}" data-exp="${e.id}">
         ${ph ? picture(ph, ph.keys.filter(([k]) => k !== 'w1200'), { sizes: '(max-width: 600px) calc(100vw - 32px), 360px', alt: e.imageAlt, width: 480, height: 320, attrs: 'loading="lazy" decoding="async"' }) : ''}
-        <div class="xp-b"><${h}>${esc(e.name)}${e.featured ? ' <span class="xp-f">Featured</span>' : ''}</${h}><p class="xp-m">${experienceMeta(e)}</p>${e.where ? `<p class="xp-w">${esc(e.where)}</p>` : ''}<p>${esc(e.details || e.shortDescription)}</p>${guide ? `<p class="xp-g"><a href="${ctx.u(`/experiences/${guide}/`)}">Read the ${esc(e.name)} guide<span aria-hidden="true"> →</span></a></p>` : ''}</div>
+        <div class="xp-b"><${h}>${esc(e.name)}${e.featured ? ' <span class="xp-f">Featured</span>' : ''}</${h}><p class="xp-m">${experienceMeta(e)}</p>${e.where ? `<p class="xp-w">${esc(e.where)}</p>` : ''}${e.season ? `<p class="xp-w">When: ${esc(e.season)}</p>` : ''}<p>${esc(e.details || e.shortDescription)}</p>${guide ? `<p class="xp-g"><a href="${ctx.u(`/experiences/${guide}/`)}">Read the ${esc(e.name)} guide<span aria-hidden="true"> →</span></a></p>` : ''}</div>
       </li>`;
 }
 function experienceSection(ctx, d) {
   const list = experiencesFor(d.id);
   if (!list.length) return '';
+  // Grouped by kind when there is more than one, so main sights, activities and trips that need
+  // extra travel are easy to tell apart.
+  const kinds = Object.keys(KIND_HEADINGS).filter((k) => list.some((e) => e.kind === k));
+  const cards = (xs, h) => `<ul class="xp-list">
+      ${xs.map((e) => experienceCard(ctx, e, h)).join('\n      ')}
+    </ul>`;
+  const body =
+    kinds.length > 1
+      ? kinds.map((k) => `<h3 class="xp-k">${KIND_HEADINGS[k]}</h3>\n    ${cards(list.filter((e) => e.kind === k), 'h4')}`).join('\n    ')
+      : cards(list, 'h3');
   return `<section class="paper" aria-labelledby="expH">
   <div class="sect">
     <h2 id="expH">Things to do in ${esc(d.name)}</h2>
-    <p class="xp-lede">Tick the ones that interest you on the map and they’re added to your quote request. Choosing an experience isn’t a booking.</p>
-    <ul class="xp-list">
-      ${list.map((e) => experienceCard(ctx, e)).join('\n      ')}
-    </ul>
+    <p class="xp-lede">Tick the ones that interest you on the map and they’re added to your quote request. Choosing an experience isn’t a booking, and it isn’t part of a tour unless we confirm it.</p>
+    ${body}
     <p class="xp-more"><a class="btn ghost" href="${ctx.u('/')}#experiences=${d.id}">Choose experiences on the map</a></p>
   </div>
 </section>`;
 }
+
+// "On this page": jump links to a guide's sections, in page order. Only for guides with at least
+// three sections of their own; a collapsed <details>, so it costs little space on phones.
+const h2s = (html) => [...(html || '').matchAll(/<h2 id="([^"]+)">([\s\S]*?)<\/h2>/g)].map(([, id, t]) => [id, t.replace(/<[^>]+>/g, '')]);
+function toc(own, items) {
+  if (own < 3) return '';
+  return `<nav class="toc" aria-label="On this page"><div class="sect"><details><summary>On this page <small>${items.length} sections</small></summary><ol>${items.map(([id, t]) => `<li><a href="#${id}">${t}</a></li>`).join('')}</ol></details></div></nav>`;
+}
+// Phone action bar (shown by src/js/page.js once the hero's buttons scroll away).
+const actionBar = (primary, ask) =>
+  `<div class="mcta" data-mcta hidden>${primary}<a class="btn ghost" href="${esc(ask)}" target="_blank" rel="noopener">Ask us</a></div>`;
 
 // Guide prose, FAQ and official links (from src/content/…).
 const prose = (html) => (html ? `<section class="paper"><div class="sect"><div class="prose">${html}</div></div></section>` : '');
@@ -209,6 +237,17 @@ ${facts([
   ['Good for', content.goodFor || CATS[d.cat].label],
 ])}
 
+${toc(h2s(content.html).length + h2s(content.htmlAfter).length, [
+  ...h2s(content.html),
+  ...(experiencesFor(d.id).length ? [['expH', `Things to do in ${esc(d.name)}`]] : []),
+  ...h2s(content.htmlAfter),
+  ...(content.faq?.length ? [['faqH', 'Frequently asked questions']] : []),
+  ...(content.sources?.length ? [['srcH', 'Official information']] : []),
+  ['planH', `Plan a private tour with ${esc(d.name)}`],
+  ...(ts.length ? [['toursH', `Private tours that include ${esc(d.name)}`]] : []),
+  ['nearH', 'Nearby places to combine'],
+])}
+
 ${prose(content.html)}
 
 ${experienceSection(ctx, d)}
@@ -231,6 +270,7 @@ ${ts.length ? `<section class="paper" aria-labelledby="toursH"><div class="sect"
     </ul>
   </div>
 </section>
+${actionBar(`<a class="btn primary" href="${ctx.u('/')}#add=${d.id}">Add to your trip</a>`, ask)}
 </main>`;
 
   const place = {
@@ -272,7 +312,8 @@ export function activityPage(ctx, a) {
   if (!slides.length && e.image && ctx.expCardPhotos[e.image]) slides.push({ ph: ctx.expCardPhotos[e.image], alt: e.imageAlt });
   if (!slides.length) slides.push({ ph: ctx.photos[d.id], alt: d.alt });
   const og = e.image && ctx.expCardPhotos[e.image] ? null : { src: ctx.photos[d.id].og, alt: d.alt };
-  const more = experiencesFor(d.id).filter((x) => x.id !== e.id);
+  // A short selection; the destination guide (linked below it) has the full list.
+  const more = experiencesFor(d.id).filter((x) => x.id !== e.id).slice(0, 4);
   const body = `<main id="content">
 <section class="ph" aria-labelledby="h1">
   <div class="ph-in">
@@ -297,6 +338,15 @@ ${facts([
   ['Good for', a.goodFor || EXP_CATS[e.category]],
 ])}
 
+${toc(h2s(a.html).length + h2s(a.htmlAfter).length, [
+  ...h2s(a.html),
+  ...h2s(a.htmlAfter),
+  ...(a.faq?.length ? [['faqH', 'Frequently asked questions']] : []),
+  ...(a.sources?.length ? [['srcH', 'Official information']] : []),
+  ['planH', `Plan a private tour with ${esc(d.name)}`],
+  ...(more.length ? [['moreH', `More things to do in ${esc(d.name)}`]] : []),
+])}
+
 ${prose(a.html)}
 
 ${prose(a.htmlAfter)}
@@ -308,6 +358,7 @@ ${sourcesSection(a.sources)}
 ${planBand(ctx, d)}
 
 ${more.length ? `<section class="paper" aria-labelledby="moreH"><div class="sect"><h2 id="moreH">More things to do in ${esc(d.name)}</h2><ul class="xp-list">${more.map((x) => experienceCard(ctx, x)).join('')}</ul><p class="xp-more"><a class="btn ghost" href="${ctx.u(`/places/${d.id}/`)}">The ${esc(d.name)} guide</a></p></div></section>` : ''}
+${actionBar(`<a class="btn primary" href="${ctx.u('/')}#exp=${e.id}">Choose it on the map</a>`, waLink(ctx, `Hello ${ctx.site.name}, I’d like to ask about ${e.name} on a private tour.`))}
 </main>`;
   return {
     path,
@@ -401,6 +452,53 @@ ${places.length ? `<section class="paper" aria-labelledby="stopsH"><div class="s
 }
 
 // ---------------------------------------------------------------------------
+// /photo-credits/: every openly licensed photo with its title, photographer, licence and source,
+// as CC BY and CC BY-SA require. Linked from the footer; not indexed.
+export function creditsPage(ctx) {
+  const cr = crumbs(ctx, [
+    { name: 'Home', path: '/' },
+    { name: 'Photo credits', path: '/photo-credits/' },
+  ]);
+  const items = DESTS.filter((d) => PHOTO_CREDITS[d.id])
+    .map((d) => {
+      const c = PHOTO_CREDITS[d.id];
+      return `<li class="pl-card">
+      ${picture(ctx.photos[d.id], CARD_KEYS, { sizes: CARD_SIZES, alt: d.alt, width: 480, height: 320, attrs: 'loading="lazy" decoding="async"' })}
+      <div class="pl-body">
+        <h2 class="cr-t"><a href="${ctx.u(`/places/${d.id}/`)}">${esc(d.name)}</a></h2>
+        <p>“<a href="${esc(c.source)}" rel="noopener">${esc(c.title)}</a>” by ${c.authorUrl ? `<a href="${esc(c.authorUrl)}" rel="noopener">${esc(c.author)}</a>` : esc(c.author)}, licensed under <a href="${esc(c.licenseUrl)}" rel="license noopener">${esc(c.license)}</a>, via Wikimedia Commons. Cropped and resized for this site.</p>
+      </div>
+    </li>`;
+    })
+    .join('\n    ');
+  return {
+    path: '/photo-credits/',
+    title: `Photo credits | ${ctx.site.name}`,
+    description: 'Credits for the photos on this site that are shared under open licences: the photographer, licence and original source of each.',
+    css: 'page',
+    noindex: true,
+    body: `<main id="content">
+<section class="ph cr" aria-labelledby="h1">
+  <div class="ph-in">
+    <div>
+      ${cr.html}
+      <h1 id="h1">Photo credits</h1>
+      <p class="lede">Some photos on this site are by other photographers and shared under open licences. Each is credited here, and under the photo on its page.</p>
+    </div>
+  </div>
+</section>
+<section class="paper" aria-label="Credited photos">
+  <div class="sect">
+    <ul class="near">
+    ${items}
+    </ul>
+  </div>
+</section>
+</main>`,
+    jsonld: [cr.ld],
+  };
+}
+
 export function notFoundPage(ctx) {
   const links = DESTS.slice(0, 8)
     .map((d) => `<li><a href="${ctx.u(`/places/${d.id}/`)}">${esc(d.name)}</a></li>`)

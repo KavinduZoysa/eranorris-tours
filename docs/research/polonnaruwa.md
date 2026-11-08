@@ -166,3 +166,83 @@ extracts and Wikipedia, cross-checked with the CCF.
 Sources:
 - https://www.adaderana.lk/news/117240/several-train-services-including-night-mail-trains-to-resume
 - https://www.themorning.lk/articles/bXqMpSZu5CCtv0Hkfxvj
+
+## Audit 2026-11-06
+
+Audit and improvement pass (2026-11-06/07). Region JSON: `.cache/audit/cultural-triangle.json`.
+The Minneriya/Kaudulla material is researched in `docs/research/experience-minneriya-elephant-safari.md`.
+
+### Sources consulted
+- CCF ticket page (re-read): https://ccf.gov.lk/vsl/tickets ("Polonnaruwa Museum: Included with
+  Polonnaruwa ticket"); CCF prices (14 Oct 2026): Polonnaruwa USD 30/15.
+- SLTDA Year in Review 2025: Polonnaruwa (Alahana, Gal Vihara, museum and kingdom) 184,661
+  foreign / 88,191 local = 272,852; second-highest CCF revenue after Sigiriya.
+- Rail: Sri Lanka Railways restoration status (29 Dec 2025: Batticaloa line Colombo–Polonnaruwa
+  passenger service from 18 Dec 2025, full reopening 1 Jan 2026)
+  https://www.railway.gov.lk/web/index.php?option=com_content&view=article&id=917&Itemid=217&lang=en ;
+  The Morning, 22 Dec 2025 (Polonnaruwa–Manampitiya track repaired, services resume)
+  https://www.themorning.lk/articles/83wEi7OBTaMJnQvWRqpJ ; Newsfirst 20 Jan 2026 (Udaya Devi and
+  Pulathisi daily) https://www.newsfirst.lk/2026/01/20/train-services-along-three-routes-resume-after-cyclone-ditwah-disruptions ;
+  Newsfirst/Ada Derana Dec 2025 (track at Gallella between Polonnaruwa and Manampitiya damaged).
+- Minneriya: Daily FT 27 Nov 2025; Sunday Times 16 Nov 2025; Wikipedia (tank built by Mahasen,
+  3rd century AD) https://en.wikipedia.org/wiki/Minneriya_National_Park
+- Medirigiriya: Sunday Observer 7 Jan 2024 (34 km north of Polonnaruwa; Vatadage attributed to
+  the reign of Aggabodhi IV, 667–685; three rings of 16, 20 and 32 octagonal pillars; image house
+  with two large Buddha statues; rediscovered 1897; 27 steps)
+  https://sundayobserver.lk/2024/01/07/news-features/13440/looking-back-at-medirigiriyas-historical-significance ;
+  Sunday Observer 2016 https://archives1.sundayobserver.lk/node/52523 ; Wikipedia
+  https://en.wikipedia.org/wiki/Medirigiriya ; Lonely Planet (Mandalagiri Vihara, about 30 km
+  north) https://www.lonelyplanet.com/points-of-interest/mandalagiri-vihara/1497060
+- Dimbulagala: https://en.wikipedia.org/wiki/Dimbulagala_Raja_Maha_Vihara ; Sunday Observer
+  https://archives.sundayobserver.lk/2016/01/17/spe-her-01.asp ; Army SFHQ-East page
+  https://alt.army.lk/sfhqeast/node/4604 (16–20 km south-east; cave hermitage; caves along the
+  trail to the Akasa Chaitiya on the summit; "Gunner's Quoin"; resident monks). Dimbulagala had
+  the largest flood extent in Polonnaruwa District in Cyclone Ditwah (Sunday Times, Dec 2025).
+
+### Facts verified
+- Batticaloa line reopened and running daily from January 2026 (SLR + two media sources).
+- Minneriya tank builder (Wikipedia; standard chronicle account).
+- Medirigiriya date, layout and distance (two Sunday Observer articles; Lonely Planet).
+- Dimbulagala location and character (three sources).
+
+### Corrections made (old → new, why)
+- Rail bullet → "Trains from Colombo Fort on the Batticaloa line … Cyclone Ditwah damaged the track
+  east of Polonnaruwa in late 2025, and daily trains were running again from January 2026"
+  (current status).
+- Minneriya section → adds the reservoirs and their builder, year-to-year variation, park choice on
+  the day and a link to the safari guide.
+- New "Further afield" section: Medirigiriya and Dimbulagala.
+- `verify:` extended; DWC ePermit added to sources.
+
+### Uncertainties and conflicts
+- Medirigiriya distance 25–40 km across sources (34 km most specific); "Buddha images" kept
+  general (sources differ on how many and whether seated).
+- Dimbulagala distance 16–20 km; climb time not found, so none is stated.
+- Lankatilaka "headless" Buddha (from the October record) not re-checked.
+
+### Owner questions
+- Medirigiriya and Dimbulagala as driver stops?
+- Should the elephant safari card also appear under Polonnaruwa?
+
+### Re-check before publishing
+- Batticaloa line timetable; CCF price and hours; Gathering status in the current year.
+
+## Experience cards added (2026-11-07)
+Merged into `src/data/experiences.mjs` with `source: 'research'`. Who provides each one
+is unconfirmed (see docs/research/owner-checklist.md).
+
+- **Ancient city and Gal Vihara** (`polonnaruwa-ancient-city`, attraction)
+  - https://ccf.gov.lk/heritage-sites/polonnaruwa/
+  - https://ccf.gov.lk/vsl/tickets
+  - https://whc.unesco.org/en/list/201
+  - Note: Overlaps with polonnaruwa-cycling; included so travellers who won't cycle can still select the main sight (as Sigiriya has its main sight as a card). Drop if you prefer one card.
+- **Medirigiriya Vatadage** (`polonnaruwa-medirigiriya`, excursion)
+  - https://sundayobserver.lk/2024/01/07/news-features/13440/looking-back-at-medirigiriyas-historical-significance
+  - https://en.wikipedia.org/wiki/Medirigiriya
+  - https://archives1.sundayobserver.lk/node/52523
+  - Note: Department of Archaeology site; no official page found. Distance 25–40 km across sources (34 km most specific). Low demand but a well-regarded hidden gem; keep or drop as you see fit.
+- **Elephant safari: Minneriya or Kaudulla** (`polonnaruwa-elephant-safari`, excursion)
+  - https://www.ft.lk/news/WNPS-restores--Great-Elephant-Gathering-of-Minneriya-/56-784906
+  - https://dwc.lankagate.gov.lk/DWCEpermitApp/homeAction.action?lang=en
+  - https://www.sltda.gov.lk/storage/common_media/1%20Vehicle%20Safari%20Final%20Guideline.pdf
+  - Note: OPTIONAL duplicate of sigiriya-elephant-safari for travellers based in Polonnaruwa or Giritale. The experience guide links to the Sigiriya id only.

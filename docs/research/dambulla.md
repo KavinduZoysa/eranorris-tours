@@ -134,3 +134,87 @@ the CCF and Wikipedia.
 - The modern golden Buddha at the foot of the hill (the current hero), labelled as the modern
   building.
 - Optional: the Ibbankatuwa tombs, Popham's Arboretum and the Aukana Buddha.
+
+## Audit 2026-11-06
+
+Audit and improvement pass (2026-11-06/07). Region JSON: `.cache/audit/cultural-triangle.json`.
+
+### Sources consulted
+- CCF ticket page (re-read): https://ccf.gov.lk/vsl/tickets — lists "Dambulla Cave Temple" among
+  heritage sites (single entry, online booking).
+- CCF Dambulla page: https://ccf.gov.lk/heritage-sites/dambulla-cave-temple/ (CCF manages and
+  conserves; links to eTicketing; no hours or prices).
+- SLTDA Year in Review 2025, heritage-site table:
+  https://www.sltda.gov.lk/storage/common_media/Year_in_Review_2025_Final_updated_Report_2026_04_02.pdf
+  — only the "Dambulla Museum" appears (540 foreign, 666 local); the cave temple does not.
+  Ibbankatuwa: 1,157 foreign / 17,840 local.
+- Third-party ticket reports 2025–2026: LKR 1,500–2,000 or about USD 10; ticket office closes at
+  5 pm while the caves stay open later; shoe-keeping fee about LKR 200 (e.g.
+  https://www.expatolife.com/dambulla-cave-temple-sri-lanka/ ; https://amazinglanka.com/wp/dambulla-temple/).
+- Nalanda Gedige: Central Province tourism page
+  https://www.tourism.cp.gov.lk/en/destination/matale-district/nalanda-gedige ; Wikipedia
+  https://en.wikipedia.org/wiki/Nalanda_Gedige (1 km east of the A9, 20 km north of Aluvihare;
+  8th–10th century; Pallava-style plan; dismantled and rebuilt because of the Bowatenne tank);
+  Sunday Times 29 Mar 2026
+  https://www.sundaytimes.lk/260329/plus/nalanda-gedige-where-the-theravada-mahayana-and-hindu-traditions-live-side-by-side-635366.html
+- Popham's Arboretum: NIFS https://www.nifs.ac.lk/node/85 ; Ministry of Environment reopening
+  notice (20 Jul 2023)
+  https://env.gov.lk/web/index.php/en/announcements/campaigns/284-reopening-of-the-renovated-nifs-popham-arboretum-as-an-ecotourism-destination-for-the-nature-lovers-20-july-2023-dambulla ;
+  Sunday Times 23 Jul 2023 https://www.sundaytimes.lk/230723/news/dambullas-botanical-paradise-re-launching-a-labour-of-love-526173.html
+  (7.5 acres bought 1963; handed to the Institute of Fundamental Studies 1989; now 34.5 acres;
+  renovated and reopened as an ecotourism site in July 2023; night walks for the grey slender
+  loris run about 1–1.5 h per operator listings).
+- Aukana: Wikipedia and Sunday Observer (distance from Dambulla 30–45 km by road, via Kekirawa).
+- Ballooning near Dambulla/Kandalama: operator pages only.
+
+### Facts verified
+- The Dambulla text's history, cave contents and rules (unchanged; see the October record).
+- Nalanda Gedige: about 25 km south of Dambulla (Aluvihare is about 3 km north of Matale; Matale
+  is about 45 km from Dambulla), relocated because of the Bowatenne reservoir (three sources).
+- Popham's Arboretum ownership and reopening (NIFS, Ministry of Environment).
+
+### Corrections made (old → new, why)
+- Added the `<!-- experiences -->` marker after "The Golden Temple at the foot of the hill",
+  because Dambulla will now get cards.
+- Nalanda Gedige: added "about 25 km south, a short way off the main road", "South Indian" plan
+  and the relocation (missing context).
+- Aukana: "an easy detour on the road to Anuradhapura" → "about an hour's drive north-west, a
+  detour on the way to Anuradhapura" (qualified time; it is 30–45 km by road).
+- `verify:` extended: proposed cards; who sells the cave ticket in 2026.
+
+### Uncertainties and conflicts
+- Who sells the cave temple ticket: CCF ticket page lists the cave temple, but CCF 2025
+  visitor figures include only the Dambulla Museum, which suggests the temple sells cave
+  tickets. The page keeps "buy your ticket at the counter at the bottom".
+- Nalanda Gedige relocation: 1970s or 1980s; the page gives no date.
+- Shoe-keeping fee: third-party only; not on the page.
+
+### Owner questions
+- Cave temple ticket included or paid on the day?
+- Which proposed cards can the driver include (Nalanda Gedige on the Kandy road, Popham's
+  Arboretum and its night walk)?
+- Spice garden stops (already in `verify:`).
+
+### Re-check before publishing
+- Ticket seller, price and counter hours; any conservation closures.
+- Popham's Arboretum opening hours and how night walks are booked.
+
+## Experience cards added (2026-11-07)
+Merged into `src/data/experiences.mjs` with `source: 'research'`. Who provides each one
+is unconfirmed (see docs/research/owner-checklist.md).
+
+- **Dambulla cave temple** (`dambulla-cave-temple`, attraction)
+  - https://ccf.gov.lk/heritage-sites/dambulla-cave-temple/
+  - https://whc.unesco.org/en/list/561
+  - https://en.wikipedia.org/wiki/Dambulla_cave_temple
+  - Note: Category culture, as for the Kandy temple card (a working temple). Ticket seller unclear (see ownerQuestions).
+- **Nalanda Gedige** (`dambulla-nalanda-gedige`, excursion)
+  - https://www.tourism.cp.gov.lk/en/destination/matale-district/nalanda-gedige
+  - https://en.wikipedia.org/wiki/Nalanda_Gedige
+  - https://www.sundaytimes.lk/260329/plus/nalanda-gedige-where-the-theravada-mahayana-and-hindu-traditions-live-side-by-side-635366.html
+  - Note: Relocation dated 1970s or 1980s depending on source; the card gives no date. Could equally sit under kandy (about 70 km).
+- **Popham's Arboretum and night loris walk** (`dambulla-pophams-arboretum`, activity)
+  - https://www.nifs.ac.lk/node/85
+  - https://env.gov.lk/web/index.php/en/announcements/campaigns/284-reopening-of-the-renovated-nifs-popham-arboretum-as-an-ecotourism-destination-for-the-nature-lovers-20-july-2023-dambulla
+  - https://www.sundaytimes.lk/230723/news/dambullas-botanical-paradise-re-launching-a-labour-of-love-526173.html
+  - Note: Night-walk length from operator listings (1–1.5 h). Check whether night walks are run by NIFS staff or only by outside guides, and current hours.

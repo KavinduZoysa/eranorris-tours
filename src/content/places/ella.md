@@ -20,13 +20,16 @@ sources:
   - Sri Lanka Railways — seat reservation FAQ (booking window, e-tickets, refunds) | https://seatreservation.railway.gov.lk/mtktwebslr/faq
   - Sri Lanka Railways — train schedules | https://eservices.railway.gov.lk/schedule/searchTrain.action?lang=en
   - Uva Provincial Council tourism — Lipton’s Seat | https://visituva.lk/destination/liptons-seat
+  - The Pekoe Trail — stages and current conditions | https://thepekoetrail.org/pekoe-stages
+  - National Building Research Institute — landslide early warnings | https://nbri.gov.lk/
 verify:
   - Which Ella visits do we actually arrange — Little Adam’s Peak, the Nine Arches Bridge, Ella Rock, Ravana Falls, Lipton’s Seat — and is it driver-only or with a guide?
   - Do we book train tickets (e.g. Nanu Oya to Ella), and if guests ride the train, how does the driver and luggage fit around it?
   - Recommended stay — the design suggests 2 nights; the page says 2, with a third optional. Confirm.
   - Do our drivers do early starts for day trips, e.g. Lipton’s Seat at dawn?
   - Is the Uva tourism site (visituva.lk) acceptable as an official source? Its footer names the Uva Provincial Council’s Ministry of Tourism.
-  - Ella hero photo — rights confirmed, and it shows the Nine Arches Bridge near Ella.
+  - Rail status — last checked 6 November 2026 (Nanu Oya–Badulla running; everything west of Nanu Oya closed). Re-check before publishing and update the train section and FAQ.
+  - Do we take guests to the commercial zipline or the Uva Halpewatte factory, or recommend any operator? The page names them only as things to do nearby.
 ---
 
 ## Why stay in Ella
@@ -57,7 +60,7 @@ You can walk there along the tracks from Ella station in about 30–45 minutes, 
 
 Ella is on the Main Line from Colombo to Badulla, and the section from Nanu Oya to Ella is the one most travellers want to ride. It crosses the line’s highest point near Pattipola, at about 1,900 m, then runs along the hillsides past Haputale with long views over tea and valleys.
 
-Cyclone Ditwah damaged the line in late 2025. At the time of writing, trains had been running between Nanu Oya and Badulla via Ella since June 2026, but parts of the route from Kandy to Nanu Oya were still under repair. Check Sri Lanka Railways before you plan around it.
+Cyclone Ditwah damaged the line in late 2025. In early November 2026, trains had been running between Nanu Oya and Badulla via Ella since June 2026, and this was the only part of the hill-country line open: the bridge into Kandy and the line from Gampola to Nanu Oya were still being rebuilt, with the end of 2026 as the official target. Landslides can still interrupt services after heavy rain. Check Sri Lanka Railways before you plan around it.
 
 - **Booking.** Reserved seats can be booked online up to 30 days ahead on the Sri Lanka Railways site, with each passenger’s passport number; the e-ticket arrives by email. Popular trains fill quickly in the busy season.
 - **Timing.** The Nanu Oya to Ella run takes roughly 2.5–3 hours, and delays are common.
@@ -65,10 +68,13 @@ Cyclone Ditwah damaged the line in late 2025. At the time of writing, trains had
 
 ## Day trips from Ella
 
-- **Ravana Falls.** About 6 km down the Wellawaya road, this 25 m waterfall is visible from the roadside. Legend links it, and a nearby cave, to King Ravana of the Ramayana. Take care on wet rocks.
+- **Ravana Falls.** About 6 km down the Wellawaya road, this 25 m waterfall is visible from the roadside. Legend links it, and a nearby cave, to King Ravana of the Ramayana. The rocks are slippery and the water can run fast after rain, so don’t climb the falls.
 - **Lipton’s Seat and Haputale.** Above the Dambatenne tea factory near Haputale, this is the viewpoint from which the tea merchant Thomas Lipton is said to have surveyed his estates. Go early, as mist usually arrives by mid-morning. Haputale is roughly an hour from Ella.
-- **Diyaluma Falls.** Near Koslanda, roughly 1.5–2 hours away, this is one of the highest waterfalls in the country, at about 220 m.
-- **Horton Plains.** Around 2–2.5 hours away via Haputale and Ohiya; most people visit it from [Nuwara Eliya](/places/nuwara-eliya/), which is closer.
+- **Diyaluma Falls.** Near Koslanda, roughly 1.5–2 hours away, this is one of the highest waterfalls in the country, at about 220 m. Paths lead to pools near the top, just above the drop: keep well back from the edge and stay out of the water after rain.
+- **Dowa rock temple.** On the Badulla road north of Bandarawela, roughly half an hour from Ella, an unfinished Buddha about 11 m tall is carved into a rock face beside a painted cave shrine. Tradition dates it to the 1st century BC.
+- **Horton Plains.** Around 2–2.5 hours away via Haputale and Ohiya; most people visit it from [Nuwara Eliya](/places/nuwara-eliya/), which is closer. See the [Horton Plains and World’s End guide](/experiences/horton-plains-worlds-end/).
+
+Closer to town, the Uva Halpewatte factory shows visitors how Uva tea is made, and a commercial zipline more than half a kilometre long crosses a valley off the Passara road. Two stages of the Pekoe Trail, a 300 km walking route through the hills, start or end in Ella: an easy 9.5 km stage to Demodara and a moderate one from Makulella.
 
 ## How long to stay
 
@@ -90,7 +96,7 @@ Ella lies on the eastern side of the hills and gets most of its rain from the no
 - **From Nuwara Eliya.** About 60 km, roughly 2–3 hours by road via Welimada and Bandarawela, or by train from Nanu Oya.
 - **From [Kandy](/places/kandy/).** Around 4.5–6 hours by road, usually via Nuwara Eliya, where many people break the journey.
 - **From the airport or Colombo.** Around 6–7 hours by road.
-- **South to the safari parks.** [Yala](/places/yala/) and [Udawalawe](/places/udawalawe/) are each about 2.5–3.5 hours away via Wellawaya.
+- **South to the safari parks.** [Yala](/places/yala/) and [Udawalawe](/places/udawalawe/) are each about 2.5–3.5 hours away via Wellawaya. The road down the Ella Gap to Wellawaya has been closed by landslides several times in recent years, including after Cyclone Ditwah in late 2025, so allow slack in the wet months.
 - **East to the coast.** [Arugam Bay](/places/arugam-bay/) is about 3–4 hours east and is best visited in its April–October season.
 
 In a private tour you add Ella to your route on the map, and your driver handles the roads. The planner’s drive times are rough estimates, not road-tested figures.
@@ -107,7 +113,7 @@ Yes. It is about 2 km, roughly 30–45 minutes along the railway from Ella stati
 
 ### Can I take the train from Kandy to Ella?
 
-Not all the way, at the time of writing: after Cyclone Ditwah, trains were running from Nanu Oya to Ella, but sections between Kandy and Nanu Oya were still under repair. Check Sri Lanka Railways for the latest.
+Not all the way, at the time of writing (early November 2026). After Cyclone Ditwah, trains were running only between Nanu Oya, near Nuwara Eliya, and Badulla via Ella, so many travellers go by road to Nanu Oya and ride the scenic stretch from there. Check Sri Lanka Railways for the latest.
 
 ### Is Ella Rock safe to hike without a guide?
 

@@ -1,0 +1,1063 @@
+{
+  "region": "Wildlife parks and the east coast",
+  "auditDate": "2026-11-06",
+  "note": "The session-wide web-search quota (200 calls, shared by all agents) ran out partway through; later checks used direct page fetches. Items that could not be checked are flagged under uncertainties in the research records and in verify:.",
+  "destinations": {
+    "yala": {
+      "missing": [
+        "2026 reopening (16 October) and bungalow reopening (1 November) → added to the closure paragraph and FAQ",
+        "Rain closures (late November 2025, all zones but one shut) → added to the closures paragraph",
+        "Rules under discussion in 2026 (jeep cap per session, timed slots, QR e-ticketing) and strict entry/exit times → added to 'Planning a safari'",
+        "Responsible behaviour at sightings (engines off, not joining jeep jams) → added to 'Responsible safari'",
+        "Tissamaharama's history, stupa and Tissa Wewa → added (new section 'Around Tissamaharama') and proposed as an experience",
+        "Kataragama detail (Menik Ganga, offerings, Kiri Vehera, dress, festival timing) → added and proposed as an excursion",
+        "Kirinda (rock temple, Viharamahadevi legend, sea safety) → added and proposed as an excursion",
+        "Bundala (first Ramsar wetland, migrant season, flamingos not every year) → expanded and proposed as an excursion",
+        "Sithulpawwa access (roads through the park from Kirinda and Kataragama, daylight) → added and proposed as an excursion",
+        "Lunugamvehera National Park (quieter elephant corridor) → added and proposed as an excursion (low priority)",
+        "Patanangala as a designated stop where visitors may leave the jeep → added",
+        "Kataragama Esala festival detail (fire-walking, Pada Yatra through Kumana and Yala) → festival kept short on the Yala page; Pada Yatra covered on the Arugam Bay page",
+        "Magul Maha Vihara and Akasa Chaitya inside the park → left out (limited visitor access and no reliable visitor information)",
+        "Great Basses reef diving off Kirinda → left out (very short, weather-dependent season and specialist operators only; no official source found)"
+      ],
+      "corrections": [
+        {
+          "old": "In 2026 they were closed from 14 September to 15 October, while the other zones stayed open.",
+          "new": "In 2026 the two blocks closed from 14 September to 15 October, while the other zones stayed open; safaris resumed on 16 October, and the park’s bungalows and campsites were due to reopen on 1 November. Parks can also close at short notice in very heavy rain …",
+          "reason": "Current status as of November 2026 and the rain-closure risk",
+          "sources": [
+            "https://newsfirst.lk/2026/09/07/yala-national-park-blocks-1-and-2-to-close-temporarily-from-september-14",
+            "https://www.newswire.lk/buvk",
+            "https://english.newsfirst.lk/2025/11/27/sri-lanka%E2%80%99s-national-parks-shut-down-as-heavy-rains-lash-island"
+          ]
+        },
+        {
+          "old": "Its evening ceremonies are busiest during the annual festival, around June to August.",
+          "new": "The annual festival, usually in July, brings fire-walking, processions and very large crowds.",
+          "reason": "Sri Lanka Tourism gives July; 2026 festival 15–29 July, 2025 from 26 June",
+          "sources": [
+            "https://www.srilanka.travel/attraction?attraction_id=169",
+            "https://hirunews.lk/goldfmnews/476688/pada-yatra-continues-as-kumana-gates-open"
+          ]
+        },
+        {
+          "old": "Kataragama, about half an hour north",
+          "new": "Kataragama, about 19 km north",
+          "reason": "Official distance; avoids an unmeasured time",
+          "sources": [
+            "https://www.srilanka.travel/attraction?attraction_id=169"
+          ]
+        },
+        {
+          "old": "Inside the park, Sithulpawwa is an ancient rock monastery still used by pilgrims; dress as you would for any temple.",
+          "new": "Sithulpawwa, deep in the park, is a rock monastery … dating back to around the 2nd century BC … Pilgrims reach it by roads through the park from Kirinda and from Kataragama … travel in daylight, because elephants use the same roads.",
+          "reason": "Adds age, access and a safety point",
+          "sources": [
+            "https://archives1.sundayobserver.lk/node/66125"
+          ]
+        },
+        {
+          "old": "Tissamaharama, the main base, has a large ancient reservoir and a restored stupa.",
+          "new": "Tissa was the capital of the ancient southern kingdom of Ruhuna. Its reservoir, Tissa Wewa, dates back more than 2,000 years … the white stupa … about 50 m high, with the smaller Yatala and Sandagiri stupas nearby.",
+          "reason": "Fills a gap with official heritage facts",
+          "sources": [
+            "https://ccf.gov.lk/heritage-sites/tissamaharama"
+          ]
+        },
+        {
+          "old": "Bundala National Park, to the west, is a coastal wetland known for waterbirds, including flamingos in some years.",
+          "new": "Bundala … was Sri Lanka’s first Ramsar wetland … especially when migrants arrive from about September to March. Flocks of greater flamingos come in some years but not every year.",
+          "reason": "Adds status and the season",
+          "sources": [
+            "https://www.srilanka.travel/attraction?attraction_id=168",
+            "https://en.wikipedia.org/wiki/Bundala_National_Park"
+          ]
+        }
+      ],
+      "experienceGuideIdeas": [
+        {
+          "topic": "Yala safari guide: blocks and gates, morning or afternoon, closures and responsible viewing",
+          "searchIntent": "Yala safari tips; which Yala block is best; is Yala closed in September; Yala leopard safari",
+          "why": "The highest-demand wildlife search in Sri Lanka; current rules and the annual closure change often, and the site can give a neutral, accurate answer"
+        },
+        {
+          "topic": "Visiting Kataragama: the evening puja, Kiri Vehera and the Esala festival",
+          "searchIntent": "Kataragama temple puja times; Kataragama dress code; Kataragama festival dates",
+          "why": "Multi-faith site that most Yala visitors pass; etiquette and festival timing are commonly searched"
+        }
+      ],
+      "ownerQuestions": [
+        "Is the villa site's 'Yala National Park Safari' offered to tour guests, and what does it include (jeep, tracker or guide, permits, breakfast)?",
+        "Do you help book jeeps and park permits, or do guests arrange them locally?",
+        "Do drivers take guests to Kataragama, Kirinda, Bundala, Lunugamvehera or Sithulpawwa, or are they only suggestions? Do your vehicles use the Sithulpawwa road through the park, and is a park ticket needed?",
+        "Recommended stay: 2 nights (design and page)?",
+        "Hero photo rights and subject (photoOf says a leopard; alt text describes rock outcrops); yala-elephant photo taken in Yala?",
+        "Replace the 2026 closure dates with the current year's before publishing."
+      ],
+      "existingExperiences": [
+        {
+          "id": "yala-jeep-safari",
+          "kind": "activity",
+          "changes": {
+            "name": "Yala jeep safari"
+          },
+          "reason": "Category 'wildlife' is right. 'Private' in the name implies the business supplies a private jeep, which is unconfirmed (verify). Text is otherwise accurate: sightings not guaranteed, seasonal closure mentioned. Keep the image only if the owner confirms it was taken in Yala.",
+          "sources": [
+            "https://www.dwc.gov.lk/",
+            "https://news.mongabay.com/2026/04/in-sri-lanka-animals-pay-the-price-for-overcrowding-and-speeding-jeeps/"
+          ]
+        }
+      ],
+      "newExperiences": [
+        {
+          "id": "yala-bundala-national-park",
+          "destinationId": "yala",
+          "kind": "excursion",
+          "category": "wildlife",
+          "name": "Bundala National Park birdwatching safari",
+          "shortDescription": "A quieter jeep drive around the coastal lagoons of Bundala, a Ramsar wetland known for waterbirds and, in some years, flamingos.",
+          "details": "Bundala’s shallow lagoons, salt pans and dunes hold large numbers of waterbirds, with migrant shorebirds from about September to March and flocks of greater flamingos in some years. Crocodiles and a few elephants live here too. Drives are quieter than in Yala and usually take about 3 hours, early or late in the day. Sightings are never guaranteed.",
+          "where": "Bundala National Park, west of Tissamaharama, about 20–30 minutes by road",
+          "season": "Best for migrant birds from about September to March",
+          "sources": [
+            "https://www.srilanka.travel/attraction?attraction_id=168",
+            "https://rsis.ramsar.org/ris/487",
+            "https://en.wikipedia.org/wiki/Bundala_National_Park"
+          ],
+          "notes": "Ramsar listing date conflicts (1990 vs 1991); not stated. Flamingo numbers vary by year — never promise them. Entrance distance from Tissa is from operators (about 12–20 km). Owner: offered or suggested?"
+        },
+        {
+          "id": "yala-kataragama",
+          "destinationId": "yala",
+          "kind": "excursion",
+          "category": "culture",
+          "name": "Kataragama shrine and evening puja",
+          "shortDescription": "Join pilgrims at Kataragama, a shrine town sacred to Buddhists, Hindus and Muslims, for the drumming and offerings of the evening puja.",
+          "details": "Pilgrims bathe in the Menik Ganga, then crowd into the shrine of the god Kataragama for offerings held several times a day; the evening one is the busiest. The white Kiri Vehera stupa is a short walk north. Remove shoes and avoid shorts. Allow 2–3 hours including the drive. The annual festival, usually in July, brings fire-walking and very large crowds.",
+          "where": "Kataragama, about 19 km north of Tissamaharama, around 30 minutes by road",
+          "season": "All year; the annual Esala festival is usually in July",
+          "sources": [
+            "https://www.srilanka.travel/attraction?attraction_id=169",
+            "https://rmkd.lk/",
+            "https://srilanka.travel/pilgrimage"
+          ],
+          "notes": "Puja times are on the official site (weekday and Saturday times differ) — not hard-coded. Muslim association (Khidr shrine) comes from kataragama.org, not the official tourism page."
+        },
+        {
+          "id": "yala-tissamaharama-stupa",
+          "destinationId": "yala",
+          "kind": "attraction",
+          "category": "history",
+          "name": "Tissamaharama stupa and Tissa Wewa",
+          "shortDescription": "See the great white stupa of Ruhuna’s ancient capital and the 2,000-year-old Tissa Wewa reservoir, best at sunset.",
+          "details": "Tissamaharama was the capital of the ancient southern kingdom of Ruhuna. Its whitewashed stupa, about 50 m high, is linked to King Kavantissa in the 2nd century BC, and the smaller Yatala and Sandagiri stupas are nearby. Tissa Wewa, an ancient reservoir beside the town, draws waterbirds and is lovely at sunset. Most people spend an hour or two. Dress modestly at the temples.",
+          "where": "Tissamaharama, the main base for Yala",
+          "sources": [
+            "https://ccf.gov.lk/heritage-sites/tissamaharama"
+          ],
+          "notes": "A good midday or late-afternoon filler between safaris. Construction dates for Yatala and Sandagiri vary between sources; the card avoids them."
+        },
+        {
+          "id": "yala-sithulpawwa",
+          "destinationId": "yala",
+          "kind": "excursion",
+          "category": "history",
+          "name": "Sithulpawwa rock monastery",
+          "shortDescription": "An ancient cave monastery on rock outcrops in the Yala wilderness, still an active temple, reached by a road through the park.",
+          "details": "Monks have lived among these rock outcrops since around the 2nd century BC; caves, stupas, inscriptions and a cave with old paintings remain, and the rock looks out over the forest. It is reached by roads through the park from Kirinda or Kataragama, partly gravel. Go in daylight, as elephants use the roads, and dress modestly. Allow half a day from Tissamaharama.",
+          "where": "Inside Yala, about 28 km from Kirinda by a park road; roughly 1–1.5 hours from Tissamaharama",
+          "sources": [
+            "https://archives1.sundayobserver.lk/node/66125",
+            "https://en.wikipedia.org/wiki/Sithulpawwa_Rajamaha_Viharaya"
+          ],
+          "notes": "No official visitor page found. Whether a park ticket is needed and which vehicles may use the road are unconfirmed (owner question). Often combined with a safari by jeep operators."
+        },
+        {
+          "id": "yala-kirinda",
+          "destinationId": "yala",
+          "kind": "excursion",
+          "category": "culture",
+          "name": "Kirinda rock temple and beach",
+          "shortDescription": "Climb to a temple on a rock above the sea at Kirinda, linked by legend to Queen Viharamahadevi, with views over dunes and the coast.",
+          "details": "The temple buildings are modern, but two rock inscriptions date to the 1st century AD, and tradition says the princess who became Queen Viharamahadevi came ashore near here. The rock gives wide views of the beach, dunes and fishing boats. Currents can be strong, so ask locally before swimming. Most people spend about an hour.",
+          "where": "Kirinda, about 10 km south of Tissamaharama, around 20 minutes by road",
+          "sources": [
+            "https://amazinglanka.com/wp/kirinda/",
+            "https://www.wondersofceylon.com/kirinda-beach/",
+            "https://ccf.gov.lk/heritage-sites/tissamaharama"
+          ],
+          "notes": "Smaller sight; include only if the list has room. No official source found for Kirinda itself; the landing legend is disputed (Muhudu Maha Vihara also claims it). Distance derived from Kataragama–Tissa–Kirinda 30 km."
+        },
+        {
+          "id": "yala-lunugamvehera-safari",
+          "destinationId": "yala",
+          "kind": "excursion",
+          "category": "wildlife",
+          "name": "Lunugamvehera National Park safari",
+          "shortDescription": "A quieter jeep safari in the park between Yala and Udawalawe, an elephant corridor with far fewer vehicles than Yala’s Block I.",
+          "details": "Lunugamvehera protects the catchment of a large reservoir and a corridor used by elephants moving between Yala and Udawalawe. Elephants, water buffalo, crocodiles and many waterbirds are seen, but sightings are never guaranteed. The main entrance is near Thanamalwila. Drives usually take about 3–4 hours, early or late in the day.",
+          "where": "Lunugamvehera National Park, entrance near Thanamalwila, about 30 minutes north-west of Tissamaharama",
+          "sources": [
+            "https://en.wikipedia.org/wiki/Lunugamvehera_National_Park",
+            "https://www.srilankatailormade.com/jetwing-hotspots/lunugamvehera-national-park",
+            "https://dwc.lankagate.gov.lk/DWCEpermitApp/homeAction.action?lang=en"
+          ],
+          "notes": "Lower priority. No official visitor page; entrance details from operators (Thanamalwila gate about 18 km from Tissa; also Weheragala/Galge). Useful as a crowd-free alternative, also from Udawalawe."
+        }
+      ]
+    },
+    "udawalawe": {
+      "missing": [
+        "Jeep crowding around herds → added to 'Responsible viewing'",
+        "Maduwanwela Walawwa (Department of Archaeology manor-house museum) → added to the new 'Around Udawalawe' section and proposed as an excursion",
+        "Access to Sinharaja → added (southern edge about 2–2.5 hours via Embilipitiya; better as its own night); see the Sinharaja candidate",
+        "Lunugamvehera National Park → added as a quieter park on the Yala road (experience proposed under yala)",
+        "Experience cards (none existed) → proposed jeep safari, Elephant Transit Home (labelled as a managed facility) and Maduwanwela Walawwa; `<!-- experiences -->` already present",
+        "Udawalawe dam viewpoint → left out (could not confirm visitors may stop on the dam road)",
+        "Managed Elephant Reserve regulations (gazetted 30 Jan 2026) → left out of the page (policy detail, no visitor impact); noted in research"
+      ],
+      "corrections": [
+        {
+          "old": "Ask your safari driver to keep a good distance … or block an elephant’s path.",
+          "new": "… If several jeeps have already gathered around a herd, hold back or move on.",
+          "reason": "Jeep crowding around herds is reported in 2026 travel sources; consistent advice with Yala",
+          "sources": [
+            "https://destinationlesstravel.com/udawalawe-national-park/",
+            "https://thirdeyetraveller.com/elephant-safari-udawalawe-guide/"
+          ]
+        }
+      ],
+      "experienceGuideIdeas": [
+        {
+          "topic": "Udawalawe or Yala? Choosing a park for elephants or leopards",
+          "searchIntent": "Udawalawe vs Yala; best national park for elephants Sri Lanka",
+          "why": "A frequent planning question that both destination pages answer only briefly"
+        },
+        {
+          "topic": "The Udawalawe Elephant Transit Home: what it is and what to expect",
+          "searchIntent": "Udawalawe elephant transit home feeding time; elephant orphanage Udawalawe vs Pinnawala",
+          "why": "Travellers confuse it with captive attractions; a neutral page can explain the managed, no-contact format without welfare claims"
+        }
+      ],
+      "ownerQuestions": [
+        "Do you offer an Udawalawe safari or Elephant Transit Home visit to tour guests, and on what terms?",
+        "Do you help book jeeps and permits?",
+        "Recommended stay: 1 night or a half-day stop?",
+        "Do drivers take guests to Maduwanwela Walawwa or Sinharaja from here; would a night near Sinharaja (Deniyaya) fit your routes?",
+        "Is Maduwanwela Walawwa open to visitors (no official visitor page found)?",
+        "Hero photo rights, location and the closeness of the jeep to the elephant and calf."
+      ],
+      "existingExperiences": [],
+      "newExperiences": [
+        {
+          "id": "udawalawe-jeep-safari",
+          "destinationId": "udawalawe",
+          "kind": "activity",
+          "category": "wildlife",
+          "name": "Udawalawe jeep safari",
+          "shortDescription": "Look for wild elephant herds on the open grassland around the Udawalawe reservoir, early or late in the day. Sightings are never guaranteed.",
+          "details": "Family herds of wild elephants graze and bathe around the reservoir through the year, and the open ground makes them easy to watch; water buffalo, crocodiles, deer and birds of prey are common too. Drives usually last about 3–4 hours, best from opening time or in the late afternoon. Ask the driver to keep a good distance from mothers and calves. Sightings are never guaranteed.",
+          "season": "All year; no regular annual closure",
+          "sources": [
+            "https://www.dwc.gov.lk/",
+            "https://dwc.lankagate.gov.lk/DWCEpermitApp/homeAction.action?lang=en",
+            "https://www.dwc.gov.lk/?page_id=72"
+          ],
+          "notes": "Core activity for the destination. Owner: offered to tour guests? Permits via DWC at the gate or online."
+        },
+        {
+          "id": "udawalawe-elephant-transit-home",
+          "destinationId": "udawalawe",
+          "kind": "attraction",
+          "category": "wildlife",
+          "name": "Elephant Transit Home (managed facility)",
+          "shortDescription": "Watch orphaned elephant calves come in for milk at a wildlife department rehabilitation centre, from a viewing area. No contact.",
+          "details": "A managed facility, not a wild encounter: since 1995 the wildlife department has raised orphaned calves here with limited human contact and released them into protected areas at about five years old. Visitors watch the milk feeds from a viewing area and cannot touch or feed the elephants; between feeds there is little to see. Feeding times vary between sources, so check locally. Allow about an hour.",
+          "where": "Beside the main road, a few kilometres west of the park entrance",
+          "sources": [
+            "https://www.enca.com/lifestyle/sri-lanka-returns-orphaned-elephants-jungle",
+            "https://english.newsfirst.lk/2025/07/18/six-rescued-baby-elephants-return-to-the-wild",
+            "https://en.wikipedia.org/wiki/Udawalawe_Elephant_Transit_Home"
+          ],
+          "notes": "Acceptable under the brief only as labelled: watching feeding from a viewing area, no contact. Keep '(managed facility)' in the name. No welfare or conservation claim. A critical Sunday Island feature (Dec 2025) exists; no official DWC visitor page found. Feeding times conflict."
+        },
+        {
+          "id": "udawalawe-maduwanwela-walawwa",
+          "destinationId": "udawalawe",
+          "kind": "excursion",
+          "category": "history",
+          "name": "Maduwanwela Walawwa manor house",
+          "shortDescription": "A rambling chieftain’s manor house begun in the 1700s, with courtyards, old furniture and a courtroom, now a little-visited museum.",
+          "details": "Built from the 1700s and enlarged until 1905 by the Maduwanwela family of local chieftains, the walawwa once had more than a hundred rooms around 21 courtyards; about 40 survive. The Department of Archaeology runs it as a museum with period furniture and a courthouse. Allow about an hour, and check that it is open before you go.",
+          "where": "Maduwanwela, about 26 km beyond Embilipitiya; roughly an hour or more west of Udawalawe",
+          "sources": [
+            "https://en.wikipedia.org/wiki/Maduwanwela_Walawwa",
+            "https://archives1.sundayobserver.lk/node/1497",
+            "https://www.jetwinghotels.com/islandinsider/maduwanwela-walawwa/"
+          ],
+          "notes": "Hidden gem for history-minded travellers; low priority. No official visitor page; opening days and condition unconfirmed (owner question). Construction date conflicts (late 1600s vs 1725)."
+        }
+      ]
+    },
+    "trincomalee": {
+      "missing": [
+        "Diving (reef dives around Pigeon Island, WWII wrecks for experienced divers, season) → added a short Diving section and proposed trincomalee-scuba-diving",
+        "Current state of the Pigeon Island reef (invasive corallimorphs on the main snorkelling reef, 2025 clean-up of ghost nets and crown-of-thorns), no-go zones, lack of shade/facilities, life-jacket advice, not touching sharks/turtles → added to guide and a new FAQ 'Is Pigeon Island’s reef still worth seeing?'",
+        "Pathirakali Amman temple (Kali shrine near the fort, enlarged under Rajendra Chola I, shares Koneswaram festivals) → added to guide",
+        "Lover’s Leap at Swami Rock → named in guide",
+        "Velgam Vehera (ancient Buddhist monastery restored by the Cholas, Tamil inscriptions) → added to guide and proposed with Kanniya as trincomalee-kanniya-velgam-vehera",
+        "Girihandu Seya at Thiriyaya (hilltop vatadage, Sanskrit inscription) → added to guide as a day trip north and proposed as trincomalee-girihandu-seya",
+        "Town life and food (Dutch Bay, morning fish market, Tamil eateries) → added a bullet to the renamed 'Beaches and town life' section",
+        "Marble Beach access (Air Force-controlled) → added 'check access locally'; Air Force page added to sources",
+        "Monsoon flooding along the lower Mahaweli south of the harbour (Cyclone Ditwah, late 2025) → added one sentence to When to go and a wet-season caution on the coast road to Arugam Bay",
+        "Rail status after Cyclone Ditwah → updated (services reported running again in 2026)",
+        "Seruwila (one of the sixteen sacred Buddhist sites, 40–45 km south via Kinniya) → left out of the guide for length and low foreign-visitor demand; noted in research and verify",
+        "Lankapatuna, Hoods Tower Museum (inside the naval dockyard, access unclear), Salli Muthumariamman Kovil, Kinniya → left out (limited visitor access/infrastructure or low relevance)",
+        "Domestic flights to China Bay (Cinnamon Air, per aggregators) → left out of the guide; the service is not part of a private driver tour; kept as an owner question"
+      ],
+      "corrections": [
+        {
+          "old": "Kanniya hot wells, about 8 km west of town",
+          "new": "about 8 km north-west of town",
+          "reason": "The wells lie on the Anuradhapura road north-west of the town centre (coordinates and route descriptions).",
+          "sources": [
+            "https://en.wikipedia.org/wiki/Kanniya_Hot_Springs",
+            "https://amazinglanka.com/wp/kanniya-hot-water-wells/"
+          ]
+        },
+        {
+          "old": "Services were disrupted after Cyclone Ditwah in late 2025, so check Sri Lanka Railways for the current timetable.",
+          "new": "Cyclone Ditwah disrupted the line in late 2025; services were reported running again in 2026, but check Sri Lanka Railways for the current timetable.",
+          "reason": "SLR's recovery plan targeted full passenger reopening of the Trincomalee line on 1 January 2026; the Colombo–Trincomalee night mail resumed on 20 January 2026; Seat61 (updated 10 June 2026) lists Colombo–Trincomalee as 'all running' with the 07:25 day train and 21:30 night mail.",
+          "sources": [
+            "https://www.railway.gov.lk/web/index.php?option=com_content&view=article&id=917&Itemid=217&lang=en",
+            "https://www.newsfirst.lk/2026/01/20/train-services-along-three-routes-resume-after-cyclone-ditwah-disruptions",
+            "https://www.newswire.lk/uvjg",
+            "https://www.seat61.com/SriLanka.htm"
+          ]
+        },
+        {
+          "old": "The season off Trincomalee runs from roughly March or April to August or September (body) vs about March to August (FAQ)",
+          "new": "roughly from March to August (body and FAQ)",
+          "reason": "Made consistent; the most consistently cited core season is March–August (IWC handbook: blue whales off Trincomalee March–July; Sunday Times 2011: March–August).",
+          "sources": [
+            "https://www.sundaytimes.lk/110904/Plus/plus_08.html",
+            "https://wwhandbook.iwc.int/en/country-profiles/sri-lanka"
+          ]
+        },
+        {
+          "old": "Crowding, anchoring and bleaching have damaged parts of the reef",
+          "new": "…plus invasive corallimorphs smothering coral on the main snorkelling reef; 2025 clean-up removed ghost nets and crown-of-thorns starfish",
+          "reason": "More complete and current picture of reef condition.",
+          "sources": [
+            "https://www.newsfirst.lk/2024/06/01/world-reef-awareness-day-paradise-lost-pigeon-island-s-coral-reef-under-threat",
+            "https://www.adaderana.lk/news/109117/seabed-clean-up-operation-commences-in-pigeon-island-"
+          ]
+        },
+        {
+          "old": "blacktip reef sharks and turtles are often seen in the shallows",
+          "new": "…often seen in the shallows, though never guaranteed",
+          "reason": "Responsible-travel rule: wildlife sightings never guaranteed.",
+          "sources": [
+            "https://www.srilanka.travel/attraction?attraction_id=159"
+          ]
+        },
+        {
+          "old": "Don’t stand on coral or feed the fish",
+          "new": "Don’t stand on or touch coral, don’t chase or touch sharks and turtles, and don’t feed the fish",
+          "reason": "Ethical wildlife viewing; reef rules reported by park guides and travel sources.",
+          "sources": [
+            "https://www.srilanka.travel/attraction?attraction_id=159",
+            "https://exploretraveloasis.com/pigeon-island-national-park-sri-lanka/"
+          ]
+        },
+        {
+          "old": "sources: Sri Lanka Air Force — Marble Beach | https://www.airforce.lk/marblebeach",
+          "new": "(removed from sources:)",
+          "reason": "The URL returns HTTP 404 (checked twice on 2026-11-07); Marble Beach access stays in verify:",
+          "sources": [
+            "https://airforce.lk/news.php?news=6493"
+          ]
+        }
+      ],
+      "experienceGuideIdeas": [
+        {
+          "topic": "Snorkelling at Pigeon Island",
+          "searchIntent": "pigeon island snorkelling / is pigeon island worth it / pigeon island trincomalee tips",
+          "why": "Trincomalee's main draw; travellers want current reef condition, rules, season, what to bring and how boats and park fees work. Room for honest, responsible advice (damaged reef, no-go zones, sharks and turtles)."
+        },
+        {
+          "topic": "Whale watching from Trincomalee",
+          "searchIntent": "trincomalee whale watching season / mirissa or trincomalee whale watching",
+          "why": "Pairs with the existing Mirissa whale-watching guide: covers May–September travellers when Mirissa is off season, using the same 2012 sea-mammal regulations and seasickness advice."
+        }
+      ],
+      "ownerQuestions": [
+        "Do Eranorris tours cover the east coast, and can drivers stay over in Uppuveli or Nilaveli? Any months or routes not offered?",
+        "Pigeon Island boats/snorkelling gear, dives, whale-watching trips: arranged or booked locally by guests? If an operator is recommended, is it licensed (2012 sea-mammal regulations; recognised dive agency)?",
+        "Which of the seven proposed Trincomalee experience cards should appear?",
+        "Will drivers do day trips from Trincomalee, e.g. to Kanniya/Velgam Vehera, Girihandu Seya or Seruwila?",
+        "Marble Beach: do guests go there, and is the Air Force public area open without prior permission?",
+        "Recommended stay: 2 nights (design) or 2–3 (page)?",
+        "Domestic flights to China Bay (Cinnamon Air): ever combined with a tour?",
+        "Hero photo rights and subject (design says Pigeon Island).",
+        "Journey times from the drivers' own experience."
+      ],
+      "existingExperiences": [],
+      "newExperiences": [
+        {
+          "id": "trincomalee-pigeon-island-snorkelling",
+          "destinationId": "trincomalee",
+          "kind": "activity",
+          "category": "water",
+          "name": "Snorkelling at Pigeon Island",
+          "shortDescription": "Snorkel the coral reef of Pigeon Island National Park, a short boat ride off Nilaveli, where reef sharks and turtles are often seen.",
+          "details": "Boats from Nilaveli beach cross about 1 km to the larger island, where you snorkel over coral in the shallows. Blacktip reef sharks and turtles are often seen, never guaranteed. Parts of the reef are damaged and some areas are roped off; don’t stand on or touch coral. Most trips take about half a day. The park fee and the boat are paid separately, and boats may not run in rough seas.",
+          "where": "Pigeon Island National Park, about 1 km off Nilaveli beach, about 15 km north of Trincomalee",
+          "season": "About April or May to September; boats may stop in the north-east monsoon",
+          "sources": [
+            "https://www.srilanka.travel/attraction?attraction_id=159",
+            "https://www.dwc.gov.lk/?page_id=817",
+            "https://www.adaderana.lk/news/109117/seabed-clean-up-operation-commences-in-pigeon-island-",
+            "https://www.newsfirst.lk/2024/06/01/world-reef-awareness-day-paradise-lost-pigeon-island-s-coral-reef-under-threat"
+          ],
+          "notes": "The obvious headline card for Trincomalee. Fees and hours: link to DWC only (Sri Lanka Tourism's US$10 figure is out of date; blogs report much higher fees). No official rule found on compulsory life jackets or a daily visitor cap (one low-quality site claims 300/day) — not stated. Owner: do we arrange boats/gear or do guests book locally?"
+        },
+        {
+          "id": "trincomalee-whale-watching",
+          "destinationId": "trincomalee",
+          "kind": "activity",
+          "category": "wildlife",
+          "name": "Whale and dolphin watching",
+          "shortDescription": "Head out from Trincomalee to look for blue whales, sperm whales and spinner dolphins, roughly from March to August. Sightings are never guaranteed.",
+          "details": "Boats leave early in the morning for deep water about 6–8 nautical miles offshore, around half an hour out, where blue whales, sperm whales and spinner dolphins are seen in season. Trips usually last a few hours, depending on the sea and how far out the whales are. Choose an operator that keeps to Sri Lanka’s sea-mammal regulations on approach distances, and bring seasickness remedies if you need them.",
+          "season": "About March to August, outside Mirissa’s November–April season",
+          "sources": [
+            "https://faolex.fao.org/docs/pdf/srl133799.pdf",
+            "https://www.srilanka.travel/whale-watching",
+            "https://archives1.sundayobserver.lk/node/4133",
+            "https://www.sundaytimes.lk/110904/Plus/plus_08.html"
+          ],
+          "notes": "Season sources vary (IWC handbook via search: blue whales Mar–Jul; Sunday Times 2011: Mar–Aug; operators Mar–Oct). Navy whale-watching cruise page is outdated (2014–15) — not mentioned. Complements the Mirissa guide for May–September travellers. Owner: offered or booked locally? Operator licensing?"
+        },
+        {
+          "id": "trincomalee-scuba-diving",
+          "destinationId": "trincomalee",
+          "kind": "activity",
+          "category": "water",
+          "name": "Scuba diving",
+          "shortDescription": "Dive the reefs around Pigeon Island and nearby rocks with a dive centre north of town; some centres visit Second World War wrecks.",
+          "details": "Dive centres at Uppuveli and Nilaveli run reef dives, including around Pigeon Island, roughly from April or May to September, when the sea is calmest. Beginners can usually take an introductory dive or a course; some centres take experienced divers to Second World War wrecks. A morning with two dives usually takes about half a day. Choose a centre affiliated with a recognised training agency and check your insurance covers diving.",
+          "season": "About April or May to September",
+          "sources": [
+            "https://www.dwc.gov.lk/?page_id=817",
+            "https://www.srilanka.travel/attraction?attraction_id=48",
+            "https://www.hidmc.com/blog-posts/diving-with-shipwrecks-in-trincomalee"
+          ],
+          "notes": "DWC lists Pigeon Island for diving and snorkelling; Sri Lanka Tourism mentions scuba diving at Trincomalee. Wreck names/depths vary between operator blogs (HMS Hermes is off Batticaloa at about 50–55 m — technical, not a Trinco day dive); kept generic. Harbour wrecks may be in naval areas. No operator named."
+        },
+        {
+          "id": "trincomalee-koneswaram-fort-frederick",
+          "destinationId": "trincomalee",
+          "kind": "attraction",
+          "category": "culture",
+          "name": "Koneswaram Temple and Fort Frederick",
+          "shortDescription": "Walk through the gate of the old fort to Koneswaram, the clifftop Hindu temple on Swami Rock, high above the sea.",
+          "details": "The Portuguese tore down the original temple in 1622 and built the fort with its stones; the Dutch and British held it later, and it is still an army garrison open to visitors, where spotted deer graze. Koneswaram, rebuilt in the 20th century, is one of Sri Lanka’s five ancient Shiva shrines. Remove shoes and cover shoulders and knees. Allow about 1–2 hours; puja times and festivals are busiest.",
+          "sources": [
+            "https://www.srilanka.travel/attraction?attraction_id=167",
+            "https://www.srilanka.travel/attraction?attraction_id=48",
+            "https://en.wikipedia.org/wiki/Fort_Fredrick"
+          ],
+          "notes": "Main cultural sight in town. Puja and opening times conflict between sources; not stated. The Pathirakali Amman temple just before the fort can be mentioned in the same visit (guide does). Deer: Wikivoyage and travel sources only."
+        },
+        {
+          "id": "trincomalee-kanniya-velgam-vehera",
+          "destinationId": "trincomalee",
+          "kind": "excursion",
+          "category": "history",
+          "name": "Kanniya hot wells and Velgam Vehera",
+          "shortDescription": "Visit the seven warm-water wells at Kanniya and the ruined monastery of Velgam Vehera, restored by the Hindu Chola kings.",
+          "details": "At Kanniya, seven small square wells of warm water lie beside the remains of an early Buddhist monastery; people bathe by pouring water from buckets, so dress modestly rather than in swimwear alone. Velgam Vehera, a little further on, is a ruined monastery with a stupa, a standing Buddha and Tamil inscriptions from its Chola restoration. Most people take 2–3 hours for both.",
+          "where": "Kanniya, about 8 km north-west of Trincomalee town (about 20 minutes by road); Velgam Vehera a few kilometres further",
+          "sources": [
+            "https://en.wikipedia.org/wiki/Kanniya_Hot_Springs",
+            "https://sundayobserver.lk/2023/10/08/news-features/5962/a-major-symbol-of-eastern-buddhist-heritage",
+            "https://en.wikipedia.org/wiki/Velgam_Vehera"
+          ],
+          "notes": "Both are archaeological protected sites (Kanniya 2011; Velgam 1934). No official Department of Archaeology visitor page found. Kanniya fee and hours change — not stated. Velgam distance from coordinates (about 11 km straight-line from the centre) and travel sources (12–13 km). Kanniya is sensitive (Hindu/Buddhist claims, 2019 disputes) — the text stays neutral."
+        },
+        {
+          "id": "trincomalee-war-cemetery",
+          "destinationId": "trincomalee",
+          "kind": "attraction",
+          "category": "history",
+          "name": "Trincomalee War Cemetery",
+          "shortDescription": "Visit the Commonwealth war cemetery on the Nilaveli road, resting place of more than 300 Second World War service personnel.",
+          "details": "Trincomalee was an important Allied naval base, and Japanese aircraft attacked the harbour in April 1942. The cemetery, cared for by the Commonwealth War Graves Commission, holds more than 300 Second World War graves in a quiet, well-kept garden. It lies beside the road between the town and Uppuveli, and a visit takes about half an hour.",
+          "where": "On the Nilaveli road, between Trincomalee town and Uppuveli",
+          "sources": [
+            "https://www.cwgc.org/visit-us/find-cemeteries-memorials/cemetery-details/2009502/trincomalee-war-cemetery/"
+          ],
+          "notes": "CWGC lists 314 identified WWII casualties (other sources 303; Wikivoyage 600+). Page says 'more than 300'. CWGC site blocks automated fetching (403) — re-check the figure by hand. Short but genuine interest, especially for British and Commonwealth visitors."
+        },
+        {
+          "id": "trincomalee-girihandu-seya",
+          "destinationId": "trincomalee",
+          "kind": "excursion",
+          "category": "history",
+          "name": "Girihandu Seya, Thiriyaya",
+          "shortDescription": "Climb to a ruined circular relic house and stupa on a rocky hill near the sea, linked by tradition to relics of the Buddha.",
+          "details": "Steps climb a rocky hill to the ruins of a circular relic house (vatadage) around a small stupa, with views over forest to the sea. Tradition says two merchants enshrined relics of the Buddha here, and a long Sanskrit rock inscription of around the 7th–8th century names them. It is quiet and little visited; dress modestly and remove shoes at the shrine. Allow half a day including the drive.",
+          "where": "Thiriyaya, about 45 km north of Trincomalee, roughly an hour by road through Nilaveli",
+          "sources": [
+            "https://www.sundayobserver.lk/2024/07/14/news-features/27568/lore-of-girihanduseya-in-thiriyaya",
+            "https://archives1.sundayobserver.lk/2019/03/17/places/girihandu-seya-jewel-tiriyai",
+            "https://en.wikipedia.org/wiki/Girihandu_Seya"
+          ],
+          "notes": "Hidden gem, low foreign-visitor demand; include only if drivers do this day trip. 'First stupa in Sri Lanka' is a traditional claim and is NOT stated. Distance 42–50 km in sources. Inscription dating varies (7th vs 8th century)."
+        }
+      ]
+    },
+    "arugam-bay": {
+      "missing": [
+        "Lighthouse break (quiet, north) and the decline of Whiskey Point → added to the surf section",
+        "Crocodile and elephant safety around the breaks and roads → added",
+        "Pottuvil Lagoon boat trips → added and proposed as an activity",
+        "Elephant Rock sunset viewpoint → added and proposed as an attraction",
+        "Kumana: jeep entry, other wildlife, the 2025 rain closure and 2026 drought campsite closure → added; proposed as an excursion",
+        "Okanda shrine and the Pada Yatra foot pilgrimage (gate opened 10 July 2026) → added",
+        "Kudumbigala climb safety and etiquette → added; proposed as an excursion",
+        "Current travel advice (no current advisory names Arugam Bay; police/STF presence) → neutral FAQ added; owner to decide",
+        "Muhudu Maha Vihara and Lahugala elephants → already on the page; proposed as experiences",
+        "Cyclone Ditwah road effects → not verified (search quota exhausted); owner question"
+      ],
+      "corrections": [
+        {
+          "old": "bestTime: April to October for surf and dry weather; busiest in July and August",
+          "new": "bestTime: About April to October for surf and dry weather; busiest in July and August",
+          "reason": "Seasons must be qualified (content guide); 'When to go' bullets qualified likewise and the Oct–Nov shoulder added",
+          "sources": [
+            "https://www.srilanka.travel/attraction?attraction_id=49",
+            "https://thesurfatlas.com/sri-lanka-surf/arugam-bay-surf/"
+          ]
+        },
+        {
+          "old": "Entry requires a permit and a guide from the park office at Okanda. Parks can close at short notice for drought or heavy rain, so check before you go.",
+          "new": "Visitors need a permit and a guide from the park office at Okanda, and go in by jeep. … Kumana shut in the late-November rains of 2025, and its campsites closed for drought in September 2026. Check before you go.",
+          "reason": "Current closures and how a visit works",
+          "sources": [
+            "https://www.srilanka.travel/attraction?attraction_id=166",
+            "https://www.newswire.lk/ug2o",
+            "https://english.newsfirst.lk/2025/11/27/sri-lanka%E2%80%99s-national-parks-shut-down-as-heavy-rains-lash-island"
+          ]
+        },
+        {
+          "old": "(no mention) Whiskey Point",
+          "new": "Whiskey Point, north of town, was long recommended for learners but has been unreliable since erosion damaged it.",
+          "reason": "Many older guides still send beginners there",
+          "sources": [
+            "https://thesurfatlas.com/sri-lanka-surf/arugam-bay-surf/"
+          ]
+        }
+      ],
+      "experienceGuideIdeas": [
+        {
+          "topic": "Arugam Bay surf guide: breaks by level, season and safety",
+          "searchIntent": "Arugam Bay surf spots for beginners; best time to surf Arugam Bay; Arugam Bay surf lessons",
+          "why": "The main reason people search for Arugam Bay; break suitability and hazards (reef, crocodiles, erosion) change and are poorly covered"
+        },
+        {
+          "topic": "Kumana National Park from Arugam Bay: birds, permits and closures",
+          "searchIntent": "Kumana national park safari from Arugam Bay; Kumana bird season",
+          "why": "A quieter alternative to Yala with sparse, often outdated online information"
+        }
+      ],
+      "ownerQuestions": [
+        "Do you include Arugam Bay, and will drivers stay over for multi-night surf stays?",
+        "Can your vehicles carry surfboards?",
+        "Do you arrange surf lessons, board hire, lagoon trips or Kumana jeeps, or do guests book locally?",
+        "Do drivers go on to Kumana, Kudumbigala or Lahugala, and wait during a Kumana safari?",
+        "Keep, shorten or remove the travel-advice FAQ (mentions the 2024 alert and its lifting)?",
+        "Are the roads to Arugam Bay (A4 via Monaragala; Ella–Wellawaya) normal after Cyclone Ditwah?",
+        "Recommended stay: 2 or 2–3 nights? Hero photo rights (possible drone image)? Journey times from experience?"
+      ],
+      "existingExperiences": [
+        {
+          "id": "arugam-bay-surfing",
+          "kind": "activity",
+          "changes": {
+            "category": "water",
+            "shortDescription": "Surf the right-hand point breaks around Arugam Bay, from gentle learner waves to Main Point. The season runs from about April to October."
+          },
+          "reason": "Surfing belongs in the new 'water' category rather than 'adventure'. The season should be qualified ('about'). Details text is accurate and can stay.",
+          "sources": [
+            "https://www.srilanka.travel/attraction?attraction_id=49",
+            "https://www.srilanka.travel/attraction?attraction_id=101",
+            "https://thesurfatlas.com/sri-lanka-surf/arugam-bay-surf/"
+          ]
+        }
+      ],
+      "newExperiences": [
+        {
+          "id": "arugam-bay-kumana-safari",
+          "destinationId": "arugam-bay",
+          "kind": "excursion",
+          "category": "wildlife",
+          "name": "Kumana National Park safari",
+          "shortDescription": "A jeep safari in Kumana, south of Arugam Bay, known for nesting waterbirds and quieter tracks than Yala. Sightings are never guaranteed.",
+          "details": "Kumana adjoins Yala and is known above all for birds: from about April to July, large numbers nest at the Kumana Villu swamp. Elephants, crocodiles and occasionally leopards are seen. Visitors need a permit and a guide from the park office at Okanda and go in by jeep; most spend half a day or a full day. Parks can close at short notice for drought or heavy rain.",
+          "where": "Kumana National Park, about 40 km south via Panama and Okanda, roughly 1–1.5 hours by road",
+          "season": "Birds best from about April to July",
+          "sources": [
+            "https://www.srilanka.travel/attraction?attraction_id=166",
+            "https://www.newswire.lk/ug2o",
+            "https://thesurfatlas.com/sri-lanka-surf/arugam-bay-surf/"
+          ],
+          "notes": "Check DWC notices: campsites closed for drought from 2 Sep 2026; park closed for rain Nov 2025. Owner: offered, and does the driver wait?"
+        },
+        {
+          "id": "arugam-bay-pottuvil-lagoon-boat-trip",
+          "destinationId": "arugam-bay",
+          "kind": "activity",
+          "category": "nature",
+          "name": "Pottuvil Lagoon mangrove boat trip",
+          "shortDescription": "A slow boat trip through the mangroves of Pottuvil Lagoon at dawn or dusk, looking for birds, crocodiles and sometimes elephants.",
+          "details": "Boats wind through the mangrove channels of the lagoon at Pottuvil, past herons, kingfishers and monitor lizards; crocodiles are common and elephants sometimes come to the water’s edge. Trips run early or late in the day, when it is cooler and wildlife is more active, and most take a couple of hours. Sightings are never guaranteed.",
+          "where": "Pottuvil Lagoon, just north of Pottuvil, about 10–15 minutes from Arugam Bay",
+          "sources": [
+            "https://thesurfatlas.com/sri-lanka-surf/arugam-bay-surf/",
+            "https://en.wikipedia.org/wiki/Arugam_Bay"
+          ],
+          "notes": "No official source for the boat trips; operators are local. Duration is approximate. Category nature (could be 'water')."
+        },
+        {
+          "id": "arugam-bay-kudumbigala",
+          "destinationId": "arugam-bay",
+          "kind": "excursion",
+          "category": "history",
+          "name": "Kudumbigala forest hermitage",
+          "shortDescription": "An ancient forest hermitage of rock caves, with a steep climb to a stupa on a granite outcrop and views over jungle and coast.",
+          "details": "More than 200 rock caves in the forest near Panama were once used by Buddhist monks, and the hermitage is still a place of meditation. Rock-cut steps lead to a small stupa on top of an outcrop with wide views; the climb is steep and exposed, so skip it in rain. Dress modestly and keep quiet. Allow 2–3 hours; it combines well with Okanda or Kumana.",
+          "where": "Near Panama, about 25 km south of Arugam Bay, roughly 40 minutes by road",
+          "sources": [
+            "https://www.srilanka.travel/attraction?attraction_id=113",
+            "https://thesurfatlas.com/sri-lanka-surf/arugam-bay-surf/"
+          ],
+          "notes": "Distance approximate (on the road to Okanda/Kumana)."
+        },
+        {
+          "id": "arugam-bay-muhudu-maha-vihara",
+          "destinationId": "arugam-bay",
+          "kind": "attraction",
+          "category": "history",
+          "name": "Muhudu Maha Vihara",
+          "shortDescription": "Ancient Buddhist ruins among the dunes on Pottuvil beach, linked by legend to Queen Viharamahadevi, with granite statues near the sea.",
+          "details": "Granite statues and the remains of an ancient monastery stand among the sand dunes at the edge of the beach at Pottuvil. Legend says Viharamahadevi, mother of King Dutugemunu, came ashore here, one of several places that claim the story. It is still a place of worship: cover shoulders and knees, and remove shoes and hats near the shrines. Most people spend under an hour.",
+          "where": "Pottuvil beach, about 4 km north of Arugam Bay",
+          "sources": [
+            "https://www.srilanka.travel/attraction?attraction_id=142",
+            "https://amazinglanka.com/wp/kirinda/"
+          ],
+          "notes": "Landing-site legend contested with Kirinda (Yala)."
+        },
+        {
+          "id": "arugam-bay-lahugala-elephants",
+          "destinationId": "arugam-bay",
+          "kind": "excursion",
+          "category": "wildlife",
+          "name": "Elephants at Lahugala",
+          "shortDescription": "Look for wild elephant herds grazing around the tanks of Lahugala Kitulana, inland from Pottuvil, especially in the dry months.",
+          "details": "Herds come to the grassland around the Lahugala, Kitulana and Sengamuwa tanks, especially in the dry months, and are often seen in the late afternoon. The ruined Magul Maha Vihara monastery lies nearby. Keep well back, stay in the vehicle and never feed elephants. Sightings are never guaranteed.",
+          "where": "Lahugala Kitulana, about 16 km inland on the Monaragala road, roughly 20–30 minutes from Arugam Bay",
+          "season": "Most elephants usually from about June to August",
+          "sources": [
+            "https://www.srilanka.travel/attraction?attraction_id=141",
+            "https://lk.chm-cbd.net/es/node/708"
+          ],
+          "notes": "Visitor access rules (jeep entry vs viewing from the road) are unclear; Sri Lanka Tourism calls it a forest reserve, others a national park. Lies on the road from Ella/Monaragala, so it can also be a stop on arrival."
+        },
+        {
+          "id": "arugam-bay-elephant-rock",
+          "destinationId": "arugam-bay",
+          "kind": "attraction",
+          "category": "nature",
+          "name": "Elephant Rock sunset viewpoint",
+          "shortDescription": "Walk up a boulder above a quiet beach south of town for wide views over the coast and lagoon at sunset.",
+          "details": "A short ride south of Arugam Bay and a sandy walk lead to this rocky outcrop above a quiet beach and a soft surf break. The top gives broad views of the lagoon, scrub and coast. Crocodiles live in the lagoon behind the beach and elephants roam the area, so keep out of the lagoon and leave before dark. Most people spend an hour or two.",
+          "where": "South of Arugam Bay, off the Panama road",
+          "sources": [
+            "https://thesurfatlas.com/sri-lanka-surf/arugam-bay-surf/"
+          ],
+          "notes": "Travel-source only; no official page. Lower priority; drop if the list needs trimming."
+        }
+      ]
+    }
+  },
+  "candidates": [
+    {
+      "place": "Sinharaja Forest Reserve",
+      "recommendation": "Give it its own destination page, medium priority. It is a UNESCO World Heritage rainforest that fits a south-coast to hills route (Galle or Mirissa, then Sinharaja via Deniyaya, then Udawalawe or Ella). Most visitors stay 1–2 nights near an entrance, at Deniyaya for the southern side or Kudawa for the northern side. As a return day trip from the coast it makes a very long day: about 4–5 hours of driving plus a 3–4 hour walk. Until a page exists, a single excursion card under galle (or mirissa) is a reasonable fallback; see proposedExperiences.",
+      "priority": "medium",
+      "nearestExisting": "galle",
+      "summary": "Sinharaja is the country's largest remaining tract of lowland wet-zone rainforest. It spans Ratnapura, Galle and Kalutara districts in the Sabaragamuwa and Southern provinces. It was declared a UNESCO biosphere reserve in 1978 and a World Heritage Site in 1988 (natural criteria ix and x). UNESCO gives the inscribed area as 8,864 ha. The Forest Department manages it. Visitors go on foot only, with a guide; nearly all sources say a guide is required, and entrance tickets include or require one. The draw is endemism: at least 139 endemic plants (UNESCO); most of Sri Lanka's endemic birds have been recorded here (Sri Lanka Tourism says 19 of the 20 species on the older list); and more than half of the mammals and butterflies are endemic. Mixed-species feeding flocks are the birding highlight. Other likely sightings are purple-faced langurs, giant squirrels, green pit vipers and hump-nosed lizards. It rains all year and there are leeches in every month. There are four access roads (Sri Lanka Tourism): Kalawana–Weddagala to Kudawa (north-west; the main entrance and the easiest from Colombo), Rakwana–Morningside (north-east), Hiniduma–Neluwa to Lankagama (south-west) and Deniyaya–Pallegama/Pitadeniya (south-east). The northern and southern entrances are far apart by road, so a visit is planned around one side.",
+      "attractions": [
+        "Kudawa entrance and conservation centre (north-west, via Kalawana and Weddagala). This is the main and best-documented entrance. Half-day guided walks follow the forest trail to the Moulawella (Mulawella) viewpoint, and keen hikers do a long full-day trek to the Sinhagala peak. Sources disagree on trail lengths and times.",
+        "Pitadeniya entrance near Kotapola and Deniyaya (south-east), with forest trails along the Gin Ganga and to waterfalls such as Pathan Oya Ella. Travel guides warn of touts at this gate, so use the official ticket office.",
+        "Lankagama entrance near Neluwa (south-west, Galle District). It is newer and busy, but the Daily Mirror (July 2025) reported no first-aid team, no warning signs at the waterfalls and no maps there.",
+        "Morningside (north-east, via Rakwana). Higher and less visited, and more remote.",
+        "Birding: mixed-species feeding flocks and endemics such as the Sri Lanka blue magpie, red-faced malkoha, green-billed coucal, Sri Lanka junglefowl and spurfowl, best early in the morning. No sighting is guaranteed.",
+        "Deniyaya and Morawaka tea country on the southern edge, with small estates and the rainforest lodges where most visitors stay.",
+        "Kalawana, the main town on the northern approach. Since 24 May 2026 its bus stand has had an information display about the reserve (Daily Mirror, June 2026)."
+      ],
+      "demandEvidence": [
+        "UNESCO World Heritage Site no. 405 (1988), one of Sri Lanka's two natural World Heritage properties. It is listed on Sri Lanka Tourism (attraction 151) and as a Lonely Planet point of interest.",
+        "Operators widely sell guided day tours from Galle, Hikkaduwa, Mirissa and Bentota (for example cctsrilanka.com's 'day excursion from Hikkaduwa', Trip.com 'Galle Sinharaja day tour' and Expedia listings). It is a standard stop on birding and wildlife itineraries (for example ecoteam.lk).",
+        "Recent local press shows steady visitor flows: Kudawa closed for New Year from 10 to 15 April 2026 (Ada Derana, Newswire); 'a large number of visitors' arrive daily at Lankagama (Daily Mirror, July 2025); and the Kalawana information centre opened in May 2026."
+      ],
+      "routes": "All times are estimates; roads on the reserve's edge are narrow and winding. Galle to Deniyaya, for Pitadeniya: about 86 km, about 2–2.5 hours (Daytrip gives 2 h 10 min). Mirissa: about 2–2.5 hours via Matara and Akuressa (Rome2Rio gives Matara–Deniyaya as 66 km). Hikkaduwa: about 2.5–3 hours to Deniyaya; the Lankagama/Neluwa side via Hiniduma may be a little shorter, unverified. Udawalawe to Deniyaya: about 2–2.5 hours via Embilipitiya; sources conflict on distance (46 km on Rome2Rio, 86 km on distancesfrom). Ella to Deniyaya: about 142 km, about 3.5–4 hours (Rome2Rio's 2 h 37 min looks optimistic). Colombo to Kudawa: about 120–135 km, about 3–4 hours via Ratnapura or Matugama and Kalawana (Lakpura). From the airport, allow about 4–5 hours. Route fit: a natural night between the south coast (Galle or Mirissa) and Udawalawe/Ella, or between Colombo and Udawalawe on the northern side. Cyclone Ditwah: no Sinharaja-specific closure or road damage was found. The road authority (RDA) said in 2026 that some road repairs could take up to two years, so check the access roads before publishing. Some sources say a 4WD is safer on the last steep stretch to Kudawa after rain.",
+      "season": "Open all year, but it rains in every month (about 3,000–6,000 mm a year). Sri Lanka Tourism gives the best times as about January–April and August–September; other sources say January–March is driest. Rain is heaviest roughly May–June and October–November. Leeches are present all year and worst after rain, so wear leech socks, long trousers and closed shoes. Entrances can close for public holidays: Kudawa was closed 10–15 April 2026 for the Sinhala and Tamil New Year.",
+      "sources": [
+        "Sri Lanka Tourism — Sinharaja | https://www.srilanka.travel/attraction?attraction_id=151",
+        "UNESCO World Heritage — Sinharaja Forest Reserve | https://whc.unesco.org/en/list/405",
+        "Forest Department (Department of Forest Conservation) | https://www.forestdept.gov.lk/",
+        "Ada Derana — Kudawa entrance closed for six days (April 2026) | https://www.adaderana.lk/news.php?nid=120972",
+        "Newswire — Kudawa entrance closed for New Year holidays (9 April 2026) | https://www.newswire.lk/2026/04/09/sinharaja-forest-kudawa-entrance-closed-for-new-year-holidays/",
+        "Daily Mirror — Lankagama entrance lacks facilities (31 July 2025) | https://www.dailymirror.lk/news-features/Tourists-travelling-to-Sinharaja-via-Lankagama-complain-of-lack-of-facilities/131-315591",
+        "Daily Mirror — Kalawana bus stop serves as info centre (13 June 2026) | https://www.dailymirror.lk/news-features/Kalawana-bus-stop-serves-as-info-centre-for-Sinharaja-Reserve/131-342812",
+        "Wikipedia — Sinharaja Forest Reserve | https://en.wikipedia.org/wiki/Sinharaja_Forest_Reserve",
+        "Lonely Planet — Sinharaja Forest Reserve (tickets at Kudawa and Deodawa near Deniyaya) | https://www.lonelyplanet.com/sri-lanka/attractions/sinharaja-forest-reserve/a/poi-sig/1195467/357442",
+        "Birdingplaces — Sinharaja (gate hours and guide, 2024) | https://www.birdingplaces.eu/birdingplaces/sri-lanka/sinharaja-forest-northern-entrance",
+        "Daytrip — Galle to Deniyaya (86 km, about 2 h 10 min) | https://daytrip.com/en/transfers/galle-lk/deniyaya-lk",
+        "Rome2Rio — Matara to Deniyaya | https://www.rome2rio.com/s/Matara/Deniyaya",
+        "Rome2Rio — Ella to Deniyaya | https://www.rome2rio.com/s/Ella/Deniyaya",
+        "Daily Mirror — road and bridge recovery could take up to two years (RDA) | https://www.dailymirror.lk/news/Road-and-bridge-recovery-after-cyclone-could-take-up-to-two-years-RDA/239-328188"
+      ],
+      "proposedExperiences": [
+        {
+          "id": "sinharaja-guided-rainforest-walk",
+          "destinationId": "sinharaja",
+          "kind": "activity",
+          "category": "nature",
+          "name": "Guided rainforest walk in Sinharaja",
+          "shortDescription": "Walk forest trails with a guide in Sri Lanka’s last large lowland rainforest, a UNESCO World Heritage Site. Entry is on foot only.",
+          "details": "Visitors enter on foot with a guide, from Kudawa in the north-west or Pitadeniya or Lankagama in the south. Trails pass streams, giant trees and sometimes waterfalls. Most walks take about 3–4 hours. Wear leech socks, long trousers and closed shoes, and expect rain at any time of year. Tickets are sold at the entrances; check current rules with the Forest Department.",
+          "season": "Open all year; usually drier about January–April and August–September",
+          "sources": [
+            "https://www.srilanka.travel/attraction?attraction_id=151",
+            "https://whc.unesco.org/en/list/405",
+            "https://en.wikipedia.org/wiki/Sinharaja_Forest_Reserve",
+            "https://www.lonelyplanet.com/sri-lanka/attractions/sinharaja-forest-reserve/a/poi-sig/1195467/357442"
+          ],
+          "notes": "Use only if a Sinharaja destination is added. Owner: which entrance does the business use, and does the driver stay overnight nearby? Guide requirement: Wikipedia and most travel sources say a licensed guide is mandatory, while one operator says 'not legally mandatory but effectively essential'. The card says visitors enter 'with a guide' and makes no business claim."
+        },
+        {
+          "id": "sinharaja-birdwatching",
+          "destinationId": "sinharaja",
+          "kind": "activity",
+          "category": "wildlife",
+          "name": "Birdwatching for endemic species",
+          "shortDescription": "An early-morning walk for Sinharaja’s endemic birds and mixed feeding flocks. Sightings are never guaranteed.",
+          "details": "Most of Sri Lanka’s endemic bird species have been recorded in Sinharaja. Mixed-species feeding flocks, sometimes with the Sri Lanka blue magpie and red-faced malkoha, move through the canopy. Birding walks usually start soon after the gates open and take about 3–5 hours. Dense forest and rain can make birds hard to see, and nothing is guaranteed.",
+          "season": "All year; mornings are best; usually drier about January–April and August–September",
+          "sources": [
+            "https://www.srilanka.travel/attraction?attraction_id=151",
+            "https://whc.unesco.org/en/list/405",
+            "https://en.wikipedia.org/wiki/Sinharaja_Forest_Reserve"
+          ],
+          "notes": "Kudawa is the classic birding entrance. Keep the wording 'most of' because endemic counts differ by checklist: Sri Lanka Tourism says 19 of 20 on the older list, while recent checklists have 30+ endemics."
+        },
+        {
+          "id": "sinharaja-sinhagala-trek",
+          "destinationId": "sinharaja",
+          "kind": "activity",
+          "category": "adventure",
+          "name": "Sinhagala full-day trek",
+          "shortDescription": "A long, guided full-day hike from Kudawa through the forest to the Sinhagala peak, for fit walkers only.",
+          "details": "The trail runs from the Kudawa entrance deep into the reserve to Sinhagala, one of its high points, with views over the forest canopy. Sources give anything from about 7 to 10 hours for the return trip, so start early, around opening time. It is muddy, slippery and leech-prone, and it goes only with a guide.",
+          "where": "Starts at the Kudawa entrance, north-west side of the reserve",
+          "season": "Best in the drier spells, about January–April and August–September",
+          "sources": [
+            "https://en.wikipedia.org/wiki/Sinharaja_Forest_Reserve",
+            "https://www.srilankainstyle.com/blog/trekking-sinharaja"
+          ],
+          "notes": "Optional; only if the owner's guests do serious hikes. Trail length and time conflict across sources (8.5–14 km; 7–10 h), and there is no official source. Check with the Forest Department before adding."
+        },
+        {
+          "id": "galle-sinharaja-rainforest",
+          "destinationId": "galle",
+          "kind": "excursion",
+          "category": "nature",
+          "name": "Sinharaja rainforest day trip",
+          "shortDescription": "A long day trip inland to Sinharaja, a UNESCO-listed rainforest, for a guided walk. Expect about 2–2.5 hours’ drive each way.",
+          "details": "Sinharaja is Sri Lanka’s last large lowland rainforest, a World Heritage Site known for endemic birds, giant trees and streams. From Galle the southern entrances near Deniyaya are about 2–2.5 hours’ drive. Visitors walk with a guide for about 3–4 hours, so the day is long; a night near the forest is easier. Wear leech socks and expect rain in any month.",
+          "where": "Sinharaja Forest Reserve, southern entrances near Deniyaya, about 2–2.5 hours by road from Galle",
+          "season": "Open all year; usually drier about January–April and August–September",
+          "sources": [
+            "https://www.srilanka.travel/attraction?attraction_id=151",
+            "https://whc.unesco.org/en/list/405",
+            "https://daytrip.com/en/transfers/galle-lk/deniyaya-lk"
+          ],
+          "notes": "Fallback only, if no Sinharaja page is added. It could sit under mirissa instead (similar time via Matara and Akuressa) or hikkaduwa (about 2.5–3 h). Do not add it under udawalawe as a return day trip; it works better as a stop on the way between the coast and Udawalawe. Owner: is this day trip offered, and from where?"
+        }
+      ],
+      "ownerQuestions": [
+        "Do you take guests to Sinharaja, and to which entrance (Kudawa, Pitadeniya/Deniyaya or Lankagama)?",
+        "Would the driver stay overnight near Deniyaya or Kudawa? Are the access roads suitable for your vehicles, especially the last steep stretch to Kudawa after rain?",
+        "Do guests usually stay a night, or do it as a long day trip from the coast?"
+      ],
+      "uncertainties": [
+        "Area: UNESCO gives 8,864 ha (inscribed property). Wikipedia's text gives 36,000 ha and other sources about 11,000 ha. Use the UNESCO figure or none.",
+        "Guide requirement: most sources say mandatory; one says effectively essential. The reserve's own rules were not found online, and the Forest Department site had an expired certificate when checked on 7 November 2026.",
+        "Entrance names vary between sources (Deniyaya–Mederipitiya, Pitadeniya, Lankagama, Neluwa, Morningside/Rakwana). Ticket offices are at Kudawa and Deodawa near Deniyaya (Lonely Planet). Fees and hours come from 2024 travel listings; link to the Forest Department rather than quoting them.",
+        "Trail lengths and times, and waterfall names, differ between travel sources.",
+        "Cyclone Ditwah: no Sinharaja-specific damage or closure report was found, but the search was limited. Re-check the access roads (Kalawana–Weddagala, Deniyaya, Neluwa) before publishing.",
+        "Udawalawe–Deniyaya distance conflicts (46 vs 86 km)."
+      ],
+      "notes": "The Udawalawe guide now mentions Sinharaja (southern edge around Deniyaya, about 2–2.5 hours via Embilipitiya) as better visited with a night of its own; if a Sinharaja page is added, link it from udawalawe, galle and mirissa."
+    },
+    {
+      "place": "Colombo",
+      "recommendation": "Give it its own destination page, medium priority, as a half-day to one-night city stop at the start or end of a tour, or for cruise passengers (the planner already has a Colombo Port pickup). Keep Colombo city as a pickup point. Implementation caveat: the planner puts DESTS and PICKUPS in one namespace (nearest() in src/js/app.js), and the shuttle list builds SHP from [P.colombo, P.negombo, P.port, ...DESTS] keyed by id. A destination with id 'colombo' would therefore overwrite the pickup in SHP and appear twice in the shuttle list, so it needs a different id or de-duplication. Not suitable as an excursion card: the nearest existing destination, Bentota, is about 1–1.5 hours away.",
+      "priority": "medium",
+      "nearestExisting": "bentota",
+      "summary": "Colombo is the commercial capital and main port, and most travellers pass through it at the start or end of a trip. Many itineraries skip it or give it half a day, but Sri Lanka Tourism lists more than a dozen city attractions, and Lonely Planet has a full Colombo destination guide. The draws are a compact mix: Buddhist, Hindu, Muslim and Christian places of worship close together (Gangaramaya and the Bawa-designed Seema Malaka on Beira Lake, the Jami Ul-Alfar 'Red Mosque', the Sea Street kovils and the Dutch Wolvendaal Church); colonial Fort with the restored Dutch Hospital; the crowded Pettah bazaars; the National Museum (founded 1877, with the Kandyan throne and regalia); evenings and street food on Galle Face Green; and Geoffrey Bawa's house, Number 11, which can be seen on guided tours. Kelaniya Raja Maha Vihara, about 10 km north-east, is one of the island's most important temples and holds the Duruthu Perahera each January. City traffic is heavy, so a page should set realistic expectations (half a day to one night) and qualify every time.",
+      "attractions": [
+        "Gangaramaya Temple and the Seema Malaka on Beira Lake. Seema Malaka is a lake pavilion designed by Geoffrey Bawa (Sri Lanka Tourism attractions 172 and 204).",
+        "Galle Face Green: a seafront promenade laid out in 1859, busy at sunset with kites and street-food stalls (Sri Lanka Tourism 210).",
+        "Fort: the Dutch Hospital, now restaurants and shops (Sri Lanka Tourism 200), the old clock-tower lighthouse (208) and colonial buildings.",
+        "Pettah: wholesale markets and spice shops (Sri Lanka Tourism 212), the Jami Ul-Alfar (Red) Mosque, and Wolvendaal Church, a Dutch church paved with tombstones (Sri Lanka Tourism 205).",
+        "National Museum of Colombo (founded 1877; Kandyan throne and crown). Check opening days on the Department of National Museums site.",
+        "Independence Memorial Hall and the Arcade Independence Square; Viharamahadevi Park (Sri Lanka Tourism 202, 217, 216).",
+        "Number 11, Geoffrey Bawa's townhouse. Seen only on 45-minute guided tours, which the Geoffrey Bawa Trust recommends booking.",
+        "Kelaniya Raja Maha Vihara, about 10 km north-east: Solias Mendis murals and the Duruthu Perahera in January (Sri Lanka Tourism 182).",
+        "Lotus Tower observation deck, for city views (details not verified in this pass).",
+        "Food: Pettah snacks, isso vadai and kottu on Galle Face, hoppers, crab restaurants (the Dutch Hospital has several)."
+      ],
+      "demandEvidence": [
+        "Sri Lanka Tourism has separate attraction pages for at least 13 Colombo-area sights: Beira Lake, Seema Malakaya, Dutch Hospital, Galle Face Green, Pettah Market, Pettah Floating Market, Wolvendaal Church, Independence Memorial Hall, Arcade Independence Square, Colombo Lighthouse, Viharamahadevi Park, Lionel Wendt Art Centre and Kelaniya Raja Maha Viharaya.",
+        "Lonely Planet has a 'Colombo Travel 2026' destination guide. Tour marketplaces (Expedia, Trip.com, Lokalee) sell many Colombo tuk-tuk and city tours, including cruise shore excursions from the port terminal.",
+        "The site's planner already offers Colombo city and the Colombo Port cruise terminal as pickups, which suggests some guests start or spend time there."
+      ],
+      "routes": "Rome2Rio figures are free-flow and optimistic; the ranges below allow for traffic. Airport (CMB, Katunayake): about 35 km, usually about 45 minutes to 1.25 hours by the Katunayake Expressway, longer at peak. Negombo: about 37 km, about 1–1.5 hours. Bentota: about 65 km, about 1–1.5 hours by the Southern Expressway, or 2 hours or more on the coast road. Hikkaduwa: about 1.5–2 hours by expressway. Galle: about 120 km, about 1.5–2.5 hours by the Southern Expressway. Kandy: about 115 km, usually 3–4 hours by road; the Kadawatha–Mirigama section of the Central Expressway is not due until about 2028. Sigiriya: about 170 km, about 4–5 hours. Trains run to Galle and towards Kandy from Colombo Fort; check Sri Lanka Railways, as post-Ditwah repairs were still affecting the line into Kandy in late 2026. Route fit: a first afternoon or last day before a flight, a stop on the way south to Bentota and Galle, or a full day for cruise passengers.",
+      "season": "A city stop at any time of year. It is wettest during the south-west monsoon (about May–June) and the inter-monsoon rains (about October–November), and usually driest about January–March. Festivals: the Duruthu Perahera at Kelaniya in January, and Vesak in May, when lanterns and pandals decorate the city.",
+      "sources": [
+        "Sri Lanka Tourism — Galle Face Green | https://www.srilanka.travel/attraction?attraction_id=210",
+        "Sri Lanka Tourism — Beira Lake | https://www.srilanka.travel/attraction?attraction_id=172",
+        "Sri Lanka Tourism — Seema Malakaya | https://www.srilanka.travel/attraction?attraction_id=204",
+        "Sri Lanka Tourism — Dutch Hospital | https://www.srilanka.travel/attraction?attraction_id=200",
+        "Sri Lanka Tourism — Pettah Market | https://www.srilanka.travel/attraction?attraction_id=212",
+        "Sri Lanka Tourism — Wolvendaal Church | https://www.srilanka.travel/attraction?attraction_id=205",
+        "Sri Lanka Tourism — Kelaniya Raja Maha Viharaya | https://www.srilanka.travel/attraction?attraction_id=182",
+        "Department of National Museums | https://museum.gov.lk/",
+        "Geoffrey Bawa Trust — Number 11 (tours) | https://www.geoffreybawa.com/number-11",
+        "Lonely Planet — Colombo | https://www.lonelyplanet.com/sri-lanka/colombo",
+        "Rome2Rio — Colombo to Kandy / Galle | https://www.rome2rio.com/s/Colombo/Kandy",
+        "Daily Mirror / Ada Derana — Central Expressway Kadawatha–Mirigama resumed Sept 2025, completion targeted 2028 | https://www.adaderana.lk/news.php?nid=112596",
+        "Sri Lanka Railways — schedules | https://eservices.railway.gov.lk/schedule/searchTrain.action?lang=en"
+      ],
+      "proposedExperiences": [
+        {
+          "id": "colombo-gangaramaya-seema-malaka",
+          "destinationId": "colombo",
+          "kind": "attraction",
+          "category": "culture",
+          "name": "Gangaramaya Temple and Seema Malaka",
+          "shortDescription": "A busy Buddhist temple packed with treasures, and Geoffrey Bawa’s calm pavilion on the water of Beira Lake nearby.",
+          "details": "Gangaramaya is a working temple whose halls and museum hold an eclectic collection of gifts and relics. A short walk away, the Seema Malaka, designed by Geoffrey Bawa, stands on platforms in Beira Lake, lined with seated Buddha figures. Cover shoulders and knees and remove shoes. Allow about 1–1.5 hours for both.",
+          "sources": [
+            "https://www.srilanka.travel/attraction?attraction_id=204",
+            "https://www.srilanka.travel/attraction?attraction_id=172"
+          ],
+          "notes": "The Gangaramaya museum's 'thousands of artefacts' claim comes from travel blogs only, so it is not used. A card for a Colombo page."
+        },
+        {
+          "id": "colombo-fort-and-pettah-walk",
+          "destinationId": "colombo",
+          "kind": "activity",
+          "category": "history",
+          "name": "Fort and Pettah walk",
+          "shortDescription": "Walk from colonial Fort into the crowded Pettah bazaars, past the Dutch Hospital, the Red Mosque and the Dutch Wolvendaal Church.",
+          "details": "Fort holds colonial landmarks such as the restored Dutch Hospital, now restaurants and shops, and the old clock-tower lighthouse. Next door, Pettah’s narrow streets are packed with wholesale markets and spice shops. Here also are the red-and-white Jami Ul-Alfar Mosque and Wolvendaal Church, whose floor is paved with Dutch tombstones. Go in the morning; allow about 2–3 hours.",
+          "sources": [
+            "https://www.srilanka.travel/attraction?attraction_id=200",
+            "https://www.srilanka.travel/attraction?attraction_id=212",
+            "https://www.srilanka.travel/attraction?attraction_id=205",
+            "https://www.srilanka.travel/attraction?attraction_id=208"
+          ],
+          "notes": "Dress modestly for the mosque, and check whether visitors are admitted at prayer times. Pettah is very crowded; mention pickpockets neutrally."
+        },
+        {
+          "id": "colombo-galle-face-green",
+          "destinationId": "colombo",
+          "kind": "attraction",
+          "category": "local-life",
+          "name": "Sunset on Galle Face Green",
+          "shortDescription": "Join Colombo families on the seafront promenade at sunset, with kites, street food and the Indian Ocean.",
+          "details": "Laid out in 1859 beside the sea, Galle Face Green is where the city comes to walk, fly kites and eat street food, especially in the late afternoon and at weekends. Stalls sell isso vadai (prawn fritters) and other snacks. The sea here is not for swimming.",
+          "sources": [
+            "https://www.srilanka.travel/attraction?attraction_id=210"
+          ],
+          "notes": "The 'not for swimming' advice is general knowledge (there is no beach and the sea is rough), not from an official source; drop it if not confirmed."
+        },
+        {
+          "id": "colombo-national-museum",
+          "destinationId": "colombo",
+          "kind": "attraction",
+          "category": "history",
+          "name": "National Museum of Colombo",
+          "shortDescription": "Sri Lanka’s largest museum, founded in 1877, with the throne and regalia of the last Kandyan kings.",
+          "details": "Set in a colonial building beside Viharamahadevi Park, the museum covers the island’s history from prehistory through the ancient kingdoms to the colonial era. Its highlights include the throne and crown of the Kandyan kingdom, Buddhist and Hindu bronzes, and masks. Most people spend about 1.5–2 hours. Check opening days with the Department of National Museums before you go.",
+          "sources": [
+            "https://museum.gov.lk/",
+            "https://en.wikipedia.org/wiki/Colombo_National_Museum"
+          ],
+          "notes": "A report of a weekly Monday closure was undated, and a 2025 Daily FT piece said refurbishment was still under way. Verify current galleries and days. 'Largest' comes from travel guides and Wikipedia."
+        },
+        {
+          "id": "colombo-number-11-bawa",
+          "destinationId": "colombo",
+          "kind": "attraction",
+          "category": "culture",
+          "name": "Number 11, Geoffrey Bawa’s house",
+          "shortDescription": "A guided tour of the Colombo townhouse of Geoffrey Bawa, Sri Lanka’s best-known architect. Visits are by tour only.",
+          "details": "Bawa joined several small houses down a lane into a home of courtyards, garden rooms and art, and lived here until his death. The Geoffrey Bawa Trust runs guided tours of about 45 minutes at set times. Group sizes are limited, so booking ahead is recommended.",
+          "sources": [
+            "https://www.geoffreybawa.com/number-11"
+          ],
+          "notes": "Niche but distinctive, for design and architecture fans. The Bawa Trust's page lists tour times and fees; do not copy them onto the card."
+        },
+        {
+          "id": "colombo-kelaniya-temple",
+          "destinationId": "colombo",
+          "kind": "excursion",
+          "category": "culture",
+          "name": "Kelaniya Raja Maha Vihara",
+          "shortDescription": "One of Sri Lanka’s most revered Buddhist temples, by the Kelani River just outside Colombo, known for its murals.",
+          "details": "Tradition holds that the Buddha visited Kelaniya, and the stupa is said to enshrine the jewelled throne he sat on. The temple’s 20th-century murals by Solias Mendis tell the story of the Buddha and of Buddhism in Sri Lanka. The Duruthu Perahera procession is held here each January. Dress modestly and remove shoes; allow about an hour.",
+          "where": "Kelaniya, about 10 km north-east of central Colombo; usually 30–45 minutes in traffic",
+          "season": "Duruthu Perahera in January (date set by the full moon)",
+          "sources": [
+            "https://www.srilanka.travel/attraction?attraction_id=182"
+          ],
+          "notes": "Also a possible stop on the airport road for travellers who are not staying in Colombo."
+        }
+      ],
+      "ownerQuestions": [
+        "Do you offer Colombo city tours or stops, for example for cruise passengers using the Colombo Port pickup, or on the first or last day of a tour?",
+        "Would you want Colombo as a stop with nights (0–1) in the planner as well as a pickup? If so, which id should it use, so that it does not clash with the 'colombo' pickup?",
+        "Does the driver stay overnight in Colombo when guests do?"
+      ],
+      "uncertainties": [
+        "National Museum opening days and refurbishment status in 2026 were not confirmed.",
+        "Lotus Tower details (height, deck, tickets) were not checked against an official page; the official site returned only a title.",
+        "The Gangaramaya Navam Perahera month (usually February) was not verified because the session's web search limit was reached.",
+        "Post-Ditwah rail status for Colombo–Galle was not re-checked here."
+      ]
+    },
+    {
+      "place": "Negombo",
+      "recommendation": "Give it its own destination page, medium priority, presented as a first or last night near the airport (0–1 nights, or a lazy extra day), with a few experience cards. Keep the Negombo pickup. A page lets travellers add a final night before an early flight in the planner and answers common first-night questions. It cannot work as an excursion card, because no existing destination is close (Bentota is about 2–2.5 hours away). The same implementation caveat as Colombo applies: the id 'negombo' already exists in PICKUPS, and SHP/nearest() share ids with DESTS.",
+      "priority": "medium",
+      "nearestExisting": "bentota",
+      "summary": "Negombo is a fishing town and beach strip at the mouth of the Negombo Lagoon, about 10 km from Bandaranaike International Airport. That is why many travellers spend their first or last night here. The town has a strong Catholic heritage, with large churches that have earned it the nickname 'Little Rome'. Outrigger canoes and a big fishing fleet still work the shore and lagoon, and the fish market at Lellama, near the old Dutch fort gate, is busiest early in the morning. Boat trips go out on the lagoon and the Hamilton (Dutch) Canal, which was cut in 1802 under the British. South of the lagoon, the Muthurajawela marsh has been a wetland sanctuary since 1996, with guided boat trips. The beach is wide but the sea is open: it is calmer from about November to April and rough in the south-west monsoon. It is pleasant rather than a highlight. The page should be honest that Negombo is a convenient bookend, not a reason to visit Sri Lanka.",
+      "attractions": [
+        "Fish market at Lellama by the lagoon mouth: auctions and the returning boats, early morning. Fish is also dried on the beach nearby.",
+        "Negombo Lagoon: boat trips past fishing huts and mangroves; outrigger canoes (oruva).",
+        "Hamilton (Dutch) Canal: cut in 1802 by Gavin Hamilton, a British revenue agent, east of the earlier Dutch canals (Sri Lanka Tourism 60). It is used for boat rides.",
+        "Dutch fort gateway (inscribed 1678; the site is now a prison, so only the gate is seen) and the old town.",
+        "St Mary's Church (built about 1874–1922, painted ceiling) and the town's many churches.",
+        "Angurukaramulla Temple: a Buddhist temple with about 300-year-old woodwork and moonstones (Sri Lanka Tourism 66).",
+        "Muthurajawela Marsh: 3,068 ha of coastal wetland at the south end of the lagoon. Its northern 1,777 ha were declared a sanctuary in 1996. Guided boat trips run from the visitor centre, about 30 minutes from Negombo.",
+        "Beach and seafood restaurants along the hotel strip (Lewis Place and Porutota Road)."
+      ],
+      "demandEvidence": [
+        "Sri Lanka Tourism lists Negombo (attraction 50), Negombo Beach (193, 'easily accessible from the E03 expressway … after arrival in Sri Lanka'), Hamilton Canal (60) and Angurukaramulla Temple (66).",
+        "Lonely Planet covers Negombo, including the main fish market point of interest. Many travel and hotel sources describe it as the usual first or last night because of the airport, at about 10–12 km versus 30+ km to central Colombo.",
+        "Tour marketplaces sell Negombo city, lagoon, canal and Muthurajawela tours (Expedia, Musement, Lokalee). The site's own planner already lists Negombo as a pickup ('Beach hotels, 20 min from the airport')."
+      ],
+      "routes": "Airport (CMB, Katunayake): about 10–12 km to the beach hotels, usually 20–30 minutes, more at peak. Colombo: about 37 km, about 1–1.5 hours with traffic (Rome2Rio's 31 minutes is free-flow). Bentota: about 2–2.5 hours via the Katunayake Expressway, the Outer Circular and the Southern Expressway. Galle: about 154 km, about 2.5–3 hours by the same expressways (Rome2Rio 1 h 57 min, optimistic). Hikkaduwa: about 2.5–3 hours. Kandy: about 100–115 km, about 3–3.5 hours via the A1 or via the Mirigama–Kurunegala expressway section. Sigiriya: about 146–155 km, about 3.5–4 hours via Kurunegala and Dambulla (Rome2Rio 2 h 26 min, optimistic). Route fit: the first night after a late arrival, then north to the Cultural Triangle or south down the coast; the last night before an early flight.",
+      "season": "Any time as an airport stop. The sea and beach are best from about November to April. The south-west monsoon (about May–September) brings rough seas and rain, and October–November has inter-monsoon showers. The fish market works all year; go early. Muthurajawela birding is best early in the morning.",
+      "sources": [
+        "Sri Lanka Tourism — Negombo | https://www.srilanka.travel/attraction?attraction_id=50",
+        "Sri Lanka Tourism — Negombo Beach | https://www.srilanka.travel/attraction?attraction_id=193",
+        "Sri Lanka Tourism — Hamilton Canal | https://www.srilanka.travel/attraction?attraction_id=60",
+        "Sri Lanka Tourism — Angurukaramulla Temple | https://www.srilanka.travel/attraction?attraction_id=66",
+        "Lonely Planet — Main Fish Market, Negombo | https://www.lonelyplanet.com/sri-lanka/negombo/attractions/main-fish-market/a/poi-sig/1194879/357497",
+        "Wikipedia — Muthurajawela wetlands | https://en.wikipedia.org/wiki/Muthurajawela_wetlands",
+        "Rome2Rio — Negombo routes | https://www.rome2rio.com/s/Negombo/Galle",
+        "Experience Travel Group — Colombo, Negombo and around | https://archive.experiencetravelgroup.com/sri_lanka/info/colombo-around"
+      ],
+      "proposedExperiences": [
+        {
+          "id": "negombo-fish-market",
+          "destinationId": "negombo",
+          "kind": "attraction",
+          "category": "local-life",
+          "name": "Negombo fish market at dawn",
+          "shortDescription": "Watch the catch come in and the auctions at Negombo’s busy fish market by the lagoon mouth, early in the morning.",
+          "details": "Boats unload beside the lagoon mouth near the old Dutch fort gate, and the catch is auctioned and sold on the spot. Nearby, fish are split and dried on the sand in long rows. It is busiest early in the morning, and quiet by midday. It is a working market: wear shoes you don’t mind getting wet, keep out of the way and ask before photographing people. Most visits take about an hour.",
+          "sources": [
+            "https://www.srilanka.travel/attraction?attraction_id=50",
+            "https://www.lonelyplanet.com/sri-lanka/negombo/attractions/main-fish-market/a/poi-sig/1194879/357497"
+          ],
+          "notes": "Start times differ between sources (3.30 am to dawn), so the card says 'early morning'. The fish market is usually quieter on Sundays and on poya days (Catholic fishing community); not verified."
+        },
+        {
+          "id": "negombo-lagoon-and-canal-boat-trip",
+          "destinationId": "negombo",
+          "kind": "activity",
+          "category": "nature",
+          "name": "Lagoon and Hamilton Canal boat trip",
+          "shortDescription": "A boat trip on Negombo Lagoon and the old Hamilton Canal, past mangroves, fishing huts and waterbirds.",
+          "details": "Boats leave from the lagoon shore and the canal banks. Most trips take about 1.5–2 hours. The Hamilton Canal was cut in 1802 under the British, alongside earlier Dutch canals, and runs south towards Colombo. Expect fishermen at work, mangroves, kingfishers, egrets and monitor lizards; wildlife is not guaranteed. Early morning or late afternoon is cooler. Check that life jackets are provided.",
+          "sources": [
+            "https://www.srilanka.travel/attraction?attraction_id=60",
+            "https://www.srilanka.travel/attraction?attraction_id=50"
+          ],
+          "notes": "Many operators; quality varies. No official operator list was found."
+        },
+        {
+          "id": "negombo-muthurajawela-wetland",
+          "destinationId": "negombo",
+          "kind": "excursion",
+          "category": "wildlife",
+          "name": "Muthurajawela wetland boat trip",
+          "shortDescription": "A guided boat trip through Muthurajawela, a protected coastal marsh at the south end of Negombo Lagoon, for birds and mangroves.",
+          "details": "Muthurajawela is a large coastal peat marsh linked to Negombo Lagoon. Part of it has been a wetland sanctuary since 1996. Guided boat trips of about 1.5–2 hours leave from the visitor centre by the Dutch canal, and go best early in the morning. Herons, kingfishers, cormorants and water monitors are common, and crocodiles are sometimes seen. Nothing is guaranteed.",
+          "where": "Muthurajawela, south of Negombo Lagoon, about 30 minutes by road from Negombo",
+          "sources": [
+            "https://en.wikipedia.org/wiki/Muthurajawela_wetlands",
+            "https://www.srilanka.travel/attraction?attraction_id=60"
+          ],
+          "notes": "The visitor-centre details come from an unofficial Google Sites page and a 1998 Sunday Times article; verify the current operator and hours. Also reachable from Colombo, about 30–45 minutes."
+        },
+        {
+          "id": "negombo-old-town-and-churches",
+          "destinationId": "negombo",
+          "kind": "attraction",
+          "category": "history",
+          "name": "Old town, Dutch gate and churches",
+          "shortDescription": "Explore Negombo’s colonial past and Catholic heritage: the Dutch fort gate, St Mary’s Church and old temples.",
+          "details": "Little remains of the Dutch fort except its gateway, inscribed 1678, as the site is now a prison. In town, St Mary’s Church, completed in the early 20th century, has a painted ceiling, and the Buddhist Angurukaramulla Temple keeps carved woodwork and moonstones about three centuries old. Dress modestly in churches and temples. A tuk-tuk loop takes about 2 hours.",
+          "sources": [
+            "https://www.srilanka.travel/attraction?attraction_id=66",
+            "https://www.srilanka.travel/attraction?attraction_id=50"
+          ],
+          "notes": "Fort dates conflict: the gate is inscribed 1678 (Lonely Planet), the Dutch rebuilt the fort in 1672 (travel site), and the prison was built on the site in the British era. St Mary's dates (about 1874–1922) come from travel sources. If the 2019 Easter attack at St Sebastian's, Katuwapitiya, is mentioned, keep it brief and respectful."
+        }
+      ],
+      "ownerQuestions": [
+        "Do guests often spend the first or last night in Negombo, and would you like it as a stop with nights in the planner as well as a pickup? If so, which id avoids the clash with the 'negombo' pickup?",
+        "Do you suggest any Negombo activities (fish market, lagoon or canal boat trip, Muthurajawela) for arrival or departure days?",
+        "Which recommended stay: 0–1 nights, or 1 night with an optional extra day?"
+      ],
+      "uncertainties": [
+        "Sri Lanka Tourism's Negombo Beach page mentions kite surfing, snorkelling and scuba diving; this is not corroborated, so leave it out or verify.",
+        "Muthurajawela visitor-centre operator, hours and boat departures: only unofficial or old sources were found. Ramsar status: none found (do not claim it).",
+        "Dutch fort dates (1672 rebuild vs 1678 gate inscription).",
+        "Road times are researched ranges, not measured; Rome2Rio figures are free-flow."
+      ]
+    }
+  ]
+}

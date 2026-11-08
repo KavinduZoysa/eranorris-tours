@@ -7,8 +7,8 @@ import { existsSync, readdirSync, readFileSync, statSync } from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { parse } from 'node-html-parser';
-import { DESTS } from '../src/data/destinations.mjs';
-import { EXPERIENCES } from '../src/data/experiences.mjs';
+import { DESTS, PHOTO_CREDITS } from '../src/data/destinations.mjs';
+import { EXPERIENCES, EXP_KINDS } from '../src/data/experiences.mjs';
 import { PLACEHOLDER_HOST } from './lib/target.mjs';
 
 const ROOT = path.resolve(fileURLToPath(new URL('..', import.meta.url)));
@@ -68,6 +68,16 @@ for (const file of htmlFiles) {
       if (seen[k].has(v)) err(name, `duplicate ${k} with ${seen[k].get(v)}`);
       else seen[k].set(v, name);
     }
+  }
+
+  // Every page links to the photo credits from its footer (openly licensed photos appear on the
+  // map and in cards, not only on their own place page).
+  if (!root.querySelector('footer a[href$="/photo-credits/"]')) err(name, 'footer has no link to /photo-credits/');
+
+  // In-page links (skip link, "On this page") must point at an element on the page.
+  for (const a of root.querySelectorAll('a[href^="#"]')) {
+    const id = a.getAttribute('href').slice(1);
+    if (id && !root.querySelector(`[id="${id}"]`)) err(name, `link to #${id}, which isn't on the page`);
   }
 
   // Headings
@@ -224,10 +234,34 @@ for (const file of htmlFiles) {
   for (const d of DESTS) if (!hrefs.has(`${base}/places/${d.id}/`)) err('/index.html', `no crawlable link to /places/${d.id}/`);
 }
 
-// Every available experience is listed (as crawlable HTML) on its destination's page.
+// Every available experience is listed (as crawlable HTML) on its destination's page, labelled
+// with its kind; nearby excursions say where they are.
+const placeDocs = {};
+const placeDoc = (id) => {
+  const file = path.join(DIST, 'places', id, 'index.html');
+  return (placeDocs[id] ??= existsSync(file) ? parse(readFileSync(file, 'utf8')) : null);
+};
 for (const e of EXPERIENCES.filter((x) => x.available !== false)) {
-  const file = path.join(DIST, 'places', e.destinationId, 'index.html');
-  if (!existsSync(file) || !readFileSync(file, 'utf8').includes(`data-exp="${e.id}"`)) err(`/places/${e.destinationId}/`, `experience "${e.id}" is not listed on its destination page`);
+  const at = `/places/${e.destinationId}/`;
+  const card = placeDoc(e.destinationId)?.querySelector(`li[data-exp="${e.id}"]`);
+  if (!card) {
+    err(at, `experience "${e.id}" is not listed on its destination page`);
+    continue;
+  }
+  if (!card.querySelector('.xp-m')?.text.includes(EXP_KINDS[e.kind])) err(at, `experience "${e.id}" does not show its kind ("${EXP_KINDS[e.kind]}")`);
+  if (e.kind === 'excursion' && !card.querySelector('.xp-w')) err(at, `nearby excursion "${e.id}" does not say where it is`);
+}
+
+// Openly licensed main photos are credited under the photo on their place page and on /photo-credits/.
+{
+  const creditsFile = path.join(DIST, 'photo-credits', 'index.html');
+  const credits = existsSync(creditsFile) ? parse(readFileSync(creditsFile, 'utf8')) : null;
+  if (!credits) err('/photo-credits/', 'page missing');
+  for (const [id, c] of Object.entries(PHOTO_CREDITS)) {
+    const credit = placeDoc(id)?.querySelector('.gal-slide:first-child .gal-credit');
+    if (!credit?.querySelector(`a[href="${c.source}"]`) || !credit.text.includes(c.license)) err(`/places/${id}/`, 'main photo is missing its credit (photographer, licence, source)');
+    if (credits && !credits.querySelector(`a[href="${c.source}"]`)) err('/photo-credits/', `no credit for the ${id} photo`);
+  }
 }
 
 // Sitemap ↔ files

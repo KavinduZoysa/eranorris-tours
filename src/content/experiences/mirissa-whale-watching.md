@@ -20,6 +20,8 @@ verify:
   - If we recommend or book a boat, is it licensed by the Department of Wildlife Conservation under the 2012 regulations, with a registered guide, life jackets in children's sizes and passenger insurance?
   - Is the wildlife permit fee normally included in operators' prices at Mirissa? The page only tells guests to ask.
   - The experience card no longer says "a large boat" (from the villa site's tour). Add the boat type back only if it applies to tour guests.
+  - The villa site's guide gives a villa pickup "around 8 a.m." for whale watching, but Mirissa boats usually leave between about 6 and 7 am. Does the villa tour use a Mirissa boat (with an earlier pickup) or another departure?
+  - SLTDA's whale-watching criteria were still marked "final draft" when checked in November 2026. Re-check before publishing; if they are adopted, the "draft" wording in "Choosing a responsible boat" needs updating.
   - Experience photo whale-watching (from the villa site) — rights confirmed, taken off Mirissa, and taken from a legal distance. Add a gallery: line once more photos are approved.
 ---
 
@@ -50,13 +52,15 @@ Under the regulations, each trip also needs a wildlife permit, issued at the dep
 
 Mirissa’s popularity has brought crowding. Visitors have described a dozen or more boats around a single whale, and reports describe some boats getting far closer than the rules allow. The 2012 sea-mammal regulations require boats to:
 
-- slow down gradually once whales are seen, and stop at about 400 m
+- slow down gradually once whales are seen, so they are moving slowly by the time they are 400 m away
 - switch off the engine 100 m from a whale and never go closer, keeping at least 50 m from dolphins
 - avoid sudden turns or changes of speed, never sit in front of or behind the animals, and never block their path
 - never use food, lights or sounds to draw animals closer
 - carry a registered guide trained by the wildlife department, and no alcohol on board.
 
-When choosing a boat, ask whether the vessel is licensed by the Department of Wildlife Conservation, and whether life jackets are provided for everyone, including children. Ask how the crew approaches whales, too. Boats that offer swimming with whales are breaking the rules: passengers may not enter the water without special approval from the wildlife department. On board, you can ask the crew to hold back, or to leave when too many boats gather.
+When choosing a boat, ask whether the vessel is licensed by the Department of Wildlife Conservation; licensed boats must carry the licence on board and display their vessel number where it can be read from 50 m away. Ask whether life jackets are provided for everyone, including children, and how the crew approaches whales. Boats that offer swimming with whales are breaking the rules: passengers may not enter the water without special approval from the wildlife department. On board, you can ask the crew to hold back, or to leave when too many boats gather.
+
+Sri Lanka Tourism has also drafted standards for whale-watching operators. They would require everyone on board to wear a life jacket throughout, ban swimming with whales and dolphins and the use of jet skis or kayaks for watching, and cap speed near the animals. They were not yet final in late 2026, but they are a fair guide to what a careful operator does.
 
 ## Seasickness and comfort
 

@@ -173,3 +173,87 @@ These describe the activity in general and say nothing about what Eranorris incl
   site’s Madu River photo is already used), moonstone pits.
 - Already in the gallery (rights to confirm): tsunami museum carriage, Rathgama Lagoon, hatchery
   tank. The hatchery photo must stay captioned as a captive facility.
+
+## Audit 2026-11-06
+
+Audit and improvement pass. The researcher's run stopped before writing this section, so it
+is compiled from the audit's proposal file: each correction lists the sources it relied on.
+The web-search budget ran out partway through, so some items rest on fewer sources; they are
+flagged in the notes and under `verify:`.
+
+### Corrections made (old → new, why)
+- "a 30 m Buddha statue, given by Japanese donors, honours the victims" → "the Tsunami Honganji Vihara has a tall standing Buddha modelled on the Bamiyan Buddhas of Afghanistan, unveiled in 2006 with Japanese Buddhist support, with the names of victims inscribed at its base". The 30 m figure (Wikipedia, Amazing Lanka, Love Sri Lanka — all uncited and apparently copied) conflicts with the Daily News pre-unveiling feature (54 ft ≈ 16.5 m) and Megaconstrucciones (61 ft / 18.5 m). No authoritative figure found, so no height is given. Funding is attributed to the Chief Prelate of the Honganji temple in Japan (Daily News); 'Japanese donors' was vague.
+  - https://archives.dailynews.lk/2006/12/20/fea01.asp
+  - https://megaconstrucciones.net/en/peraliya-buddha-tsunami-memorial/
+  - https://en.wikipedia.org/wiki/2004_Sri_Lanka_tsunami_train_wreck
+  - https://amazinglanka.com/wp/tsunami-honganji-viharaya/
+- "Ambalangoda, about 15 km north" → "Ambalangoda, about 13 km north". Galle–Ambalangoda is 33.4 km and Galle–Hikkaduwa about 19–20 km, so about 13–14 km.
+  - https://en.wikipedia.org/wiki/Ambalangoda
+  - https://en.wikipedia.org/wiki/Hikkaduwa
+- "(research record, experience copy suggestion for hikkaduwa-tsunami-museum) 'The railway memorial and a 30 m Buddha statue honouring the victims are nearby.'" → "See the proposed details for hikkaduwa-tsunami-museum below (no height).". Same unverified 30 m figure; flagged so it is not copied into the data file.
+  - https://archives.dailynews.lk/2006/12/20/fea01.asp
+  - https://megaconstrucciones.net/en/peraliya-buddha-tsunami-memorial/
+
+### Gaps found and what was done
+- The villa site's 'herbal cloth weaving & colour factory' → general paragraph on craft workshops added to 'Around Hikkaduwa'; proposed as hikkaduwa-herbal-cloth-weaving (generic until the owner names the workshop)
+- Reef snorkelling, surfing and diving — the town's core activities — had no cards → proposed hikkaduwa-reef-snorkelling, hikkaduwa-surfing, hikkaduwa-diving
+- Dive-operator choice → added advice (SLTDA registration, training-agency affiliation, check equipment and boat)
+- Seenigama's island shrine to Devol → added as a short bullet
+- The annual 26 December remembrance at Peraliya with the rebuilt train → added
+- Ambalangoda masks → stay in the guide; not proposed as a Hikkaduwa card because bentota-river-safari already includes the mask museum (would duplicate in the planner). If that card drops the masks, add hikkaduwa-ambalangoda-masks (excursion, culture, 'Ambalangoda, about 13 km north').
+- Hikkaduwa bypass (2025: one-way, buses only), Dodanduwa/Ratgama island hermitage, Kumarakanda temple → left out: not useful yet or not verified
+
+### Owner questions
+- Which 'herbal cloth weaving & colour factory' does the Tour Around Hikkaduwa visit (name, village)? Handloom with natural dyes, batik, or silk (there is a well-known 'natural silk factory' at Gintota on Hikkaduwa tuk-tuk circuits)? Any commission arrangement? Is it offered to tour guests?
+- Do you recommend particular dive centres or surf schools, and are they SLTDA-registered (and, for diving, PADI/SSI-affiliated)?
+- Do you know the Tsunami Honganji Vihara statue's actual height (from the temple)?
+- hikkaduwa-cinnamon has duration '3 hours, or a one-night stay' (the villa product). Does that apply to tour guests? If not, remove the duration.
+- Cinnamon experience and spice garden overlap (both show cinnamon). Keep both?
+- Unchanged from the October draft: which villa experiences tour guests can book, entry charges, hatchery/museum names, photo rights, stay length, journey times.
+
+### Experience guide ideas
+- **Snorkelling and wild turtles at Hikkaduwa, responsibly** — hikkaduwa snorkeling / hikkaduwa turtle beach / is hikkaduwa coral reef still alive: The town's biggest draw; a page can explain the park, the reef's condition, the no-touch and no-feeding rules and the difference from hatcheries.
+- **Peraliya: the 2004 tsunami train, memorials and museums** — peraliya tsunami memorial / queen of the sea train tsunami / tsunami museum hikkaduwa: High-interest historical topic with muddled online information (statue height, museum names); a careful page would be useful and respectful.
+- **Surfing in Hikkaduwa: season, breaks and lessons** — hikkaduwa surf season / surf lessons hikkaduwa beginners: Strong seasonal intent; only if the owner wants to attract surfers.
+
+## Experience cards added (2026-11-07)
+Merged into `src/data/experiences.mjs` with `source: 'research'`. Who provides each one
+is unconfirmed (see docs/research/owner-checklist.md).
+
+- **Handloom weaving and natural dyeing workshop** (`hikkaduwa-herbal-cloth-weaving`, activity)
+  - https://eranorrissrilanka.com/experiences.html
+  - https://eranorrissrilanka.com/guide.html
+  - https://www.excursionmania.com/ttd/8900/sooriya-weaving-mills-blg-8900
+  - https://www.tripadvisor.com/Attraction_Review-g297896-d8812664-Reviews-Sooriya_Weaving-Galle_Galle_District_Southern_Province.html
+  - https://www.teardrop-hotels.com/experiences/heritage-handloom-weaving/
+  - https://sundayobserver.lk/2023/12/17/business/12227/sri-lankas-natural-dye-tradition
+  - https://bizenglish.adaderana.lk/legacy-in-colour-sri-lankas-timeless-natural-dye-tradition/
+  - https://www.timeout.com/sri-lanka/shopping-and-style/where-to-go-for-handlooms-and-batiks
+  - Note: Requested by you. No workshop called a 'herbal cloth weaving & colour factory' could be identified near Hikkaduwa. What exists: (1) family handloom workshops near Galle with natural-dyed cotton, e.g. Sooriya Weaving at Wanchawela, about 7 km from Galle (Tripadvisor/ExcursionMania: women weavers, natural dyes, short visits, shop; no formal tours), and a 'family-run studio on the outskirts of Galle' sold through Teardrop hotels; (2) batik workshops, which Time Out says Hikkaduwa and Galle are known for; (3) a 'natural silk factory' with showroom at Gintota, a standard free stop on Hikkaduwa tuk-tuk excursions. The villa text (spinning, dyeing, looms, sold on the spot, free entry) fits (1) or a hybrid; 'factory'/'free entry' with a shop is typical of commission-based stops. Keep the card generic, without 'where', until the owner names it. Category local-life (crafts); 'culture' would also work. Do not imply the tour includes it.
+- **Snorkelling on the Hikkaduwa reef** (`hikkaduwa-reef-snorkelling`, activity)
+  - https://www.dwc.gov.lk/?page_id=817
+  - https://www.srilanka.travel/attraction?attraction_id=156
+  - https://en.wikipedia.org/wiki/Hikkaduwa_National_Park
+  - https://english.newsfirst.lk/2023/3/27/sri-lanka-aiming-to-boost-coral-ecosystems
+  - Note: DWC lists Hikkaduwa for snorkelling and boat safari. Any park entry charge for snorkellers not confirmed — not mentioned. Glass-bottom boats deliberately not proposed as a card (reported reef-top damage); they stay in the guide, described neutrally.
+- **Surfing and surf lessons** (`hikkaduwa-surfing`, activity)
+  - https://www.srilanka.travel/attraction?attraction_id=156
+  - https://en.wikipedia.org/wiki/Hikkaduwa
+  - https://www.surf-forecast.com/breaks/Main-Reef_Hikkaduwa
+  - Note: Sri Lanka Tourism gives November–March; Wikipedia October/November–March/April. 'About November to April' matches the guide.
+- **Scuba diving: reefs and wrecks** (`hikkaduwa-diving`, activity)
+  - https://www.srilanka.travel/attraction?attraction_id=156
+  - https://blog.citrusleisure.com/?p=96
+  - Note: Sri Lanka Tourism mentions 'several wrecks' off Hikkaduwa. Conch date from a dive-operator blog only (one source) — re-check or drop the year. SLTDA treats diving as a water-based adventure activity for registration; could not confirm a specific dive-centre licensing rule (web-search budget exhausted), so the text gives it as advice, not as a legal requirement.
+
+### Edited after the audit (2026-11-07)
+- The *Conch* wreck's date (1903) came from one dive-operator blog only, so the guide and the
+  diving card now say "an early oil tanker" without a year. Re-add the date if a second source
+  confirms it.
+
+## Main photo replaced (2026-11-07)
+The supplied main photo was replaced because it was watermarked, low quality or not of the place
+(owner's request). New photo: "Hikka Beach" by Sendaru Perera, CC BY-SA 4.0, Wikimedia Commons —
+https://commons.wikimedia.org/wiki/File:Hikka_Beach.jpg. Place confirmed from the file itself: GPS on the file (6.1362, 80.0995) is Hikkaduwa beach; category "Hikkaduwa". It is credited under the photo on the
+page and on /photo-credits/; the site's copy is cropped and resized. The old photo question was
+removed from the guide's `verify:` list.

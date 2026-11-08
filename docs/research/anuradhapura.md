@@ -181,3 +181,87 @@ extracts and Wikipedia's citation of the inscription, cross-checked with the CCF
 Sources:
 - https://www.adaderana.lk/news/117240/several-train-services-including-night-mail-trains-to-resume
 - https://www.themorning.lk/articles/bXqMpSZu5CCtv0Hkfxvj
+
+## Audit 2026-11-06
+
+Audit and improvement pass (2026-11-06/07). Region JSON: `.cache/audit/cultural-triangle.json`.
+
+### Sources consulted
+- Rail: Ada Derana 9 Apr 2026 (14 damaged sites repaired; Northern Line fully functional from
+  9 Apr; temporary operations from 24 Dec 2025, suspended again from 19 Jan 2026)
+  https://www.adaderana.lk/news.php?nid=120944 ; Daily FT 10 Apr 2026 (India-funded USD 5m grant)
+  https://www.ft.lk/news/Train-service-on-Northern-line-resumes/56-790716 ; Daily Mirror 7 Jul 2026
+  (from 10 Jul 2026 the Mount Lavinia/Colombo–KKS intercity runs Friday–Monday only, because of a
+  power-set shortage; Yal Devi reduced to one daily operation; Night Mail 8 pm)
+  https://www.dailymirror.lk/print/breaking-news/Power-set-shortage-cuts-KKS-intercity-to-four-days/108-344920 ;
+  Newsfirst 20 Jan 2026 (Maho–Anuradhapura closed for urgent repairs, buses substituted).
+- Wilpattu: Sri Lanka Tourism https://srilanka.travel/attraction&attraction_id=219 (1,317 km²;
+  30 km west of Anuradhapura, 26 km north of Puttalam; nearly sixty lakes and tanks; 31 mammal
+  species; "best time … February and October"); SLTDA Year in Review 2025 (88,536 local / 76,389
+  foreign); Ada Derana 19 Oct 2025 (over 30 tourists stranded by floods near Eluwankulama)
+  https://adaderana.lk/news/113712 ; Newsfirst 27 Nov 2025 (parks shut in Cyclone Ditwah; Wilpattu
+  reopened 3 Dec 2025 per Newswire); Sunday Times 11 May 2025 (no public transport through the
+  park; case ended) https://www.sundaytimes.lk/250511/news/no-public-transport-through-wilpattu-sc-case-ends-after-15-years-597744.html ;
+  climatefactchecks.org 14 Aug 2026 (eastern tanks damaged by Ditwah still unrepaired; drought)
+  https://climatefactchecks.org/eastern-wilpattu-runs-dry-as-post-ditwah-tank-repairs-lag/ ;
+  SLTDA safari guideline (Feb 2024). Candidate research was delegated to a sub-researcher and
+  spot-checked (SLTDA figures re-extracted; srilanka.travel and Ada Derana pages re-read).
+- SLTDA Year in Review 2025: Jetavanaramaya counter (the Anuradhapura ticket) 81,674 foreign /
+  13,370 local; Abhayagiri 1,890 foreign. Yala 426,535 foreign (for the "quieter than Yala"
+  comparison).
+- CCF ticket page (round ticket covers Anuradhapura and all archaeological museums).
+
+### Facts verified
+- Northern Line status (three sources) and the July 2026 timetable cut (Daily Mirror; a secondary
+  booking blog reported the same pattern on 1 Oct 2026).
+- Wilpattu size, lakes and wildlife (Sri Lanka Tourism); road distance to the Hunuwilagama gate
+  estimated at 40–50 km (A12 towards Puttalam, then about 7 km to the gate); 2025 flood events.
+
+### Corrections made (old → new, why)
+- Rail bullet → full services from 9 April 2026; intercity cut to four days a week from July 2026.
+- Wilpattu bullet → "main gate at Hunuwilagama is roughly 40–50 km by road, usually 1–1.5 hours"
+  (the official "30 km west" is straight-line), adds villus, "quieter than Yala" and flood closures.
+- Added the `<!-- experiences -->` marker after "Visiting the sacred city", a cycling FAQ, and
+  Sri Lanka Tourism (Wilpattu) and DWC ePermit to sources; `verify:` extended.
+
+### Uncertainties and conflicts
+- Gate road distance and time are estimates; Rome2rio's 73 km goes to a point inside the park.
+- Wilpattu "best time" wording on srilanka.travel is ambiguous ("February and October").
+- Yal Devi frequency: "one daily operation" (Daily Mirror, Jul 2026) vs Mon/Wed/Fri northbound
+  from May 2026 (Ada Derana report cited by the sub-researcher). The page does not name trains.
+
+### Owner questions
+- Wilpattu safaris (half/full day) arranged or booked locally? Realistic with your timings?
+- Which proposed cards can the driver include (Mihintale, Aukana, Wilpattu)?
+
+### Re-check before publishing
+- Northern Line timetable; Wilpattu closures in the north-east monsoon (Nov–Dec); CCF prices.
+
+## Experience cards added (2026-11-07)
+Merged into `src/data/experiences.mjs` with `source: 'research'`. Who provides each one
+is unconfirmed (see docs/research/owner-checklist.md).
+
+- **Sri Maha Bodhi and the great stupas** (`anuradhapura-sri-maha-bodhi`, attraction)
+  - https://ccf.gov.lk/heritage-sites/anuradhapura/
+  - https://whc.unesco.org/en/list/200
+  - https://en.wikipedia.org/wiki/Jaya_Sri_Maha_Bodhi
+  - Note: The living pilgrimage centre; distinct from the cycling card (ruins). Whether these sites are covered by the CCF ticket is unclear (Wikivoyage says the Bodhi tree and Ruwanwelisaya are free); the card avoids the point.
+- **The sacred city by bicycle** (`anuradhapura-sacred-city-cycling`, activity)
+  - https://ccf.gov.lk/heritage-sites/anuradhapura/
+  - https://en.wikivoyage.org/wiki/Anuradhapura
+  - Note: Mirrors polonnaruwa-cycling. Owner: bicycles arranged or hired locally?
+- **Mihintale** (`anuradhapura-mihintale`, excursion)
+  - https://en.wikipedia.org/wiki/Mihintale
+  - https://www.roughguides.com/destinations/asia/sri-lanka/cultural-triangle/
+  - Note: Step count 1,840 vs 1,850; fee about LKR 500–1,000 (not stated). Where shoes must be removed on the climb: confirm locally.
+- **Aukana Buddha** (`anuradhapura-aukana-buddha`, excursion)
+  - https://en.wikipedia.org/wiki/Avukana_Buddha_statue
+  - https://archives1.sundayobserver.lk/node/19425
+  - Note: Could sit under dambulla instead (similar distance). Height 11.36–11.84 m across sources. Temple charges a small fee (not stated).
+- **Wilpattu National Park safari** (`anuradhapura-wilpattu-safari`, excursion)
+  - https://srilanka.travel/attraction&attraction_id=219
+  - https://dwc.lankagate.gov.lk/DWCEpermitApp/homeAction.action?lang=en
+  - https://www.sltda.gov.lk/storage/common_media/Year_in_Review_2025_Final_updated_Report_2026_04_02.pdf
+  - https://www.sltda.gov.lk/storage/common_media/1%20Vehicle%20Safari%20Final%20Guideline.pdf
+  - https://adaderana.lk/news/113712
+  - Note: Candidate recommendation: Wilpattu as an excursion from Anuradhapura, not its own page. srilanka.travel's season line reads 'February and October' (probably 'February to October'). Road time is an estimate (official 30 km is straight-line to the park). 2025: 164,925 visitors (76,389 foreign). Closed 28 Nov–3 Dec 2025 (Ditwah); tourists stranded by floods near Eluwankulama 19 Oct 2025; drought in Aug 2026 with unrepaired eastern tanks.

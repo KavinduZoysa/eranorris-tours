@@ -1,169 +1,121 @@
-# Destination content plan
+# Content plan
 
-The site already has a page for every destination at `/places/<id>/`. Until a page has real
-content it stays a **draft**: `noindex`, left out of the sitemap, and showing only the
-design's one-paragraph summary. This plan covers the first five pages to write, in priority
-order, and exactly what is needed to publish each one.
+Where the site's travel content stands, what has to happen before it goes live, and what to
+write next. Updated 2026-11-07, after the November tourism audit.
 
-## How to publish a page
+## Where things stand
 
-1. Open the draft file listed for the destination (scaffolds already exist in
-   `src/content/places/`). Replace every `[TODO …]` prompt with your own words.
-2. Preview: `npm run build:staging && npm run serve`, then open `/places/<id>/`. Draft text
-   shows in staging and development previews only, never in production.
-3. Set `status: published` and run `npm test`. The build refuses to publish a page with fewer
-   than 200 words of visible content or with any `[TODO]`/`TBD` left, and says why.
-4. Deploy. The page becomes indexable and joins the sitemap with its own canonical URL. Then
-   ask Google Search Console to index the URL.
+- **16 destination guides** (`src/content/places/`), each researched, audited in November 2026
+  and kept as **drafts**: `noindex`, out of the sitemap, and in production showing only the
+  design summary, photos, experience cards and planner links. Research records, with sources,
+  are in `docs/research/<id>.md`.
+- **4 experience guides** (`src/content/experiences/`), also drafts: the Temple of the Sacred
+  Tooth Relic, Mirissa whale watching, Horton Plains and World's End, and the Minneriya
+  elephant safari.
+- **98 experience cards** (`src/data/experiences.mjs`), each labelled as a main attraction,
+  an activity or a nearby excursion. All are arranged through partners and the owner has
+  confirmed the list (`confirmed.experiences`); cards don't say who provides them.
+- **New destinations**: 11 places were evaluated. Five are covered by excursion cards; five
+  are recommended as future pages. See `docs/research/new-destinations.md`.
+- **Photos**: reviewed against their alt text. Six main photos that were watermarked, low quality
+  or not of the place were replaced with credited Wikimedia Commons photos (November 2026).
+  See `docs/research/photos.md` and `/photo-credits/`.
 
-Aim for 400–800 words written from first-hand experience. Use your own photos where you
-can; for people who can be identified in them, get their permission first.
+## Before anything is published
 
-## Ground rules
+Run `npm run checklist` and work through `docs/research/owner-checklist.md`. In order of
+impact:
 
-- **Only write what you know.** Leave out opening hours, ticket prices and similar figures
-  unless you will keep them up to date. Point to the official source instead.
-- **No invented claims.** Don't add guide qualifications, reviews or "best" claims you
-  can't back up.
-- **One page per search intent.**
-  - A destination page answers "should I include X, and how does it fit my trip?".
-  - A tour page (`/private-tours/<slug>/`) exists only for a product you actually sell:
-    a specific day tour with a duration and inclusions.
-  - Don't write both pages for the same intent. Link the destination page to the tour
-    instead (that link is automatic once the tour is published).
-- **Drive times on the site are rough estimates.** They come from a formula that ignores
-  expressways. Give real figures in `ROUTE_TIMES` in `src/data/destinations.mjs` (e.g.
-  airport→Galle) and quote real times in your text.
-- **Each page automatically links to its three nearest places.** Mention the ones you
-  actually combine on trips, in the text.
+1. **Site-wide facts** still open in `site.config.mjs → confirmed`: shuttle fares, the
+   destination descriptions, and photo rights for the photos that came with the design and your
+   own (the six Commons photos are licensed and credited).
+2. **Each guide's `verify:` list.** Many questions ask whether a visit, ticket or activity is
+   arranged; the answer for activities is now known (all through partners), so focus on what
+   each page should say about it. Answer the questions, correct the text, then add a
+   `reviewed:` date and set `status: published`. The build refuses to publish a page with
+   open questions.
 
-## 1. Sigiriya — `src/content/places/sigiriya.md`
+### Re-check just before publishing (these change)
 
-- **Search intent:** travellers planning the Cultural Triangle who want a private driver or
-  tour. Typical searches: "Sigiriya private tour", "Sigiriya day trip from Kandy/Colombo",
-  "how to visit Sigiriya".
-- **Help them decide:**
-  - day trip or overnight stay
-  - how demanding the climb is, and the best time of day
-  - how it fits with the nearby sites
-- **Sections:**
-  - visiting Sigiriya with you: what the day looks like
-  - how long to spend (the design suggests 2 nights; confirm)
-  - the climb: what to expect
-  - combining it with other places
-  - practical tips
-  - FAQs from real guests
-- **Internal links:**
-  - Dambulla (`/places/dambulla/`, about 30 min, estimated)
-  - Polonnaruwa (about 1h)
-  - Anuradhapura (about 2h)
-  - Kandy (about 2h 40m)
-  - a Sigiriya tour page, if you sell one
-- **Business information needed:**
-  - Do you offer a dedicated Sigiriya day tour, or only include it in custom routes?
-  - Pickup areas and typical start time.
-  - What is included: driver only, or a guide at the site? Entrance tickets?
-  - Your advice on the climb, from experience.
-  - Own photos: `~/villas/tours/sigiriya` (check consent).
+- **Rail after Cyclone Ditwah.** In early November 2026 only Nanu Oya–Badulla (via Ella) was
+  running in the hills; trains to Peradeniya/Gampola were suspended again on 25 October, and
+  the bridge into Kandy and Gampola–Nanu Oya were still being rebuilt (official target: end of
+  2026). Kandy, Nuwara Eliya, Ella and Adam's Peak quote this status with its date.
+- **Adam's Peak season**: 2026–27 runs from Unduvap Poya (23 December 2026) to Vesak Poya
+  (19 May 2027, per the gazette); confirm against the official announcement.
+- **Park closures and rules**: Yala's annual closure (14 September–15 October in 2026), Kumana
+  closures, Horton Plains access rules, possible jeep caps and e-ticketing at Yala.
+- **Festival dates**: the Esala Perahera 2027 dates (announced by the temple each year).
+- **Places with uncertain access**: Coconut Tree Hill (private land), Brief Garden, Maduwanwela
+  Walawwa, Sithulpawwa, Moon Plains, Ritigala (guide-only rumours).
 
-## 2. Galle — `src/content/places/galle.md`
+### Suggested publishing order
 
-- **Search intent:** "Galle Fort tour", "Galle private tour", "Galle day trip from
-  Colombo/Hikkaduwa". You are based nearby, so this page can show real local knowledge.
-- **Help them decide:** half day, full day or an overnight stay inside the fort, and how
-  Galle fits with the south-coast beaches.
-- **Sections:**
-  - exploring Galle Fort with you: route, what you show guests
-  - how long to spend
-  - best time of day (from experience)
-  - combining with Hikkaduwa and Mirissa
-  - getting there from the airport (link to the airport-transfer planner on the homepage)
-  - practical tips and FAQs
-- **Internal links:**
-  - Hikkaduwa (about 40 min, estimated)
-  - Mirissa (about 1h)
-  - Bentota (about 1h 40m)
-  - a Galle tour page, if you sell one
-- **Business information needed:**
-  - What a Galle visit with you includes, its duration and pickup areas.
-  - Walking, tuk-tuk or car inside the fort.
-  - Own photos: `~/villas/tours/galle`, `~/villas/tours/galle-fort` (check consent).
+By likely demand and how closely each place fits the business (based in Hikkaduwa):
 
-## 3. Hikkaduwa — `src/content/places/hikkaduwa.md`
+1. Hikkaduwa, Galle, Mirissa (home area; whale watching)
+2. Kandy, Sigiriya, Ella (the classic route)
+3. Yala, Nuwara Eliya, Bentota, Udawalawe
+4. Dambulla, Polonnaruwa, Anuradhapura
+5. Trincomalee, Arugam Bay, Adam's Peak (seasonal or out of the way)
 
-- **Search intent:** "Hikkaduwa tours", "things to do in Hikkaduwa", "Hikkaduwa private
-  driver", "airport to Hikkaduwa transfer". This is your home area and likely your
-  strongest page.
-- **Help them decide:** what they can do with you from Hikkaduwa, how to see the turtles
-  and reef responsibly, and day trips along the coast.
-- **Sections:**
-  - tours and experiences from Hikkaduwa: only the ones you run (your villa site lists a
-    cinnamon experience, lagoon kayaking and a Yala safari; confirm which you offer here)
-  - turtles and the reef: how you recommend seeing them
-  - coast seasons, from experience
-  - day trips
-  - airport transfers to Hikkaduwa
-  - FAQs
-- **Internal links:**
-  - Galle (about 40 min, estimated)
-  - Bentota (about 1h 10m)
-  - Mirissa (about 1h 40m)
-  - the airport-transfer planner
-- **Business information needed:**
-  - Which experiences you run, with durations and meeting points.
-  - Your view on turtle viewing and hatcheries (don't describe third-party practices you
-    haven't verified).
-  - Whether to link to eranorrissrilanka.com (same business?).
-  - Own photos: `~/villas/kayak-fish-therapy`, `~/villas/selected_cinnamon` (check consent).
+Experience guides go live with, or after, their destination page: Temple of the Tooth with
+Kandy, whale watching with Mirissa, Horton Plains with Nuwara Eliya, Minneriya with Sigiriya.
 
-## 4. Ella — `src/content/places/ella.md`
+## What to write next
 
-- **Search intent:** "Ella private tour", "Kandy to Ella by car", "Nine Arches Bridge".
-- **Help them decide:** how many nights, and whether to arrive by car or by the scenic
-  train.
-- **Sections:**
-  - Ella on a private tour: Nine Arches Bridge, Little Adam's Peak, and what else you do
-  - how long to stay (the design suggests 2 nights)
-  - getting there: describe only what you arrange
-  - combining with Nuwara Eliya and Udawalawe or Yala
-  - practical tips and FAQs
-- **Internal links:**
-  - Nuwara Eliya (about 1h, estimated)
-  - Udawalawe (about 1h 40m)
-  - Kandy (about 2h 20m)
-  - Yala
-  - Adam's Peak
-- **Business information needed:**
-  - Do you book train tickets? Does the driver meet guests at the station?
-  - Typical hill-country route and real drive times.
-  - Hikes you accompany, if any.
+### Experience guides (one page per distinct search intent)
 
-## 5. Kandy — `src/content/places/kandy.md`
+Write these only where the search intent differs from the destination page; otherwise improve
+the destination page instead.
 
-- **Search intent:** "Kandy private tour", "Kandy day trip from Colombo", "Temple of the
-  Tooth visit".
-- **Help them decide:** day trip or overnight stay, how Kandy links the Cultural Triangle
-  and the hill country, and what to know before visiting the temple.
-- **Sections:**
-  - Kandy on a private tour
-  - visiting the Temple of the Sacred Tooth Relic: check current visitor rules with the
-    official source; don't quote times or fees
-  - how long to stay (the design suggests 2 nights)
-  - routes from the airport or Colombo, onward to Sigiriya or Nuwara Eliya and Ella
-  - stops on the way, only ones you actually make
-  - FAQs
-- **Internal links:**
-  - Nuwara Eliya (about 1h 30m, estimated)
-  - Adam's Peak (about 2h)
-  - Dambulla (about 2h 10m)
-  - Ella (about 2h 20m)
-  - Sigiriya
-- **Business information needed:**
-  - What a Kandy visit with you includes.
-  - Real drive times from the airport.
-  - Own photos.
+**Recommended**
+- **The Kandy–Ella train** — very high search interest. Write it once the line has reopened,
+  so it doesn't go out of date immediately.
+- **Esala Perahera** — seasonal; publish by May 2027 for the July/August festival.
+- **Madu River boat safari** — common query; explain the Ramsar wetland and the island temple,
+  and say plainly that visitors can skip the captive-crocodile and fish-pool stops.
+- **Stilt fishermen: where, when and what is real** — popular question with poor answers
+  online; fits the site's honest approach.
+- **Pigeon Island snorkelling** — Trincomalee's main draw, with reef condition and rules.
 
-## After these five
+**Worth considering**
+- Mirissa, Weligama, Hiriketiya or Tangalle: where to stay on the south coast (also covers the
+  candidate places without new pages).
+- Udawalawe or Yala: choosing a park.
+- Whale watching from Trincomalee (pairs with the Mirissa guide for May–September travellers).
+- Visiting Lunuganga and Brief Garden.
+- Kumana from Arugam Bay; Arugam Bay surf breaks by level.
 
-Next by likely demand: Mirissa (whale watching), Yala (safaris), Nuwara Eliya, Dambulla,
-Bentota. The other destinations can stay as drafts indefinitely; drafts are harmless.
+**Not recommended as separate pages** (they would compete with the destination page for the
+same searches): a Yala safari guide, a Sigiriya climbing guide, a Galle Fort walking guide,
+Hikkaduwa snorkelling and turtles, the Dambulla caves. Keep improving those destination pages
+instead.
+
+### New destinations
+
+In order: Negombo (first/last night near the airport), Sinharaja, Tangalle, Colombo, Jaffna;
+Kalpitiya later if at all. Each needs the owner to confirm coverage and a licensed photo first.
+Details, sights and researched cards: `docs/research/new-destinations.md`.
+
+### Photos
+
+Every destination has at least one photo, but nine have only one. Own photos taken on tours
+(with consent from anyone identifiable), or more credited Commons photos, would improve most
+pages; the gaps are listed in `docs/research/photos.md`. The main photos of Mirissa,
+Trincomalee, Udawalawe and Yala can't be identified from the image alone, so confirm them or
+replace them the same way.
+
+## Ground rules (unchanged)
+
+- **Only write what you can stand behind.** Link to official pages for hours and prices rather
+  than quoting them. Qualify seasons and journey times.
+- **Never imply a service that isn't confirmed** — guides, tickets, meals, boats, jeeps,
+  pickups, partnerships.
+- **Wildlife is never guaranteed**; captive or managed facilities are labelled as such, and
+  captive-animal interactions are not listed.
+- **One page per search intent.** A destination page answers "should I include X, and how does
+  it fit my trip?"; an experience guide answers one activity in depth; a tour page
+  (`/private-tours/<slug>/`) exists only for a product you actually sell.
+
+The writing standard and publishing rules are in `docs/content-guide.md`.

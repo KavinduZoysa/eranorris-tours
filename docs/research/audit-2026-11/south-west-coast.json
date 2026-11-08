@@ -1,0 +1,742 @@
+{
+  "region": "South-west coast (galle, hikkaduwa, bentota, mirissa)",
+  "destinations": {
+    "galle": {
+      "missing": [
+        "Koggala Lake, the Martin Wickramasinghe museum and Handunugoda tea estate → added to the guide (new section 'East along the coast: Koggala and Ahangama') and proposed as excursions",
+        "Stilt fishing was one blunt sentence ('most of them pose for a fee rather than fish') → rewritten honestly in the guide with an FAQ, and proposed as galle-stilt-fishing (see notes for why Galle rather than Mirissa)",
+        "Unawatuna had no card although it is the usual swimming beach for Galle → proposed as galle-unawatuna-beach",
+        "Galle International Stadium (Test cricket beside the Main Gate) → added as a bullet in 'Inside the walls'",
+        "Sri Lanka Navy whale-watching cruises from Galle harbour (Nov–Apr) → mentioned in the whale-watching FAQ as something to check; not proposed as a card because the Navy page's current-season schedule could not be confirmed",
+        "Peace pagoda etiquette and the Rumassala marine sanctuary (no touching coral) → added",
+        "Unawatuna diving/wrecks, Yatagala temple, Rumassala 'eco treks', the cliff jumpers at the lighthouse mentioned on the villa site → left out: weak sources or low traveller value"
+      ],
+      "corrections": [
+        {
+          "old": "Above it, the Maritime Archaeology Museum fills a 17th-century warehouse with finds from Dutch shipwrecks. It was rebuilt after the 2004 tsunami.",
+          "new": "Beside it, the Maritime Archaeology Museum (often signed as the National Maritime Museum) fills a 17th-century warehouse with finds from Dutch shipwrecks in the bay. The 2004 tsunami badly damaged it, and it reopened in 2010.",
+          "reason": "The building was damaged and the museum reopened on 4 March 2010, not rebuilt; Sri Lanka Tourism and many signs call it the National Maritime Museum, so the alias helps visitors find it.",
+          "sources": [
+            "https://ccf.gov.lk/museums/galle-museum/",
+            "https://en.wikipedia.org/wiki/National_Maritime_Museum_(Galle)",
+            "https://www.srilanka.travel/attraction?attraction_id=153"
+          ]
+        },
+        {
+          "old": "Further east, at Koggala and Ahangama, you will see stilt fishermen perched on poles in the surf. These days most of them pose for photographs for a fee rather than fish.",
+          "new": "Stilt fishermen perch on poles in the shallows at Koggala and Ahangama, a method dating from about the Second World War. Some still fish, mainly in the south-west monsoon months, but many by the road in the tourist season pose for paid photographs, and some are not fishermen at all.",
+          "reason": "'Most … rather than fish' is not supported: The National (2024) and ICSF report real fishing continuing (May–October, early mornings), while posing for payment dominates in the tourist season and impostors are reported.",
+          "sources": [
+            "https://www.thenationalnews.com/news/asia/2024/11/22/sri-lanka-stilt-fishing-galle",
+            "https://icsf.net/newss/sri-lanka-low-tide-heralds-stilt-fishing-in-koggala/",
+            "https://thediplomat.com/2018/06/in-sri-lanka-a-dying-livelihood-a-tourist-attraction/"
+          ]
+        },
+        {
+          "old": "a white peace pagoda built by Japanese Buddhist monks",
+          "new": "a white peace pagoda built in the mid-2000s by monks of the Japanese Nipponzan Myohoji order",
+          "reason": "Names the order; sources give 2004 (opened 23 February 2004) or 2005, so 'mid-2000s'.",
+          "sources": [
+            "https://amazinglanka.com/wp/japanese-peace-pagoda-roomassala/"
+          ]
+        }
+      ],
+      "experienceGuideIdeas": [
+        {
+          "topic": "Walking Galle Fort: a ramparts and streets route",
+          "searchIntent": "galle fort walking tour / things to do in galle fort / galle fort map",
+          "why": "The main Galle query. A route page (Clock Tower → Flag Rock → lighthouse → Old Gate → churches) with free-versus-paid sights and best times would answer it better than the destination page."
+        },
+        {
+          "topic": "Stilt fishermen of Sri Lanka: where, when and what is real",
+          "searchIntent": "stilt fishing sri lanka / koggala stilt fishermen / do you have to pay stilt fishermen",
+          "why": "Very common query with poor answers online; an honest page fits the site's responsible-travel line and ties Koggala/Ahangama to Galle."
+        },
+        {
+          "topic": "Koggala Lake boat trip and the Martin Wickramasinghe museum",
+          "searchIntent": "koggala lake boat safari / madol doova island",
+          "why": "A natural half-day from Galle or Mirissa; only worth a page if the owner confirms guests do it."
+        }
+      ],
+      "ownerQuestions": [
+        "Villa site whale-watching pickup is 'around 8 a.m.' but Mirissa boats leave about 6–7 am — which departure (Mirissa harbour or the Navy cruise from Galle) does the villa tour use?",
+        "Stilt fishing 'on availability' on the villa tour: do drivers stop at Koggala/Ahangama, and what do you tell guests about paying for photos?",
+        "Do you suggest Koggala Lake boat trips, the Martin Wickramasinghe museum or Handunugoda tea estate to tour guests? Any preferred lake boat operator (life jackets)?",
+        "Unchanged from the October draft: how guests explore the fort, recommended stay, Galle as a pickup point, photo rights."
+      ],
+      "existingExperiences": [
+        {
+          "id": "galle-fort",
+          "kind": "attraction",
+          "changes": {},
+          "reason": "Accurate. History is the right category.",
+          "sources": [
+            "https://www.srilanka.travel/attraction?attraction_id=153",
+            "https://whc.unesco.org/en/list/451"
+          ]
+        },
+        {
+          "id": "galle-jungle-beach",
+          "kind": "attraction",
+          "changes": {
+            "name": "Jungle Beach and the Japanese Peace Pagoda",
+            "category": "water",
+            "shortDescription": "Swim at Jungle Beach, a small cove near Unawatuna, and walk up to the Japanese Peace Pagoda above it. Calmest from about November to April.",
+            "details": "A small cove below the wooded Rumassala headland, between Galle harbour and Unawatuna, reached by a short path through the trees. On the ridge above, a peace pagoda built by Japanese Buddhist monks looks back to Galle Fort; cover shoulders and knees. The sea is usually calm enough to swim from about November to April. The reef is a protected sanctuary, so don't stand on or touch coral.",
+            "season": "Swimming about November to April"
+          },
+          "reason": "'Peace Temple' → 'Peace Pagoda' (what it is and what people search). Swimming is the main purpose, so the new 'water' category fits better than 'nature'. Adds the season to the short text, temple etiquette and the marine-sanctuary rule.",
+          "sources": [
+            "https://amazinglanka.com/wp/japanese-peace-pagoda-roomassala/",
+            "https://www.sundaytimes.lk/240114/news/coral-restoration-project-grows-species-outside-marine-habitat-545262.html",
+            "https://en.wikipedia.org/wiki/Unawatuna"
+          ]
+        }
+      ],
+      "newExperiences": [
+        {
+          "id": "galle-stilt-fishing",
+          "destinationId": "galle",
+          "kind": "excursion",
+          "category": "local-life",
+          "name": "Stilt fishermen at Koggala and Ahangama",
+          "shortDescription": "See the stilt fishermen on their poles in the shallows east of Galle. Many now pose for paid photos, so agree on any payment first.",
+          "details": "Fishermen sit on a crossbar tied to a single pole in the shallows and cast for small fish, a method dating from about the Second World War. Some still fish, mainly in the south-west monsoon months, but in the tourist season many by the road pose for photographs and ask for payment, and some are not fishermen. Agree on any payment first and don't climb a pole uninvited. Usually a short roadside stop.",
+          "where": "Koggala and Ahangama, about 25–40 minutes east of Galle Fort on the coast road",
+          "season": "Posing for photos most days in the tourist season; real fishing mainly about May to October",
+          "sources": [
+            "https://www.thenationalnews.com/news/asia/2024/11/22/sri-lanka-stilt-fishing-galle",
+            "https://icsf.net/newss/sri-lanka-low-tide-heralds-stilt-fishing-in-koggala/",
+            "https://thediplomat.com/2018/06/in-sri-lanka-a-dying-livelihood-a-tourist-attraction/",
+            "https://en.wikipedia.org/wiki/Ahangama",
+            "https://eranorrissrilanka.com/guide.html"
+          ],
+          "notes": "Requested by you (villa site: stilt fishing 'on availability' on the Whale Watching Mirissa & Galle tour; guide places them 'around Koggala and Ahangama'). Destination: Galle rather than Mirissa because Koggala (about 14 km) and Ahangama (about 18 km) are in Galle District, closer to Galle Fort than to Mirissa for Koggala (Mirissa–Koggala is about 20 km), and they cluster with Koggala Lake, the Martin Wickramasinghe museum and Handunugoda as one 'east of Galle' half-day; the Galle guide already covered them. From Mirissa it is about 25–40 minutes the other way, so the Mirissa guide now points to the Galle page. No official/government source on stilt fishing found; facts rest on The National (2024), ICSF (pandemic-era report from Koggala) and The Diplomat (2018). Payment amounts deliberately omitted. Don't present it as a working-fishery 'authentic' experience, and don't imply the tour includes it."
+        },
+        {
+          "id": "galle-koggala-lake",
+          "destinationId": "galle",
+          "kind": "excursion",
+          "category": "nature",
+          "name": "Koggala Lake boat trip",
+          "shortDescription": "A boat trip on Koggala Lake, a mangrove-fringed lagoon dotted with islands, with stops at a cinnamon island and a temple island.",
+          "details": "A broad lagoon behind the coast at Koggala, scattered with small islands and fringed with mangroves. Trips of about 1.5–2 hours usually stop at an island where cinnamon is peeled (with a shop) and a temple island with old murals, and pass Madol Doova, the island behind Martin Wickramasinghe's novel. Cormorants and herons are common. Ask for life jackets; mornings and late afternoons are cooler.",
+          "where": "Koggala, about 14 km (usually 25–35 minutes) east of Galle Fort",
+          "sources": [
+            "https://life.lk/article/travel/The-Koggala-Lake---Exploring-the-islands-hidden-within-an-island/58/19792",
+            "https://www.lonelyplanet.com/points-of-interest/koggala-lake/1194790"
+          ],
+          "notes": "Not an official source; Life.lk (2020s feature) and Lonely Planet agree on islands, cinnamon island, temple island and trip length (LP 90 min; Life.lk about 2 h). Island count varies (8 or 10). Boats are run by local operators and hotels; safety standards unknown. Pairs naturally with galle-martin-wickramasinghe-museum and galle-stilt-fishing."
+        },
+        {
+          "id": "galle-martin-wickramasinghe-museum",
+          "destinationId": "galle",
+          "kind": "excursion",
+          "category": "culture",
+          "name": "Martin Wickramasinghe Folk Museum, Koggala",
+          "shortDescription": "The birthplace of the Sinhala novelist Martin Wickramasinghe and a large museum of village life, crafts and ceremonies at Koggala.",
+          "details": "Run by the trust set up after Martin Wickramasinghe died in 1976, the complex at Koggala includes the house where he was born, furnished with his belongings, and pavilions of folk crafts, rural tools, fishing and farming gear and ceremonial objects. Most visitors spend about an hour. Opening hours are on the trust's website.",
+          "where": "Koggala, about 14 km (usually 25–35 minutes) east of Galle Fort",
+          "sources": [
+            "https://martinwickramasinghe.com/museum.html",
+            "https://en.wikipedia.org/wiki/Martin_Wickramasinghe_Folk_Museum"
+          ],
+          "notes": "Trust website (checked Nov 2026) says open daily 9 am–5 pm except the two-day Sinhala and Tamil New Year holiday; not quoted on the card. 'About an hour' is a typical-visit estimate from travel listings, not an official figure — remove if you prefer."
+        },
+        {
+          "id": "galle-handunugoda-tea-estate",
+          "destinationId": "galle",
+          "kind": "excursion",
+          "category": "local-life",
+          "name": "Handunugoda tea estate (white tea)",
+          "shortDescription": "Visit a low-country tea estate inland from Ahangama, known for its white tea, to see the processing and taste the teas.",
+          "details": "A family-owned estate in the low hills inland from Ahangama, known for its white tea. Visits usually include a walk in the plantation, a look at the small factory and a tasting of several teas, ending at the shop. Unlike the hill-country estates, it grows tea close to sea level, so it is an easy add-on to a coast day. Check the visiting arrangements before you go; allow about 1–2 hours.",
+          "where": "Inland from Ahangama, about 40 minutes east of Galle Fort",
+          "sources": [
+            "https://www.lonelyplanet.com/points-of-interest/handunugoda-tea-estate/1494506",
+            "https://mihipedia.lk/tasting-virgin-white-teas-at-handunugoda-estate-galle-sri-lanka/"
+          ],
+          "notes": "No official estate website found (web-search budget ran out mid-audit). Lonely Planet and several blogs describe free tours with tasting; 'free' not stated on the card. Stories that the white tea is 'untouched by human hands' are marketing — not used. Verify current visiting arrangements before publishing."
+        },
+        {
+          "id": "galle-unawatuna-beach",
+          "destinationId": "galle",
+          "kind": "attraction",
+          "category": "water",
+          "name": "Unawatuna beach",
+          "shortDescription": "Swim at Unawatuna, a crescent bay sheltered by headlands and a reef, a short drive from Galle Fort. Calmest from about November to April.",
+          "details": "A curved bay between two headlands, sheltered by a reef and usually calm enough for swimming from about November to April. It is lined with cafés and guesthouses and gets busy in season; Jungle Beach and the peace pagoda are on the headland to the west. From about May to September the sea is often rough, so follow the flags and any lifeguards.",
+          "where": "Unawatuna, about 6 km (usually 15–20 minutes) east of Galle Fort",
+          "season": "Swimming about November to April",
+          "sources": [
+            "https://www.srilanka.travel/pristine-beach-holidays",
+            "https://en.wikipedia.org/wiki/Unawatuna"
+          ],
+          "notes": "Sri Lanka Tourism names Unawatuna among the best southern beaches. Beach width has varied with erosion since 2004; avoid promising 'wide sand'."
+        }
+      ]
+    },
+    "hikkaduwa": {
+      "missing": [
+        "The villa site's 'herbal cloth weaving & colour factory' → general paragraph on craft workshops added to 'Around Hikkaduwa'; proposed as hikkaduwa-herbal-cloth-weaving (generic until the owner names the workshop)",
+        "Reef snorkelling, surfing and diving — the town's core activities — had no cards → proposed hikkaduwa-reef-snorkelling, hikkaduwa-surfing, hikkaduwa-diving",
+        "Dive-operator choice → added advice (SLTDA registration, training-agency affiliation, check equipment and boat)",
+        "Seenigama's island shrine to Devol → added as a short bullet",
+        "The annual 26 December remembrance at Peraliya with the rebuilt train → added",
+        "Ambalangoda masks → stay in the guide; not proposed as a Hikkaduwa card because bentota-river-safari already includes the mask museum (would duplicate in the planner). If that card drops the masks, add hikkaduwa-ambalangoda-masks (excursion, culture, 'Ambalangoda, about 13 km north').",
+        "Hikkaduwa bypass (2025: one-way, buses only), Dodanduwa/Ratgama island hermitage, Kumarakanda temple → left out: not useful yet or not verified"
+      ],
+      "corrections": [
+        {
+          "old": "a 30 m Buddha statue, given by Japanese donors, honours the victims",
+          "new": "the Tsunami Honganji Vihara has a tall standing Buddha modelled on the Bamiyan Buddhas of Afghanistan, unveiled in 2006 with Japanese Buddhist support, with the names of victims inscribed at its base",
+          "reason": "The 30 m figure (Wikipedia, Amazing Lanka, Love Sri Lanka — all uncited and apparently copied) conflicts with the Daily News pre-unveiling feature (54 ft ≈ 16.5 m) and Megaconstrucciones (61 ft / 18.5 m). No authoritative figure found, so no height is given. Funding is attributed to the Chief Prelate of the Honganji temple in Japan (Daily News); 'Japanese donors' was vague.",
+          "sources": [
+            "https://archives.dailynews.lk/2006/12/20/fea01.asp",
+            "https://megaconstrucciones.net/en/peraliya-buddha-tsunami-memorial/",
+            "https://en.wikipedia.org/wiki/2004_Sri_Lanka_tsunami_train_wreck",
+            "https://amazinglanka.com/wp/tsunami-honganji-viharaya/"
+          ]
+        },
+        {
+          "old": "Ambalangoda, about 15 km north",
+          "new": "Ambalangoda, about 13 km north",
+          "reason": "Galle–Ambalangoda is 33.4 km and Galle–Hikkaduwa about 19–20 km, so about 13–14 km.",
+          "sources": [
+            "https://en.wikipedia.org/wiki/Ambalangoda",
+            "https://en.wikipedia.org/wiki/Hikkaduwa"
+          ]
+        },
+        {
+          "old": "(research record, experience copy suggestion for hikkaduwa-tsunami-museum) 'The railway memorial and a 30 m Buddha statue honouring the victims are nearby.'",
+          "new": "See the proposed details for hikkaduwa-tsunami-museum below (no height).",
+          "reason": "Same unverified 30 m figure; flagged so it is not copied into the data file.",
+          "sources": [
+            "https://archives.dailynews.lk/2006/12/20/fea01.asp",
+            "https://megaconstrucciones.net/en/peraliya-buddha-tsunami-memorial/"
+          ]
+        }
+      ],
+      "experienceGuideIdeas": [
+        {
+          "topic": "Snorkelling and wild turtles at Hikkaduwa, responsibly",
+          "searchIntent": "hikkaduwa snorkeling / hikkaduwa turtle beach / is hikkaduwa coral reef still alive",
+          "why": "The town's biggest draw; a page can explain the park, the reef's condition, the no-touch and no-feeding rules and the difference from hatcheries."
+        },
+        {
+          "topic": "Peraliya: the 2004 tsunami train, memorials and museums",
+          "searchIntent": "peraliya tsunami memorial / queen of the sea train tsunami / tsunami museum hikkaduwa",
+          "why": "High-interest historical topic with muddled online information (statue height, museum names); a careful page would be useful and respectful."
+        },
+        {
+          "topic": "Surfing in Hikkaduwa: season, breaks and lessons",
+          "searchIntent": "hikkaduwa surf season / surf lessons hikkaduwa beginners",
+          "why": "Strong seasonal intent; only if the owner wants to attract surfers."
+        }
+      ],
+      "ownerQuestions": [
+        "Which 'herbal cloth weaving & colour factory' does the Tour Around Hikkaduwa visit (name, village)? Handloom with natural dyes, batik, or silk (there is a well-known 'natural silk factory' at Gintota on Hikkaduwa tuk-tuk circuits)? Any commission arrangement? Is it offered to tour guests?",
+        "Do you recommend particular dive centres or surf schools, and are they SLTDA-registered (and, for diving, PADI/SSI-affiliated)?",
+        "Do you know the Tsunami Honganji Vihara statue's actual height (from the temple)?",
+        "hikkaduwa-cinnamon has duration '3 hours, or a one-night stay' (the villa product). Does that apply to tour guests? If not, remove the duration.",
+        "Cinnamon experience and spice garden overlap (both show cinnamon). Keep both?",
+        "Unchanged from the October draft: which villa experiences tour guests can book, entry charges, hatchery/museum names, photo rights, stay length, journey times."
+      ],
+      "existingExperiences": [
+        {
+          "id": "hikkaduwa-cinnamon",
+          "kind": "activity",
+          "changes": {},
+          "reason": "Hands-on, so 'activity'. Text is fine; the duration field describes the villa product — keep only if it applies to tour guests (owner question).",
+          "sources": []
+        },
+        {
+          "id": "hikkaduwa-sea-turtles",
+          "kind": "attraction",
+          "changes": {},
+          "reason": "Wild turtles at Turtle Beach in the town itself; text already responsible.",
+          "sources": [
+            "https://en.wikipedia.org/wiki/Hikkaduwa_National_Park"
+          ]
+        },
+        {
+          "id": "hikkaduwa-turtle-hatchery",
+          "kind": "attraction",
+          "changes": {
+            "name": "Turtle hatchery",
+            "shortDescription": "A privately run hatchery where turtle eggs are incubated and turtles kept in tanks. A captive facility, not a wild encounter."
+          },
+          "reason": "'Rescue centre' and 'how they are cared for' come from the villa site and imply welfare/conservation benefits, which the brief rules out. Details text is already neutral.",
+          "sources": [
+            "https://www.srilanka.travel/attraction?attraction_id=53"
+          ]
+        },
+        {
+          "id": "hikkaduwa-moonstone-mine",
+          "kind": "excursion",
+          "changes": {
+            "shortDescription": "See the hand-dug moonstone pits at Meetiyagoda and watch the stones being cut and polished; most workshops have a showroom.",
+            "where": "Meetiyagoda, inland between Hikkaduwa and Ambalangoda"
+          },
+          "reason": "Softer sales framing ('chance to buy' → showroom mentioned neutrally) and a clearer location. Kind 'excursion' because it is inland, off the coast road.",
+          "sources": []
+        },
+        {
+          "id": "hikkaduwa-rathgama-lagoon-kayaking",
+          "kind": "activity",
+          "changes": {},
+          "reason": "Fine as is. Category stays nature (bird-watching paddle), not water sports.",
+          "sources": []
+        },
+        {
+          "id": "hikkaduwa-tsunami-museum",
+          "kind": "attraction",
+          "changes": {
+            "name": "Tsunami museum and Peraliya memorial",
+            "where": "Peraliya and Telwatta, a few kilometres north of Hikkaduwa on the Galle Road",
+            "details": "Small community museums along the Galle Road remember the 2004 tsunami, which wrecked a crowded train at Peraliya; well over a thousand people are thought to have died there. The railway memorial and the Tsunami Honganji Vihara, a tall standing Buddha with victims' names at its base, are nearby. Some photographs are graphic. Visit quietly and dress modestly."
+          },
+          "reason": "Adds the memorial and statue without the unverified 30 m height; adds where, since the museums are outside town.",
+          "sources": [
+            "https://en.wikipedia.org/wiki/2004_Sri_Lanka_tsunami_train_wreck",
+            "https://archives.dailynews.lk/2006/12/20/fea01.asp",
+            "https://megaconstrucciones.net/en/peraliya-buddha-tsunami-memorial/"
+          ]
+        },
+        {
+          "id": "hikkaduwa-spice-garden",
+          "kind": "attraction",
+          "changes": {},
+          "reason": "Fine. Location unknown until the owner names the garden.",
+          "sources": []
+        }
+      ],
+      "newExperiences": [
+        {
+          "id": "hikkaduwa-herbal-cloth-weaving",
+          "destinationId": "hikkaduwa",
+          "kind": "activity",
+          "category": "local-life",
+          "name": "Handloom weaving and natural dyeing workshop",
+          "shortDescription": "Watch cotton being dyed and woven on wooden handlooms at a small workshop near Hikkaduwa, with a shop selling the finished cloth.",
+          "details": "Small family workshops in the Hikkaduwa and Galle area weave cotton on foot-treadle handlooms, and some colour the yarn with plant dyes such as turmeric or tree bark. A visit shows the dyeing and the looms at work and usually ends in a shop, with no obligation to buy. Most visits take under an hour. How 'herbal' the dyes are varies from workshop to workshop.",
+          "sources": [
+            "https://eranorrissrilanka.com/experiences.html",
+            "https://eranorrissrilanka.com/guide.html",
+            "https://www.excursionmania.com/ttd/8900/sooriya-weaving-mills-blg-8900",
+            "https://www.tripadvisor.com/Attraction_Review-g297896-d8812664-Reviews-Sooriya_Weaving-Galle_Galle_District_Southern_Province.html",
+            "https://www.teardrop-hotels.com/experiences/heritage-handloom-weaving/",
+            "https://sundayobserver.lk/2023/12/17/business/12227/sri-lankas-natural-dye-tradition",
+            "https://bizenglish.adaderana.lk/legacy-in-colour-sri-lankas-timeless-natural-dye-tradition/",
+            "https://www.timeout.com/sri-lanka/shopping-and-style/where-to-go-for-handlooms-and-batiks"
+          ],
+          "notes": "Requested by you. No workshop called a 'herbal cloth weaving & colour factory' could be identified near Hikkaduwa. What exists: (1) family handloom workshops near Galle with natural-dyed cotton, e.g. Sooriya Weaving at Wanchawela, about 7 km from Galle (Tripadvisor/ExcursionMania: women weavers, natural dyes, short visits, shop; no formal tours), and a 'family-run studio on the outskirts of Galle' sold through Teardrop hotels; (2) batik workshops, which Time Out says Hikkaduwa and Galle are known for; (3) a 'natural silk factory' with showroom at Gintota, a standard free stop on Hikkaduwa tuk-tuk excursions. The villa text (spinning, dyeing, looms, sold on the spot, free entry) fits (1) or a hybrid; 'factory'/'free entry' with a shop is typical of commission-based stops. Keep the card generic, without 'where', until the owner names it. Category local-life (crafts); 'culture' would also work. Do not imply the tour includes it."
+        },
+        {
+          "id": "hikkaduwa-reef-snorkelling",
+          "destinationId": "hikkaduwa",
+          "kind": "activity",
+          "category": "water",
+          "name": "Snorkelling on the Hikkaduwa reef",
+          "shortDescription": "Snorkel from the beach over the shallow reef of Hikkaduwa National Park, with reef fish and often turtles. Calmest from about November to April.",
+          "details": "The reef at the north end of the beach is a marine national park, on average only about 5 m deep. Much of the coral has been damaged by bleaching and heavy use and is being restored, but reef fish are plentiful and green turtles are often seen. Snorkel on calm days in the marked areas, keep your fins off the reef and never touch coral, which is prohibited. Turtle sightings are never guaranteed.",
+          "season": "About November to April, on calm days",
+          "sources": [
+            "https://www.dwc.gov.lk/?page_id=817",
+            "https://www.srilanka.travel/attraction?attraction_id=156",
+            "https://en.wikipedia.org/wiki/Hikkaduwa_National_Park",
+            "https://english.newsfirst.lk/2023/3/27/sri-lanka-aiming-to-boost-coral-ecosystems"
+          ],
+          "notes": "DWC lists Hikkaduwa for snorkelling and boat safari. Any park entry charge for snorkellers not confirmed — not mentioned. Glass-bottom boats deliberately not proposed as a card (reported reef-top damage); they stay in the guide, described neutrally."
+        },
+        {
+          "id": "hikkaduwa-surfing",
+          "destinationId": "hikkaduwa",
+          "kind": "activity",
+          "category": "water",
+          "name": "Surfing and surf lessons",
+          "shortDescription": "Surf Hikkaduwa's reef breaks, or learn on the gentler waves further south around Narigama. The season runs from about November to April.",
+          "details": "Hikkaduwa's surf season follows the north-east monsoon, roughly November to April. The reef breaks off the main beach suit experienced surfers, while the softer waves around Narigama are where most schools give lessons and rent boards. Reef and rock lie close to the surface at some breaks, so ask locally about the day's conditions and stay within your ability.",
+          "season": "About November to April",
+          "sources": [
+            "https://www.srilanka.travel/attraction?attraction_id=156",
+            "https://en.wikipedia.org/wiki/Hikkaduwa",
+            "https://www.surf-forecast.com/breaks/Main-Reef_Hikkaduwa"
+          ],
+          "notes": "Sri Lanka Tourism gives November–March; Wikipedia October/November–March/April. 'About November to April' matches the guide."
+        },
+        {
+          "id": "hikkaduwa-diving",
+          "destinationId": "hikkaduwa",
+          "kind": "activity",
+          "category": "water",
+          "name": "Scuba diving: reefs and wrecks",
+          "shortDescription": "Dive the reefs and wrecks off Hikkaduwa, including the Conch, an oil tanker lost in 1903. Best in the calmer months, about November to April.",
+          "details": "Dive centres in Hikkaduwa run boat dives to deeper reefs and several wrecks in the calmer months, roughly November to April, including the Conch, an oil tanker wrecked in 1903. Beginners can take introductory dives and courses. Choose a centre registered with Sri Lanka Tourism and affiliated with an international training agency, and check its equipment and boat safety gear.",
+          "season": "About November to April",
+          "sources": [
+            "https://www.srilanka.travel/attraction?attraction_id=156",
+            "https://blog.citrusleisure.com/?p=96"
+          ],
+          "notes": "Sri Lanka Tourism mentions 'several wrecks' off Hikkaduwa. Conch date from a dive-operator blog only (one source) — re-check or drop the year. SLTDA treats diving as a water-based adventure activity for registration; could not confirm a specific dive-centre licensing rule (web-search budget exhausted), so the text gives it as advice, not as a legal requirement."
+        }
+      ]
+    },
+    "bentota": {
+      "missing": [
+        "The guide never mentioned the Madu Ganga except in 'More to see', though the card is built on it → paragraph in 'On the river' plus an FAQ ('Is the Madu River the same as the Bentota River?')",
+        "Captive-animal extras on Madu River trips (baby crocodile photos, 'fish therapy') → described neutrally as captive animals, handling discouraged; owner question",
+        "Water-sports safety was one line → expanded (briefing, fitted life jacket, keep away from swimmers, no alcohol)",
+        "Induruwa and Ayurveda → added to 'More to see nearby'",
+        "Lunuganga and Brief Garden had no cards → proposed bentota-lunuganga and bentota-brief-garden",
+        "Kosgoda hatcheries → kept as a neutral captive-facility mention; not proposed as an experience (per brief)",
+        "Galapata Raja Maha Vihara → stays in the guide; no card (little demand)"
+      ],
+      "corrections": [
+        {
+          "old": "Ambalangoda, a little further south, is known for its carved wooden masks.",
+          "new": "Ambalangoda, about 25 km south beyond the Madu Ganga, is known for its carved wooden masks, used in healing rituals and folk theatre, with workshops and museums.",
+          "reason": "Gives a distance (Colombo–Bentota about 65 km, Colombo–Ambalangoda about 87 km) and what the masks are.",
+          "sources": [
+            "https://en.wikipedia.org/wiki/Bentota",
+            "https://en.wikipedia.org/wiki/Ambalangoda",
+            "https://srilanka.travel/wellness-tourism/The_masks_of_Ambalangoda_from_healing_to_performance"
+          ]
+        }
+      ],
+      "experienceGuideIdeas": [
+        {
+          "topic": "Madu River boat safari: what to expect",
+          "searchIntent": "madu river safari / madu ganga boat tour / balapitiya boat ride",
+          "why": "High-volume query; a page could explain the Ramsar wetland, the island temple, and honestly flag the crocodile-photo and fish-pool stops."
+        },
+        {
+          "topic": "Visiting Lunuganga and Brief Garden",
+          "searchIntent": "lunuganga tour / geoffrey bawa house bentota / brief garden bentota",
+          "why": "Architecture travellers search for this; the Trust's tour-only rule and booking options are often misunderstood."
+        }
+      ],
+      "ownerQuestions": [
+        "The villa Madu River tour lists a 'baby crocodile photo' and 'fish therapy' as extras. Are these still part of it? The site must not promote them; can tour guests take the trip without them?",
+        "From Bentota, which river do guests use — Bentota River, Madu Ganga or either — and is the Ambalangoda mask museum always included?",
+        "Do you suggest Lunuganga and/or Brief Garden? Is Brief Garden currently open (its website shows no visiting details)?",
+        "Do you recommend particular water-sports operators, and are they SLTDA-registered with life jackets for all sizes?",
+        "Unchanged from the October draft: stay length, end-of-tour beach, hero photo, journey times."
+      ],
+      "existingExperiences": [
+        {
+          "id": "bentota-river-safari",
+          "kind": "activity",
+          "changes": {
+            "name": "River safari and Ambalangoda masks",
+            "shortDescription": "A mangrove boat trip on the Bentota River, or on the Madu River at Balapitiya further south, which pairs well with the mask museums of Ambalangoda.",
+            "where": "Bentota River at Bentota; Madu Ganga at Balapitiya, about 20 km south; masks at Ambalangoda, about 25 km south",
+            "details": "Two different rivers. Bentota River boats wind upstream from the river mouth between mangroves and islets for one to three hours. The Madu Ganga at Balapitiya, about 20 km south, is a Ramsar-listed estuary with an island temple, and Ambalangoda's mask museums are a short drive beyond. Birds and water monitors are common, crocodiles occasional. Some boats offer photos holding a captive young crocodile; decline."
+          },
+          "reason": "The current text reads as if the mask museum were on the Bentota River trip and doesn't say the two rivers are separate places 20 km apart. The new name says which masks; 'decline' covers the villa tour's captive-crocodile extra, which the site must not promote. Category nature and the id stay. If you would rather keep it simple, consider splitting into bentota-river-safari (Bentota River only) and a separate Madu Ganga card.",
+          "sources": [
+            "https://www.srilanka.travel/attraction?attraction_id=52",
+            "https://rsis.ramsar.org/ris/1372",
+            "https://en.wikipedia.org/wiki/Madu_Ganga",
+            "https://en.wikipedia.org/wiki/Ambalangoda",
+            "https://www.atlasandboots.com/?p=24801",
+            "https://eranorrissrilanka.com/experiences.html"
+          ]
+        },
+        {
+          "id": "bentota-water-sports",
+          "kind": "activity",
+          "changes": {
+            "category": "water",
+            "shortDescription": "Jet skis, water-skiing, banana boats and windsurfing on the sheltered Bentota River near the mouth. Ask for a briefing and wear a life jacket.",
+            "details": "Jet skis, water-skiing, wakeboarding, banana boats and windsurfing run mostly on the sheltered river and lagoon near the mouth, away from the open sea. Operators vary: ask for a safety briefing, wear a life jacket that fits, keep jet skis well clear of swimmers and fishing boats, and don't go out after drinking. The sea itself is calmer from about November to April."
+          },
+          "reason": "'water' is the new category for water sports. The old short text ('Water sports on Bentota's river and beach') said little and implied the open beach.",
+          "sources": [
+            "https://www.srilanka.travel/attraction?attraction_id=52",
+            "https://en.wikipedia.org/wiki/Bentota"
+          ]
+        }
+      ],
+      "newExperiences": [
+        {
+          "id": "bentota-lunuganga",
+          "destinationId": "bentota",
+          "kind": "attraction",
+          "category": "culture",
+          "name": "Lunuganga, Geoffrey Bawa's garden",
+          "shortDescription": "Tour the country garden of the architect Geoffrey Bawa, shaped over decades on a former plantation inland from Bentota.",
+          "details": "Bawa bought the former rubber and cinnamon estate in 1948 and spent decades shaping it into terraces, lake views and pavilions. The Geoffrey Bawa Trust shows it only on its own guided tours at set times each day; outside guides are not allowed. Expect steps, steep slopes and uneven paths. Times, booking options and photography rules are on the Trust's website.",
+          "where": "A short drive inland from Bentota",
+          "sources": [
+            "https://geoffreybawa.com/lunuganga",
+            "https://en.wikipedia.org/wiki/Bentota"
+          ],
+          "notes": "Trust page (Nov 2026): garden tours daily at 11:00, 14:00 and 15:00, no reservation needed; private and curatorial tours booked ahead; third-party tours not permitted; publishing photos needs written approval. Not quoted on the card. Exact distance from Bentota not confirmed — 'short drive'. Kind 'attraction' with where; change to 'excursion' if the drive is more than about 20 minutes."
+        },
+        {
+          "id": "bentota-brief-garden",
+          "destinationId": "bentota",
+          "kind": "excursion",
+          "category": "culture",
+          "name": "Brief Garden (Bevis Bawa's garden)",
+          "shortDescription": "Wander the sculpture-filled garden of the landscape designer Bevis Bawa, Geoffrey Bawa's brother, on a former rubber estate inland from Bentota.",
+          "details": "Bevis Bawa began the garden on a former rubber estate near Kalawila and developed it until his death in 1992. It is looser and more personal than Lunuganga, with sculpture, terraces and shady paths, and has long been open to visitors. Check that it is open before going; most people spend about an hour.",
+          "where": "Kalawila, about 10 km inland from Bentota",
+          "sources": [
+            "https://livingmagazine.lk/bevis-bawas-brief-garden/",
+            "https://www.life.lk/article/travel/A-Visit-to-Brief-Garden/58/21446",
+            "https://en.wikipedia.org/wiki/Bentota"
+          ],
+          "notes": "Start date conflict: 1929 (most sources, Wikipedia) vs 1949 — left out. briefgarden.com showed no visiting information when fetched (Nov 2026); current opening unconfirmed — owner question. 'About an hour' is an estimate."
+        }
+      ]
+    },
+    "mirissa": {
+      "missing": [
+        "Weligama surf lessons had one clause → expanded, FAQ added, proposed mirissa-weligama-surf-lesson",
+        "Matara (Dutch fort, Star Fort) → added; Dondra lighthouse height (49 m) added; proposed mirissa-matara-dondra-head",
+        "Hiriketiya and the Hummanaya blowhole → added as one 'Along the coast' bullet (see candidates)",
+        "Koggala/Ahangama stilt fishing → one bullet pointing to the Galle guide",
+        "Whale-watching rules (licensed boat, registered guide, 100 m) → one sentence in the whale section",
+        "Snorkelling spots at Mirissa → left out: no reliable source on safe spots",
+        "Parrot Rock and Secret Beach as cards → not proposed: already in the guide; little value as planner items",
+        "Kushtarajagala rock carving at Weligama (6th–9th century bodhisattva relief, 3 m) → left out: single source (Wikipedia); worth adding if confirmed"
+      ],
+      "corrections": [
+        {
+          "old": "Its tall white lighthouse was first lit in 1890.",
+          "new": "Its 49 m white lighthouse was completed in 1890.",
+          "reason": "Sources say 'completed and commissioned in March 1890'; adds the height.",
+          "sources": [
+            "https://en.wikipedia.org/wiki/Dondra_Head_Lighthouse"
+          ]
+        }
+      ],
+      "experienceGuideIdeas": [
+        {
+          "topic": "Learning to surf at Weligama",
+          "searchIntent": "weligama surf lessons / learn to surf sri lanka beginners",
+          "why": "Big beginner-surf query; fits a Mirissa stay."
+        },
+        {
+          "topic": "Mirissa, Weligama, Hiriketiya or Tangalle: where to stay on the south coast",
+          "searchIntent": "mirissa vs weligama / where to stay south coast sri lanka",
+          "why": "Comparison query that helps route planning and covers the candidate places without new destination pages."
+        }
+      ],
+      "ownerQuestions": [
+        "Whale-watching pickup 'around 8 a.m.' on the villa site vs 6–7 am Mirissa departures — which is right?",
+        "Do you suggest Weligama surf lessons, Matara/Dondra Head, Hiriketiya or Tangalle to tour guests?",
+        "Unchanged from the October draft: whale-watching terms and boat licensing, Coconut Tree Hill access, stay length, hero/experience photo rights."
+      ],
+      "existingExperiences": [
+        {
+          "id": "mirissa-whale-watching",
+          "kind": "activity",
+          "changes": {
+            "details": "Boats leave Mirissa harbour around dawn for the deep water just off the south coast, where blue whales, sperm whales and spinner dolphins feed. Trips usually spend 3–5 hours at sea and run from about November to April. Licensed boats must carry a registered guide and keep at least 100 m from whales; sightings are common in season but never guaranteed."
+          },
+          "reason": "Adds the two rules a traveller can check (registered guide, 100 m) from the 2012 regulations, as suggested in the October research.",
+          "sources": [
+            "https://faolex.fao.org/docs/pdf/srl133799.pdf",
+            "https://srilanka.travel/whale-watching"
+          ]
+        },
+        {
+          "id": "mirissa-coconut-tree-hill",
+          "kind": "attraction",
+          "changes": {},
+          "reason": "Accurate; private land caveat already there. No new access news found after 2021.",
+          "sources": [
+            "https://en.wikipedia.org/wiki/Coconut_Tree_Hill"
+          ]
+        }
+      ],
+      "newExperiences": [
+        {
+          "id": "mirissa-weligama-surf-lesson",
+          "destinationId": "mirissa",
+          "kind": "activity",
+          "category": "water",
+          "name": "Surf lesson at Weligama",
+          "shortDescription": "Learn to surf on the gentle waves of Weligama Bay, a few minutes west of Mirissa. Lessons run mainly from about November to April.",
+          "details": "Weligama's long, sandy bay has soft, forgiving waves and many surf schools, which makes it one of Sri Lanka's most popular places to learn. A first lesson usually starts with the basics on the sand, then time in the whitewater with an instructor. Lessons run mainly in the calmer months; ask about the day's conditions and check that boards and leashes are in good order.",
+          "where": "Weligama Bay, about 5 km west of Mirissa",
+          "season": "Mainly about November to April",
+          "sources": [
+            "https://www.roughguides.com/sri-lanka/best-surf-spots/",
+            "https://en.wikipedia.org/wiki/Ahangama",
+            "https://en.wikipedia.org/wiki/Weligama"
+          ],
+          "notes": "No official surf-season source for Weligama; Rough Guides and general south-coast seasons. Some schools operate year-round in the bay — 'mainly' covers that. Kind 'activity' with where (about 10–15 minutes)."
+        },
+        {
+          "id": "mirissa-matara-dondra-head",
+          "destinationId": "mirissa",
+          "kind": "excursion",
+          "category": "history",
+          "name": "Matara forts and Dondra Head lighthouse",
+          "shortDescription": "See Matara's Dutch forts and the 49 m lighthouse at Dondra Head, the southernmost point of Sri Lanka, a short drive east of Mirissa.",
+          "details": "Matara keeps a Dutch rampart fort by the sea and the small Star Fort of the 1760s, built to guard the river crossing and restored by the Department of Archaeology. Dondra Head, about 6 km beyond, is the island's southernmost point; its 49 m white lighthouse was completed in 1890. Most people take two to three hours for both, including the drive.",
+          "where": "Matara, about 20 minutes east of Mirissa, and Dondra Head, about 6 km further",
+          "sources": [
+            "https://en.wikipedia.org/wiki/Star_Fort,_Matara",
+            "https://en.wikipedia.org/wiki/Dondra_Head_Lighthouse"
+          ],
+          "notes": "Wikipedia only (two articles); no official tourism page checked. Whether visitors can climb the Dondra lighthouse is not confirmed — not claimed. The Paravi Duwa island temple in Matara could be added if verified. 'Two to three hours' is an estimate."
+        }
+      ]
+    }
+  },
+  "candidates": [
+    {
+      "place": "Weligama",
+      "recommendation": "Not a separate destination page. Cover it from Mirissa: the surf-lesson card (mirissa-weligama-surf-lesson) and the 'Along the coast' bullet.",
+      "priority": "low",
+      "nearestExisting": "mirissa",
+      "summary": "A town on a long, sandy bay about 5 km west of Mirissa (Matara District, about 144 km from Colombo), with a large fishing fleet and one of Sri Lanka's best-known beginner surf beaches. Many travellers stay there instead of Mirissa, but what it offers beyond surfing is covered by the Mirissa page, and it is 10–15 minutes away.",
+      "attractions": [
+        "Weligama Bay beginner surf and surf schools",
+        "Taprobane, a tiny island with a private villa built by Count de Mauny",
+        "Kushtarajagala (Kusta Raja Gala), a 3 m rock-cut bodhisattva relief of about the 6th–9th century (single source)",
+        "Beeralu lace-making (Portuguese-introduced household craft)",
+        "Stilt fishing on the nearby coast"
+      ],
+      "routes": "On the A2 and the Colombo–Matara coastal railway (Weligama station). About 5 km/10–15 minutes from Mirissa, about 30 km/45 minutes–1 hour from Galle. Same route position as Mirissa (Galle → Mirissa → Yala/Udawalawe).",
+      "season": "About November to April for calm seas and surf lessons; rough in the south-west monsoon.",
+      "sources": [
+        "https://en.wikipedia.org/wiki/Weligama",
+        "https://www.roughguides.com/sri-lanka/best-surf-spots/",
+        "https://www.srilanka.travel/pristine-beach-holidays",
+        "https://en.wikipedia.org/wiki/Ahangama"
+      ],
+      "proposedExperiences": [
+        "mirissa-weligama-surf-lesson (see destinations.mirissa.newExperiences)"
+      ]
+    },
+    {
+      "place": "Ahangama",
+      "recommendation": "Not needed as a destination. Its sights are already proposed as Galle excursions (stilt fishing, Handunugoda tea estate, Koggala Lake, Martin Wickramasinghe museum).",
+      "priority": "none",
+      "nearestExisting": "galle",
+      "summary": "A small coastal town about 18 km east of Galle in Galle District, with surf breaks, villas and surf-camp accommodation strung along the A2. Its interest for a private-tour visitor is the stretch it shares with Koggala, which fits a half-day from Galle or a stop between Galle and Mirissa.",
+      "attractions": [
+        "Stilt fishermen (Koggala–Ahangama stretch)",
+        "Handunugoda tea estate (white tea)",
+        "Martin Wickramasinghe museum, about 4 km west at Koggala",
+        "Koggala Lake",
+        "Kataluwa Purvarama temple with 19th-century murals (single source)",
+        "Surf breaks (Ahangama, Midigama)"
+      ],
+      "routes": "On the A2 and the coastal railway, about 18 km/30–40 minutes from Galle and about 15 km/25–30 minutes from Mirissa.",
+      "season": "About November to April for the sea; the stilt fishermen fish mainly in the south-west monsoon months.",
+      "sources": [
+        "https://en.wikipedia.org/wiki/Ahangama",
+        "https://www.thenationalnews.com/news/asia/2024/11/22/sri-lanka-stilt-fishing-galle",
+        "https://en.wikipedia.org/wiki/Martin_Wickramasinghe_Folk_Museum"
+      ],
+      "proposedExperiences": [
+        "galle-stilt-fishing",
+        "galle-handunugoda-tea-estate",
+        "galle-koggala-lake",
+        "galle-martin-wickramasinghe-museum (all in destinations.galle.newExperiences)"
+      ]
+    },
+    {
+      "place": "Hiriketiya",
+      "recommendation": "Not a separate page now. Mentioned in the Mirissa guide; reconsider only if the owner serves surf travellers there.",
+      "priority": "low",
+      "nearestExisting": "mirissa",
+      "summary": "A small horseshoe bay just outside Dikwella (Matara District, about 22 km east of Matara), known among surfers and younger travellers. No coverage on Sri Lanka Tourism's beach page; mainly blog and operator coverage. Nearby are the Hummanaya blowhole and the Wewurukannala temple's giant seated Buddha.",
+      "attractions": [
+        "Hiriketiya bay surf break",
+        "Dikwella beach, sheltered by headlands and reef",
+        "Hummanaya blowhole at Kudawella (spray up to about 25–30 m in big swell)",
+        "Wewurukannala Vihara, Dikwella, with a 50 m seated Buddha (temple name not confirmed in the source read)"
+      ],
+      "routes": "About 32–35 km/45 minutes–1 hour east of Mirissa via Matara; about 15–20 km west of Tangalle. Lies on the coast road towards Yala.",
+      "season": "About November to April for calmer seas; check locally for surf conditions.",
+      "sources": [
+        "https://en.wikipedia.org/wiki/Dikwella",
+        "https://en.wikipedia.org/wiki/Hummanaya",
+        "https://lakpura.rezdy.com/337934/hiriketiya-by-tuk-tuk-safari",
+        "https://www.srilanka.travel/pristine-beach-holidays"
+      ],
+      "proposedExperiences": [
+        {
+          "id": "mirissa-hummanaya-blowhole",
+          "destinationId": "mirissa",
+          "kind": "excursion",
+          "category": "nature",
+          "name": "Hummanaya blowhole",
+          "shortDescription": "Watch the sea burst through a rock blowhole at Kudawella, east of Mirissa, best when the swell is big. A short walk from the road.",
+          "details": "At Kudawella, near Dikwella, waves force water up through a crack in the rocks, throwing spray as high as 25–30 m when the swell is big and much less on calm days. There is a viewing platform and a small visitor centre. Keep behind the barriers and away from wet rock edges. Often combined with Hiriketiya or the Wewurukannala temple.",
+          "where": "Kudawella, near Dikwella, about 45 minutes to an hour east of Mirissa",
+          "season": "Most active when the swell is big; ask locally",
+          "sources": [
+            "https://en.wikipedia.org/wiki/Hummanaya"
+          ],
+          "notes": "Single source (Wikipedia). Which months are best could not be confirmed (often said to be the south-west monsoon). 'Keep behind the barriers' assumes barriers exist — verify. Move to a Tangalle page if one is created (it is 12 km from Tangalle)."
+        }
+      ]
+    },
+    {
+      "place": "Tangalle",
+      "recommendation": "Own destination page, medium priority — but only if the owner routes guests along the coast to Yala. Otherwise mention it from Mirissa.",
+      "priority": "medium",
+      "nearestExisting": "mirissa",
+      "summary": "A town on one of the island's largest bays (Hambantota District, about 195 km from Colombo and 35 km east of Matara), with quieter beaches than the south-west coast and a different set of sights: Rekawa, which the Department of Wildlife Conservation lists as a turtle-watching site where wild turtles nest at night; the Mulkirigala rock temple; the Hummanaya blowhole; and Kalametiya's lagoons. Sri Lanka Tourism names 'Tangalla' among the best southern beaches. It sits on the coast route from Mirissa to Yala, so it works as a one- or two-night stop.",
+      "attractions": [
+        "Tangalle bay and beaches; Parewella natural swimming area",
+        "Rekawa turtle watching (DWC-listed): five species nest on the beach at night; wild, never guaranteed",
+        "Mulkirigala Raja Maha Vihara: cave temples on a 205 m rock, Kandyan-era paintings, about 20 km north",
+        "Hummanaya blowhole, Kudawella, about 12 km",
+        "Kalametiya bird sanctuary (lagoons and mangroves), about 24 km east",
+        "Dutch fort (now a prison), rest house and court house in town",
+        "Hiriketiya and Wewurukannala (Dikwella) to the west"
+      ],
+      "routes": "About 45 km/1–1.25 hours east of Mirissa; about 75–80 km/1.5–2 hours to Tissamaharama for Yala (estimate); Udawalawe roughly 1.5–2 hours via Embilipitiya (estimate); airport about 3–3.5 hours via the Southern Expressway (estimate). Natural stop between Mirissa and Yala.",
+      "season": "Calmest seas about November to April. Rekawa nesting occurs through much of the year; peak months not confirmed.",
+      "sources": [
+        "https://en.wikipedia.org/wiki/Tangalle",
+        "https://www.dwc.gov.lk/?page_id=817",
+        "https://www.srilanka.travel/pristine-beach-holidays",
+        "https://en.wikipedia.org/wiki/Mulkirigala_Raja_Maha_Vihara",
+        "https://en.wikipedia.org/wiki/Hummanaya"
+      ],
+      "proposedExperiences": [
+        {
+          "id": "tangalle-rekawa-turtle-watch",
+          "destinationId": "tangalle",
+          "kind": "excursion",
+          "category": "wildlife",
+          "name": "Night turtle watching at Rekawa",
+          "shortDescription": "Wait on Rekawa beach at night for wild sea turtles coming ashore to nest. Watch quietly, without flash; sightings are never guaranteed.",
+          "details": "Sea turtles, five species in all, come ashore on Rekawa beach east of Tangalle to nest at night, and the Department of Wildlife Conservation lists it as a turtle-watching site. You wait until a nesting turtle is found, then watch from a distance with dim red light or none, no flash and no touching. Some nights bring several turtles, others none.",
+          "where": "Rekawa, about 10 km east of Tangalle",
+          "sources": [
+            "https://www.dwc.gov.lk/?page_id=817",
+            "https://en.wikipedia.org/wiki/Tangalle"
+          ],
+          "notes": "Only if a Tangalle page is created (destinationId 'tangalle' does not exist yet); from Mirissa it is too far for a night visit (about 1.5 hours each way). Who runs the watch (community programme/TCP with DWC) and current visiting arrangements need confirming. This is wild nesting, unlike the Kosgoda/Hikkaduwa hatcheries."
+        },
+        {
+          "id": "tangalle-mulkirigala",
+          "destinationId": "tangalle",
+          "kind": "excursion",
+          "category": "history",
+          "name": "Mulkirigala rock temple",
+          "shortDescription": "Climb past cave shrines with Kandyan-era paintings and reclining Buddhas to the top of a 205 m rock north of Tangalle.",
+          "details": "A cave-temple complex on a 205 m rock, by tradition about 2,000 years old and enlarged under the Kandyan kings in the 18th century. Steep steps lead up past several cave shrines with Kandyan-era paintings of the Buddha's life and reclining Buddha images. It is a working temple: cover shoulders and knees and remove shoes. Allow about two hours, and go early before the rock heats up.",
+          "where": "Mulkirigala, about 20 km north of Tangalle",
+          "sources": [
+            "https://en.wikipedia.org/wiki/Mulkirigala_Raja_Maha_Vihara",
+            "https://en.wikipedia.org/wiki/Tangalle"
+          ],
+          "notes": "Wikipedia only (two articles). The Mahavamsa attributes the founding to King Saddhatissa (Wikipedia says 'third century'; most chronologies put him in the 2nd century BC) — hence 'by tradition about 2,000 years'. Number of steps not confirmed. Only if a Tangalle page is created; otherwise it is about 1–1.25 hours from Mirissa."
+        }
+      ]
+    }
+  ]
+}

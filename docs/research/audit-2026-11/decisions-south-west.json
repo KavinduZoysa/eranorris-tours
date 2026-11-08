@@ -1,0 +1,18 @@
+{
+  "drop": [],
+  "override": {
+    "hikkaduwa-turtle-hatchery": { "kind": "activity" },
+    "hikkaduwa-spice-garden": { "kind": "activity" },
+    "bentota-river-safari": { "name": "River safari and mask museum" },
+    "hikkaduwa-diving": {
+      "shortDescription": "Dive the reefs and wrecks off Hikkaduwa, including the Conch, an early oil tanker. Best in the calmer months, about November to April.",
+      "details": "Dive centres in Hikkaduwa run boat dives to deeper reefs and several wrecks in the calmer months, roughly November to April, including the Conch, an early oil tanker. Beginners can take introductory dives and courses. Choose a centre registered with Sri Lanka Tourism and affiliated with an international training agency, and check its equipment and boat safety gear."
+    }
+  },
+  "image": {
+    "galle-stilt-fishing": ["stilt-fishing", "Stilt fishermen silhouetted on their poles in the sea at sunset"],
+    "hikkaduwa-herbal-cloth-weaving": ["herbal-cloth-weaving", "A weaver working at a wooden handloom"]
+  },
+  "skipExisting": [],
+  "candidates": ["mirissa-hummanaya-blowhole"]
+}

@@ -6,7 +6,7 @@ description: Plan a trip to Arugam Bay: the surf points and season, swimming saf
 intro: A small, laid-back surf town on the south-east coast, busiest from about April to October, when its point breaks are in season and the weather is dry.
 stay: 2–3 nights; surfers often stay a week or more
 gettingThere: About 7–8 hours by road from the airport; about 3–4 hours from Ella
-bestTime: April to October for surf and dry weather; busiest in July and August
+bestTime: About April to October for surf and dry weather; busiest in July and August
 goodFor: Surfing, a slow beach stay, lagoons and wildlife, Kumana National Park
 combine:
   - ella | About 3–4 hours via Wellawaya and Monaragala; the usual link between the hills and the east coast
@@ -20,13 +20,17 @@ sources:
   - Sri Lanka Tourism — Muhudu Maha Viharaya | https://www.srilanka.travel/attraction?attraction_id=142
   - Sri Lanka Tourism — Kudumbigala Monastery | https://www.srilanka.travel/attraction?attraction_id=113
   - Sri Lanka Tourism — beach seasons on each coast | https://www.srilanka.travel/pristine-beach-holidays
+  - Sri Lanka Tourism — Okanda | https://www.srilanka.travel/attraction?attraction_id=99
+  - Department of Wildlife Conservation (park notices) | https://www.dwc.gov.lk/
+  - UK Foreign Office — Sri Lanka travel advice | https://www.gov.uk/foreign-travel-advice/sri-lanka
 verify:
   - Do we include Arugam Bay in our tours, and will drivers stay over for multi-night surf stays?
   - Can our vehicles carry surfboards (roof racks, space in the van)?
   - Do we arrange surf lessons, board hire, lagoon trips or Kumana jeep safaris, or do guests book these locally? The surfing card comes from the design text only.
   - Recommended stay — the design suggests 2 nights; the page says 2–3. Which do we advise?
-  - Should the page tell guests to check their government’s travel advice? Several governments issued a short-lived security alert for Arugam Bay in October 2024, lifted in November 2024.
-  - Arugam Bay hero photo (coastline and lagoon at sunrise, from above) — rights confirmed, including any drone-photo permissions, and does it show Arugam Bay?
+  - The FAQ now tells guests to check their government’s travel advice and mentions the October 2024 alert and its lifting in November 2024 (the UK advice updated in September 2026 no longer names Arugam Bay). Keep it, cut it to a one-line "check your government’s advice", or remove it? Re-check all advisories just before publishing.
+  - Do drivers go on from Arugam Bay to Kumana, Kudumbigala or Lahugala, and do they wait during a Kumana jeep safari? The page lists these only as nearby places.
+  - Cyclone Ditwah (late 2025): no report was found on the Monaragala–Pottuvil (A4) road or the Ella–Wellawaya road in 2026. Please confirm the roads to Arugam Bay are normal.
   - The journey times here are researched ranges, not our own measured times. Please confirm or correct them from experience.
 ---
 
@@ -44,8 +48,9 @@ Sri Lanka Tourism gives the surf season as April to October, when the south-west
 - **Pottuvil Point**, north of Pottuvil, is a long wave along a boulder-strewn beach, favoured by intermediates.
 - **Elephant Rock** and **Peanut Farm**, south of town, are softer on small days and popular with learners and surf schools.
 - **Okanda**, roughly 25 km south near Kumana, is more remote and better for strong surfers.
+- **Lighthouse**, well north of Pottuvil, is quieter, with waves for different levels, for those who want to escape the crowds.
 
-Lessons and board hire are easy to find in season. Several breaks have reef or boulders underneath and busy line-ups in peak months, so start where your level fits and ask locally about the day’s conditions.
+Lessons and board hire are easy to find in season. Several breaks have reef or boulders underneath and busy line-ups in peak months, so start where your level fits and ask locally about the day’s conditions. Sandbanks shift, too: Whiskey Point, north of town, was long recommended for learners but has been unreliable since erosion damaged it. Crocodiles live in the lagoons beside Pottuvil Point, Peanut Farm and Elephant Rock, and wild elephants cross the road south of town, so don’t walk or ride a scooter there after dark.
 
 ## Swimming and the sea
 
@@ -53,22 +58,24 @@ Arugam Bay is a surf beach first. The calmer water is usually in the bay away fr
 
 ## Lagoons, elephants and Kumana
 
-- **Lagoons.** Arugam Lagoon behind the bay and Pottuvil Lagoon to the north are fringed with mangroves and good for birds. Crocodiles live in both, so keep out of the water there.
+- **Lagoons.** Arugam Lagoon behind the bay and Pottuvil Lagoon to the north are fringed with mangroves and good for birds. Boat trips on Pottuvil Lagoon, usually early or late in the day, wind through the mangroves past herons, kingfishers and monitor lizards; elephants sometimes come to the water’s edge. Crocodiles live in both lagoons, so keep out of the water there.
+- **Elephant Rock.** A short ride south of town and a sandy walk bring you to this boulder above the beach, with wide views over the coast and lagoon at sunset. Leave before dark, when elephants move through the scrub.
 - **Elephants.** Wild elephants move between Lahugala and Kumana. Herds gather at the tanks of Lahugala Kitulana National Park, about 16 km inland on the Monaragala road, especially in the dry months, and elephants are sometimes seen near Elephant Rock and on the Panama road. Watch from a distance and never feed them; sightings are never guaranteed.
-- **Kumana National Park**, about 40 km south via Panama and Okanda, adjoins Yala and is known above all for birds: from about April to July, tens of thousands of waterbirds gather at the Kumana Villu swamp. Entry requires a permit and a guide from the park office at Okanda. Parks can close at short notice for drought or heavy rain, so check before you go.
+- **Kumana National Park**, about 40 km south via Panama and Okanda, adjoins Yala and is known above all for birds: from about April to July, tens of thousands of waterbirds gather to nest at the Kumana Villu swamp. Elephants, crocodiles and occasionally leopards are seen too. Visitors need a permit and a guide from the park office at Okanda, and go in by jeep. Parks close at short notice for drought or heavy rain: Kumana shut in the late-November rains of 2025, and its campsites closed for drought in September 2026. Check before you go.
 
 ## Temples and history
 
 - **Muhudu Maha Vihara**, on the beach at Pottuvil, is an ancient Buddhist site. Legend links it to Queen Viharamahadevi, mother of King Dutugemunu, said to have come ashore on this coast; granite statues stand among the ruins.
-- **Kudumbigala**, a forest hermitage near Panama, has more than 200 rock caves once used by monks, and a stupa on top of a rock reached by steps cut into the stone.
+- **Kudumbigala**, a forest hermitage near Panama, has more than 200 rock caves once used by monks, and a stupa on top of a rock reached by steps cut into the stone. The climb is steep and exposed, so skip it in rain. It is still a place of meditation: dress modestly and keep your voice down.
 - **Magul Maha Vihara**, near Lahugala, is the ruin of an ancient monastery in the forest.
+- **Okanda**, by the Kumana park office, has a Hindu shrine to Murugan. Each year, usually in June or July, thousands of pilgrims gather here before walking through Kumana and Yala to Kataragama, when the park gate is opened for them.
 
 <!-- experiences -->
 
 ## When to go
 
-- **April to October** is the season: dry weather, offshore winds and surf. July and August are busiest, so book early; the shoulder months are quieter.
-- **November to March** brings the north-east monsoon, with rain, onshore winds and many places closed. At that time of year the south-west coast, around [Hikkaduwa](/places/hikkaduwa/) and [Mirissa](/places/mirissa/), is in season instead.
+- **About April to October** is the season: dry weather, offshore winds and surf. July and August are busiest, so book early. October and early November can still bring good days, especially at Okanda, with fewer people.
+- **About November to March** brings the north-east monsoon, with rain, onshore winds and many places closed. At that time of year the south-west coast, around [Hikkaduwa](/places/hikkaduwa/) and [Mirissa](/places/mirissa/), is in season instead.
 
 ## How long to stay
 
@@ -108,8 +115,12 @@ Yes, with care. Swim in the calmer water of the bay, away from the points and su
 
 ### How far is Kumana National Park from Arugam Bay?
 
-About 40 km south via Panama and Okanda. Permits and a guide come from the park office at Okanda. It is known for waterbirds, especially from about April to July.
+About 40 km south via Panama and Okanda, usually an hour or more by road. Visitors go in by jeep, with a permit and a guide from the park office at Okanda. It is known for waterbirds, especially from about April to July.
 
 ### Is it worth visiting between November and March?
 
 Only if you want somewhere very quiet. It is the north-east monsoon, with rain and onshore winds, and many guesthouses close. The south-west coast is in season then.
+
+### Should I check travel advice before going to Arugam Bay?
+
+Yes, as for any trip. In October 2024 several governments briefly advised against travel to Arugam Bay over a reported threat to Israeli visitors. The warnings were lifted in November 2024. Check your own government’s current advice before you travel.

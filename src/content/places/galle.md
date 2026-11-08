@@ -2,7 +2,7 @@
 # Research: docs/research/galle.md
 status: draft
 title: Galle Guide: The Fort, Ramparts & Nearby Beaches | Eranorris
-description: Plan a visit to Galle Fort: the ramparts, lighthouse, museums and old streets, plus Unawatuna and Jungle Beach, how long to stay and when to go.
+description: Plan a visit to Galle Fort: the ramparts, museums and old streets, plus Unawatuna, Jungle Beach and Koggala, how long to stay and when to go.
 intro: A walled town on a headland, fortified by the Portuguese and rebuilt by the Dutch, where people still live, work and worship inside the ramparts.
 stay: 1–2 nights; a full day covers the fort
 gettingThere: About 2–2.5 hours from the airport by expressway, depending on traffic
@@ -18,8 +18,13 @@ sources:
   - Galle Heritage Foundation (information centre, galleries) | https://galleheritage.gov.lk/
   - Galle Heritage Foundation — filming, photography and drones in the fort | https://galleheritage.gov.lk/filming-and-photography-within-galle-fort/
   - Central Cultural Fund — Maritime Archaeology Museum, Galle | https://ccf.gov.lk/museums/galle-museum/
+  - Sri Lanka Tourism — Galle Fort | https://www.srilanka.travel/attraction?attraction_id=153
+  - Martin Wickramasinghe Trust — the museum at Koggala | https://martinwickramasinghe.com/museum.html
 verify:
   - Is the villa site's "Whale Watching Mirissa & Galle Tour" offered to tour guests? If so, what does the Galle part include, how long is it and where does it start?
+  - The villa site's guide says whale-watching pickup is "around 8 a.m.", but Mirissa boats usually leave between about 6 and 7 am. Does the tour use a Mirissa boat (with an earlier pickup) or another departure?
+  - The villa tour lists stilt fishing "on availability". Do drivers stop at Koggala or Ahangama for it, and what do we tell guests about paying for photos? The page describes it as a tourism fact only.
+  - Do we suggest the Koggala Lake boat trip, the Martin Wickramasinghe museum or Handunugoda tea estate to tour guests? The page describes them as nearby options only.
   - Inside the fort, do guests explore on foot on their own, or does the driver accompany them? (The page makes no claim either way.)
   - Recommended stay — the design suggests 2 nights; the page says 1–2. Which do we advise, and do we suggest staying inside the fort?
   - Galle is listed as a pickup point in the planner ("Any hotel in Galle or the fort"). Is that confirmed (site.config.mjs → confirmed.pickups)?
@@ -44,9 +49,10 @@ A full circuit is roughly 2–3 km on uneven ground with little shade, so go ear
 The streets keep their Dutch grid, lined with low houses fronted by shady verandas. A few places reward a closer look:
 
 - **The Dutch Reformed Church**, completed in 1755, is paved with gravestones moved from the old Dutch cemeteries. All Saints’ Church (1871) and the Meeran Mosque near the lighthouse (1904) came later. Dress modestly if you go in.
-- **The Old Gate** on the harbour side carries the Dutch company’s monogram and the date 1669. Above it, the Maritime Archaeology Museum fills a 17th-century warehouse with finds from Dutch shipwrecks. It was rebuilt after the 2004 tsunami.
+- **The Old Gate** on the harbour side carries the Dutch company’s monogram and the date 1669. Beside it, the Maritime Archaeology Museum (often signed as the National Maritime Museum) fills a 17th-century warehouse with finds from Dutch shipwrecks in the bay. The 2004 tsunami badly damaged it, and it reopened in 2010.
 - **The National Museum of Galle** occupies a single-storey building from 1656, thought to be the oldest Dutch building in the fort.
 - **The Old Dutch Hospital**, a long colonnaded building near the lighthouse, has been restored and now houses shops and restaurants.
+- **The cricket ground.** Just outside the Main Gate, Galle International Stadium has hosted Test cricket since 1998. It was wrecked by the 2004 tsunami and reopened in 2007, and the ramparts by the Clock Tower look straight down into it.
 
 The Galle Heritage Foundation runs an information centre and small galleries. Opening times and fees for all of these change, so check the official pages below. This is a residential town: ask before photographing people or their homes. Flying a drone needs permission from the Civil Aviation Authority.
 
@@ -54,15 +60,22 @@ The Galle Heritage Foundation runs an information centre and small galleries. Op
 
 The fort has no real swimming beach. For the sea, most visitors head east to Unawatuna, about 5–6 km away. It is a crescent bay sheltered by headlands and a reef, and usually calm enough to swim from about November to April.
 
-Between Galle harbour and Unawatuna rises the wooded Rumassala headland, linked in local legend to a fragment of the Himalayas dropped by Hanuman in the Ramayana. Jungle Beach is a small cove below it. On the ridge above, a white peace pagoda built by Japanese Buddhist monks looks back across the bay to the fort.
+Between Galle harbour and Unawatuna rises the wooded Rumassala headland, linked in local legend to a fragment of the Himalayas dropped by Hanuman in the Ramayana. Jungle Beach is a small cove below it, reached by a short path through the trees. On the ridge above, a white peace pagoda built in the mid-2000s by monks of the Japanese Nipponzan Myohoji order looks back across the bay to the fort. It is a place of worship, so cover shoulders and knees and remove your shoes on the terrace. The reef off Rumassala is a protected marine sanctuary: don’t stand on or touch coral.
 
-Further east, at Koggala and Ahangama, you will see stilt fishermen perched on poles in the surf. These days most of them pose for photographs for a fee rather than fish.
+## East along the coast: Koggala and Ahangama
+
+East of Unawatuna, the coast road passes places that make an easy half-day from Galle or a stop on the way to Mirissa. Koggala is about 14 km from the fort and Ahangama about 18 km, usually 25–40 minutes by road.
+
+- **Koggala Lake** is a broad lagoon scattered with small islands and fringed with mangroves. Boat trips of about one and a half to two hours usually stop at a cinnamon-growing island and a temple island, and pass Madol Doova, the island that inspired Martin Wickramasinghe’s novel of that name.
+- **The Martin Wickramasinghe museum** at Koggala, run by the trust set up after the writer’s death in 1976, has his birthplace, furnished with his own belongings, and a large folk museum of village crafts, tools and ceremonial objects.
+- **Handunugoda tea estate**, inland from Ahangama, is a low-country estate known for its white tea. Visitors usually see the processing and taste several teas; check the visiting arrangements before you go.
+- **Stilt fishermen** perch on poles in the shallows at Koggala and Ahangama, a method dating from about the Second World War. Some still fish, mainly in the south-west monsoon months, but many by the road in the tourist season pose for paid photographs, and some are not fishermen at all. Agree on any payment first, and don’t climb a pole uninvited.
 
 <!-- experiences -->
 
 ## How long to stay
 
-**Half a day** is enough to walk the ramparts and a few streets. **A full day** adds a museum, lunch in the fort and an afternoon at Unawatuna. **One or two nights** let you see the walls at dawn and dusk, when the day visitors have gone, and give you a slower beach day.
+**Half a day** is enough to walk the ramparts and a few streets. **A full day** adds a museum, lunch in the fort and an afternoon at Unawatuna. **One or two nights** let you see the walls at dawn and dusk, when the day visitors have gone, and leave time for a beach day or the lake and museum at Koggala.
 
 A typical full day:
 
@@ -105,4 +118,8 @@ Not really in the fort itself. Unawatuna and Jungle Beach, a few kilometres east
 
 ### Is Galle a good base for whale watching at Mirissa?
 
-It can be, but boats leave Mirissa early, often around 6–7 am, and the drive takes about 45 minutes to an hour. Many people stay in [Mirissa](/places/mirissa/) the night before a trip instead.
+It can be, but boats leave Mirissa early, often around 6–7 am, and the drive takes about 45 minutes to an hour. Many people stay in [Mirissa](/places/mirissa/) the night before a trip instead. See the [Mirissa whale-watching guide](/experiences/mirissa-whale-watching/) for what a trip involves.
+
+### Are the stilt fishermen real?
+
+Some are. Stilt fishing still goes on at Koggala and Ahangama, mostly in the south-west monsoon months, but in the tourist season many of the men on the poles pose for photographs and expect payment.

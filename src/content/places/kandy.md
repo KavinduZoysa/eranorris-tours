@@ -19,12 +19,16 @@ sources:
   - Royal Botanic Gardens, Peradeniya (Department of National Botanic Gardens) | https://botanicgardens.gov.lk/?p=2600
   - UNESCO World Heritage — Sacred City of Kandy | https://whc.unesco.org/en/list/450
   - Sri Lanka Railways — train schedules | https://eservices.railway.gov.lk/schedule/searchTrain.action?lang=en
+  - Sri Lanka Tea Board — Ceylon Tea Museum | https://srilankateaboard.lk/sri-lanka-tea-board/related-institutions/ceylon-tea-museum/
+  - Central Province tourism — Ambuluwawa | https://tourism.cp.gov.lk/en/ambuluwawa-tower
+  - National Building Research Institute — landslide early warnings | https://nbri.gov.lk/
 verify:
   - Which Kandy visits do we actually arrange — Temple of the Tooth, Peradeniya, the dance show — and is it driver-only or with a guide?
   - Do we buy entrance or show tickets, or do guests pay on the day? (The page currently says guests buy temple tickets from the machines.)
   - Recommended stay — the design suggests 2 nights; the page says 1–2. Which do we advise?
   - Is offering the train for part of the route (e.g. Nanu Oya to Ella) something we can help with?
-  - Rail status (Cyclone Ditwah repairs) — re-check before publishing and update the rail paragraphs and FAQ.
+  - Rail status (Cyclone Ditwah repairs) — re-check before publishing and update the rail paragraphs and FAQ. Status last checked 6 November 2026 — no trains reaching Kandy; Colombo–Peradeniya/Gampola suspended again since 25 October.
+  - Do our drivers take guests further out — the Knuckles range, Ambuluwawa, the Hanthana trails — and do we arrange or recommend local hiking guides? The page makes no claim.
   - Kandy hero photo — rights confirmed, and it shows the Temple of the Tooth.
 ---
 
@@ -32,7 +36,7 @@ verify:
 
 Kandy was the capital of the last Sinhalese kingdom, which held out in the hills until the British took the city in 1815. UNESCO lists it as the Sacred City of Kandy, and it is still the religious heart of Buddhism in Sri Lanka. The city wraps around a lake at roughly 500 m above sea level, so it is noticeably milder than Colombo or the coast.
 
-For most travellers it is also the hinge of the island: north lie the ancient cities of the Cultural Triangle, south the tea country and the hill-country railway. That makes Kandy an easy stop to build a route around, whether you stay one night or several.
+It is also the hinge of the island, with the ancient cities of the Cultural Triangle to the north and tea country to the south, so it is an easy stop to build a route around.
 
 ## Kandy Lake and the old city
 
@@ -46,19 +50,18 @@ The *Sri Dalada Maligawa* enshrines a relic of the Buddha’s tooth, the most sa
 
 What to expect:
 
-- **Dress.** The temple turns away visitors in shorts, sleeveless tops or revealing clothing. Covering shoulders and knees is the safe rule, and suitable clothing is available at the entrances.
-- **Shoes and bags.** Footwear and bulky bags are left at the reception booths (there is one for foreign visitors) in exchange for a token. Everyone goes through a security check, and plastic bags are discouraged.
-- **Tickets.** Foreign visitors buy tickets from the machines on site; the temple warns that tickets sold by anyone else are not valid. The ticket also covers several museums in the complex.
-- **Ceremonies.** Drumming and offerings mark the puja services held early in the morning, mid-morning and in the evening. These are the most atmospheric — and the busiest — times to visit.
+- **Dress.** Cover shoulders and knees. The temple turns away visitors in shorts, sleeveless tops or revealing clothing.
+- **Shoes, bags and tickets.** Shoes and bulky bags are left at reception booths, and everyone passes a security check. Foreign visitors buy tickets from the machines on site; the temple warns that tickets sold by anyone else are not valid.
+- **Ceremonies.** Drumming and offerings mark the services early in the morning, mid-morning and in the evening, the most atmospheric and busiest times to visit.
 - **Respect.** Move quietly, don’t pose with your back to Buddha images, and ask before photographing worshippers.
 
-Hours, ceremony times and current ticket prices are on the temple’s official visitor FAQ (linked below). For the history, the shrine rooms and the daily ceremonies in more depth, see the [Temple of the Tooth visitor guide](/experiences/temple-of-the-sacred-tooth-relic/).
+Hours, ceremony times and ticket prices are on the temple’s official visitor FAQ (linked below). For the history, the shrine rooms and the ceremonies in more depth, see the [Temple of the Tooth visitor guide](/experiences/temple-of-the-sacred-tooth-relic/).
 
 ## Peradeniya Royal Botanic Gardens
 
 About 5.5 km west of the city on the Colombo road, the Royal Botanic Gardens cover 147 acres beside the Mahaweli River. The site was a royal garden under the Kandyan kings and became a botanic garden in 1821.
 
-It is a place for an unhurried walk. Look for the orchid house, the spice garden, the long avenues of royal and cabbage palms, and the enormous Java fig that spreads over the Great Lawn like an umbrella. Allow at least a couple of hours; the gardens are large and shade is welcome at midday.
+Look for the orchid house, the spice garden, the long avenues of royal and cabbage palms, and the enormous Java fig that spreads over the Great Lawn like an umbrella. Allow at least a couple of hours; the gardens are large and shade is welcome at midday.
 
 ## Kandyan dance
 
@@ -71,14 +74,16 @@ Evening performances for visitors are held at several venues in town and usually
 ## More to see around Kandy
 
 - **Udawattakele.** The forest on the ridge behind the temple was the royal pleasure garden and is now a protected reserve. It has shaded walking paths and plenty of birdlife, minutes from the city centre.
+- **Bahirawakanda.** On a hill about 2 km from the centre, a white seated Buddha about 27 m tall, completed in 1992, looks out over the city. The terrace is one of the best viewpoints over Kandy; dress as you would for any temple.
 - **The temple loop.** Gadaladeniya, Lankatilaka and Embekke are three 14th-century temples a short drive west of Kandy, built in stone, brick and wood respectively. Embekke is known for its carved wooden pillars. Together they make a quiet half-day away from the crowds.
-- **Tea.** Kandy is the gateway to tea country. Estates and tea factories line the road south towards [Nuwara Eliya](/places/nuwara-eliya/), and some welcome visitors.
-- **Pinnawala Elephant Orphanage.** The orphanage lies off the Colombo road. It is a government-run facility where captive elephants are kept and bred, not a wild-elephant experience. To see wild elephants, look at the national parks such as [Udawalawe](/places/udawalawe/).
-- **The Knuckles range.** Northeast of the city, this range is part of the Central Highlands World Heritage area and has trails for keen hikers.
+- **Tea.** The Ceylon Tea Museum fills a 1925 tea factory at Hanthana, a few kilometres south of the city, with old machinery and displays on the industry’s pioneers. Working estates line the road south towards [Nuwara Eliya](/places/nuwara-eliya/).
+- **Hikes.** Trails cross the Hanthana range just south of the city, where the long-distance Pekoe Trail starts. The Knuckles range, roughly 1.5–2.5 hours north-east by road, is part of the Central Highlands World Heritage site; its trails are remote and often wet, entry to the conservation forest is controlled by the Forest Department, and most people walk with a local guide.
+- **Ambuluwawa.** Near Gampola, about an hour away, a spiral tower tops a hill shared by a stupa, a Hindu kovil, a church and a mosque. The top is narrow and exposed, and the provincial tourism office advises against the climb for children and older visitors.
+- **Pinnawala Elephant Orphanage.** Off the Colombo road, this is a government-run facility where captive elephants are kept and bred, not a wild-elephant experience.
 
 ## How long to stay
 
-**Half a day** is enough for the Temple of the Tooth and a walk by the lake if you are passing through. **A full day** lets you add Peradeniya and an evening dance performance. **Two nights** give you a relaxed pace, time for the temple loop or Udawattakele, and a buffer for traffic.
+**Half a day** covers the Temple of the Tooth and the lake if you are passing through. **A full day** adds Peradeniya and a dance performance. **Two nights** leave time for the temple loop, Udawattakele or a hike, and a buffer for traffic.
 
 A typical full day:
 
@@ -89,10 +94,10 @@ A typical full day:
 
 ## Getting there and moving on
 
-- **From the airport or Colombo.** Kandy is around 2–3 hours by road, depending on traffic. In normal times the train from Colombo Fort takes roughly 2.5–3.5 hours. After Cyclone Ditwah in late 2025, though, the last stretch into Kandy was still closed for bridge repairs at the time of writing (October 2026).
-- **North to Dambulla and Sigiriya.** Kandy is about 90 km from Sigiriya, usually 2.5–3 hours by road, with Dambulla on the way. Sigiriya is too far for a comfortable return day trip from Kandy, so most routes spend a night near it.
-- **South to the hill country.** [Nuwara Eliya](/places/nuwara-eliya/) is about 80 km, around 3 hours on winding mountain roads. From there the road continues to [Ella](/places/ella/).
-- **By rail to Ella.** The hill-country line from Kandy to Ella is one of Sri Lanka’s best-known train journeys, normally scheduled at roughly 6–7 hours. Cyclone Ditwah damaged it in late 2025. At the time of writing, trains were running again from Nanu Oya, near Nuwara Eliya, to Ella, but the section from Kandy to Nanu Oya was still being repaired. Repairs were expected to finish by the end of 2026. Check Sri Lanka Railways before planning a rail section.
+- **From the airport or Colombo.** Kandy is around 2–3 hours by road, depending on traffic. In normal times the train from Colombo Fort takes roughly 2.5–3.5 hours, but in early November 2026 no trains were reaching Kandy (see below).
+- **North to Dambulla and Sigiriya.** Sigiriya is about 90 km away, usually 2.5–3 hours by road, with Dambulla on the way, so most routes spend a night near it.
+- **South to the hill country.** [Nuwara Eliya](/places/nuwara-eliya/) is about 80 km, around 3 hours on winding mountain roads, and the road continues to [Ella](/places/ella/). Heavy rain can trigger landslides that close hill roads for hours or longer.
+- **By rail.** The line from Kandy to Ella is one of Sri Lanka’s best-known train journeys, normally about 6–7 hours. Cyclone Ditwah damaged it badly in late 2025. In early November 2026 the only hill-country trains were running between Nanu Oya, near Nuwara Eliya, and Badulla via Ella. Trains from Colombo had returned to Peradeniya and Gampola in October 2026 but were suspended again after a landslide, and the bridge into Kandy and the line from Gampola to Nanu Oya were still being rebuilt. Officials aim to reopen the whole line by the end of 2026, but targets have slipped before. Check Sri Lanka Railways before planning a rail section.
 - **In town.** Central Kandy is compact but often congested, so it is easier to walk between the lake, the temple and the old centre.
 
 In a private tour you add Kandy to your route on the map, and your driver handles the roads. The drive times shown in the planner are rough estimates, not road-tested figures.
@@ -107,19 +112,11 @@ The city’s great festival is the **Esala Perahera**. For ten nights in July or
 
 ### What should I wear to the Temple of the Tooth?
 
-Wear clothing that covers your shoulders and knees. The temple turns away visitors in shorts, sleeveless tops or revealing clothes, though suitable clothing is available at the entrances. You will leave your shoes at the reception booth, so light socks can help on warm floors.
-
-### How long do I need in Kandy?
-
-One full day covers the Temple of the Tooth, the lake, Peradeniya gardens and an evening dance show. Two nights make the visit relaxed and leave time for Udawattakele or the temples west of the city.
-
-### Can I visit the Temple of the Tooth and Peradeniya on the same day?
-
-Yes. They are about 5.5 km apart. Visit the temple in the morning, then spend the afternoon at the gardens.
+Cover your shoulders and knees; the temple turns away visitors in shorts, sleeveless tops or revealing clothes. Shoes are left at the entrance, so light socks help on warm floors.
 
 ### When is the Esala Perahera?
 
-It is held every year in July or August, with dates set by the lunar calendar. The Temple of the Sacred Tooth Relic publishes the schedule. If you want to see the processions, book accommodation early.
+Every year in July or August, on dates set by the lunar calendar and published by the Temple of the Sacred Tooth Relic. The 2027 dates had not been announced by early November 2026. Book accommodation early.
 
 ### Is Kandy a good base for visiting Sigiriya?
 
@@ -127,7 +124,7 @@ Not really. Sigiriya is about 2.5–3 hours each way by road. Most travellers st
 
 ### Can I take the train from Kandy to Ella?
 
-Not directly at the time of writing (October 2026). Cyclone Ditwah damaged the line in late 2025, and the section between Kandy and Nanu Oya was still being repaired. Trains were running from Nanu Oya, near Nuwara Eliya, to Ella, so many travellers drive to Nuwara Eliya and ride the scenic stretch from there. Check Sri Lanka Railways for the latest; once the line reopens, the full Kandy–Ella run is normally around 6–7 hours.
+Not at the time of writing (early November 2026). After Cyclone Ditwah, the only hill-country trains were running between Nanu Oya, near Nuwara Eliya, and Badulla via Ella, so many travellers drive to Nuwara Eliya and ride the scenic stretch from there. Check Sri Lanka Railways for the latest; once the line reopens, the full Kandy–Ella run is normally around 6–7 hours.
 
 ### Is the Pinnawala Elephant Orphanage the same as seeing wild elephants?
 

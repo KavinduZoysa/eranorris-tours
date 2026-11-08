@@ -103,3 +103,149 @@ Sources:
 - Peradeniya hours and fees (LKR 3,540 adult foreign at time of research).
 - Perahera dates (published yearly).
 - Train timetables.
+
+## Audit 2026-11-06
+
+Audit and improvement pass. The web-search budget ran out partway through, so a few items below
+rest on fewer sources than planned; they are flagged.
+
+### Sources consulted
+- Rail after Cyclone Ditwah:
+  - Newswire, 25 Oct 2026 — Rambukkana–Peradeniya/Gampola suspended "until further notice" from
+    midnight (active landslide near Kadigamuwa): https://www.newswire.lk/2026/10/25/train-services-between-rambukkana-peradeniya-and-gampola-suspended-until-further-notice/
+  - Daily Mirror, 23 Oct 2026 — two-day suspension (24–25 Oct) for emergency repairs:
+    https://www.dailymirror.lk/breaking-news/Train-services-between-Rambukkana--Peradeniya-and-Gampola-suspended/108-353275
+  - Ada Derana — suspension on 24–25 Oct: https://adaderana.lk/news/250431
+  - Sunday Times, 11 Oct 2026 — scheduled services to Peradeniya and Gampola from 2 Oct; Mahaweli
+    bridge still damaged: https://www.sundaytimes.lk/261011/plus/back-on-track-to-pera-a-testament-to-local-expertise-and-resilience-660096.html
+  - Newswire, 28 Sep 2026 — Peradeniya/Gampola services to resume 2 Oct:
+    https://www.newswire.lk/2026/09/28/peradeniya-gampola-train-services-to-resume-oct-2/
+  - Colombo Times — eight daily services; Peradeniya–Kandy closed (Black Bridge unfinished):
+    https://colombotimes.net/train-services-to-peradeniya-and-gampola-will-resume-from-fridayoct-2/
+  - Newswire, 8 Sep 2026 — Nanu Oya–Great Western repairs to finish by December:
+    https://www.newswire.lk/2026/09/08/nanu-oya-great-western-railway-repairs-to-be-completed-by-december/
+  - Sunday Times, 17 May 2026 — "Yaka bridge to stand tall by end of year":
+    https://www.sundaytimes.lk/260517/news/yaka-bridge-to-stand-tall-by-end-of-year-642187.html ;
+    Ada Derana on delays: https://adaderana.lk/news/119722
+  - BYC.lk status table (blog, checked 4 Nov 2026): https://byc.lk/colombo-kandy-ella-train-status-2026
+- Landslide warnings: NBRI (successor to NBRO under the NBRI Act 2025) https://nbri.gov.lk/ ;
+  Ada Derana warnings 17 Oct 2026 https://adaderana.lk/news/250111 and 4 Nov 2026
+  https://adaderana.lk/news/251105 (Kandy DS divisions under Level 1 watch).
+- Esala Perahera 2026 schedule (official): https://sridaladamaligawa.lk/?p=310 ; 2027 poya dates:
+  Central Bank holiday list https://www.cbsl.gov.lk/en/node/20573
+- Ceylon Tea Museum: Sri Lanka Tea Board https://srilankateaboard.lk/sri-lanka-tea-board/related-institutions/ceylon-tea-museum/ ;
+  Wikipedia https://en.wikipedia.org/wiki/Ceylon_Tea_Museum
+- Bahirawakanda: Wikipedia https://en.wikipedia.org/wiki/Sri_Maha_Bodhi_Viharaya ; Central Province
+  tourism https://tourism.cp.gov.lk/en/destination/kandy-district/bahirawa-kanda-vihara-buddha-statue
+- Ambuluwawa: Central Province tourism https://tourism.cp.gov.lk/en/ambuluwawa-tower ; Wikipedia
+  https://en.wikipedia.org/wiki/Ambuluwawa_tower
+- Hanthana: Central Province tourism https://tourism.cp.gov.lk/en/destination/hanthana ;
+  Pekoe Trail stages https://thepekoetrail.org/pekoe-stages
+- Knuckles: IUCN World Heritage Outlook https://worldheritageoutlook.iucn.org/node/1158 (Forest
+  Department manages the Knuckles Conservation Forest; unregulated tourism a concern); Forest
+  Department warning against unauthorised entry (May 2024, reported by the Sunday Times/Daily
+  Mirror network); Daily Mirror letter on approvals by the Conservator General.
+- Udawattakele: Wikipedia https://en.wikipedia.org/wiki/Udawattakele_Forest_Reserve (sources
+  disagree on whether the DWC or the Forest Department runs the visitor side).
+
+### Facts verified
+- Rail, as of 6 Nov 2026: no trains reach Kandy. Colombo Fort–Peradeniya/Gampola reopened on
+  2 Oct 2026 after about ten months, then was suspended from 25 Oct after repeated slips at
+  Kadigamuwa (Newswire, Daily Mirror, Ada Derana). Peradeniya–Kandy still closed for the
+  Mahaweli ("Yaka"/Black) bridge (Colombo Times, Sunday Times). Gampola–Nanu Oya still under
+  repair, target December 2026 (Newswire). Nanu Oya–Badulla running since 20 June 2026.
+- Esala Perahera 2026: Kumbal 18–22 Aug, Randoli 23–27 Aug, day procession 28 Aug (official).
+  2027 dates not announced. Esala Poya 2027 is 18 July and Nikini Poya 16 August (CBSL); recent
+  Peraheras have ended on the Nikini full moon, so August 2027 is likely, but the page does not
+  say so.
+- Ceylon Tea Museum: in the Hanthana (Hantane) factory built 1925; opened 1 Dec 2001; set up by
+  the Tea Board and the Planters’ Association; machinery on the ground floor, library, displays on
+  Taylor and Lipton, tea room on top. About 3 km (Wikipedia) or 5 km (Tea Board) from Kandy.
+- Bahirawakanda: seated Buddha (dhyana mudra) 26.83 m / 88 ft, completed 1992, opened 1 Jan 1993;
+  about 2 km (Wikipedia) or 3 km (CP tourism) from the centre. CP tourism calls it "standing",
+  which is wrong (photos and Wikipedia show it seated).
+- Ambuluwawa: about 5 km from Gampola; multi-faith complex (stupa, kovil, church, mosque);
+  biodiversity complex since 2006; CP tourism advises children and elderly visitors not to climb
+  to the top and not to lean on railings.
+- Hanthana: up to about 1,240 m; four routes into the range (CP tourism); Pekoe Trail stage 1
+  runs Hanthana–Galaha (12.8 km, "easy").
+
+### Corrections made (old → new, why)
+- Rail, "From the airport or Colombo": "the last stretch into Kandy was still closed for bridge
+  repairs at the time of writing (October 2026)" → "in early November 2026 no trains were reaching
+  Kandy". Why: Colombo–Peradeniya/Gampola services also stopped again on 25 October.
+- "By rail to Ella" → "By rail", rewritten: only Nanu Oya–Badulla running; Peradeniya/Gampola
+  reopened in October then suspended; bridge into Kandy and Gampola–Nanu Oya still being rebuilt;
+  "Repairs were expected to finish by the end of 2026" → "Officials aim to reopen the whole line
+  by the end of 2026, but targets have slipped before" (targets moved several times in 2026).
+- Rail FAQ updated to early November 2026 in the same words.
+- "Knuckles range … has trails for keen hikers" → adds that entry to the conservation forest is
+  controlled by the Forest Department and most people walk with a local guide.
+- Pinnawala bullet shortened (the FAQ already sends readers to Udawalawe for wild elephants).
+- Esala FAQ: adds that 2027 dates were not announced by early November 2026.
+
+### Added
+- Bahirawakanda, the Ceylon Tea Museum, Hanthana and the Pekoe Trail start, Ambuluwawa (with the
+  provincial safety advice), a landslide note for hill roads.
+- To stay near the 1,600-word target, the Temple of the Tooth bullets were condensed (the detail
+  lives in the experience guide), and two FAQs that repeated the body ("How long do I need?",
+  "Temple and Peradeniya on the same day?") were removed.
+
+### Left out
+- Kandy municipal market: genuine local-life sight, but nothing verified this session (location,
+  hours); add with a source later.
+- Degaldoruwa, Kandy National Museum, the Garrison Cemetery, Victoria–Randenigala: not checked.
+
+### Uncertainties and conflicts
+- Rail status changes week to week; the BYC.lk table (blog) also reports a 26 Oct notice
+  extending the suspension over Gampola–Nanu Oya, which no news source confirmed (that section
+  was closed anyway).
+- Knuckles permits: travel sources disagree on whether day walks at Riverston need a permit.
+  The page says only that the Forest Department controls entry to the conservation forest.
+- Udawattakele managing agency (DWC vs Forest Department) — not stated on the page.
+- Ambuluwawa elevation: official figures are garbled (3,567 m on CP tourism); not used.
+
+### Owner questions (also in `verify:`)
+- Whether drivers take guests to the Knuckles, Ambuluwawa or Hanthana, and whether any hiking
+  guide is arranged or recommended.
+
+### Re-check before publishing
+- Rail status (all sections), and the bridge into Kandy.
+- 2027 Perahera dates (usually announced by the temple around June–July).
+- Ceylon Tea Museum opening days (one source says closed Mondays; not on the page).
+
+## Experience cards added (2026-11-07)
+Merged into `src/data/experiences.mjs` with `source: 'research'`. Who provides each one
+is unconfirmed (see docs/research/owner-checklist.md).
+
+- **Kandy Lake and the old city** (`kandy-lake-walk`, attraction)
+  - https://whc.unesco.org/en/list/450
+  - https://en.wikipedia.org/wiki/Kandy_Lake
+  - docs/research/kandy.md (Audit 2026-11-06)
+- **Udawattakele forest walk** (`kandy-udawattakele`, activity)
+  - https://en.wikipedia.org/wiki/Udawattakele_Forest_Reserve
+  - https://www.ft.lk/FT-Lite/a-royal-sanctuary-in-the-city/6-252398
+  - docs/research/kandy.md (Audit 2026-11-06)
+  - Note: Sources disagree on whether the DWC or the Forest Department runs the visitor side; the card does not say.
+- **Bahirawakanda Buddha viewpoint** (`kandy-bahirawakanda`, attraction)
+  - https://en.wikipedia.org/wiki/Sri_Maha_Bodhi_Viharaya
+  - https://tourism.cp.gov.lk/en/destination/kandy-district/bahirawa-kanda-vihara-buddha-statue
+  - docs/research/kandy.md (Audit 2026-11-06)
+  - Note: Central Province tourism page calls the statue standing; it is seated (photos, Wikipedia).
+- **Gadaladeniya, Lankatilaka and Embekke temples** (`kandy-three-temples`, excursion)
+  - https://mihipedia.lk/gadaladeniya-lankatilake-and-embekke-14th-century-temples-made-of-rock-brick-and-wood/
+  - https://archives1.sundayobserver.lk/node/51819
+  - docs/research/kandy.md (Audit 2026-11-06)
+- **Ceylon Tea Museum, Hanthana** (`kandy-ceylon-tea-museum`, activity)
+  - https://srilankateaboard.lk/sri-lanka-tea-board/related-institutions/ceylon-tea-museum/
+  - https://en.wikipedia.org/wiki/Ceylon_Tea_Museum
+  - docs/research/kandy.md (Audit 2026-11-06)
+- **Hanthana hills and the Pekoe Trail** (`kandy-hanthana-pekoe-trail`, activity)
+  - https://tourism.cp.gov.lk/en/destination/hanthana
+  - https://thepekoetrail.org/pekoe-stages
+  - docs/research/kandy.md (Audit 2026-11-06)
+- **Esala Perahera festival** (`kandy-esala-perahera`, activity)
+  - https://sridaladamaligawa.lk/?p=310
+  - https://www.cbsl.gov.lk/en/node/20573
+  - docs/research/kandy.md (Audit 2026-11-06)
+  - Note: Elephants are used in the procession (captive temple elephants); the card does not promote any interaction. 2027 dates not announced by Nov 2026.

@@ -1,0 +1,621 @@
+{
+  "region": "Cultural Triangle",
+  "researchedOn": "2026-11-06/07",
+  "notesForMerger": [
+    "New experience guide: src/content/experiences/minneriya-elephant-safari.md (experience: sigiriya-elephant-safari), research record docs/research/experience-minneriya-elephant-safari.md. It is linked from the Sigiriya and Polonnaruwa guides; the build will need the sigiriya-elephant-safari entry in src/data/experiences.mjs for the experience id to resolve.",
+    "Added <!-- experiences --> markers to dambulla.md (after the Golden Temple section) and anuradhapura.md (after 'Visiting the sacred city'), since both will now get cards.",
+    "Kinds for existing entries: sigiriya-lion-rock-climb = attraction; polonnaruwa-cycling = activity.",
+    "SLTDA Year in Review 2025 (published Apr 2026) has official 2025 visitor counts used for demand: Sigiriya 582,687 foreign of 1,086,918; Polonnaruwa 184,661 foreign; Jetavanaramaya (Anuradhapura ticket) 81,674 foreign; Ritigala 11,267 foreign; Ibbankatuwa 1,157 foreign; Minneriya 76,422 foreign; Kaudulla 38,753 foreign; Hurulu Eco Park 221,434 foreign; Wilpattu 76,389 foreign; Jaffna Fort 14,532 foreign; Bar Reef (Kalpitiya) 3,732 foreign. The Dambulla cave temple does not appear in the CCF figures (only the Dambulla Museum), which suggests the temple, not the CCF, sells cave tickets.",
+    "Left out on purpose: hot-air ballooning near Dambulla/Sigiriya (popular, roughly November–May, but only operator sources and no Civil Aviation Authority source found); elephant rides and bullock-cart rides; Ibbankatuwa as a card (very low foreign demand, kept in the Dambulla text); Dimbulagala as a card (kept in the Polonnaruwa text); Kandalama (its draw is mainly a hotel; Popham's Arboretum on the same road is proposed instead); Namal Uyana and Yapahuwa (genuine but low-demand, recorded in research notes)."
+  ],
+  "destinations": {
+    "sigiriya": {
+      "missing": [
+        "Hurulu Eco Park, who runs it (Forest Department) and how jeeps choose a park on the day → added to the guide and the new experience guide.",
+        "How the Gathering varies with reservoir water levels (near-collapse around 2019–2021, recovery 2024–2025, 2025 court undertaking) → added to the guide and experience guide.",
+        "Jeep crowding (400–600 jeeps a day reported in 2026) and responsible viewing, including the SLTDA safari guideline (marked routes, 30 km/h, right of way, no feeding) → in the experience guide, linked from the guide.",
+        "Ritigala forest monastery → new short section and proposed excursion card.",
+        "Village tours (Hiriwadunna) and cooking classes → new short section, described as organised for visitors and partly staged; proposed as two cards. No bullock-cart or elephant-ride promotion.",
+        "Rail status after Cyclone Ditwah (Habarana station, Trincomalee and Batticaloa lines) → added.",
+        "Bee attacks: the real insects (giant honeybees) and the August 2024 incident → added.",
+        "Site museum included in the Sigiriya ticket (CCF) → added.",
+        "Pidurangala had no experience card → proposed.",
+        "Hot-air ballooning → left out (operator sources only; owner question)."
+      ],
+      "corrections": [
+        {
+          "old": "Bees and hornets. Both nest on the rock face. … Attacks are uncommon, but the upper stairs are sometimes closed for a while after a nest is disturbed.",
+          "new": "Giant honeybees nest on the rock face; signs call them hornets … In August 2024, 22 visitors needed hospital treatment after part of a nest fell in strong wind, and the site closed for a while. If you are allergic to stings, carry your medication.",
+          "reason": "An entomologist quoted by Mongabay identifies the insects as giant honeybees (Apis dorsata), though signs say hornets; the 2024 incident shows attacks can be serious and lead to closures.",
+          "sources": [
+            "https://news.mongabay.com/2022/05/a-whiz-and-a-buzz-bee-attacks-at-sri-lanka-rock-fortress-point-to-need-for-toilets/",
+            "https://www.newsfirst.lk/2024/08/14/22-tourists-hospitalized-after-wasp-attack-at-sigiriya"
+          ]
+        },
+        {
+          "old": "Wild elephants at Minneriya and Kaudulla: '… about 30–50 minutes' drive away … Hurulu Eco Park near Habarana is a common alternative out of season.'",
+          "new": "Rewritten as 'Wild elephants: Minneriya, Kaudulla and Hurulu': 30–60 minutes (Kaudulla's gate is further), Hurulu run by the Forest Department, drivers choose the park on the day, numbers depend on water levels (near-collapse around 2019–2021, recovery 2024–2025), link to the new safari guide.",
+          "reason": "Kaudulla's entrance is about 38 km from Sigiriya; the variability of the Gathering and its causes were missing; Hurulu is not a national park.",
+          "sources": [
+            "https://www.ft.lk/news/WNPS-restores--Great-Elephant-Gathering-of-Minneriya-/56-784906",
+            "https://www.sundaytimes.lk/251116/news/bring-about-a-national-policy-beneficial-to-humans-wild-elephants-before-the-next-dry-season-621261.html",
+            "https://dailymirror.lk/life/Hurulu-Wewa-Haven-for-elephants/243-217196",
+            "https://www.dwc.gov.lk/?page_id=72"
+          ]
+        },
+        {
+          "old": "By rail. The nearest station is Habarana, about 15 km away.",
+          "new": "… on the lines to Trincomalee and Batticaloa. Both were suspended after Cyclone Ditwah in late 2025, and daily trains were running again by late January 2026. Check Sri Lanka Railways …",
+          "reason": "Current rail status as of November 2026.",
+          "sources": [
+            "https://www.railway.gov.lk/web/index.php?option=com_content&view=article&id=917&Itemid=217&lang=en",
+            "https://www.newsfirst.lk/2026/01/20/train-services-along-three-routes-resume-after-cyclone-ditwah-disruptions"
+          ]
+        },
+        {
+          "old": "FAQ: 'Roughly July to October, peaking around August and September. Numbers change from year to year, and sightings are never guaranteed.'",
+          "new": "Adds that numbers change with the water level, that herds move between Minneriya, Kaudulla and Hurulu, and links the safari guide.",
+          "reason": "Explains why the Gathering varies.",
+          "sources": [
+            "https://www.ft.lk/news/WNPS-restores--Great-Elephant-Gathering-of-Minneriya-/56-784906",
+            "https://www.sundaytimes.lk/251116/news/bring-about-a-national-policy-beneficial-to-humans-wild-elephants-before-the-next-dry-season-621261.html"
+          ]
+        },
+        {
+          "old": "Tickets bullet did not say whether the museum is included.",
+          "new": "The CCF says the Sigiriya ticket includes the site museum.",
+          "reason": "CCF ticket page: 'Sigiriya Museum: Included with Sigiriya ticket'. The CCF price list still shows a separate museum price (probably museum-only entry); flagged in the research record.",
+          "sources": [
+            "https://ccf.gov.lk/vsl/tickets",
+            "https://ccf.gov.lk/is/index.php"
+          ]
+        }
+      ],
+      "experienceGuideIdeas": [
+        {
+          "topic": "Minneriya elephant safari and the Gathering (written: /experiences/minneriya-elephant-safari/)",
+          "searchIntent": "Minneriya safari; elephant gathering Sri Lanka; Minneriya or Kaudulla",
+          "why": "Clear, high-volume search intent; the destination guides can only give it a paragraph."
+        },
+        {
+          "topic": "Climbing Sigiriya: tickets, timing, bees, fresco rules and Pidurangala at sunrise",
+          "searchIntent": "Sigiriya climb tips; Sigiriya or Pidurangala; Sigiriya opening time",
+          "why": "The most-visited CCF site (1.09 million visitors in 2025); practical questions are common and change (tickets, rules, closures)."
+        }
+      ],
+      "ownerQuestions": [
+        "Do you arrange jeep safaris (Minneriya, Kaudulla, Hurulu) or do guests book locally? Does the driver take guests to the jeep and wait?",
+        "Do you arrange or recommend any village tour or cooking class? If so, which, and how would you describe it?",
+        "Can the driver include Ritigala (about an hour each way) or a pre-dawn Pidurangala start?",
+        "Is hot-air ballooning (around Dambulla/Kandalama, roughly November–May) something you want listed? Only operator sources were found.",
+        "Do you have your own photos of wild elephants (not captive) and of Pidurangala?"
+      ],
+      "existingExperiences": [
+        {
+          "id": "sigiriya-lion-rock-climb",
+          "kind": "attraction",
+          "changes": {},
+          "reason": "The main sight at the destination. Text is accurate; category 'history' is right. Optionally add to details that giant honeybees nest on the rock and visitors are asked to keep quiet (not added, to stay under 450 characters). 'Nearly 200 m' kept: CCF says 200 m, UNESCO 180 m (already in verify:).",
+          "sources": [
+            "https://ccf.gov.lk/heritage-sites/sigiriya-rock-fortress/",
+            "https://ccf.gov.lk/vsl/tickets"
+          ]
+        }
+      ],
+      "newExperiences": [
+        {
+          "id": "sigiriya-pidurangala-rock",
+          "destinationId": "sigiriya",
+          "kind": "activity",
+          "category": "adventure",
+          "name": "Pidurangala Rock climb",
+          "shortDescription": "Climb the rock next to Sigiriya, past a temple and a brick reclining Buddha, for the classic view of Lion Rock, often at sunrise.",
+          "details": "Pidurangala rises about 1 km north of Lion Rock. A path from the working temple at its foot climbs past a large brick reclining Buddha to a final boulder scramble where you need your hands; most people reach the top in 30–45 minutes. The temple charges its own fee and asks visitors to cover shoulders and knees. For sunrise, bring a torch and shoes with good grip.",
+          "sources": [
+            "https://en.wikipedia.org/wiki/Pidurangala_Vihara",
+            "https://en.wikivoyage.org/wiki/Sigiriya",
+            "https://www.jetwinghotels.com/islandinsider/climbing-pidurangala-a-unique-experience-in-sri-lankas-ancient-heritage/"
+          ],
+          "notes": "No official source (the temple runs it; not CCF). Fee reported as LKR 500–1,000; opening times vary (about 5 am). Owner: pre-dawn start possible? 'where' not needed (about 1 km from Lion Rock)."
+        },
+        {
+          "id": "sigiriya-elephant-safari",
+          "destinationId": "sigiriya",
+          "kind": "excursion",
+          "category": "wildlife",
+          "name": "Elephant safari: Minneriya, Kaudulla or Hurulu",
+          "shortDescription": "An afternoon jeep safari to see wild elephants graze the old reservoir beds; drivers pick the park on the day. Sightings are never guaranteed.",
+          "details": "Minneriya and Kaudulla national parks and Hurulu Eco Park share the same herds, so drivers choose the park on the day. From about July to October elephants graze the drying reservoir beds, usually peaking around August and September at Minneriya; numbers vary with water levels. Most safaris last about 3 hours in the afternoon. Ask your driver to keep a good distance and not to crowd the herds.",
+          "where": "Minneriya, Kaudulla or Hurulu Eco Park, about 30–60 minutes by road from Sigiriya",
+          "season": "Best about July–October; usually peaks around August–September",
+          "sources": [
+            "https://dwc.lankagate.gov.lk/DWCEpermitApp/homeAction.action?lang=en",
+            "https://www.dwc.gov.lk/?page_id=72",
+            "https://www.sltda.gov.lk/storage/common_media/1%20Vehicle%20Safari%20Final%20Guideline.pdf",
+            "https://www.ft.lk/news/WNPS-restores--Great-Elephant-Gathering-of-Minneriya-/56-784906",
+            "https://www.sundaytimes.lk/251116/news/bring-about-a-national-policy-beneficial-to-humans-wild-elephants-before-the-next-dry-season-621261.html",
+            "https://newsfirst.lk/2026/08/17/sri-lanka-fast-tracks-digital-tickets-for-national-parks",
+            "https://dailymirror.lk/life/Hurulu-Wewa-Haven-for-elephants/243-217196"
+          ],
+          "notes": "This is the experience id of the new guide /experiences/minneriya-elephant-safari/ (please add it to experiences.mjs so the guide's experience: resolves). Listed under Sigiriya because Sigiriya/Habarana is the usual base and where most jeeps are hired; all three areas are 30–60 min away. Hurulu is a Forest Department eco park, not a national park. Never guaranteed; numbers collapsed around 2019–2021 when the tanks were kept full. Kind: excursion, following the brief's own Minneriya example; it is also an activity (jeep safari)."
+        },
+        {
+          "id": "sigiriya-ritigala",
+          "destinationId": "sigiriya",
+          "kind": "excursion",
+          "category": "history",
+          "name": "Ritigala forest monastery",
+          "shortDescription": "Walk a paved forest path through the ruins of an ascetic monastery on the lower slopes of Ritigala, a mountain reserve north of Habarana.",
+          "details": "Ritigala rises to 766 m above the dry-zone plains. The mountain is a strict nature reserve, but the monastery ruins on its lower slopes are open. Monks lived here from about the 1st century BC, and a stone path leads through shaded forest past a reservoir, a monastery hospital and paired stone platforms joined by bridges. Allow 2–3 hours on site; it has its own ticket and is rarely crowded.",
+          "where": "Ritigala, about an hour by road north of Sigiriya via Habarana",
+          "sources": [
+            "https://www.dwc.gov.lk/?page_id=72",
+            "https://ccf.gov.lk/is/index.php",
+            "https://www.sltda.gov.lk/storage/common_media/Year_in_Review_2025_Final_updated_Report_2026_04_02.pdf",
+            "https://en.wikipedia.org/wiki/Ritigala"
+          ],
+          "notes": "CCF price list includes a Ritigala ticket (USD 6 full); 11,267 foreign visitors in 2025 (SLTDA). Some resellers say entry is now only with a guide: unconfirmed, re-check. Could also sit under anuradhapura (about 43 km), but Sigiriya/Habarana is closer. Drive time is an estimate."
+        },
+        {
+          "id": "sigiriya-village-tour",
+          "destinationId": "sigiriya",
+          "kind": "activity",
+          "category": "local-life",
+          "name": "Village tour near Habarana",
+          "shortDescription": "A packaged walk through paddy fields, a short boat crossing of a village tank and a home-cooked rice-and-curry lunch. Organised for visitors.",
+          "details": "Village tours around Habarana and Sigiriya, the best known at Hiriwadunna, follow a set routine: a walk along paddy bunds, a crossing of the village tank in a small boat and a rice-and-curry lunch cooked over a wood fire in a village home. They are commercial and partly staged, but the farmland and food are real. Most take 2–3 hours, often around lunchtime.",
+          "where": "Hiriwadunna and other villages around Habarana, about 20–30 minutes from Sigiriya",
+          "sources": [
+            "https://www.geo.jfn.ac.lk/?p=4870",
+            "https://www.cinnamonhotels.com/habarana-village-by-cinnamon/experiences/hiriwadunna-model-village-tour",
+            "https://lakpura.lk/products/hiriwadunna-village-tour-from-habarana"
+          ],
+          "notes": "No independent media source; description from a University of Jaffna field-study report (Oct 2025, Divisional Secretariat-run community tourism with a bullock cart, house visits, lake boat and village walk) and operator listings. Deliberately does not mention the bullock-cart ride. Kind: activity although Hiriwadunna is about 20–30 min away; use 'excursion' if you prefer. Owner: offered/recommended?"
+        },
+        {
+          "id": "sigiriya-cooking-class",
+          "destinationId": "sigiriya",
+          "kind": "activity",
+          "category": "food",
+          "name": "Sri Lankan cooking class",
+          "shortDescription": "Cook a rice-and-curry meal with a local family near Sigiriya: several curries and a coconut sambol, often in clay pots over a wood fire.",
+          "details": "Family kitchens around Sigiriya run hands-on classes. You usually help prepare rice, three or four vegetable or lentil curries and a coconut sambol, often in clay pots over a wood fire, and some start with a garden or market visit. Most last about 3 hours and end with eating what you cooked. Classes are commercial and vary, so mention dietary needs when booking.",
+          "sources": [
+            "https://www.byfood.com/experiences/sri-lankan-cooking-class-in-sigiriya-39471",
+            "https://www.expedia.co.uk/things-to-do/cook-like-a-local-sri-lankan-rice-curry-class-in-sigiriya.a52219134.activity-details"
+          ],
+          "notes": "Only commercial listings exist for this kind of activity (no official source). Keep only if the owner wants a food option; otherwise merge into the village tour card."
+        }
+      ]
+    },
+    "dambulla": {
+      "missing": [
+        "No experience cards and no <!-- experiences --> marker → marker added after the Golden Temple section; four cards proposed.",
+        "Nalanda Gedige lacked a distance and the relocation story → added (about 25 km south, moved when the Bowatenne reservoir threatened it).",
+        "Aukana lacked a qualified drive time → 'about an hour's drive north-west'.",
+        "Ticket seller for the cave temple remains unclear (CCF page lists it; 2025 CCF figures include only the Dambulla Museum) → added to verify:.",
+        "Kandalama reservoir, ballooning, the wholesale market as a card → left out (hotel-led, operator-only sources, or weak tourism purpose)."
+      ],
+      "corrections": [
+        {
+          "old": "Nalanda Gedige is a stone shrine built between the 8th and 10th centuries, which mixes a Hindu temple plan with Buddhist use.",
+          "new": "About 25 km south, a short way off the main road, Nalanda Gedige … mixes a South Indian Hindu temple plan with Buddhist use, and was moved stone by stone to its present site when a new reservoir threatened the original one.",
+          "reason": "Adds location and the relocation, which visitors otherwise find confusing.",
+          "sources": [
+            "https://www.tourism.cp.gov.lk/en/destination/matale-district/nalanda-gedige",
+            "https://en.wikipedia.org/wiki/Nalanda_Gedige",
+            "https://www.sundaytimes.lk/260329/plus/nalanda-gedige-where-the-theravada-mahayana-and-hindu-traditions-live-side-by-side-635366.html"
+          ]
+        },
+        {
+          "old": "Aukana … It is an easy detour on the road to Anuradhapura.",
+          "new": "It is about an hour's drive north-west, a detour on the way to Anuradhapura.",
+          "reason": "Aukana is about 30–45 km from Dambulla by road via Kekirawa; 'easy detour' understated it.",
+          "sources": [
+            "https://en.wikipedia.org/wiki/Avukana_Buddha_statue",
+            "https://archives1.sundayobserver.lk/node/19425"
+          ]
+        }
+      ],
+      "experienceGuideIdeas": [
+        {
+          "topic": "Dambulla cave temple: the five caves, tickets and what to wear",
+          "searchIntent": "Dambulla cave temple; Golden Temple Dambulla tickets",
+          "why": "Strong search intent and frequent confusion between the modern Golden Temple and the historic caves."
+        }
+      ],
+      "ownerQuestions": [
+        "Who sells the cave temple ticket now (temple counter or CCF)? Do you include it?",
+        "Which Dambulla stops can the driver include (Nalanda Gedige on the Kandy road, Popham's Arboretum, the night loris walk)?",
+        "Do drivers stop at spice gardens? (already in verify:)"
+      ],
+      "existingExperiences": [],
+      "newExperiences": [
+        {
+          "id": "dambulla-cave-temple",
+          "destinationId": "dambulla",
+          "kind": "attraction",
+          "category": "culture",
+          "name": "Dambulla cave temple",
+          "shortDescription": "Climb to five painted cave shrines filled with Buddha images, a working temple and UNESCO World Heritage Site above Dambulla town.",
+          "details": "Stone steps climb the side of a granite outcrop to five cave shrines with more than 150 statues, including a 14 m reclining Buddha, under ceilings painted with scenes from the Buddha's life. The caves have been used for worship since the 1st century BC and are still an active temple. Buy the ticket at the foot before you climb, cover shoulders and knees, and allow 1–2 hours.",
+          "sources": [
+            "https://ccf.gov.lk/heritage-sites/dambulla-cave-temple/",
+            "https://whc.unesco.org/en/list/561",
+            "https://en.wikipedia.org/wiki/Dambulla_cave_temple"
+          ],
+          "notes": "Category culture, as for the Kandy temple card (a working temple). Ticket seller unclear (see ownerQuestions)."
+        },
+        {
+          "id": "dambulla-nalanda-gedige",
+          "destinationId": "dambulla",
+          "kind": "excursion",
+          "category": "history",
+          "name": "Nalanda Gedige",
+          "shortDescription": "A small stone shrine of about the 8th–10th century that blends a South Indian temple plan with Buddhist use, near the road to Kandy.",
+          "details": "This stone image house follows a South Indian Hindu temple plan but was used for Buddhist worship, and its weathered carvings mix both traditions. It was dismantled and rebuilt on higher ground when the Bowatenne reservoir was built. A visit takes about half an hour, so it fits a stop on the drive between Dambulla and Kandy.",
+          "where": "Nalanda, about 25 km south of Dambulla, just off the Kandy road",
+          "sources": [
+            "https://www.tourism.cp.gov.lk/en/destination/matale-district/nalanda-gedige",
+            "https://en.wikipedia.org/wiki/Nalanda_Gedige",
+            "https://www.sundaytimes.lk/260329/plus/nalanda-gedige-where-the-theravada-mahayana-and-hindu-traditions-live-side-by-side-635366.html"
+          ],
+          "notes": "Relocation dated 1970s or 1980s depending on source; the card gives no date. Could equally sit under kandy (about 70 km)."
+        },
+        {
+          "id": "dambulla-pophams-arboretum",
+          "destinationId": "dambulla",
+          "kind": "activity",
+          "category": "nature",
+          "name": "Popham's Arboretum and night loris walk",
+          "shortDescription": "Walk quiet trails through a restored patch of dry-zone forest, or join a guided night walk to look for slender lorises.",
+          "details": "Sam Popham began restoring this scrubland as dry-zone forest in 1963; it now belongs to the National Institute of Fundamental Studies, which reopened it for visitors in 2023. Marked trails make a quiet hour's walk by day. Guided night walks of about 1–1.5 hours look for the grey slender loris and other nocturnal animals by torchlight; sightings are never guaranteed.",
+          "where": "Kandalama road, a few kilometres east of Dambulla",
+          "sources": [
+            "https://www.nifs.ac.lk/node/85",
+            "https://env.gov.lk/web/index.php/en/announcements/campaigns/284-reopening-of-the-renovated-nifs-popham-arboretum-as-an-ecotourism-destination-for-the-nature-lovers-20-july-2023-dambulla",
+            "https://www.sundaytimes.lk/230723/news/dambullas-botanical-paradise-re-launching-a-labour-of-love-526173.html"
+          ],
+          "notes": "Night-walk length from operator listings (1–1.5 h). Check whether night walks are run by NIFS staff or only by outside guides, and current hours."
+        }
+      ]
+    },
+    "anuradhapura": {
+      "missing": [
+        "No experience cards and no <!-- experiences --> marker → marker added after 'Visiting the sacred city'; five cards proposed.",
+        "Northern Line status after Cyclone Ditwah (full service from 9 April 2026; intercity cut to four days a week from 10 July 2026) → updated.",
+        "Wilpattu: realistic road time to the gate, villus, flooding closures → expanded; proposed as an excursion card (candidate recommendation).",
+        "Cycling the sacred city had no FAQ → added.",
+        "Yapahuwa (CCF site on the Kurunegala side) and Namal Uyana → left out (low demand, off the usual route); in research notes."
+      ],
+      "corrections": [
+        {
+          "old": "By rail. … The Northern Line was closed for several months after Cyclone Ditwah in late 2025, so check the current timetable with Sri Lanka Railways.",
+          "new": "… After Cyclone Ditwah the Northern Line was repaired in stages, and full services to Jaffna resumed on 9 April 2026. A shortage of trains has since cut some intercity departures to four days a week …",
+          "reason": "Current status as of November 2026.",
+          "sources": [
+            "https://www.adaderana.lk/news.php?nid=120944",
+            "https://www.ft.lk/news/Train-service-on-Northern-line-resumes/56-790716",
+            "https://www.dailymirror.lk/print/breaking-news/Power-set-shortage-cuts-KKS-intercity-to-four-days/108-344920"
+          ]
+        },
+        {
+          "old": "Wilpattu National Park. The park's main gate is about 30 km west.",
+          "new": "… its main gate at Hunuwilagama is roughly 40–50 km by road, usually 1–1.5 hours … dozens of villus … heavy rain can flood the tracks and close the park, as it did in late 2025.",
+          "reason": "'30 km west' is the official straight-line distance to the park, not the road distance to the gate; flood closures in October–December 2025.",
+          "sources": [
+            "https://srilanka.travel/attraction&attraction_id=219",
+            "https://adaderana.lk/news/113712",
+            "https://english.newsfirst.lk/2025/11/27/sri-lanka%E2%80%99s-national-parks-shut-down-as-heavy-rains-lash-island"
+          ]
+        }
+      ],
+      "experienceGuideIdeas": [
+        {
+          "topic": "Wilpattu safari from Anuradhapura: villus, leopards, seasons and floods",
+          "searchIntent": "Wilpattu safari; Wilpattu vs Yala; Wilpattu from Anuradhapura",
+          "why": "164,925 visitors in 2025 (SLTDA); no destination page planned, so an experience guide would carry the search intent."
+        },
+        {
+          "topic": "Visiting Anuradhapura's sacred city: tickets, dress, the route by bicycle",
+          "searchIntent": "Anuradhapura itinerary; Anuradhapura by bicycle",
+          "why": "Large, spread-out site where visitors need a route."
+        }
+      ],
+      "ownerQuestions": [
+        "Do you arrange Wilpattu jeep safaris (half or full day), and is a Wilpattu day realistic with your timings?",
+        "Bicycles and local guides — arranged, suggested or neither?",
+        "Can the driver include Aukana on the Dambulla–Anuradhapura drive, and Mihintale?"
+      ],
+      "existingExperiences": [],
+      "newExperiences": [
+        {
+          "id": "anuradhapura-sri-maha-bodhi",
+          "destinationId": "anuradhapura",
+          "kind": "attraction",
+          "category": "culture",
+          "name": "Sri Maha Bodhi and the great stupas",
+          "shortDescription": "See the sacred Bodhi tree and the white dome of Ruwanwelisaya at evening worship, among pilgrims dressed in white.",
+          "details": "The Sri Maha Bodhi grew from a cutting of the tree under which the Buddha is believed to have attained enlightenment, brought here in the 3rd century BC. Nearby, Ruwanwelisaya rises about 100 m above a wall of carved elephants, and Thuparamaya is said to be the island's first stupa. Visit early or at evening worship; remove shoes and hats, and cover shoulders and knees.",
+          "season": "Busiest on full-moon (poya) days, and at Vesak and Poson",
+          "sources": [
+            "https://ccf.gov.lk/heritage-sites/anuradhapura/",
+            "https://whc.unesco.org/en/list/200",
+            "https://en.wikipedia.org/wiki/Jaya_Sri_Maha_Bodhi"
+          ],
+          "notes": "The living pilgrimage centre; distinct from the cycling card (ruins). Whether these sites are covered by the CCF ticket is unclear (Wikivoyage says the Bodhi tree and Ruwanwelisaya are free); the card avoids the point."
+        },
+        {
+          "id": "anuradhapura-sacred-city-cycling",
+          "destinationId": "anuradhapura",
+          "kind": "activity",
+          "category": "history",
+          "name": "The sacred city by bicycle",
+          "shortDescription": "Cycle the flat roads between Anuradhapura's ancient monasteries, from the Abhayagiri ruins to the vast brick stupa of Jetavanaramaya.",
+          "details": "The ruins of the Abhayagiri and Jetavana monasteries spread over several kilometres north and east of the centre, linked by flat, shaded roads. A bicycle lets you stop at the Samadhi Buddha, the Kuttam Pokuna twin ponds, the moonstone at Mahasena's Palace and Jetavanaramaya. Bicycles can be hired in town; start early, as you walk barefoot at each site.",
+          "sources": [
+            "https://ccf.gov.lk/heritage-sites/anuradhapura/",
+            "https://en.wikivoyage.org/wiki/Anuradhapura"
+          ],
+          "notes": "Mirrors polonnaruwa-cycling. Owner: bicycles arranged or hired locally?"
+        },
+        {
+          "id": "anuradhapura-mihintale",
+          "destinationId": "anuradhapura",
+          "kind": "excursion",
+          "category": "culture",
+          "name": "Mihintale",
+          "shortDescription": "Climb the granite stairway to the hilltop where tradition says Buddhism came to Sri Lanka, with stupas and wide views over the plains.",
+          "details": "A stairway of about 1,840 granite steps climbs to the hill where tradition says the monk Mahinda met King Devanampiya Tissa in the 3rd century BC. The way up passes the ruins of a monastery hospital and leads to stupas and the rock of Aradhana Gala. Go early or late in the day, and expect to remove shoes at the shrines. Most people take 2–3 hours.",
+          "where": "Mihintale, about 12 km east of Anuradhapura (around 20–30 minutes by road)",
+          "season": "Busiest at the Poson full moon, usually in June",
+          "sources": [
+            "https://en.wikipedia.org/wiki/Mihintale",
+            "https://www.roughguides.com/destinations/asia/sri-lanka/cultural-triangle/"
+          ],
+          "notes": "Step count 1,840 vs 1,850; fee about LKR 500–1,000 (not stated). Where shoes must be removed on the climb: confirm locally."
+        },
+        {
+          "id": "anuradhapura-aukana-buddha",
+          "destinationId": "anuradhapura",
+          "kind": "excursion",
+          "category": "history",
+          "name": "Aukana Buddha",
+          "shortDescription": "See the 5th-century standing Buddha, nearly 12 m tall and carved from the living rock, facing the ancient Kala Wewa reservoir.",
+          "details": "Carved from a granite rock face in about the 5th century, the standing Buddha at Aukana is nearly 12 m tall and still a place of worship, overlooking the Kala Wewa reservoir. A visit takes about half an hour; remove shoes and hat, and cover shoulders and knees. It is a detour of about an hour from Anuradhapura or Dambulla, often made on the drive between them.",
+          "where": "Aukana, about an hour by road south of Anuradhapura, near Kala Wewa",
+          "sources": [
+            "https://en.wikipedia.org/wiki/Avukana_Buddha_statue",
+            "https://archives1.sundayobserver.lk/node/19425"
+          ],
+          "notes": "Could sit under dambulla instead (similar distance). Height 11.36–11.84 m across sources. Temple charges a small fee (not stated)."
+        },
+        {
+          "id": "anuradhapura-wilpattu-safari",
+          "destinationId": "anuradhapura",
+          "kind": "excursion",
+          "category": "wildlife",
+          "name": "Wilpattu National Park safari",
+          "shortDescription": "A half- or full-day jeep safari in Sri Lanka's largest national park, around forest lakes, looking for leopards, sloth bears and elephants.",
+          "details": "Wilpattu's dry-zone forest is dotted with villus, shallow lakes that fill with rain, where leopards, sloth bears, elephants, deer and water birds come to drink. Drives on sandy tracks start from the main gate at Hunuwilagama; a half day covers the nearer lakes, a full day goes deeper. It is quieter than Yala, but sightings are never guaranteed, and heavy rain can flood the tracks and close the park.",
+          "where": "Hunuwilagama gate, roughly 40–50 km west of Anuradhapura (about 1–1.5 hours by road)",
+          "season": "Usually best about February to October; heaviest rain about October to January",
+          "sources": [
+            "https://srilanka.travel/attraction&attraction_id=219",
+            "https://dwc.lankagate.gov.lk/DWCEpermitApp/homeAction.action?lang=en",
+            "https://www.sltda.gov.lk/storage/common_media/Year_in_Review_2025_Final_updated_Report_2026_04_02.pdf",
+            "https://www.sltda.gov.lk/storage/common_media/1%20Vehicle%20Safari%20Final%20Guideline.pdf",
+            "https://adaderana.lk/news/113712"
+          ],
+          "notes": "Candidate recommendation: Wilpattu as an excursion from Anuradhapura, not its own page. srilanka.travel's season line reads 'February and October' (probably 'February to October'). Road time is an estimate (official 30 km is straight-line to the park). 2025: 164,925 visitors (76,389 foreign). Closed 28 Nov–3 Dec 2025 (Ditwah); tourists stranded by floods near Eluwankulama 19 Oct 2025; drought in Aug 2026 with unrepaired eastern tanks."
+        }
+      ]
+    },
+    "polonnaruwa": {
+      "missing": [
+        "Variability of the Gathering and how drivers choose the park; the Minneriya tank's builder → added, with a link to the safari guide.",
+        "Medirigiriya Vatadage → new 'Further afield' bullet and proposed excursion card.",
+        "Dimbulagala forest hermitage → new 'Further afield' bullet (no card: niche).",
+        "Batticaloa line status after Cyclone Ditwah → updated.",
+        "An attraction card for the ancient city itself (only the cycling activity existed) → proposed."
+      ],
+      "corrections": [
+        {
+          "old": "By rail. Trains from Colombo Fort usually take about 5–6 hours. Services were disrupted after Cyclone Ditwah in late 2025 …",
+          "new": "Trains from Colombo Fort on the Batticaloa line usually take about 5–6 hours. Cyclone Ditwah damaged the track east of Polonnaruwa in late 2025, and daily trains were running again from January 2026 …",
+          "reason": "Current status: the line was fully reopened on 1 January 2026 per Sri Lanka Railways, with daily Udaya Devi and Pulathisi services from 20 January 2026.",
+          "sources": [
+            "https://www.railway.gov.lk/web/index.php?option=com_content&view=article&id=917&Itemid=217&lang=en",
+            "https://www.newsfirst.lk/2026/01/20/train-services-along-three-routes-resume-after-cyclone-ditwah-disruptions",
+            "https://www.themorning.lk/articles/83wEi7OBTaMJnQvWRqpJ"
+          ]
+        },
+        {
+          "old": "Minneriya National Park is about 25–30 km west … large numbers gather at Minneriya around August and September. Herds move between the parks, and sightings are never guaranteed.",
+          "new": "Adds that both parks surround ancient reservoirs (Minneriya's built by King Mahasen in the 3rd century AD), that numbers change from year to year, that drivers choose the park on the day, and links the safari guide.",
+          "reason": "The variability and park choice were missing.",
+          "sources": [
+            "https://www.ft.lk/news/WNPS-restores--Great-Elephant-Gathering-of-Minneriya-/56-784906",
+            "https://www.sundaytimes.lk/251116/news/bring-about-a-national-policy-beneficial-to-humans-wild-elephants-before-the-next-dry-season-621261.html",
+            "https://en.wikipedia.org/wiki/Minneriya_National_Park"
+          ]
+        }
+      ],
+      "experienceGuideIdeas": [
+        {
+          "topic": "Polonnaruwa by bicycle: a route through the ruins and Gal Vihara",
+          "searchIntent": "Polonnaruwa cycling; Polonnaruwa itinerary",
+          "why": "Common question; 272,852 visitors in 2025 (SLTDA), second CCF revenue earner after Sigiriya."
+        }
+      ],
+      "ownerQuestions": [
+        "Can the driver include Medirigiriya (about 45–60 min each way) or Dimbulagala?",
+        "Do you want the elephant safari to appear under Polonnaruwa as well as Sigiriya?"
+      ],
+      "existingExperiences": [
+        {
+          "id": "polonnaruwa-cycling",
+          "kind": "activity",
+          "changes": {
+            "shortDescription": "Cycle the flat, shaded roads between the ruins of the medieval royal city, from the palace and Quadrangle to the Gal Vihara carvings."
+          },
+          "reason": "The current text calls the city '11th-century' next to the Gal Vihara carvings, which are 12th-century; the city was the capital from 1070 for about two and a half centuries. Category 'history' is right.",
+          "sources": [
+            "https://ccf.gov.lk/heritage-sites/polonnaruwa/",
+            "https://en.wikipedia.org/wiki/Gal_Vihara"
+          ]
+        }
+      ],
+      "newExperiences": [
+        {
+          "id": "polonnaruwa-ancient-city",
+          "destinationId": "polonnaruwa",
+          "kind": "attraction",
+          "category": "history",
+          "name": "Ancient city and Gal Vihara",
+          "shortDescription": "Explore the medieval royal city: the palace walls, the circular Vatadage in the Quadrangle and the Buddha figures carved from one granite face.",
+          "details": "Polonnaruwa was the royal capital from 1070 for about two and a half centuries. The ruins run several kilometres north from the museum, where tickets are sold: the royal palace, the Quadrangle with its Vatadage and Hatadage, Rankoth Vehera, Lankatilaka and the four Buddha images of Gal Vihara. A full morning covers the main groups; start early, before the heat.",
+          "sources": [
+            "https://ccf.gov.lk/heritage-sites/polonnaruwa/",
+            "https://ccf.gov.lk/vsl/tickets",
+            "https://whc.unesco.org/en/list/201"
+          ],
+          "notes": "Overlaps with polonnaruwa-cycling; included so travellers who won't cycle can still select the main sight (as Sigiriya has its main sight as a card). Drop if you prefer one card."
+        },
+        {
+          "id": "polonnaruwa-medirigiriya",
+          "destinationId": "polonnaruwa",
+          "kind": "excursion",
+          "category": "history",
+          "name": "Medirigiriya Vatadage",
+          "shortDescription": "A quiet 7th-century circular relic house on a low rock, ringed by three circles of slender stone pillars, north of Polonnaruwa.",
+          "details": "Built in about the 7th century, the vatadage at Medirigiriya stands on a low rock reached by a short flight of steps, with three rings of slender octagonal pillars around a small stupa and Buddha images. It is among the best-preserved buildings of its kind and usually has few visitors. Allow about half an hour on site; the rock gets very hot at midday.",
+          "where": "Medirigiriya, about 35 km north of Polonnaruwa (around 45 minutes to an hour by road)",
+          "sources": [
+            "https://sundayobserver.lk/2024/01/07/news-features/13440/looking-back-at-medirigiriyas-historical-significance",
+            "https://en.wikipedia.org/wiki/Medirigiriya",
+            "https://archives1.sundayobserver.lk/node/52523"
+          ],
+          "notes": "Department of Archaeology site; no official page found. Distance 25–40 km across sources (34 km most specific). Low demand but a well-regarded hidden gem; keep or drop as you see fit."
+        },
+        {
+          "id": "polonnaruwa-elephant-safari",
+          "destinationId": "polonnaruwa",
+          "kind": "excursion",
+          "category": "wildlife",
+          "name": "Elephant safari: Minneriya or Kaudulla",
+          "shortDescription": "An afternoon jeep safari from Polonnaruwa to see wild elephants on the reservoir grasslands of Minneriya or Kaudulla. Never guaranteed.",
+          "details": "Minneriya's entrance is about 25–30 km west of Polonnaruwa, and Kaudulla lies to its north; the same herds use both, so drivers choose the park on the day. From about July to October elephants graze the drying reservoir beds, usually peaking around August and September. Many visitors see the ruins in the morning and take a safari of about 3 hours in the afternoon.",
+          "where": "Minneriya or Kaudulla National Park, about 30–60 minutes by road from Polonnaruwa",
+          "season": "Best about July–October; usually peaks around August–September",
+          "sources": [
+            "https://www.ft.lk/news/WNPS-restores--Great-Elephant-Gathering-of-Minneriya-/56-784906",
+            "https://dwc.lankagate.gov.lk/DWCEpermitApp/homeAction.action?lang=en",
+            "https://www.sltda.gov.lk/storage/common_media/1%20Vehicle%20Safari%20Final%20Guideline.pdf"
+          ],
+          "notes": "OPTIONAL duplicate of sigiriya-elephant-safari for travellers based in Polonnaruwa or Giritale. The experience guide links to the Sigiriya id only."
+        }
+      ]
+    }
+  },
+  "candidates": [
+    {
+      "place": "Wilpattu National Park",
+      "recommendation": "Better as an excursion/experience under Anuradhapura (proposed: anuradhapura-wilpattu-safari). A destination page only if the business later sells lodge stays or a western route (airport–Kalpitiya–Wilpattu–Anuradhapura).",
+      "priority": "low",
+      "nearestExisting": "anuradhapura",
+      "summary": "Sri Lanka's largest national park (about 1,317 km²), dry-zone forest dotted with villus (rain-filled natural lakes), known for leopards, sloth bears and elephants. No town: visitors come on half- or full-day jeep safaris from Anuradhapura or stay in lodges near the gates. 2025: 164,925 visitors, 76,389 foreign — about the same as Minneriya, far below Yala and Udawalawe. Quieter than Yala. Floods closed parts of the park in October–December 2025; drought stressed it in August 2026.",
+      "attractions": [
+        "Villus and dry-zone forest",
+        "Leopards, sloth bears, elephants, water buffalo, mugger crocodiles",
+        "Water birds at the villus",
+        "Hunuwilagama main gate (Anuradhapura side) and Eluwankulama gate (Puttalam/Kalpitiya side)"
+      ],
+      "routes": "Hunuwilagama gate roughly 40–50 km by road from Anuradhapura, about 1–1.5 h (estimate; official 30 km is straight-line). About 180 km from Colombo, roughly 4–5 h from the airport. Eluwankulama gate about 75–80 km from Kalpitiya (1.5–2 h, estimate). The coastal road through the park stays closed to public traffic (Supreme Court case ended May 2025).",
+      "season": "Usually best about February to October; animals concentrate at the villus in the driest months (about May–September). Heavy north-east monsoon rain about October–January can flood tracks and close the park. Sightings never guaranteed.",
+      "sources": [
+        "https://srilanka.travel/attraction&attraction_id=219",
+        "https://www.sltda.gov.lk/storage/common_media/Year_in_Review_2025_Final_updated_Report_2026_04_02.pdf",
+        "https://www.dwc.gov.lk/?page_id=72",
+        "https://dwc.lankagate.gov.lk/DWCEpermitApp/homeAction.action?lang=en",
+        "https://adaderana.lk/news/113712",
+        "https://english.newsfirst.lk/2025/11/27/sri-lanka%E2%80%99s-national-parks-shut-down-as-heavy-rains-lash-island",
+        "https://www.sundaytimes.lk/250511/news/no-public-transport-through-wilpattu-sc-case-ends-after-15-years-597744.html",
+        "https://climatefactchecks.org/eastern-wilpattu-runs-dry-as-post-ditwah-tank-repairs-lag/",
+        "https://ft.lk/travel-tourism/new-wilpattu-entrance-major-fillip-for-tourism/27-532259"
+      ],
+      "proposedExperiences": [
+        "anuradhapura-wilpattu-safari (see destinations.anuradhapura.newExperiences)"
+      ],
+      "ownerQuestions": [
+        "Does Eranorris cover Wilpattu at all (jeep safaris arranged or booked locally; half or full day)?"
+      ]
+    },
+    {
+      "place": "Jaffna (peninsula and islands)",
+      "recommendation": "Its own destination page, medium priority. Too far for an excursion from any existing destination (about 4–5 h from Anuradhapura, 7–8 h from the airport); enough distinct sights for 2–3 nights; strong official promotion; rail and air access restored in 2026. Not high priority because foreign demand and room supply are still small.",
+      "priority": "medium",
+      "nearestExisting": "anuradhapura",
+      "summary": "Cultural capital of the Tamil north: Hindu kovils (Nallur Kandaswamy and its 25-day festival, usually late July–September), the Portuguese/Dutch fort, the rebuilt public library, Keerimalai springs, Point Pedro, Casuarina Beach and ferry-reached islands (Nainativu, Delft). Jaffna Fort had 249,913 visitors in 2025 but only 14,532 foreign (Sigiriya: 582,687 foreign); Jaffna district has 757 registered rooms, and SLTDA calls the north a 'Northern Gap'.",
+      "attractions": [
+        "Nallur Kandaswamy Kovil and festival",
+        "Jaffna Fort",
+        "Jaffna Public Library (burned 1981, rebuilt)",
+        "Keerimalai springs and Naguleswaram",
+        "Point Pedro / Sakkotai Cape",
+        "Casuarina Beach",
+        "Nainativu (Nagadeepa and Nagapooshani Amman) by ferry",
+        "Delft island (national park since 2015) by ferry",
+        "Kadurugoda, Nilavarai well, Fort Hammenhiel",
+        "Elephant Pass",
+        "Jaffna cuisine (not yet sourced)"
+      ],
+      "routes": "By road: Anuradhapura about 197 km (usually 4–5 h with a stop, estimate); Trincomalee about 230 km (4.5–5.5 h); Sigiriya about 254 km (5–6 h); airport about 360 km (7–8 h). Rail: Northern Line fully reopened 9 April 2026; from 10 July 2026 the Colombo–KKS intercity runs Friday–Monday only, the Night Mail and Yal Devi continue, with frequencies changed several times during 2026 (re-check). Flights: Chennai and Tiruchirappalli–Jaffna (IndiGo). KKS–Nagapattinam ferry seasonal (usually paused about November–February; November 2026 status unverified).",
+      "season": "Dry zone; most rain about October–December (November usually wettest); drier January–September, hottest about April–August. Nallur festival usually late July–September, dates set by the temple.",
+      "sources": [
+        "https://www.srilanka.travel/diversity/northern-sri-lanka",
+        "https://www.sltda.gov.lk/storage/common_media/Year_in_Review_2025_Final_updated_Report_2026_04_02.pdf",
+        "https://www.adaderana.lk/news.php?nid=120944",
+        "https://www.dailymirror.lk/print/breaking-news/Power-set-shortage-cuts-KKS-intercity-to-four-days/108-344920",
+        "https://np.gov.lk/?p=33561",
+        "https://en.wikipedia.org/wiki/Jaffna_Fort",
+        "https://en.wikipedia.org/wiki/Delft_National_Park",
+        "https://www.lonelyplanet.com/sri-lanka/jaffna-and-the-north/jaffna",
+        "https://www.ft.lk/front-page/Sri-Lanka-s-airports-post-strongest-year-since-crisis-as-traffic-airlines-and-regional-hubs-gain-momentum/44-788392"
+      ],
+      "proposedExperiences": [],
+      "ownerQuestions": [
+        "Does Eranorris drive to Jaffna, and would you sell 2–3 nights there (with or without the train one way)?"
+      ]
+    },
+    {
+      "place": "Kalpitiya",
+      "recommendation": "Its own destination page at low priority, or not needed for now. It does not work as an excursion (2.5–3 h each way from Anuradhapura or the airport, with early dolphin-boat departures). Build it only if the business wants kitesurfers or a western route via Wilpattu.",
+      "priority": "low",
+      "nearestExisting": "anuradhapura",
+      "summary": "A peninsula between the Puttalam lagoon and the sea: spinner-dolphin trips and sperm whales offshore (about November–April), the Bar Reef marine sanctuary, and Sri Lanka's main kitesurfing lagoon (main wind season about May–September). Niche demand: the Bar Reef sold tickets to 3,732 foreign visitors in 2025 (dolphin trips may not all be counted); SLTDA calls it 'a niche but growing market'.",
+      "attractions": [
+        "Dolphin and whale watching (DWC 2012 sea-mammal regulations apply)",
+        "Bar Reef Marine Sanctuary (declared 1992)",
+        "Kitesurfing on the Kalpitiya lagoon and at Kappalady",
+        "Mangroves, islands, salt pans of the Puttalam lagoon",
+        "Dutch fort (Navy-occupied, restricted) and Dutch church",
+        "St Anne's Church, Talawila"
+      ],
+      "routes": "About 130–140 km from the airport (usually 2.5–3.5 h, estimate), 2.5–3 h from Negombo, about 120 km and 2.5–3 h from Anuradhapura; Wilpattu's Eluwankulama gate about 1.5–2 h.",
+      "season": "Dolphins/whales about November–April; kite season about May–September/early October, with a lighter season about December–February; calmest sea about December–April.",
+      "sources": [
+        "https://www.srilanka.travel/diversity/northern-sri-lanka",
+        "https://www.sltda.gov.lk/storage/common_media/Year_in_Review_2025_Final_updated_Report_2026_04_02.pdf",
+        "https://www.dwc.gov.lk/?page_id=817",
+        "https://en.wikipedia.org/wiki/Bar_Reef",
+        "https://www.sundaytimes.lk/141102/news/new-safety-rules-as-whale-dolphin-watching-season-begins-in-kalpitiya-125836.html",
+        "https://www.sltda.gov.lk/storage/common_media/9%20FINAL%20DRAFT%20CRITERIA%20FOR%20WHALE%20WATCHING%20FINAL%202026.6.12.cleaned.pdf"
+      ],
+      "proposedExperiences": [],
+      "ownerQuestions": [
+        "Does Eranorris cover Kalpitiya (dolphin trips or kitesurf stays), or the western route via Wilpattu?"
+      ]
+    }
+  ]
+}

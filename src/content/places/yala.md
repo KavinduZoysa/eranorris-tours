@@ -16,6 +16,10 @@ combine:
 sources:
   - Department of Wildlife Conservation | https://www.dwc.gov.lk/
   - Department of Wildlife Conservation — online park permits | https://dwc.lankagate.gov.lk/DWCEpermitApp/homeAction.action?lang=en
+  - Sri Lanka Tourism — Bundala National Park | https://www.srilanka.travel/attraction?attraction_id=168
+  - Sri Lanka Tourism — Kataragama | https://www.srilanka.travel/attraction?attraction_id=169
+  - Ruhunu Maha Kataragama Devalaya (official site) | https://rmkd.lk/
+  - Central Cultural Fund — Tissamaharama | https://ccf.gov.lk/heritage-sites/tissamaharama
 verify:
   - The villa site lists a "Yala National Park Safari". Is it offered to tour guests? If so, what is included (jeep, tracker or guide, park permits, breakfast), which sessions, and what are the terms?
   - Do we help guests choose or book a safari jeep and park permits, or do guests arrange them locally? (The page makes no claim.)
@@ -23,6 +27,8 @@ verify:
   - Recommended stay — the design suggests 2 nights, as does the page. Confirm.
   - Yala hero photo (yala-national-park) — rights confirmed. Note the design's photoOf says "a leopard", but the alt text describes rock outcrops and a lake at dusk; which is correct?
   - Experience photo yala-elephant (from the villa site) — rights confirmed, and was it taken in Yala?
+  - Do drivers take guests to Kataragama, Kirinda, Bundala or Sithulpawwa on a Yala stay, or are these only suggestions? Sithulpawwa is reached by roads through the park; do our vehicles use them, and is a park ticket needed?
+  - The 2026 closure and reopening dates (closed 14 September–15 October; reopened 16 October; bungalows from 1 November) are given as an example. Replace them with the current year's dates before publishing.
 ---
 
 ## Why visit Yala
@@ -45,15 +51,17 @@ The **other zones**, entered from Galge and Lunugamvehera further north, are lar
 - **Everyday sightings.** Spotted deer, sambar, wild boar, water buffalo, grey langurs, mugger crocodiles and monitor lizards.
 - **Birds.** More than 200 species, from peafowl and bee-eaters to painted storks and eagles, with migrant birds from about October to April.
 
-Inside the park, Sithulpawwa is an ancient rock monastery still used by pilgrims; dress as you would for any temple. At Patanangala, on the coast, a memorial marks the 2004 tsunami, which struck this shore.
+At Patanangala, on the coast, a memorial marks the 2004 tsunami, which struck this shore. It is one of the few places where visitors may step out of the jeep.
+
+**Sithulpawwa**, deep in the park, is a rock monastery with caves, stupas and inscriptions dating back to around the 2nd century BC, and it is still an active temple. Pilgrims reach it by roads through the park from Kirinda and from Kataragama. Dress as you would for any temple, and travel in daylight, because elephants use the same roads.
 
 <!-- experiences -->
 
 ## Planning a safari
 
-Ordinary cars and vans do not go on safari. Visitors enter the park in registered safari jeeps, and since 2024 only licensed jeeps and drivers have been allowed into Block I. Park permits are issued by the Department of Wildlife Conservation, at the gate or online, and each park has a daily limit.
+Ordinary cars and vans do not go on safari. Visitors enter the park in registered safari jeeps, and since 2024 only licensed jeeps and drivers have been allowed into Block I. Park permits are issued by the Department of Wildlife Conservation, at the gate or online, and each park has a daily limit. In 2026 the government was also discussing a cap on jeeps per session, timed entry slots and a new digital ticket system, so check the rules shortly before you go.
 
-The park is open from around dawn to dusk, and every vehicle must be out by closing time; the wildlife department publishes the current hours. A **morning drive** usually starts at opening time and returns by late morning. An **afternoon drive** runs from mid-afternoon until closing. A **full day** stays in the park through the midday heat, with stops only at designated places.
+The park is open from around dawn to dusk. Entry and exit times are strictly enforced, and every vehicle must be out by closing time; the wildlife department publishes the current hours. Jeeps based in Tissamaharama set off well before opening time to reach the Palatupana gate. A **morning drive** usually starts at opening time and returns by late morning. An **afternoon drive** runs from mid-afternoon until closing. A **full day** stays in the park through the midday heat, with stops only at designated places.
 
 Animals are most active early and late, and the morning light is softer for photographs. Bring a hat, sunscreen, water, a scarf against the dust, and binoculars.
 
@@ -62,6 +70,7 @@ Animals are most active early and late, and the morning light is softer for phot
 Block I can be very busy, and crowds of jeeps around a leopard have become a well-reported problem. The way you behave in the jeep counts:
 
 - Tell your safari driver you don’t want to speed or race to sightings. Losing a sighting is better than causing an accident.
+- At a sighting, ask the driver to switch off the engine, as licensed drivers are trained to do, and to hold back rather than push into a jam of jeeps.
 - Stay in the jeep except at the designated stops, and keep your voice down near animals.
 - Never feed wildlife or leave litter, and don’t play calls or music to attract animals.
 - Give elephants space and a clear way past; don’t let the jeep block their path.
@@ -71,17 +80,21 @@ Block I can be very busy, and crowds of jeeps around a leopard have become a wel
 
 Yala gets most of its rain from the north-east monsoon, roughly October to January. From about February the land dries out, and by August and September water is scarce and animals gather at the remaining waterholes. That makes them easier to find, and it also puts the park under the most stress.
 
-Because of this, the wildlife department usually closes **Blocks I and II for several weeks around September and October**. The dates change every year: in 2026 they were closed from 14 September to 15 October, while the other zones stayed open. Check the department’s announcements before planning a visit in those months.
+Because of this, the wildlife department usually closes **Blocks I and II for several weeks around September and October**. The dates change every year. In 2026 the two blocks closed from 14 September to 15 October, while the other zones stayed open; safaris resumed on 16 October, and the park’s bungalows and campsites were due to reopen on 1 November. Parks can also close at short notice in very heavy rain: in late November 2025, as Cyclone Ditwah approached, all but one of Yala’s zones were shut. Check the department’s announcements before planning a visit in those months.
 
 ## How long to stay
 
 **One night** allows an afternoon drive on arrival and a morning drive the next day. **Two nights** add a second morning in the park, a full day, or time for the places nearby. Two drives give you a much better chance of seeing the animals you came for than one.
 
-Around the park:
+## Around Tissamaharama
 
-- **Tissamaharama**, the main base, has a large ancient reservoir and a restored stupa.
-- **Kataragama**, about half an hour north, is a pilgrimage town sacred to Buddhists, Hindus and Muslims. Its evening ceremonies are busiest during the annual festival, around June to August.
-- **Bundala National Park**, to the west, is a coastal wetland known for waterbirds, including flamingos in some years.
+Most visitors stay in or near Tissamaharama (“Tissa”), or at Kirinda on the coast. Between drives:
+
+- **Tissamaharama.** Tissa was the capital of the ancient southern kingdom of Ruhuna. Its reservoir, **Tissa Wewa**, dates back more than 2,000 years and is a good place for birds and sunset. Beside the town rises the white stupa of the Tissamaharama Raja Maha Vihara, about 50 m high, with the smaller Yatala and Sandagiri stupas nearby.
+- **Kataragama**, about 19 km north, is a pilgrimage town sacred to Buddhists, Hindus and Muslims. Pilgrims bathe in the Menik Ganga, then crowd into the shrine of the god Kataragama for the offerings held several times a day; the evening one is the most atmospheric. The white Kiri Vehera stupa stands a short walk north. Remove your shoes, and don’t wear shorts. The annual festival, usually in July, brings fire-walking, processions and very large crowds.
+- **Kirinda**, about 10 km south of Tissa, is a fishing village with a temple on a rock above the sea. Legend says Queen Viharamahadevi, mother of King Dutugemunu, came ashore near here. Currents can be strong, so ask locally before swimming.
+- **Bundala National Park**, west of Tissa, protects shallow coastal lagoons and was Sri Lanka’s first Ramsar wetland. It is one of the island’s best places for waterbirds, especially when migrants arrive from about September to March. Flocks of greater flamingos come in some years but not every year. Drives here are quieter than in Yala.
+- **Lunugamvehera National Park**, north of Tissa towards Udawalawe, protects an elephant corridor between the parks and sees far fewer jeeps.
 
 ## Getting there and moving on
 
@@ -104,7 +117,7 @@ Both work. Mornings are cooler, with softer light and animals on the move. After
 
 ### When is Yala closed?
 
-Blocks I and II usually close for several weeks around September and October, during the driest weeks of the year. Dates change annually. In 2026 they were 14 September to 15 October, and other zones stayed open.
+Blocks I and II usually close for several weeks around September and October, during the driest weeks of the year. Dates change annually. In 2026 they were closed from 14 September to 15 October and reopened on 16 October, while other zones stayed open. Parks can also close at short notice in very heavy rain.
 
 ### Should I choose Block I or another zone?
 

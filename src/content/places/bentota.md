@@ -24,10 +24,11 @@ verify:
   - Do we arrange the river safari or water sports, or do guests book them locally? The water-sports card comes from the design text only.
   - The "River safari and mask museum" card combines the design's Bentota river safari with the villa site's Madu River tour (which started from Hikkaduwa, about 3.5 hours including travel). From Bentota, which river do we use — the Bentota River, the Madu River or either — and how long is the trip? The card gives no duration until confirmed.
   - Do we recommend particular river or water-sports operators, and have we checked their safety standards (life jackets, licensing)?
+  - The villa site's Madu River tour lists a "baby crocodile photo" and "fish therapy" as extras. These are captive-animal interactions the site must not promote. Are they still part of the tour, and can the tour be offered to tour guests without them? The page now says such stops involve captive animals.
   - Lunuganga allows only the Geoffrey Bawa Trust’s own tours. Do we suggest a stop there, and do guests pay for the tour on the day?
+  - Do we suggest Brief Garden, and is it currently open to visitors? Its own website gave no visiting details when checked (November 2026).
   - Recommended stay — the design suggests 2 nights, and the page agrees. Please confirm.
   - Is Bentota usually a last stop before the airport in our routes? The page suggests it as an end-of-tour beach.
-  - Bentota hero photo (thatched pavilion at sunset) — rights confirmed, and was it taken in Bentota? If it shows a particular hotel, check that using it does not suggest a partnership.
   - The journey times here are researched ranges, not our own measured times. Please confirm or correct them from experience.
 ---
 
@@ -53,7 +54,9 @@ The river is the other half of Bentota. Upstream from the bridges it winds betwe
 
 **River safaris** usually last one to three hours. Kingfishers, herons and cormorants are common, water monitors are often seen and crocodiles sometimes, though nothing is guaranteed. Mornings and late afternoons are cooler and better for birds. Watch animals from the boat; don’t handle or feed them.
 
-**Water sports** such as jet skis, water-skiing, wakeboarding, banana boats and windsurfing mostly take place on the sheltered river and lagoon near the mouth rather than in the open sea. Operators vary, so check that life jackets are provided and fit.
+The **Madu Ganga** at Balapitiya, about 20 km south, is a different river and a popular alternative. It widens into a mangrove estuary scattered with islands, listed as a Ramsar wetland of international importance, and boats usually stop at the island temple of Kothduwa and a cinnamon-peeling island. Some trips also stop where a young crocodile is offered for photos, or at a “fish therapy” pool; the crocodile is a captive animal, and handling it is best avoided.
+
+**Water sports** such as jet skis, water-skiing, wakeboarding, banana boats and windsurfing mostly take place on the sheltered river and lagoon near the mouth rather than in the open sea. Operators vary. Ask for a safety briefing, wear the life jacket you are given and check that it fits, keep jet skis well away from swimmers and fishing boats, and skip the water after drinking.
 
 <!-- experiences -->
 
@@ -67,9 +70,10 @@ Two gardens inland make Bentota a good stop for anyone interested in architectur
 ## More to see nearby
 
 - **Kosgoda**, about 11 km south, has several privately run turtle hatcheries. Eggs are incubated there and hatchlings kept in tanks before release; they are captive facilities, not wild encounters.
+- **Induruwa**, the next stretch of beach south, is quieter, with fewer hotels; the same seasonal sea warnings apply.
 - **Galapata Raja Maha Vihara**, inland from Bentota, is an old temple with medieval stone inscriptions, carved pillars and ponds.
-- **Madu Ganga** at Balapitiya, about 20 km south, is a mangrove estuary with islands and an island temple reached by boat. It is a Ramsar wetland of international importance.
-- **Ambalangoda**, a little further south, is known for its carved wooden masks.
+- **Ambalangoda**, about 25 km south beyond the Madu Ganga, is known for its carved wooden masks, used in healing rituals and folk theatre, with workshops and museums.
+- **Ayurveda.** Many Bentota hotels have Ayurveda centres, and some resorts are built around treatment stays. If you book a treatment, ask who the practitioner is and mention any medical conditions or medicines.
 
 ## How long to stay
 
@@ -100,6 +104,10 @@ Not safely. From about November to April the sea is usually calm enough. From Ma
 ### What is the Bentota river safari like?
 
 A boat trip of one to three hours along the river and its mangrove channels, looking for birds, water monitors and sometimes crocodiles. Go early or late in the day, and expect no guarantees.
+
+### Is the Madu River the same as the Bentota River?
+
+No. The Bentota River meets the sea at Bentota itself. The Madu Ganga is a separate mangrove estuary at Balapitiya, about 20 km south, with more islands and an island temple. Both have boat trips; the Madu Ganga is often combined with the mask workshops at Ambalangoda.
 
 ### Can I visit Lunuganga without booking?
 

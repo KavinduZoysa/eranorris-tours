@@ -37,16 +37,16 @@ export default {
   // it. `npm run check` lists anything unconfirmed; `npm run check:release` (run by the deploy
   // workflow) fails until every item is true.
   confirmed: {
-    brand: false, //          "Eranorris" is the customer-facing name for the tours business
-    contact: false, //        WhatsApp number, phone and email above receive tour enquiries
-    address: false, //        the business location above (or set address: null)
+    brand: true, //          "Eranorris" is the customer-facing name for the tours business
+    contact: true, //        WhatsApp number, phone and email above receive tour enquiries
+    address: true, //        the business location above (or set address: null)
     shuttleFares: false, //   SHUTTLE_FARES in src/data/destinations.mjs are your real fixed prices
-    shuttleService: false, // SHUTTLE_TIMING: driver meets guests in arrivals; 45 min / 3 h buffers
-    vehicles: false, //       VEHICLES: models and passenger capacities you operate
-    pickups: false, //        PICKUPS: you collect from every listed place (incl. Colombo Port, Mattala)
-    hotelOptions: false, //   the quote form's hotel choices (Budget / Mid-range / Luxury) are services you offer
+    shuttleService: true, // SHUTTLE_TIMING: driver meets guests in arrivals; 45 min / 3 h buffers
+    vehicles: true, //       VEHICLES: models and passenger capacities you operate
+    pickups: true, //        PICKUPS: you collect from every listed place (incl. Colombo Port, Mattala)
+    hotelOptions: true, //   the quote form's hotel choices (Budget / Mid-range / Luxury) are services you offer
     destinationCopy: false, // the 16 destination descriptions, suggested nights and seasons
-    experiences: false, //    src/data/experiences.mjs: each one is offered/arranged, and its text is right
+    experiences: true, //    src/data/experiences.mjs: each one is offered/arranged, and its text is right
     photoRights: false, //    you are licensed to use every photo in src/images/, and each shows the named place
   },
 };
