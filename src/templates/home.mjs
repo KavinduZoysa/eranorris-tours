@@ -1,12 +1,21 @@
 // Homepage: the map-first planner from the supplied design, plus a crawlable places index.
 // Markup inside <div class="app"> follows design/design-source.html. Dynamic regions
-// (#chips, #stops, #vehicles, …) are pre-rendered in their initial state so the page
+// (#chips, #vehicles, …) are pre-rendered in their initial state so the page
 // is complete before JavaScript runs and nothing shifts when it does.
-import { CATS, DESTS, VEHICLES } from '../data/destinations.mjs';
+//
+// The tour planner is a guided flow (see "Guided trip planner" in README.md):
+//   1. the map with one instruction            (.overlay, #guide)
+//   2. a place opens as a dialog               (#dback > #dcard)
+//   3. the compact itinerary appears           (#trip)
+//   4. review, then details, then send         (#mbg, built in src/js/app.js)
+// The side panel (#panel) is only used for airport transfers.
+import { CATS, DESTS, PICKUPS, VEHICLES } from '../data/destinations.mjs';
 import { brand, esc, menu, picture, waLink } from './layout.mjs';
 
 const SEARCH_ICON = (s) =>
   `<svg width="${s}" height="${s}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-3.5-3.5"></path></svg>`;
+
+const CHEVRON = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"></path></svg>`;
 
 function chips() {
   const counts = { all: DESTS.length };
@@ -53,9 +62,9 @@ export function homeBody(ctx) {
     <div id="map" role="region" aria-label="Map of Sri Lanka with ${DESTS.length} places. Tab to a place and press Enter to open it."></div>
     <div class="shade"></div>
     <div class="overlay">
-      <p class="eyebrow">${DESTS.length} places · one island</p>
-      <h1 id="h1" data-m="tour">Plan your Sri Lanka, <em>one stop at a time.</em></h1>
-      <p class="lede">Pick places on the map, choose where we collect you and when, and we’ll send a quote for a private tour with your own driver.</p>
+      <p class="eyebrow">Build your Sri Lanka trip · ${DESTS.length} places</p>
+      <h1 id="h1" data-m="tour">Let’s plan your Sri Lanka <em>experience.</em></h1>
+      <p class="guide" id="guide" data-k="s1">Start by selecting a destination on the map to explore what you can experience there.</p>
       <div class="search" role="search">
         <label class="sbox">
           ${SEARCH_ICON(18)}
@@ -65,53 +74,51 @@ export function homeBody(ctx) {
         <ul class="results" id="results" role="listbox" aria-label="Matching places" hidden></ul>
       </div>
       <div class="chips" id="chips" role="group" aria-label="Filter places by type">${chips()}</div>
+      <p class="ov-alt"><button type="button" class="linkbtn" id="toShuttle">Only need an airport transfer?</button></p>
     </div>
     <div class="map-fallback" role="note"><b>The interactive map isn’t available</b>You can still <a href="#places">browse all ${DESTS.length} places</a> below, or <a href="${waLink(ctx, `Hello ${site.name}, I’d like to plan a private tour of Sri Lanka.`)}" target="_blank" rel="noopener">plan your trip with us on WhatsApp</a>.</div>
     <div class="gest" id="gest" aria-hidden="true"><span>Use two fingers to move the map</span></div>
-    <div class="pinbanner" id="pinBanner" hidden><span id="pinTxt">Click the map to set your pickup point</span><button id="pinCancel">Cancel</button></div>
-    <article class="dcard" id="dcard" hidden></article>
+    <div class="pinbanner" id="pinBanner" hidden><span id="pinTxt">Click the map to set your starting point</span><button id="pinCancel">Cancel</button></div>
+
+    <aside class="trip" id="trip" aria-labelledby="tripH" hidden>
+      <h2 class="trip-h" id="tripH"><button type="button" class="trip-tg" id="tripTg" aria-expanded="true" aria-controls="tripBody"><span class="t">Your trip</span><span class="c" id="tripCount"></span>${CHEVRON}</button></h2>
+      <div class="trip-b" id="tripBody">
+        <section class="trip-sec" aria-labelledby="tsStart">
+          <h3 class="tagl" id="tsStart">Starting point</h3>
+          <label class="field">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s7-6.2 7-11.5A7 7 0 0 0 5 9.5C5 14.8 12 21 12 21z"></path><circle cx="12" cy="9.5" r="2.5"></circle></svg>
+            <select id="pkSel" aria-labelledby="tsStart" aria-describedby="pkNote">
+              <option value="" disabled selected>Choose where we pick you up</option>
+              ${PICKUPS.map((p) => `<option value="${p.id}">${esc(p.name)}</option>`).join('\n              ')}
+            </select>
+          </label>
+          <p class="hint" id="pkNote">Where should we pick you up? We bring you back here at the end.</p>
+          <div class="pk-alt"><button type="button" class="linkbtn" id="pinBtn">Or drop a pin on the map</button></div>
+        </section>
+        <section class="trip-sec" aria-labelledby="tsPlaces">
+          <div class="trip-sec-h"><h3 class="tagl" id="tsPlaces">Places to visit</h3><button type="button" class="linkbtn" id="optBtn" hidden>Shortest route</button></div>
+          <ol class="tl" id="stops"></ol>
+        </section>
+        <p class="trip-clear"><button type="button" class="linkbtn mut" id="tripClear">Clear trip</button></p>
+      </div>
+      <div class="trip-f">
+        <button type="button" class="btn ghost" id="addMore" aria-label="Add another destination"><span aria-hidden="true">+ Add another<span class="lg"> destination</span></span></button>
+        <button type="button" class="btn primary" id="finishBtn">Finish planning</button>
+      </div>
+    </aside>
   </section>
 
   <section class="panel" id="panel" aria-labelledby="pTitle">
-    <div class="modes" id="modes" role="group" aria-label="What are you booking?"><button data-mode="tour" class="on" aria-pressed="true">Tour</button><button data-mode="shuttle" aria-pressed="false">Airport shuttle</button></div>
+    <div class="modes" id="modes" role="group" aria-label="What are you booking?"><button data-mode="tour" aria-pressed="false">Tour</button><button data-mode="shuttle" class="on" aria-pressed="true">Airport shuttle</button></div>
     <div class="p-head">
       <div>
-        <h2 id="pTitle">Your trip</h2>
-        <p id="summary">No stops yet</p>
+        <h2 id="pTitle">Airport transfer</h2>
+        <p id="summary">Bandaranaike International · CMB</p>
       </div>
       <button class="linkbtn mut" id="clearBtn" hidden>Clear</button>
     </div>
 
-    <div id="tourView">
-    <section class="step" aria-labelledby="st1">
-      <div class="step-h"><span class="n">01</span><h3 id="st1">Destinations</h3><button class="linkbtn act" id="optBtn" hidden>Optimise route</button></div>
-      <div id="stops"><div class="empty-stops">Click a place on the map or search above to add your first stop. Add as many as you like and we’ll work out the dates.</div></div>
-    </section>
-
-    <section class="step" aria-labelledby="st2">
-      <div class="step-h"><span class="n">02</span><h3 id="st2">Pickup location</h3></div>
-      <div id="pkChosen"></div>
-      <div id="pkPicker">
-        <label class="field">
-          ${SEARCH_ICON(16)}
-          <input id="pkIn" type="text" placeholder="Airport, city or hotel area" autocomplete="off" aria-label="Pickup location" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="pkList">
-        </label>
-        <ul class="pk-list" id="pkList" role="listbox" aria-label="Pickup locations" hidden></ul>
-        <div class="pk-alt"><button class="linkbtn" id="pinBtn">Drop a pin on the map</button></div>
-      </div>
-    </section>
-
-    <section class="step" aria-labelledby="st3">
-      <div class="step-h"><span class="n">03</span><h3 id="st3">Start date</h3><span class="opt">Optional</span></div>
-      <label class="field">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><rect x="3.5" y="5" width="17" height="15" rx="2"></rect><path d="M3.5 10h17M8 3v4M16 3v4"></path></svg>
-        <input id="startDate" type="date" aria-label="Start date" aria-describedby="dateInfo">
-      </label>
-      <p class="hint" id="dateInfo">Pick the day we collect you and we’ll work out the dates for each stop, or leave it: you can ask for a quote without dates.</p>
-    </section>
-    </div>
-
-    <div id="shView" hidden>
+    <div id="shView">
     <section class="step" aria-labelledby="sh1">
       <div class="step-h"><span class="n">01</span><h3 id="sh1">Trip type</h3></div>
       <div class="dirs" id="shDir" role="group" aria-labelledby="sh1">
@@ -172,8 +179,8 @@ export function homeBody(ctx) {
     </section>
 
     <div class="cta">
-      <p id="ctaHint">Add a destination and a pickup location to request a quote.</p>
-      <button class="btn primary" id="quoteBtn" disabled aria-describedby="ctaHint">Request a quote</button>
+      <p id="ctaHint">Add where you’re staying to request a transfer.</p>
+      <button class="btn primary" id="quoteBtn" disabled aria-describedby="ctaHint">Request transfer</button>
     </div>
     <p class="nojs-note">The trip planner needs JavaScript. To plan a private tour, message us on <a href="${waLink(ctx, `Hello ${site.name}, I’d like to plan a private tour of Sri Lanka.`)}" target="_blank" rel="noopener">WhatsApp</a> or email <a href="mailto:${esc(site.contact.email)}">${esc(site.contact.email)}</a>.</p>
   </section>
@@ -192,6 +199,7 @@ export function homeBody(ctx) {
 </section>
 </main>
 
+<div class="dback" id="dback" hidden><article class="dcard" id="dcard" role="dialog" aria-modal="true" aria-labelledby="dcTitle" hidden></article></div>
 <div class="mbg" id="mbg" hidden></div>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>`;
 }

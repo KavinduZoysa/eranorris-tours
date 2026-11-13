@@ -1,5 +1,8 @@
-// Map-first trip planner — ported from the supplied design. Behaviour is unchanged
-// except where commented (photos, accessibility, deep links, real request hand-off).
+// Map-first trip planner — ported from the supplied design, then reshaped into a guided flow:
+// choose a place on the map → explore it in a dialog → "Add to my trip" → the compact trip
+// panel appears → "Finish planning" → review → details → send. One state object (S) drives
+// all of it; see "Guided trip planner" in README.md. Other changes from the design are
+// commented where they happen (photos, accessibility, deep links, real request hand-off).
 import L from 'leaflet';
 import { CATS, DESTS, PICKUPS, VEHICLES, SHUTTLE_FARES, SHUTTLE_TIMING, hav, legInfo, fmtDur, nightsTxt } from '../data/destinations.mjs';
 import { EXPERIENCES, EXP_CATS, EXP_KINDS, experiencesFor } from '../data/experiences.mjs';
@@ -12,6 +15,8 @@ const D = Object.fromEntries(DESTS.map((d) => [d.id, d]));
 const P = Object.fromEntries(PICKUPS.map((p) => [p.id, p]));
 const KEY = 'eranorris-trip-v1';
 const $ = (s) => document.querySelector(s);
+const app = $('.app'),
+  trip = $('#trip');
 // localStorage can be unavailable (private mode, blocked storage): never let that break the planner.
 const store = {
   get() {
@@ -42,7 +47,11 @@ if (S.start && S.start < TODAY) (S.start = ''), (staleDates = true);
 if (S.sh) for (const k of ['arrDate', 'depDate']) if (S.sh[k] && S.sh[k] < TODAY) (S.sh[k] = ''), (staleDates = true);
 let filter = 'all',
   active = null,
-  picking = false;
+  picking = false,
+  // Experiences ticked in the dialog of a place that isn't in the trip yet. They join the trip
+  // with "Add to my trip" and are dropped by "Close": closing never adds anything.
+  draft = null,
+  quiet = false; // see focusQuiet()
 const save = () => store.set(S);
 const reduceMotion = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 function dateAt(off) {
@@ -109,11 +118,20 @@ function vehicleId() {
 }
 function toast(t) {
   const el = $('#toast');
+  // Added: keep it clear of what the visitor is using. At the top while a dialog is open
+  // (its buttons are at the bottom); just above the trip drawer on stacked layouts.
+  const dlg = !card.hidden || !mbg.hidden;
+  el.classList.toggle('top', dlg);
+  const r = !dlg && !trip.hidden && trip.classList.contains('drawer') ? trip.getBoundingClientRect() : null;
+  // (+26: a 12px gap, and the drawer may still be sliding up its last 14px.)
+  el.style.bottom = r && r.top < window.innerHeight && r.bottom > 0 ? Math.max(28, window.innerHeight - r.top + 26) + 'px' : '';
   el.textContent = t;
   el.classList.add('show');
   clearTimeout(toast._t);
   toast._t = setTimeout(() => el.classList.remove('show'), 2600);
 }
+// A message from the step before must not sit on top of a dialog that has just opened.
+const hideToast = () => $('#toast').classList.remove('show');
 const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]);
 
 /* map */
@@ -125,7 +143,9 @@ const map = L.map('map', {
   zoomControl: false,
   zoomSnap: 0.25,
   zoomDelta: 0.5,
-  minZoom: 6.5,
+  // Changed: was 6.5. Small phones need the island a little smaller to fit under the heading
+  // and above the trip drawer.
+  minZoom: 6,
   maxZoom: 10.5,
   dragging: !coarse,
   // Changed: was [[4.4, 77.6], [11, 84]]. That box was too tight for the view to shift the island
@@ -167,9 +187,11 @@ if (coarse) {
     { passive: true },
   );
 }
-map.attributionControl.addAttribution('Map data: <a href="https://www.naturalearthdata.com/">Natural Earth</a>');
+// Changed: shorter credits ("Map: Natural Earth, geoBoundaries"), so the line stays on one row
+// on small phones instead of wrapping over the places in the south.
+map.attributionControl.addAttribution('Map: <a href="https://www.naturalearthdata.com/">Natural Earth</a>');
 // Changed: credit added up front (not after the file loads) so the control doesn't grow and shift the zoom buttons.
-const DIST_CREDIT = 'Districts: <a href="https://www.geoboundaries.org/">geoBoundaries</a>';
+const DIST_CREDIT = '<a href="https://www.geoboundaries.org/" title="District boundaries">geoBoundaries</a>';
 map.attributionControl.addAttribution(DIST_CREDIT);
 map.createPane('land');
 map.getPane('land').style.zIndex = 250;
@@ -305,12 +327,21 @@ const sideLayout = window.matchMedia('(max-width: 900px) and (max-height: 500px)
 const stacked = () => window.innerWidth <= 1100 && !sideLayout.matches;
 function padL() {
   if (stacked()) return 0;
-  // Changed: also clears the destination card, which replaces the overlay in landscape.
-  const m = mapwrap.getBoundingClientRect();
-  const rights = [document.querySelector('.overlay'), document.getElementById('dcard')]
-    .filter((e) => e && !e.hidden && e.offsetParent !== null)
-    .map((e) => e.getBoundingClientRect().right - m.left + 16);
-  return Math.max(0, ...rights);
+  const o = document.querySelector('.overlay');
+  if (!o || o.offsetParent === null) return 0;
+  return Math.max(0, o.getBoundingClientRect().right - mapwrap.getBoundingClientRect().left + 16);
+}
+// Added: the trip panel floats over the right of the map on wide layouts and is a drawer along
+// the bottom of the map on stacked ones. The island is fitted clear of it either way.
+function padR() {
+  if (stacked() || trip.hidden || !trip.offsetWidth) return 40;
+  return mapwrap.getBoundingClientRect().right - trip.getBoundingClientRect().left + 24;
+}
+// Room at the bottom for the credits line and the lowest markers (and the closed trip drawer).
+// Crowded markers are pushed apart, so the southern ones can sit a little below their true place.
+function padB() {
+  if (!stacked()) return 30;
+  return trip.hidden ? 44 : Math.min(trip.offsetHeight, 150) + 62;
 }
 function padT() {
   if (!stacked()) return 30;
@@ -319,9 +350,9 @@ function padT() {
   return Math.max(30, o.bottom - m.top + 12);
 }
 // How the current view came about. 'overview': the whole island, refitted when the layout
-// changes. 'auto': the app panned to show a place; closing its card puts the overview back.
-// 'route': zoomed to the airport transfer route; changing or clearing the place (or switching
-// mode) puts the overview back. 'user': the visitor panned or zoomed, so the app leaves it.
+// changes. 'route': zoomed to the airport transfer route; changing or clearing the place (or
+// switching mode) puts the overview back. 'user': the visitor panned or zoomed, so the app
+// leaves it. Opening a place never moves the map: it opens as a dialog over it.
 let view = 'overview';
 function fit() {
   view = 'overview';
@@ -336,8 +367,8 @@ function fit() {
       [9.83, 81.88],
     ],
     stacked()
-      ? { paddingTopLeft: [16, padT()], paddingBottomRight: [16, 24] }
-      : { paddingTopLeft: [padL() + 20, 30], paddingBottomRight: [40, 30] },
+      ? { paddingTopLeft: [16, padT()], paddingBottomRight: [16, padB()] }
+      : { paddingTopLeft: [padL() + 20, 30], paddingBottomRight: [padR(), 30] },
   );
 }
 fit();
@@ -358,27 +389,14 @@ new ResizeObserver(() => {
 }).observe(mapwrap);
 map.on('zoomend', () => mapwrap.classList.toggle('far', map.getZoom() < 7));
 mapwrap.classList.toggle('far', map.getZoom() < 7);
-// Changed: showing a place no longer zooms in, so the rest of the island stays in view and
-// other places are easy to pick. The map only pans if the marker would be hidden behind the
-// card or the planner overlay.
-function reveal(ll) {
-  // On phones the card covers nearly all of the map; panning then would only shift the island.
-  if (stacked() && mapwrap.clientHeight - padT() - card.offsetHeight < 80) return;
-  if (view === 'overview') view = 'auto';
-  map.panInside(ll, {
-    animate: !reduceMotion(),
-    paddingTopLeft: [stacked() ? 20 : padL() + 40, stacked() ? padT() + 10 : 40],
-    paddingBottomRight: [40, stacked() ? card.offsetHeight + 30 : 40],
-  });
-}
-
 const markers = {};
-DESTS.forEach((d) => {
+DESTS.forEach((d, i) => {
   // Changed: the design's empty <image-slot> placeholders are filled with the supplied photos.
+  // --dl staggers the "you can choose these" pulse (see hintPins).
   const icon = L.divIcon({
     className: '',
     iconSize: [0, 0],
-    html: `<div class="pin ${d.pos}" style="--c:${CATS[d.cat].c}"><span class="stem"></span><span class="pt"></span><span class="med"><img src="${SITE.assets.photos[d.id].med}" alt="" width="96" height="96" decoding="async"><span class="kw">${d.kw}</span><b class="no"></b></span><span class="lbl">${d.name}</span></div>`,
+    html: `<div class="pin ${d.pos}" style="--c:${CATS[d.cat].c};--dl:${((i % 5) * 0.14).toFixed(2)}s"><span class="stem"></span><span class="pt"></span><span class="med"><img src="${SITE.assets.photos[d.id].med}" alt="" width="96" height="96" decoding="async"><span class="kw">${d.kw}</span><b class="no"></b></span><span class="lbl">${d.name}</span></div>`,
   });
   const m = L.marker([d.lat, d.lng], { icon, keyboard: true, title: d.name, riseOnHover: true }).addTo(map);
   // Changed: while dropping a pin, tapping a place puts the pin there (it used to do nothing,
@@ -391,7 +409,7 @@ DESTS.forEach((d) => {
     if (e.key !== 'Enter' && e.key !== ' ') return;
     e.preventDefault();
     e.stopPropagation();
-    openDest(d.id, { focus: true });
+    openDest(d.id);
   });
   markers[d.id] = m;
 });
@@ -590,11 +608,15 @@ function placeLabels(items, R) {
         break;
       }
     }
-    if (!pick && o.pr < 2) {
+    // A place in the trip always shows its name, even with no free spot for it.
+    const forced = !pick && o.pr < 2;
+    if (forced) {
       const [dx, dy] = C[o.d.pos];
       pick = { dx, dy, rc: [o.x + dx, o.y + dy, o.x + dx + w, o.y + dy + h] };
     }
     o.pin.classList.toggle('nolbl', !pick);
+    // Added: such a name may lie over a neighbour, so it lets taps through to the marker under it.
+    o.pin.classList.toggle('lblover', forced);
     if (pick) {
       Object.assign(l.style, {
         left: ox + pick.dx + 'px',
@@ -618,7 +640,7 @@ function hideSeaLabels() {
   const hit = (a, b) => a[0] < b[2] && a[2] > b[0] && a[1] < b[3] && a[3] > b[1];
   const obs = [
     ...document.querySelectorAll(
-      '.pin:not(.nolbl):not(.off) .lbl,.pin:not(.off) .med,.pk .pl,.pk .sq,.overlay>*,.leaflet-control,.dcard:not([hidden]),.pinbanner:not([hidden])',
+      '.pin:not(.nolbl):not(.off) .lbl,.pin:not(.off) .med,.pk .pl,.pk .sq,.overlay>*,.leaflet-control,.trip:not([hidden]),.pinbanner:not([hidden])',
     ),
   ].map(rr);
   document.querySelectorAll('.sea,.dist').forEach((s) => {
@@ -656,7 +678,7 @@ function renderPickupMarker() {
   const icon = L.divIcon({
     className: '',
     iconSize: [0, 0],
-    html: `<div class="pk ${isPin ? 'drag' : ''}"><span class="sq"></span><span class="pl"><b>Pickup</b> · ${esc(pickupLabel())}</span></div>`,
+    html: `<div class="pk ${isPin ? 'drag' : ''}"><span class="sq"></span><span class="pl"><b>Start</b> · ${esc(pickupLabel())}</span></div>`,
   });
   pkMarker = L.marker([p.lat, p.lng], { icon, draggable: isPin, zIndexOffset: 3000, keyboard: false }).addTo(map);
   if (isPin)
@@ -727,7 +749,6 @@ $('#chips').addEventListener('click', (e) => {
   filter = b.dataset.f;
   renderChips();
   renderPins();
-  if (active && filter !== 'all' && D[active].cat !== filter) closeCard();
 });
 const q = $('#q'),
   resEl = $('#results');
@@ -773,7 +794,7 @@ function hideList(input, list) {
   list.hidden = true;
   comboState(input, list, '');
 }
-q.addEventListener('focus', search);
+q.addEventListener('focus', () => quiet || search());
 q.addEventListener('input', search);
 q.addEventListener('blur', () => setTimeout(() => hideList(q, resEl), 120));
 q.addEventListener('keydown', (e) => {
@@ -787,7 +808,7 @@ q.addEventListener('keydown', (e) => {
     renderResults();
     e.preventDefault();
   } else if (e.key === 'Enter' && res[hi]) {
-    // Added preventDefault: focus moves into the card, and the same keypress must not "click" it.
+    // Added preventDefault: focus moves into the dialog, and the same keypress must not "click" it.
     e.preventDefault();
     pickResult(res[hi], true);
   } else if (e.key === 'Escape') {
@@ -805,56 +826,71 @@ function pickResult(d, viaKeyboard) {
   q.value = '';
   hideList(q, resEl);
   q.blur();
-  openDest(d.id, { focus: viaKeyboard });
+  openDest(d.id, { ret: viaKeyboard ? q : null });
 }
 
-/* destination card */
-const card = $('#dcard');
-// opts.focus (added): move keyboard focus into the card, for keyboard and search users.
+/* destination dialog */
+// Changed: a place opens as a dialog over a dimmed map (centred on wide screens, a sheet from
+// the bottom on phones) instead of a card in the corner of the map. Opening or closing it never
+// changes the trip: only "Add to my trip" does.
+const card = $('#dcard'),
+  dback = $('#dback');
+let cardReturn = null;
+// Focus without side effects: no page scroll, and the search box doesn't pop its list open.
+function focusQuiet(el) {
+  quiet = el === q;
+  el.focus({ preventScroll: true });
+  quiet = false;
+}
+// opts.ret: where keyboard focus goes back to when the dialog closes (default: what had focus).
+// opts.keepFocus: the caller places focus itself (previous / next place).
 function openDest(id, opts = {}) {
   if (picking) return;
-  if (opts.focus) cardReturn = document.activeElement;
+  if (card.hidden) {
+    cardReturn = opts.ret || document.activeElement;
+    hideToast();
+  }
   active = id;
+  // Experiences ticked for a place that isn't in the trip wait here until it is added.
+  draft = S.mode !== 'shuttle' && tripIdx(id) === -1 ? new Set(expsAt(id)) : null;
   renderPins();
   renderCard();
-  reveal([D[id].lat, D[id].lng]);
-  if (opts.focus) {
-    const t = ['[data-act="add"]', '[data-act="remove"]', '[data-act="sethotel"]', '.dc-x'].map((x) => card.querySelector(x)).find(Boolean);
-    t.focus();
-  }
+  if (!opts.keepFocus) focusCard();
 }
-let cardReturn = null;
+function focusCard() {
+  const t = ['[data-act="add"]', '[data-act="sethotel"]', '.dc-foot [data-act="close"]'].map((x) => card.querySelector(x)).find(Boolean);
+  if (t) t.focus({ preventScroll: true });
+}
 function closeCard() {
-  const hadFocus = card.contains(document.activeElement);
+  if (card.hidden) return;
+  const lost = card.contains(document.activeElement) || document.activeElement === document.body;
   active = null;
+  draft = null;
   card.hidden = true;
-  mapwrap.classList.remove('has-card');
+  dback.hidden = true;
+  document.documentElement.classList.remove('dlg-open');
   renderPins();
-  if (hadFocus && cardReturn && document.contains(cardReturn)) cardReturn.focus();
+  if (lost && cardReturn && cardReturn !== document.body && document.contains(cardReturn)) focusQuiet(cardReturn);
   cardReturn = null;
-  // Back to the whole island if the app had moved the map to show this place.
-  if (view === 'auto') fit();
 }
 function renderCard() {
   const d = D[active];
   // Changed: photo instead of an empty image slot; added a crawlable link to the place page.
   const ph = SITE.assets.photos[d.id];
-  card.setAttribute('aria-labelledby', 'dcTitle');
-  card.innerHTML = `<div class="dc-img"><picture><source type="image/avif" srcset="${ph.cardAvif[0]} 480w, ${ph.cardAvif[1]} 800w" sizes="(max-width: 900px) calc(100vw - 24px), 360px"><img src="${ph.card[0]}" srcset="${ph.card[0]} 480w, ${ph.card[1]} 800w" sizes="(max-width: 900px) calc(100vw - 24px), 360px" alt="${esc(d.alt)}" width="480" height="192"></picture><button class="dc-x" data-act="close" aria-label="Close ${esc(d.name)}">×</button></div>
+  const sizes = '(max-width: 600px) 100vw, 620px';
+  card.innerHTML = `<div class="dc-scroll" id="dcScroll"><div class="dc-img"><picture><source type="image/avif" srcset="${ph.cardAvif[0]} 480w, ${ph.cardAvif[1]} 800w" sizes="${sizes}"><img src="${ph.card[0]}" srcset="${ph.card[0]} 480w, ${ph.card[1]} 800w" sizes="${sizes}" alt="${esc(d.alt)}" width="480" height="192"></picture><button type="button" class="dc-x" data-act="close" aria-label="Close ${esc(d.name)}">×</button><div class="dc-nav"><button type="button" data-act="prev" aria-label="Previous place">←</button><button type="button" data-act="next" aria-label="Next place">→</button></div></div>
  <div class="dc-body"><div class="dc-meta"><span class="tag" style="--c:${CATS[d.cat].c}">${CATS[d.cat].label}</span><span>${d.hl}</span></div>
- <h2 id="dcTitle">${d.name}</h2><p>${d.desc} <a class="dc-more" href="${SITE.base}/places/${d.id}/">More about ${d.name}<span aria-hidden="true"> →</span></a></p><dl class="dc-facts" id="dcFacts"></dl><div class="dc-actions" id="dcActions"></div>${expBlock(d)}</div>`;
+ <h2 id="dcTitle">${d.name}</h2><p>${d.desc} <a class="dc-more" href="${SITE.base}/places/${d.id}/">More about ${d.name}<span aria-hidden="true"> →</span></a></p><dl class="dc-facts" id="dcFacts"></dl>${expBlock(d)}</div></div>
+ <div class="dc-foot" id="dcActions"></div>`;
   card.hidden = false;
-  mapwrap.classList.add('has-card');
-  requestAnimationFrame(hideSeaLabels);
-  card.style.animation = 'none';
-  card.offsetHeight;
-  card.style.animation = '';
+  dback.hidden = false;
+  document.documentElement.classList.add('dlg-open'); // no scrolling of the page behind the dialog
   renderCardState();
 }
 
 /* experiences (added) */
-// The card's "Things to do" list stays open for the next place once a visitor has opened it.
-let expOpen = false;
+// The dialog's "Things to do" list starts open; if a visitor closes it, it stays closed for the next place.
+let expOpen = true;
 const expsAt = (id) => S.exps.filter((x) => X[x].destinationId === id);
 const expMeta = (e) => [EXP_KINDS[e.kind], EXP_CATS[e.category], e.duration, e.price].filter(Boolean).map(esc).join(' · ');
 // Excursions say where they are: they need extra travel.
@@ -864,17 +900,17 @@ function expBlock(d) {
   if (!xs.length) return '';
   const item = (e) => {
     const th = e.image && SITE.assets.expPhotos[e.image];
-    return `<li><label class="exp${th ? ' has-th' : ''}"><input type="checkbox" value="${e.id}" aria-labelledby="xn-${e.id}" aria-describedby="xd-${e.id}"${S.exps.includes(e.id) ? ' checked' : ''}><span class="exp-ck" aria-hidden="true"></span>${th ? `<img src="${th}" alt="" width="40" height="40" loading="lazy" decoding="async">` : ''}<span class="exp-b"><span class="exp-n" id="xn-${e.id}">${esc(e.name)}${e.featured ? ' <span class="exp-f">Featured</span>' : ''}</span><span class="exp-m">${expMeta(e)}</span>${expExtra(e)}<span class="exp-d" id="xd-${e.id}">${esc(e.shortDescription)}</span></span></label></li>`;
+    return `<li><label class="exp${th ? ' has-th' : ''}"><input type="checkbox" value="${e.id}" aria-labelledby="xn-${e.id}" aria-describedby="xd-${e.id}"><span class="exp-ck" aria-hidden="true"></span>${th ? `<img src="${th}" alt="" width="40" height="40" loading="lazy" decoding="async">` : ''}<span class="exp-b"><span class="exp-n" id="xn-${e.id}">${esc(e.name)}${e.featured ? ' <span class="exp-f">Featured</span>' : ''}</span><span class="exp-m">${expMeta(e)}</span>${expExtra(e)}<span class="exp-d" id="xd-${e.id}">${esc(e.shortDescription)}</span></span></label></li>`;
   };
   return `<div class="dc-exp" id="dcExp"><button type="button" class="dc-exp-t" data-act="exp" aria-expanded="${expOpen}" aria-controls="dcExpList"><span>Things to do in ${esc(d.name)} <span class="n">${xs.length}</span></span><span class="sel" id="dcExpSel"></span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"></path></svg></button>
- <div id="dcExpList"${expOpen ? '' : ' hidden'}><ul class="exp-list" aria-label="Things to do in ${esc(d.name)}">${xs.map(item).join('')}</ul><p class="exp-note">Ticked experiences are added to your quote request. Choosing one isn’t a booking or part of a tour unless we confirm it, and it doesn’t change your route.</p></div></div>`;
+ <div id="dcExpList"${expOpen ? '' : ' hidden'}><ul class="exp-list" aria-label="Things to do in ${esc(d.name)}">${xs.map(item).join('')}</ul><p class="exp-note" id="dcExpNote"></p></div></div>`;
 }
+// For a place that is already in the trip (the dialog, or the review step).
 function toggleExp(id, on) {
   if (on === S.exps.includes(id)) return;
   S.exps = on ? [...S.exps, id] : S.exps.filter((x) => x !== id);
   update();
-  const e = X[id];
-  toast(on ? `${e.name} added${tripIdx(e.destinationId) > -1 ? '' : ` · ${D[e.destinationId].name} isn’t in your route yet`}` : `${e.name} removed`);
+  toast(`${X[id].name} ${on ? 'added to' : 'removed from'} your trip`);
 }
 // Places with selected experiences: in route order, then those not (or no longer) in the route.
 function expGroups() {
@@ -882,43 +918,36 @@ function expGroups() {
   const inRoute = S.stops.map((s) => s.id).filter((id) => ids.includes(id));
   return { inRoute, outside: ids.filter((id) => !inRoute.includes(id)) };
 }
-// While the list is open on wide layouts, the card may grow up to the overlay and scroll inside,
-// rather than covering the search box. Stacked layouts keep their CSS limit.
-function sizeCard() {
-  card.style.maxHeight = '';
-  const ex = $('#dcExp');
-  if (card.hidden || !expOpen || !ex || ex.hidden || stacked()) return;
-  const m = mapwrap.getBoundingClientRect(),
-    o = document.querySelector('.overlay');
-  const gap = parseFloat(getComputedStyle(card).bottom) || 12;
-  const top = o && o.offsetParent !== null ? o.getBoundingClientRect().bottom - m.top + 12 : gap;
-  card.style.maxHeight = Math.max(260, m.height - top - gap) + 'px';
-}
 card.addEventListener('change', (e) => {
-  if (e.target.matches('#dcExpList input[type=checkbox]')) toggleExp(e.target.value, e.target.checked);
+  if (!e.target.matches('#dcExpList input[type=checkbox]')) return;
+  if (!draft) return toggleExp(e.target.value, e.target.checked);
+  if (e.target.checked) draft.add(e.target.value);
+  else draft.delete(e.target.value);
+  renderCardState();
 });
 function renderCardState() {
   if (!active || card.hidden) return;
   const d = D[active];
-  // Added: keep the experience checkboxes in step with the planner (e.g. removed from the panel).
+  const close = (primary) => `<button type="button" class="btn ${primary ? 'primary' : 'ghost'}" data-act="close">Close</button>`;
+  // Added: keep the experience checkboxes in step with the trip (or with the ticks waiting here).
   const ex = $('#dcExp');
   if (ex) {
     ex.hidden = S.mode === 'shuttle';
-    ex.querySelectorAll('input[type=checkbox]').forEach((i) => (i.checked = S.exps.includes(i.value)));
-    const n = expsAt(d.id).length;
+    ex.querySelectorAll('input[type=checkbox]').forEach((i) => (i.checked = draft ? draft.has(i.value) : S.exps.includes(i.value)));
+    const n = draft ? draft.size : expsAt(d.id).length;
     $('#dcExpSel').textContent = n ? `${n} selected` : '';
-    sizeCard();
+    $('#dcExpNote').textContent = draft
+      ? `Tick what you’d like to do. Your choices are kept when you add ${d.name} to your trip. Choosing one isn’t a booking, and it doesn’t change your route.`
+      : 'Ticked experiences are part of your trip request. Choosing one isn’t a booking, and it doesn’t change your route.';
   }
   if (S.mode === 'shuttle') {
     const leg = legInfo(AIR, d),
       sel = !!S.sh.place && S.sh.place.id === d.id;
     $('#dcFacts').innerHTML =
       `<div><dt>From CMB Airport</dt><dd>~${fmtDur(leg.min)} · ${leg.km} km (est.)</dd></div><div><dt>Car, one way</dt><dd>$${fare(leg.km, 'car')}</dd></div>`;
-    $('#dcActions').innerHTML =
-      (sel
-        ? `<span class="in-trip"><i>✓</i>Your hotel location</span>`
-        : `<button class="btn primary" data-act="sethotel">Set as hotel location</button>`) +
-      `<div class="dc-nav"><button data-act="prev" aria-label="Previous place">←</button><button data-act="next" aria-label="Next place">→</button></div>`;
+    $('#dcActions').innerHTML = sel
+      ? `<span class="in-trip"><i>✓</i>Your hotel location</span>${close(true)}`
+      : `${close(false)}<button type="button" class="btn primary" data-act="sethotel">Set as hotel location</button>`;
     return;
   }
   const idx = S.stops.findIndex((s) => s.id === d.id);
@@ -937,58 +966,97 @@ function renderCardState() {
     fromL = from.name;
   } else if (S.pickup) {
     from = pickupPt();
-    fromL = 'pickup';
+    fromL = 'your starting point';
   }
   const leg = from ? legInfo(from, d) : null;
   $('#dcFacts').innerHTML =
     `<div><dt>${idx > -1 ? 'Your stay' : 'Suggested stay'}</dt><dd>${nightsTxt(idx > -1 ? S.stops[idx].nights : d.nights)}</dd></div>${leg ? `<div><dt>From ${esc(fromL)}</dt><dd>~${fmtDur(leg.min)} drive (est.)</dd></div>` : ''}`;
   $('#dcActions').innerHTML =
-    (idx > -1
-      ? `<span class="in-trip"><i>${idx + 1}</i>In your trip</span><button class="btn ghost" data-act="remove">Remove</button>`
-      : `<button class="btn primary" data-act="add">Add to trip</button>`) +
-    `<div class="dc-nav"><button data-act="prev" aria-label="Previous place">←</button><button data-act="next" aria-label="Next place">→</button></div>`;
+    idx > -1
+      ? `<span class="in-trip"><i>${idx + 1}</i>In your trip</span><button type="button" class="btn ghost" data-act="remove">Remove from my trip</button>${close(true)}`
+      : `${close(false)}<button type="button" class="btn primary" data-act="add">Add to my trip</button>`;
+}
+// "Add to my trip": the place joins the trip with whatever was ticked, and the dialog closes.
+function addFromCard() {
+  const id = active;
+  if (draft) S.exps = [...S.exps.filter((x) => X[x].destinationId !== id), ...draft];
+  closeCard();
+  addStop(id);
 }
 card.addEventListener('click', (e) => {
   const a = e.target.closest('[data-act]');
   if (!a) return;
   const act = a.dataset.act;
   if (act === 'close') closeCard();
-  else if (act === 'add') addStop(active);
-  else if (act === 'remove') removeStop(active);
-  else if (act === 'sethotel') setShPlace({ id: active });
-  else if (act === 'exp') {
+  else if (act === 'add') addFromCard();
+  else if (act === 'sethotel') {
+    const id = active;
+    closeCard();
+    setShPlace({ id });
+  } else if (act === 'remove') {
+    const id = active;
+    removeStop(id);
+    draft = new Set(expsAt(id)); // not in the trip any more: its ticks wait for "Add to my trip" again
+    renderCardState();
+    focusCard();
+  } else if (act === 'exp') {
     expOpen = !expOpen;
     a.setAttribute('aria-expanded', String(expOpen));
     $('#dcExpList').hidden = !expOpen;
-    sizeCard();
   } else {
     const list = DESTS.filter((d) => filter === 'all' || d.cat === filter);
     let i = list.findIndex((d) => d.id === active);
     i = (i + (act === 'next' ? 1 : -1) + list.length) % list.length;
-    openDest(list[i].id);
-  }
-  // Added: the card re-renders its buttons; keep keyboard focus on the equivalent control.
-  if (act !== 'close' && !card.hidden && !card.contains(document.activeElement)) {
-    const sel = act === 'prev' || act === 'next' ? `[data-act="${act}"]` : '.dc-actions .btn, .dc-nav button';
-    const t = card.querySelector(sel);
-    if (t) t.focus();
+    openDest(list[i].id, { keepFocus: true });
+    $('#dcScroll').scrollTop = 0;
+    card.querySelector(`[data-act="${act}"]`).focus({ preventScroll: true });
   }
 });
+dback.addEventListener('click', (e) => {
+  if (e.target === dback) closeCard();
+});
+// Added: dialogs keep Tab inside them.
+function trapTab(box, e) {
+  if (e.key !== 'Tab') return;
+  const els = [...box.querySelectorAll('a[href],button:not([disabled]),input,select,textarea,[tabindex="-1"]:focus')].filter(
+    (x) => x.offsetParent !== null,
+  );
+  if (!els.length) return;
+  const first = els[0],
+    last = els.at(-1);
+  if (e.shiftKey && document.activeElement === first) {
+    e.preventDefault();
+    last.focus();
+  } else if (!e.shiftKey && document.activeElement === last) {
+    e.preventDefault();
+    first.focus();
+  }
+}
+card.addEventListener('keydown', (e) => trapTab(card, e));
 
 /* trip ops */
 function addStop(id) {
   if (S.stops.some((s) => s.id === id)) return;
   S.stops.push({ id, nights: D[id].nights });
   update();
-  toast(`${D[id].name} added as stop ${S.stops.length}`);
+  toast(`${D[id].name} added to your trip!`);
 }
 function removeStop(id) {
   const d = D[id];
   S.stops = S.stops.filter((s) => s.id !== id);
   update();
-  // Changed: experiences chosen there are kept (listed under "not in your route"), never dropped silently.
+  // Changed: experiences chosen there are kept (the review step lists them as "also interested in"), never dropped silently.
   const n = expsAt(id).length;
-  toast(n ? `${d.name} removed · ${n === 1 ? 'its experience is' : `its ${n} experiences are`} kept under “not in your route”` : `${d.name} removed`);
+  toast(n ? `${d.name} removed · ${n === 1 ? 'its experience stays' : `its ${n} experiences stay`} in your request as “also interested in”` : `${d.name} removed from your trip`);
+}
+// Added: move a place one step earlier or later in the route.
+function moveStop(id, by) {
+  const i = S.stops.findIndex((s) => s.id === id),
+    j = i + by;
+  if (i < 0 || j < 0 || j >= S.stops.length) return;
+  [S.stops[i], S.stops[j]] = [S.stops[j], S.stops[i]];
+  update();
+  toast(`${D[id].name} is now stop ${j + 1}`);
 }
 function tourCost(order, o, closed) {
   let c = 0,
@@ -1035,7 +1103,7 @@ function optimise() {
   const before = plan().drive;
   const same = order.every((s, i) => s.id === S.stops[i].id);
   if (same) {
-    toast('Your stops are already in the shortest order');
+    toast('Your places are already in the shortest order');
     return;
   }
   S.stops = order;
@@ -1045,235 +1113,225 @@ function optimise() {
 }
 $('#optBtn').onclick = optimise;
 $('#clearBtn').onclick = () => {
-  if (S.mode === 'shuttle') {
-    Object.assign(S.sh, { place: null, arrDate: '', arrTime: '', depDate: '', depTime: '' });
-    syncShInputs();
-    update();
-    fit(); // back to the whole island
-    toast('Transfer cleared');
-    return;
-  }
-  if (!S.stops.length && !S.pickup && !S.start && !S.exps.length) return;
+  Object.assign(S.sh, { place: null, arrDate: '', arrTime: '', depDate: '', depTime: '' });
+  syncShInputs();
+  update();
+  fit(); // back to the whole island
+  toast('Transfer cleared');
+};
+$('#tripClear').onclick = () => {
+  if (!window.confirm('Clear your trip? This removes your places, experiences and starting point.')) return;
   S.stops = [];
   S.exps = [];
   S.pickup = null;
   S.start = '';
-  $('#startDate').value = '';
+  pkErr = false;
   update();
   toast('Trip cleared');
 };
 
-function renderStops() {
-  const el = $('#stops');
-  const p = plan();
-  if (!S.stops.length) {
-    el.innerHTML = `<div class="empty-stops">${TAP} a place on the map or search above to add your first stop. Add as many as you like and we’ll work out the dates.</div>${expOutsideHtml()}`;
-    return;
+/* trip panel (added): the compact itinerary, shown once a place is in the trip */
+const tripTg = $('#tripTg'),
+  tripBody = $('#tripBody'),
+  pkSel = $('#pkSel');
+// Open or closed is the visitor's choice once they use the toggle. Until then the layout decides:
+// open beside the map on wide screens, closed on small ones (a drawer along the bottom of the
+// map; a small card on phones held sideways).
+let tripOpen = null;
+const tripRoomy = () => !stacked() && !sideLayout.matches;
+function setTripOpen(on) {
+  tripOpen = on;
+  renderTripOpen();
+}
+function renderTripOpen() {
+  const on = tripOpen ?? tripRoomy();
+  trip.classList.toggle('drawer', stacked()); // app.css styles the two layouts from these classes
+  trip.classList.toggle('shut', !on);
+  tripTg.setAttribute('aria-expanded', String(on));
+  tripBody.hidden = !on;
+  syncTripH();
+}
+// Stacked layouts: the map's zoom buttons sit above the closed drawer, so it never covers them.
+function syncTripH() {
+  const h = stacked() && !trip.hidden ? trip.offsetHeight - (tripBody.hidden ? 0 : tripBody.offsetHeight) : 0;
+  mapwrap.style.setProperty('--trip-h', (h ? h + 12 : 0) + 'px');
+}
+new ResizeObserver(syncTripH).observe(trip);
+tripTg.onclick = () => setTripOpen(tripBody.hidden);
+function renderTrip() {
+  const n = S.stops.length,
+    show = S.mode !== 'shuttle' && n > 0;
+  app.classList.toggle('has-trip', show);
+  if (trip.hidden === show) {
+    // The panel arrives with the first place and leaves with the last one.
+    if (!show && trip.contains(document.activeElement)) map.getContainer().focus({ preventScroll: true });
+    trip.hidden = !show;
+    if (view === 'overview') requestAnimationFrame(fit);
   }
-  let h = '';
-  if (S.pickup)
-    h += `<div class="endpt"><span class="ic"></span><span><b>Pickup</b> · ${esc(pickupLabel())}</span></div>`;
-  h += '<ol class="stops">';
-  p.rows.forEach((r) => {
-    if (r.leg) h += `<li class="leg">~${fmtDur(r.leg.min)} · ${r.leg.km} km</li>`;
-    const when = S.start
-      ? r.s.nights
-        ? `${fmtDs(dateAt(r.arrive))} – ${fmtDs(dateAt(r.depart))}`
-        : fmtD(dateAt(r.arrive))
-      : dayTxt(r);
-    h += `<li class="stop"><span class="num">${r.i + 1}</span><div><button class="s-name" data-open="${r.d.id}">${r.d.name}</button><div class="s-sub">${when}</div></div>
-  <div class="stepper wide"><button data-n="${r.d.id}" data-d="-1" ${r.s.nights <= 0 ? 'disabled' : ''} aria-label="Fewer nights in ${esc(r.d.name)}">−</button><span>${r.s.nights}<small>${r.s.nights === 1 ? 'night' : 'nights'}</small></span><button data-n="${r.d.id}" data-d="1" ${r.s.nights >= 14 ? 'disabled' : ''} aria-label="More nights in ${esc(r.d.name)}">+</button></div>
-  <button class="rm" data-rm="${r.d.id}" aria-label="Remove ${esc(r.d.name)}">×</button>${expListHtml(r.d.id)}</li>`;
-  });
-  if (p.ret) h += `<li class="leg ret">~${fmtDur(p.ret.min)} · ${p.ret.km} km</li>`;
-  h += '</ol>';
-  if (S.pickup)
-    h += `<div class="endpt"><span class="ic"></span><span><b>Drop-off</b> · ${esc(pickupLabel())}</span></div>`;
-  // Added: the leg figures are formula estimates, not routed journey times.
-  if (p.ret || p.rows.some((r) => r.leg)) h += `<p class="hint">Drive times and distances are rough estimates, not guaranteed journey times.</p>`;
-  h += expOutsideHtml();
-  el.innerHTML = h;
+  if (!show) return syncTripH();
+  const p = plan();
+  $('#tripCount').textContent = `${n} ${n === 1 ? 'place' : 'places'} · ${p.nights + 1} ${p.nights ? 'days' : 'day'}`;
+  $('#optBtn').hidden = n < 2;
+  renderStops();
+  renderPickup();
+  renderTripOpen();
 }
-// Added: chosen experiences under each stop, and a group for places not in the route.
-function expListHtml(id) {
-  const xs = expsAt(id);
-  return xs.length
-    ? `<ul class="s-exp" aria-label="Experiences in ${esc(D[id].name)}">${xs.map((x) => `<li><span>${esc(X[x].name)}</span><button class="rmx" data-rmx="${x}" aria-label="Remove ${esc(X[x].name)}">×</button></li>`).join('')}</ul>`
-    : '';
-}
-function expOutsideHtml() {
-  const { outside } = expGroups();
-  if (!outside.length) return '';
-  return `<div class="exp-out"><p class="tagl">Experiences at places not in your route</p>${outside
-    .map((id) => `<div class="exp-out-g"><div class="exp-out-h"><button class="s-name" data-open="${id}">${D[id].name}</button><button class="linkbtn" data-addstop="${id}">Add ${D[id].name} to route</button></div>${expListHtml(id)}</div>`)
-    .join('')}</div>`;
+// Short on purpose: names, nights and a count of experiences. The review step has the detail.
+function renderStops() {
+  const n = S.stops.length;
+  $('#stops').innerHTML = S.stops
+    .map((s, i) => {
+      const d = D[s.id],
+        k = expsAt(s.id).length;
+      return `<li class="tl-i"><span class="num">${i + 1}</span><span class="tl-b"><button type="button" class="tl-n" data-open="${d.id}">${d.name}</button><span class="tl-s">${nightsTxt(s.nights)}${k ? ` · ${k} ${k === 1 ? 'experience' : 'experiences'}` : ''}</span></span><span class="tl-a"><button type="button" class="mv" data-mv="${d.id}" data-d="-1" aria-label="Move ${esc(d.name)} earlier"${i ? '' : ' disabled'}>↑</button><button type="button" class="mv" data-mv="${d.id}" data-d="1" aria-label="Move ${esc(d.name)} later"${i < n - 1 ? '' : ' disabled'}>↓</button><button type="button" class="rm" data-rm="${d.id}" aria-label="Remove ${esc(d.name)} from your trip">×</button></span></li>`;
+    })
+    .join('');
 }
 $('#stops').addEventListener('click', (e) => {
   const t = e.target.closest('button');
   if (!t) return;
   if (t.dataset.open) openDest(t.dataset.open);
-  else if (t.dataset.rm) removeStop(t.dataset.rm);
-  else if (t.dataset.addstop) addStop(t.dataset.addstop);
-  else if (t.dataset.rmx) {
-    toggleExp(t.dataset.rmx, false);
-    $('#stops .rmx, #stops .s-name')?.focus(); // the list re-renders: keep keyboard focus nearby
-  }
-  else if (t.dataset.n) {
-    const s = S.stops.find((x) => x.id === t.dataset.n);
-    s.nights = Math.max(0, Math.min(14, s.nights + +t.dataset.d));
-    update();
-    // Added: the list re-renders; keep keyboard focus on the stepper that was pressed.
-    const again = $(`#stops [data-n="${t.dataset.n}"][data-d="${t.dataset.d}"]`);
-    const other = $(`#stops [data-n="${t.dataset.n}"][data-d="${-t.dataset.d}"]`);
+  else if (t.dataset.rm) {
+    const i = S.stops.findIndex((s) => s.id === t.dataset.rm);
+    removeStop(t.dataset.rm);
+    // The list re-renders: keep keyboard focus on the next place's button (or the last one).
+    const rms = document.querySelectorAll('#stops .rm');
+    (rms[i] || rms[i - 1])?.focus();
+  } else if (t.dataset.mv) {
+    moveStop(t.dataset.mv, +t.dataset.d);
+    const again = $(`#stops [data-mv="${t.dataset.mv}"][data-d="${t.dataset.d}"]`);
+    const other = $(`#stops [data-mv="${t.dataset.mv}"][data-d="${-t.dataset.d}"]`);
     (again && !again.disabled ? again : other)?.focus();
   }
 });
+$('#addMore').onclick = () => {
+  if (stacked()) setTripOpen(false); // give the map back
+  if (isNarrow()) window.scrollTo({ top: 0, behavior: reduceMotion() ? 'auto' : 'smooth' });
+  hintPins();
+  if (coarse) toast('Tap another place on the map to explore it');
+  else q.focus({ preventScroll: true }); // opens the list of places
+};
+$('#finishBtn').onclick = () => {
+  if (S.pickup) return openReview();
+  // Easy recovery: say what is missing and put the visitor on it.
+  pkErr = true;
+  setTripOpen(true);
+  renderPickup();
+  pkSel.focus();
+};
 
-/* pickup */
-const pkIn = $('#pkIn'),
-  pkList = $('#pkList');
-let pkRes = [],
-  pkHi = 0;
-function pkSearch() {
-  const t = pkIn.value.trim().toLowerCase();
-  pkRes = PICKUPS.filter((p) => !t || (p.name + ' ' + p.sub + ' ' + p.code).toLowerCase().includes(t));
-  pkHi = 0;
-  renderPkList();
-}
-function renderPkList() {
-  pkList.hidden = false;
-  pkList.innerHTML =
-    pkRes
-      .map(
-        (p, i) =>
-          `<li class="${i === pkHi ? 'hi' : ''}" data-i="${i}" id="pk-${i}" role="option" aria-selected="${i === pkHi}"><span class="code">${p.code}</span><span><b>${p.name}</b><small>${p.sub}</small></span></li>`,
-      )
-      .join('') +
-    `<li class="pinopt ${pkHi === pkRes.length ? 'hi' : ''}" data-pin="1" id="pk-${pkRes.length}" role="option" aria-selected="${pkHi === pkRes.length}"><span class="code">PIN</span><span><b>Somewhere else</b><small>Drop a pin on the map</small></span></li>`;
-  comboState(pkIn, pkList, 'pk-' + pkHi);
-}
-pkIn.addEventListener('focus', pkSearch);
-pkIn.addEventListener('input', pkSearch);
-pkIn.addEventListener('blur', () => setTimeout(() => hideList(pkIn, pkList), 120));
-pkIn.addEventListener('keydown', (e) => {
-  if (pkList.hidden) return;
-  if (e.key === 'ArrowDown') {
-    pkHi = Math.min(pkRes.length, pkHi + 1);
-    renderPkList();
-    e.preventDefault();
-  } else if (e.key === 'ArrowUp') {
-    pkHi = Math.max(0, pkHi - 1);
-    renderPkList();
-    e.preventDefault();
-  } else if (e.key === 'Enter') {
-    pkHi === pkRes.length ? startPin() : setPickup({ id: pkRes[pkHi].id });
-  } else if (e.key === 'Escape') pkIn.blur();
-});
-pkList.addEventListener('mousedown', (e) => {
-  const li = e.target.closest('li');
-  if (!li) return;
-  e.preventDefault();
-  li.dataset.pin ? startPin() : setPickup({ id: pkRes[+li.dataset.i].id });
+/* starting point: where the trip begins and ends (S.pickup), kept apart from the places to visit */
+let pkErr = false; // "Finish planning" was pressed before a starting point was chosen
+pkSel.addEventListener('change', () => {
+  if (pkSel.value && pkSel.value !== 'pin') setPickup({ id: pkSel.value });
 });
 function setPickup(p) {
   S.pickup = p;
-  pkIn.value = '';
-  pkIn.blur();
-  hideList(pkIn, pkList);
+  pkErr = false;
   update();
   const pt = pickupPt();
   if (p.id !== 'pin')
     map.panInside([pt.lat, pt.lng], {
       paddingTopLeft: [stacked() ? 20 : padL() + 60, stacked() ? padT() + 10 : 60],
-      paddingBottomRight: [60, 60],
+      paddingBottomRight: [padR() + 20, padB() + 30],
     });
-  toast('Pickup set · ' + pickupLabel());
+  toast('Starting point set · ' + pickupLabel());
 }
 function startPin(t) {
   pinTarget = t === 'shuttle' ? 'shuttle' : 'tour';
   $('#pinTxt').textContent =
-    pinTarget === 'shuttle' ? `${TAP} the map where you’re staying` : `${TAP} the map to set your pickup point`;
-  pkIn.blur();
-  hideList(pkIn, pkList);
+    pinTarget === 'shuttle' ? `${TAP} the map where you’re staying` : `${TAP} the map to set your starting point`;
   picking = true;
-  mapwrap.classList.add('picking');
+  mapwrap.classList.add('picking'); // also hides the trip panel, so the whole map can be used
   $('#pinBanner').hidden = false;
   closeCard();
   if (isNarrow()) window.scrollTo({ top: 0, behavior: reduceMotion() ? 'auto' : 'smooth' });
+  if (pinTarget === 'tour') $('#pinCancel').focus({ preventScroll: true });
 }
 function stopPin() {
+  const back = pinTarget === 'tour' && mapwrap.contains(document.activeElement);
   picking = false;
   mapwrap.classList.remove('picking');
   $('#pinBanner').hidden = true;
+  syncTripH();
+  if (back && !trip.hidden && !tripBody.hidden) $('#pinBtn').focus({ preventScroll: true });
 }
-$('#pinBtn').onclick = startPin;
+$('#pinBtn').onclick = () => startPin();
 $('#pinCancel').onclick = stopPin;
 map.on('click', (e) => {
   if (picking) {
     stopPin();
     const pp = { id: 'pin', lat: e.latlng.lat, lng: e.latlng.lng };
     pinTarget === 'shuttle' ? setShPlace(pp) : setPickup(pp);
-  } else if (active) closeCard();
+  }
 });
 function renderPickup() {
-  const c = $('#pkChosen'),
-    pk = $('#pkPicker');
-  if (!S.pickup) {
-    c.innerHTML = '';
-    pk.hidden = false;
-    return;
-  }
-  pk.hidden = true;
-  const isPin = S.pickup.id === 'pin';
-  const p = pickupPt();
-  c.innerHTML = `<div class="chosen"><span class="code">${isPin ? 'PIN' : p.code}</span><span><b>${isPin ? esc(pickupLabel()) : p.name}</b><small>${isPin ? 'Drag the pin on the map to adjust' : p.sub}</small></span><button class="linkbtn" id="pkChange" aria-label="Change pickup location">Change</button></div>`;
-  $('#pkChange').onclick = () => {
-    S.pickup = null;
-    update();
-    setTimeout(() => pkIn.focus(), 0);
-  };
+  const isPin = !!S.pickup && S.pickup.id === 'pin';
+  let o = pkSel.querySelector('option[value="pin"]');
+  if (isPin) {
+    if (!o) pkSel.add((o = new Option('', 'pin')));
+    o.textContent = pickupLabel();
+  } else if (o) o.remove();
+  pkSel.value = S.pickup ? S.pickup.id : '';
+  const note = $('#pkNote'),
+    miss = pkErr && !S.pickup;
+  note.classList.toggle('bad', miss);
+  note.textContent = miss
+    ? 'Please choose where we pick you up, then press “Finish planning” again.'
+    : !S.pickup
+      ? 'Where should we pick you up? We bring you back here at the end.'
+      : isPin
+        ? 'Drag the pin on the map to adjust it. We pick you up and bring you back here.'
+        : `${P[S.pickup.id].sub}. We pick you up and bring you back here.`;
 }
 
-/* date */
-const sd = $('#startDate');
-sd.min = TODAY;
-sd.value = S.start || '';
-sd.addEventListener('change', () => {
-  // Added: typed dates can get past the picker's minimum.
-  if (sd.value && sd.value < TODAY) {
-    sd.value = '';
-    toast('Please choose today or a later date');
-  }
-  S.start = sd.value;
-  update();
+/* guidance (added): one line under the heading that says what to do next */
+const guide = $('#guide');
+const GUIDE = {
+  s1: 'Start by selecting a destination on the map to explore what you can experience there.',
+  s2: 'Great! Now select another destination, or <button type="button" class="linkbtn" data-start>set your starting point</button>.',
+  s3: 'Add more places from the map, or choose <b>Finish planning</b> when your trip looks right.',
+};
+function renderGuide() {
+  const k = S.mode === 'shuttle' ? 'sh' : !S.stops.length ? 's1' : !S.pickup ? 's2' : 's3';
+  if (guide.dataset.k === k) return;
+  guide.dataset.k = k;
+  guide.innerHTML = k === 'sh' ? COPY.shuttle.p : GUIDE[k];
+  requestAnimationFrame(hideSeaLabels);
+}
+guide.addEventListener('click', (e) => {
+  if (!e.target.closest('[data-start]')) return;
+  setTripOpen(true);
+  pkSel.focus();
 });
-function renderDate() {
-  const p = plan();
-  const el = $('#dateInfo');
-  if (!S.start) {
-    el.innerHTML = S.stops.length
-      ? `Your route is <b>${p.nights + 1} days, ${p.nights} ${p.nights === 1 ? 'night' : 'nights'}</b>. Pick a start date to see dates for each stop, or leave it for now: you can request a quote without one.`
-      : 'Pick the day we collect you and we’ll work out the dates for each stop, or leave it: you can ask for a quote without dates.';
-    return;
-  }
-  el.innerHTML = S.stops.length
-    ? `${fmtD(dateAt(0))} to <b>${fmtD(dateAt(p.nights))}</b> · ${p.nights + 1} days, ${p.nights} ${p.nights === 1 ? 'night' : 'nights'}`
-    : `Starts <b>${fmtD(dateAt(0))}</b>. Add stops to see your end date.`;
+// A short, soft pulse on the markers shows that they can be chosen (app.css: .pulse). It stops
+// by itself after a few seconds and does not run for visitors who prefer reduced motion.
+let pulseT;
+function hintPins() {
+  mapwrap.classList.remove('pulse');
+  void mapwrap.offsetWidth; // restart the animation
+  mapwrap.classList.add('pulse');
+  clearTimeout(pulseT);
+  pulseT = setTimeout(() => mapwrap.classList.remove('pulse'), 6000);
 }
 
 /* travellers */
+function stepTrav(k, by) {
+  const v = S[k] + by;
+  if (k === 'adults' && v < 1) return;
+  if (v < 0 || v + (k === 'adults' ? S.children : S.adults) > 20) return;
+  S[k] = v;
+  update();
+}
 document.querySelectorAll('.stepper[data-k]').forEach((st) =>
   st.addEventListener('click', (e) => {
     const b = e.target.closest('button');
-    if (!b) return;
-    const k = st.dataset.k;
-    const v = S[k] + +b.dataset.d;
-    if (k === 'adults' && v < 1) return;
-    if (v < 0 || v + (k === 'adults' ? S.children : S.adults) > 20) return;
-    S[k] = v;
-    update();
+    if (b) stepTrav(st.dataset.k, +b.dataset.d);
   }),
 );
+// Changed: guests no longer choose a vehicle for a tour. We suggest the smallest one that fits
+// the group and the request says so. (Airport transfers still choose one: it sets the price.)
+const tourVehicle = () => VEHICLES.find((v) => v.cap >= pax());
 function renderTrav() {
   $('#adults').textContent = S.adults;
   $('#children').textContent = S.children;
@@ -1281,7 +1339,7 @@ function renderTrav() {
   document.querySelector('[data-k="children"] [data-d="-1"]').disabled = S.children <= 0;
   document.querySelectorAll('[data-k] [data-d="1"]').forEach((b) => (b.disabled = pax() >= 20));
   const vid = vehicleId();
-  const rec = VEHICLES.find((v) => v.cap >= pax()).id;
+  const rec = tourVehicle().id;
   const shl = S.mode === 'shuttle' ? shLeg() : null;
   $('#vehicles').innerHTML = VEHICLES.map(
     (v) =>
@@ -1295,59 +1353,47 @@ $('#vehicles').addEventListener('click', (e) => {
   update();
 });
 
-/* summary + cta */
+/* summary + the header's trip button (phones) */
 function renderSummary() {
-  if (S.mode === 'shuttle') return renderShSummary();
-  const p = plan();
+  const pill = $('#tripPill');
+  if (S.mode === 'shuttle') {
+    pill.hidden = false;
+    return renderShSummary();
+  }
   const n = S.stops.length;
-  const k = S.exps.length;
-  $('#summary').textContent =
-    (n
-      ? `${n} ${n === 1 ? 'stop' : 'stops'} · ${p.nights} ${p.nights === 1 ? 'night' : 'nights'}${p.drive ? ` · ~${fmtDur(p.drive)} driving` : ''}`
-      : 'No stops yet') + (k ? ` · ${k} ${k === 1 ? 'experience' : 'experiences'}` : '');
-  $('#optBtn').hidden = n < 2;
-  $('#clearBtn').hidden = !(n || S.pickup || S.start || S.exps.length);
+  pill.hidden = !n; // nothing to jump to until a place is in the trip
   $('#pillCount').textContent = n;
-  const miss = [];
-  if (!n) miss.push('a destination');
-  if (!S.pickup) miss.push('a pickup location');
-  const btn = $('#quoteBtn');
-  btn.disabled = !!miss.length;
-  $('#ctaHint').innerHTML = miss.length
-    ? `Add ${miss.length > 1 ? miss.slice(0, -1).join(', ') + ' and ' + miss.at(-1) : miss[0]} to request a quote.`
-    : `<b>${p.nights + 1} days</b>${S.start ? '' : ', dates flexible'} · ${n} ${n === 1 ? 'stop' : 'stops'} · ${pax()} ${pax() === 1 ? 'traveller' : 'travellers'} · ${VEHICLES.find((v) => v.id === vehicleId()).name}`;
 }
-$('#tripPill').onclick = () => window.scrollTo({ top: $('#panel').offsetTop - 60, behavior: reduceMotion() ? 'auto' : 'smooth' });
+$('#tripPill').onclick = () => {
+  const behavior = reduceMotion() ? 'auto' : 'smooth';
+  if (S.mode === 'shuttle') return window.scrollTo({ top: $('#panel').offsetTop - 60, behavior });
+  window.scrollTo({ top: 0, behavior });
+  setTripOpen(true);
+  tripTg.focus({ preventScroll: true });
+};
 
-/* quote modal */
+/* request dialog: review, then details, then send (tours); one form for airport transfers */
 const mbg = $('#mbg');
 let hotel = 'Mid-range';
 // Added: dialog focus handling — remember the opener, trap Tab inside, restore on close.
 let modalReturn = null;
-function showModal(html) {
-  modalReturn = document.activeElement;
+// Added: what the visitor typed is kept if the dialog is closed or a step is revisited.
+// It lives in memory only and is never saved on the device.
+const qd = { name: '', email: '', phone: '', country: '', notes: '' };
+function showModal(html, focusSel) {
+  if (mbg.hidden) {
+    modalReturn = document.activeElement;
+    hideToast();
+  }
   mbg.innerHTML = html;
   mbg.hidden = false;
   document.body.style.overflow = 'hidden';
-  $('#qform').onsubmit = submitQuote;
-  setTimeout(() => mbg.querySelector('input[name=name]').focus(), 50);
+  const f = $('#qform');
+  if (f) f.onsubmit = submitQuote;
+  const t = mbg.querySelector(focusSel);
+  if (t) setTimeout(() => t.focus(), 50);
 }
-mbg.addEventListener('keydown', (e) => {
-  if (e.key !== 'Tab') return;
-  const els = [...mbg.querySelectorAll('a[href],button:not([disabled]),input,textarea,[tabindex="-1"]:focus')].filter(
-    (x) => x.offsetParent !== null,
-  );
-  if (!els.length) return;
-  const first = els[0],
-    last = els.at(-1);
-  if (e.shiftKey && document.activeElement === first) {
-    e.preventDefault();
-    last.focus();
-  } else if (!e.shiftKey && document.activeElement === last) {
-    e.preventDefault();
-    first.focus();
-  }
-});
+mbg.addEventListener('keydown', (e) => trapTab(mbg, e));
 // Added: chosen experiences in the quote summary, grouped under their places.
 const mExp = (id) => {
   const xs = expsAt(id);
@@ -1359,31 +1405,109 @@ function mAlso() {
     ? `<div class="m-also"><p class="m-also-h">Also interested in · not in the route</p><ul class="m-stops">${outside.map((id) => `<li><span class="n"></span><span class="nm">${D[id].name}</span><span class="dt"></span>${mExp(id)}</li>`).join('')}</ul></div>`
     : '';
 }
-function openQuote() {
+// Chosen experiences under a place, each with a remove button (review step).
+function expListHtml(id) {
+  const xs = expsAt(id);
+  return xs.length
+    ? `<ul class="s-exp" aria-label="Experiences in ${esc(D[id].name)}">${xs.map((x) => `<li><span>${esc(X[x].name)}</span><button type="button" class="rmx" data-rmx="${x}" aria-label="Remove ${esc(X[x].name)}">×</button></li>`).join('')}</ul>`
+    : '';
+}
+// Experiences whose place is not (or no longer) in the route: still sent, as "also interested in".
+function expOutsideHtml() {
+  const { outside } = expGroups();
+  if (!outside.length) return '';
+  return `<div class="exp-out"><p class="tagl">Also interested in · places not in your route</p>${outside
+    .map((id) => `<div class="exp-out-g"><div class="exp-out-h"><span class="rv-nm">${D[id].name}</span><button type="button" class="linkbtn" data-addstop="${id}">Add ${D[id].name} to my trip</button></div>${expListHtml(id)}</div>`)
+    .join('')}</div>`;
+}
+const stopWhen = (r) => (!S.start ? dayTxt(r) : r.s.nights ? `${fmtDs(dateAt(r.arrive))} – ${fmtDs(dateAt(r.depart))}` : fmtD(dateAt(r.arrive)));
+const daysTxt = (p) => `${p.nights + 1} ${p.nights ? 'days' : 'day'}, ${p.nights} ${p.nights === 1 ? 'night' : 'nights'}`;
+
+// Step 1 of 2: the whole trip in order, with the starting point shown apart from the places.
+function reviewRoute() {
+  const p = plan(),
+    from = esc(pickupLabel());
+  let h = `<div class="endpt"><span class="ic"></span><span><b>Starting point</b> · ${from}</span></div><ol class="stops">`;
+  p.rows.forEach((r) => {
+    if (r.leg) h += `<li class="leg">~${fmtDur(r.leg.min)} · ${r.leg.km} km</li>`;
+    h += `<li class="stop"><span class="num">${r.i + 1}</span><div><span class="rv-nm">${r.d.name}</span><div class="s-sub">${stopWhen(r)}</div></div>
+  <div class="stepper wide" role="group" aria-label="Nights in ${esc(r.d.name)}"><button type="button" data-n="${r.d.id}" data-d="-1" ${r.s.nights <= 0 ? 'disabled' : ''} aria-label="Fewer nights in ${esc(r.d.name)}">−</button><span>${r.s.nights}<small>${r.s.nights === 1 ? 'night' : 'nights'}</small></span><button type="button" data-n="${r.d.id}" data-d="1" ${r.s.nights >= 14 ? 'disabled' : ''} aria-label="More nights in ${esc(r.d.name)}">+</button></div>${expListHtml(r.d.id)}</li>`;
+  });
+  if (p.ret) h += `<li class="leg ret">~${fmtDur(p.ret.min)} · ${p.ret.km} km</li>`;
+  return h + `</ol><div class="endpt"><span class="ic"></span><span><b>Back to</b> · ${from}</span></div>`;
+}
+function reviewSum() {
+  const p = plan(),
+    n = S.stops.length,
+    k = S.exps.length;
+  return `<div><dt>Trip length</dt><dd>${daysTxt(p)}</dd></div><div><dt>You chose</dt><dd>${n} ${n === 1 ? 'place' : 'places'}${k ? `, ${k} ${k === 1 ? 'experience' : 'experiences'}` : ''}</dd></div><div><dt>Driving (est.)</dt><dd>~${fmtDur(p.drive)} · ${p.km} km</dd></div>`;
+}
+function openReview() {
+  showModal(
+    `<div class="modal rv" role="dialog" aria-modal="true" aria-labelledby="mTitle" aria-describedby="mLede"><button type="button" class="m-close" data-close aria-label="Close">×</button>
+ <div class="rv-body">
+  <p class="m-step">Step 1 of 2 · Review</p>
+  <h2 id="mTitle" tabindex="-1">Your Sri Lanka trip is taking shape!</h2>
+  <p class="rv-lede" id="mLede">Review your selected destinations and tell us a little about your travel plans. We’ll help you arrange your private experience.</p>
+  <h3 class="tagl">Your selected destinations</h3>
+  <div class="rv-route" id="rvRoute">${reviewRoute()}</div>
+  <dl class="rv-sum" id="rvSum">${reviewSum()}</dl>
+  <p class="hint">Drive times and distances are rough estimates, not guaranteed journey times. You can change the nights here; to add, remove or reorder places, choose “Edit my trip”.</p>
+  <div id="rvOut">${expOutsideHtml()}</div>
+ </div>
+ <div class="rv-foot"><button type="button" class="btn ghost" data-act="edit">Edit my trip</button><button type="button" class="btn primary" data-act="details">Continue</button></div></div>`,
+    '#mTitle',
+  );
+}
+function refreshReview() {
+  if (!$('#rvRoute')) return;
+  $('#rvRoute').innerHTML = reviewRoute();
+  $('#rvSum').innerHTML = reviewSum();
+  $('#rvOut').innerHTML = expOutsideHtml();
+}
+
+// Step 2 of 2: when, how many, and how to reach the visitor. No vehicle choice (see tourVehicle).
+function dateInfo() {
   const p = plan();
-  const v = VEHICLES.find((x) => x.id === vehicleId());
-  showModal(`<div class="modal" role="dialog" aria-modal="true" aria-labelledby="mTitle">
- <div class="m-sum"><p class="eyebrow">Your trip</p><h3>${p.nights + 1} days in Sri Lanka</h3>
-  <ol class="m-stops">${p.rows.map((r) => `<li><span class="n">${String(r.i + 1).padStart(2, '0')}</span><span class="nm">${r.d.name}</span><span class="dt">${!S.start ? dayTxt(r) : r.s.nights ? `${fmtDs(dateAt(r.arrive))}–${fmtDs(dateAt(r.depart))}` : fmtDs(dateAt(r.arrive))}</span>${mExp(r.d.id)}</li>`).join('')}</ol>${mAlso()}
-  <dl class="m-facts"><div><dt>Pickup</dt><dd>${esc(pickupLabel())}</dd></div><div><dt>Dates</dt><dd>${S.start ? `${fmtDs(dateAt(0))} – ${fmtDs(dateAt(p.nights))}` : 'Flexible, not chosen yet'}</dd></div><div><dt>Travellers</dt><dd>${S.adults} ${S.adults === 1 ? 'adult' : 'adults'}${S.children ? `, ${S.children} ${S.children === 1 ? 'child' : 'children'}` : ''}</dd></div><div><dt>Vehicle</dt><dd>${v.name}</dd></div><div><dt>Driving (est.)</dt><dd>~${fmtDur(p.drive)} · ${p.km} km</dd></div></dl></div>
+  return S.start
+    ? `${fmtD(dateAt(0))} to <b>${fmtD(dateAt(p.nights))}</b> · ${daysTxt(p)}`
+    : 'Not sure yet? Leave it empty: you can ask for a quote without dates.';
+}
+function openDetails() {
+  const p = plan();
+  const v = (k) => esc(qd[k]);
+  showModal(
+    `<div class="modal dt" role="dialog" aria-modal="true" aria-labelledby="mTitle">
+ <div class="m-sum"><p class="eyebrow">Your trip</p><h3>${p.nights + 1} ${p.nights ? 'days' : 'day'} in Sri Lanka</h3>
+  <ol class="m-stops">${p.rows.map((r) => `<li><span class="n">${String(r.i + 1).padStart(2, '0')}</span><span class="nm">${r.d.name}</span><span class="dt">${nightsTxt(r.s.nights)}</span>${mExp(r.d.id)}</li>`).join('')}</ol>${mAlso()}
+  <dl class="m-facts"><div><dt>Starting point</dt><dd>${esc(pickupLabel())}</dd></div><div><dt>Driving (est.)</dt><dd>~${fmtDur(p.drive)} · ${p.km} km</dd></div></dl></div>
  <form class="m-form" id="qform" novalidate><button type="button" class="m-close" data-close aria-label="Close">×</button>
-  <h2 id="mTitle">Request a quote</h2><p>${SITE.quoteEndpoint ? 'Send this route to our travel planners.' : 'Add your details, then send this route to us on WhatsApp or by email.'} We’ll reply with a price and any suggested changes.</p>
-  <div class="f2"><label class="fl" data-f="name"><span>Full name</span><div class="field"><input name="name" autocomplete="name" aria-required="true"></div></label>
-  <label class="fl" data-f="email"><span>Email</span><div class="field"><input name="email" type="email" autocomplete="email" aria-required="true"></div></label></div>
-  <div class="f2"><label class="fl"><span>WhatsApp / phone (optional)</span><div class="field"><input name="phone" type="tel" autocomplete="tel"></div></label>
-  <label class="fl"><span>Country of residence</span><div class="field"><input name="country" autocomplete="country-name"></div></label></div>
-  <div class="fl"><span id="hotelLbl">Hotels</span><div class="seg" id="hotelSeg" role="group" aria-labelledby="hotelLbl">${['Budget', 'Mid-range', 'Luxury', 'I’ll book my own'].map((h) => `<button type="button" class="${h === hotel ? 'on' : ''}" aria-pressed="${h === hotel}">${h}</button>`).join('')}</div></div>
-  <label class="fl"><span>Anything else? (optional)</span><textarea name="notes" placeholder="Flight times, interests, dietary needs…"></textarea></label>
-  <button class="btn primary" type="submit" style="height:52px">${SITE.quoteEndpoint ? 'Send request' : 'Continue'}</button></form></div>`);
-  $('#hotelSeg').onclick = (e) => {
-    const b = e.target.closest('button');
-    if (!b) return;
-    hotel = b.textContent;
-    [...e.currentTarget.children].forEach((x) => {
-      x.classList.toggle('on', x === b);
-      x.setAttribute('aria-pressed', String(x === b));
-    });
-  };
+  <p class="m-step">Step 2 of 2 · Your details</p>
+  <h2 id="mTitle" tabindex="-1">Request your private tour</h2><p>Tell us when you’d like to travel and how to reach you. ${SITE.quoteEndpoint ? 'We’ll reply with a quote and our suggestions.' : 'On the next screen you send your request to us on WhatsApp or by email, and we reply with a quote and our suggestions.'} Nothing is booked until you confirm it with us.</p>
+  <div class="fl" data-f="date"><label for="qDate">Preferred start date (optional)</label><div class="field"><input id="qDate" name="date" type="date" min="${TODAY}" value="${S.start}" aria-describedby="qDateInfo"></div><p class="hint" id="qDateInfo">${dateInfo()}</p></div>
+  <fieldset class="fl gst" id="qGuests"><legend>Guests</legend>
+   <div class="trow"><div><b id="qAdL">Adults</b><small>12 years and over</small></div><div class="stepper" data-q="adults" role="group" aria-labelledby="qAdL"><button type="button" data-d="-1" aria-label="Fewer adults">−</button><span id="qAdults" aria-live="polite"></span><button type="button" data-d="1" aria-label="More adults">+</button></div></div>
+   <div class="trow"><div><b id="qChL">Children</b><small>2–11 years</small></div><div class="stepper" data-q="children" role="group" aria-labelledby="qChL"><button type="button" data-d="-1" aria-label="Fewer children">−</button><span id="qChildren" aria-live="polite"></span><button type="button" data-d="1" aria-label="More children">+</button></div></div>
+   <p class="hint">We’ll match the vehicle to your group, so there’s nothing to choose.</p></fieldset>
+  <div class="f2"><label class="fl" data-f="name"><span>Full name</span><div class="field"><input name="name" autocomplete="name" aria-required="true" value="${v('name')}"></div></label>
+  <label class="fl" data-f="email"><span>Email</span><div class="field"><input name="email" type="email" autocomplete="email" aria-required="true" value="${v('email')}"></div></label></div>
+  <div class="f2"><label class="fl" data-f="phone"><span>WhatsApp / phone</span><div class="field"><input name="phone" type="tel" autocomplete="tel" aria-required="true" value="${v('phone')}"></div></label>
+  <label class="fl"><span>Country of residence (optional)</span><div class="field"><input name="country" autocomplete="country-name" value="${v('country')}"></div></label></div>
+  <div class="fl"><span id="hotelLbl">Hotels (optional)</span><div class="seg" id="hotelSeg" role="group" aria-labelledby="hotelLbl">${['Budget', 'Mid-range', 'Luxury', 'I’ll book my own'].map((h) => `<button type="button" class="${h === hotel ? 'on' : ''}" aria-pressed="${h === hotel}">${h}</button>`).join('')}</div></div>
+  <label class="fl"><span>Anything else? (optional)</span><textarea name="notes" placeholder="Flight times, interests, dietary needs…">${v('notes')}</textarea></label>
+  <div class="m-acts"><button type="button" class="btn ghost" data-act="review">Back</button><button class="btn primary" type="submit">Send my trip request</button></div></form></div>`,
+    '#mTitle',
+  );
+  renderGuests();
+}
+function renderGuests() {
+  const g = $('#qGuests');
+  if (!g) return;
+  $('#qAdults').textContent = S.adults;
+  $('#qChildren').textContent = S.children;
+  g.querySelector('[data-q="adults"] [data-d="-1"]').disabled = S.adults <= 1;
+  g.querySelector('[data-q="children"] [data-d="-1"]').disabled = S.children <= 0;
+  g.querySelectorAll('[data-d="1"]').forEach((b) => (b.disabled = pax() >= 20));
 }
 
 // Changed: the design only simulated sending. Requests now really reach the business —
@@ -1393,8 +1517,8 @@ const fmtLong = (d) => d.toLocaleDateString('en-GB', { weekday: 'short', day: 'n
 const mapsLink = (p) => `https://www.google.com/maps?q=${p.lat.toFixed(5)},${p.lng.toFixed(5)}`;
 function requestText(sh, ref, f) {
   const out = [];
-  const v = VEHICLES.find((x) => x.id === vehicleId());
   if (sh) {
+    const v = VEHICLES.find((x) => x.id === vehicleId());
     const t = shTimes(),
       title = DIRS[S.sh.dir].title;
     out.push(`Hello ${SITE.name}, I’d like to book an airport transfer (ref ${ref}).`, '');
@@ -1405,11 +1529,9 @@ function requestText(sh, ref, f) {
   } else {
     const p = plan();
     out.push(`Hello ${SITE.name}, I’d like a quote for a private tour (ref ${ref}).`, '');
-    out.push(`Route: ${p.nights + 1} days, ${p.nights} ${p.nights === 1 ? 'night' : 'nights'} · about ${fmtDur(p.drive)} driving, ${p.km} km (estimate)`);
+    out.push(`Route: ${daysTxt(p)} · about ${fmtDur(p.drive)} driving, ${p.km} km (estimate)`);
     p.rows.forEach((r) => {
-      out.push(
-        `${r.i + 1}. ${r.d.name} — ${nightsTxt(r.s.nights)} (${!S.start ? dayTxt(r) : r.s.nights ? `${fmtDs(dateAt(r.arrive))} – ${fmtDs(dateAt(r.depart))}` : fmtDs(dateAt(r.arrive))})`,
-      );
+      out.push(`${r.i + 1}. ${r.d.name} — ${nightsTxt(r.s.nights)} (${stopWhen(r)})`);
       expsAt(r.d.id).forEach((x) => out.push(`   • ${X[x].name}`)); // added: chosen experiences
     });
     const { outside } = expGroups();
@@ -1420,8 +1542,13 @@ function requestText(sh, ref, f) {
         expsAt(id).forEach((x) => out.push(`   • ${X[x].name}`));
       });
     }
-    out.push(`Pickup and drop-off: ${pickupLabel()}${S.pickup.id === 'pin' ? ' ' + mapsLink(S.pickup) : ''}`);
-    out.push(`Start date: ${S.start ? fmtLong(dateAt(0)) : 'flexible, not chosen yet'}`, `Vehicle: ${v.name}`, `Hotels: ${hotel}`);
+    out.push(`Starting point (pickup and drop-off): ${pickupLabel()}${S.pickup.id === 'pin' ? ' ' + mapsLink(S.pickup) : ''}`);
+    // Changed: the vehicle is our suggestion for the group size, not the guest's choice.
+    out.push(
+      `Start date: ${S.start ? fmtLong(dateAt(0)) : 'flexible, not chosen yet'}`,
+      `Vehicle: ${tourVehicle().name} (suggested for the group size, to be confirmed)`,
+      `Hotels: ${hotel}`,
+    );
   }
   out.push(`Travellers: ${travTxt()}`, '', `Name: ${f.name}`, `Email: ${f.email}`);
   if (f.phone) out.push(`Phone: ${f.phone}`);
@@ -1439,9 +1566,12 @@ function expPayload() {
     experiences: expsAt(id).map((x) => ({ id: x, name: X[x].name })),
   }));
 }
+let sending = false; // a request is on its way: ignore further presses
 async function submitQuote(e) {
   e.preventDefault();
+  if (sending) return;
   const f = e.target;
+  const sh = S.mode === 'shuttle';
   let ok = true;
   f.querySelectorAll('.fl .err').forEach((x) => x.remove());
   f.querySelectorAll('.fl.bad').forEach((x) => x.classList.remove('bad'));
@@ -1453,15 +1583,15 @@ async function submitQuote(e) {
     fl.querySelector('input').setAttribute('aria-invalid', 'true');
     fl.insertAdjacentHTML('beforeend', `<span class="err">${m}</span>`);
   };
+  if (f.date && f.date.value && f.date.value < TODAY) bad('date', 'Please choose today or a later date');
   if (!f.name.value.trim()) bad('name', 'Please enter your name');
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(f.email.value.trim())) bad('email', 'Please enter a valid email');
-  if (f.querySelector('[data-f="phone"]') && f.phone.value.replace(/\D/g, '').length < 7)
-    bad('phone', 'Please enter a phone number so the driver can reach you');
+  if (f.phone.value.replace(/\D/g, '').length < 7)
+    bad('phone', sh ? 'Please enter a phone number so the driver can reach you' : 'Please enter a WhatsApp or phone number so we can reach you');
   if (!ok) {
     f.querySelector('[aria-invalid]').focus();
     return;
   }
-  const sh = S.mode === 'shuttle';
   const ref = (sh ? 'SL-T-' : 'SL-') + String(Math.floor(1000 + Math.random() * 9000));
   const val = (k) => (f[k] ? f[k].value.trim() : '');
   const data = { name: val('name'), email: val('email'), phone: val('phone'), country: val('country'), notes: val('notes') };
@@ -1482,6 +1612,7 @@ async function submitQuote(e) {
   if (SITE.quoteEndpoint) {
     const btn = f.querySelector('[type=submit]'),
       label = btn.textContent;
+    sending = true;
     btn.disabled = true;
     btn.textContent = 'Sending…';
     try {
@@ -1496,11 +1627,13 @@ async function submitQuote(e) {
       btn.disabled = false;
       btn.textContent = label;
       f.querySelector('.send-err')?.remove();
-      btn.insertAdjacentHTML(
+      (btn.closest('.m-acts') || btn).insertAdjacentHTML(
         'beforebegin',
         `<p class="hint bad send-err" role="alert">We couldn’t send your request just now. Please try again, or <a href="${esc(wa)}" target="_blank" rel="noopener">send it on WhatsApp</a>.</p>`,
       );
       return;
+    } finally {
+      sending = false;
     }
     if (sh)
       return done(
@@ -1512,7 +1645,7 @@ async function submitQuote(e) {
     return done(
       `Request ${ref}`,
       `Thank you, ${first}.`,
-      `Your route has been sent to our travel planners. We’ll reply to <b>${em}</b> with a quote for this trip.`,
+      `Your trip request has been sent to our travel planners. We’ll reply to <b>${em}</b> with a quote and our suggestions. Nothing is booked yet.`,
       back,
     );
   }
@@ -1526,7 +1659,7 @@ async function submitQuote(e) {
   done(
     `Request ${ref}`,
     `Nearly done, ${first}.`,
-    `Your route is ready. Nothing is sent until you press send on WhatsApp or in your email app; we’ll then reply with a quote for this trip.`,
+    `Your trip request is ready. Choose how to send it: nothing is sent or booked until you press send on WhatsApp or in your email app. We’ll then reply with a quote and our suggestions.`,
     handoff,
   );
 }
@@ -1537,10 +1670,64 @@ function closeQuote() {
   if (modalReturn && document.contains(modalReturn)) modalReturn.focus();
   modalReturn = null;
 }
-mbg.addEventListener('click', (e) => {
-  if (e.target === mbg || e.target.closest('[data-close]')) closeQuote();
+// Remember typed details (not the transfer form's own notes: they mean something else).
+mbg.addEventListener('input', (e) => {
+  const k = e.target.name;
+  if (k in qd && !(k === 'notes' && S.mode === 'shuttle')) qd[k] = e.target.value;
 });
-$('#quoteBtn').onclick = () => (S.mode === 'shuttle' ? openShuttle() : openQuote());
+mbg.addEventListener('change', (e) => {
+  if (e.target.id !== 'qDate') return;
+  // Typed dates can get past the picker's minimum.
+  if (e.target.value && e.target.value < TODAY) {
+    e.target.value = '';
+    toast('Please choose today or a later date');
+  }
+  S.start = e.target.value;
+  update();
+  $('#qDateInfo').innerHTML = dateInfo();
+});
+mbg.addEventListener('click', (e) => {
+  if (e.target === mbg || e.target.closest('[data-close]')) return closeQuote();
+  const t = e.target.closest('button');
+  if (!t) return;
+  const act = t.dataset.act;
+  if (act === 'details') openDetails();
+  else if (act === 'review') openReview();
+  else if (act === 'edit') {
+    closeQuote();
+    if (isNarrow()) window.scrollTo({ top: 0, behavior: reduceMotion() ? 'auto' : 'smooth' });
+    setTripOpen(true);
+    tripTg.focus({ preventScroll: true });
+  } else if (t.dataset.n) {
+    const s = S.stops.find((x) => x.id === t.dataset.n);
+    s.nights = Math.max(0, Math.min(14, s.nights + +t.dataset.d));
+    update();
+    refreshReview();
+    // The route re-renders: keep keyboard focus on the stepper that was pressed.
+    const again = $(`#rvRoute [data-n="${t.dataset.n}"][data-d="${t.dataset.d}"]`);
+    const other = $(`#rvRoute [data-n="${t.dataset.n}"][data-d="${-t.dataset.d}"]`);
+    (again && !again.disabled ? again : other)?.focus();
+  } else if (t.dataset.rmx) {
+    toggleExp(t.dataset.rmx, false);
+    refreshReview();
+    (mbg.querySelector('.rmx') || $('#mTitle')).focus();
+  } else if (t.dataset.addstop) {
+    addStop(t.dataset.addstop);
+    refreshReview();
+    $('#mTitle').focus();
+  } else if (t.closest('[data-q]')) {
+    stepTrav(t.closest('[data-q]').dataset.q, +t.dataset.d);
+    renderGuests();
+    if (t.disabled) [...t.parentElement.querySelectorAll('button')].find((b) => !b.disabled)?.focus();
+  } else if (t.closest('#hotelSeg')) {
+    hotel = t.textContent;
+    [...t.parentElement.children].forEach((x) => {
+      x.classList.toggle('on', x === t);
+      x.setAttribute('aria-pressed', String(x === t));
+    });
+  }
+});
+$('#quoteBtn').onclick = () => openShuttle();
 
 /* airport shuttle */
 const AIR = P.cmb;
@@ -1677,10 +1864,9 @@ function flightShort(dir, t) {
 }
 
 const ovEb = $('.overlay .eyebrow'),
-  ovH = $('.overlay h1'),
-  ovP = $('.overlay .lede');
+  ovH = $('.overlay h1');
 const COPY = {
-  tour: { eb: ovEb.innerHTML, h: ovH.innerHTML, p: ovP.innerHTML },
+  tour: { eb: ovEb.innerHTML, h: ovH.innerHTML }, // the line under the heading: see renderGuide()
   shuttle: {
     eb: 'Bandaranaike International · CMB',
     h: 'Airport transfers, <em>at a fixed price.</em>',
@@ -1690,31 +1876,41 @@ const COPY = {
 function setMode(m) {
   if (S.mode === m) return;
   if (picking) stopPin();
+  closeCard();
   S.mode = m;
   update();
-  if (view === 'auto' || view === 'route') fit(); // e.g. don't carry a zoomed transfer route into the tour planner
+  // The two modes lay the page out differently (side panel, text above the map), so the island is
+  // fitted again. This also stops a zoomed transfer route from carrying over into the tour planner.
+  // A view the visitor chose is left alone.
+  if (view !== 'user') fit();
 }
+// Changed: the side panel is only for airport transfers. Its "Tour" button goes back to the map
+// planner; the link under the search box ("Only need an airport transfer?") comes here.
 $('#modes').addEventListener('click', (e) => {
   const b = e.target.closest('[data-mode]');
-  if (b) setMode(b.dataset.mode);
+  if (!b || b.dataset.mode === S.mode) return;
+  setMode(b.dataset.mode);
+  if (isNarrow()) window.scrollTo({ top: 0, behavior: reduceMotion() ? 'auto' : 'smooth' });
+  map.getContainer().focus({ preventScroll: true }); // the panel (and this button) is gone
 });
+$('#toShuttle').onclick = () => {
+  setMode('shuttle');
+  $('#modes [data-mode="shuttle"]').focus({ preventScroll: true });
+  if (isNarrow()) window.scrollTo({ top: $('#panel').offsetTop - 60, behavior: reduceMotion() ? 'auto' : 'smooth' });
+};
 function renderMode() {
   const sh = S.mode === 'shuttle';
+  app.classList.toggle('mode-sh', sh); // shows the side panel (app.css)
   document.querySelectorAll('#modes [data-mode]').forEach((b) => {
     const on = b.dataset.mode === S.mode;
     b.classList.toggle('on', on);
     b.setAttribute('aria-pressed', on);
   });
-  $('#tourView').hidden = sh;
-  $('#shView').hidden = !sh;
-  $('#pTitle').textContent = sh ? 'Airport transfer' : 'Your trip';
   $('#pillLbl').textContent = sh ? 'Transfer' : 'Your trip';
-  $('#quoteBtn').textContent = sh ? 'Request transfer' : 'Request a quote';
   if (ovH.dataset.m !== S.mode) {
     const c = COPY[S.mode];
     ovEb.innerHTML = c.eb;
     ovH.innerHTML = c.h;
-    ovP.innerHTML = c.p;
     ovH.dataset.m = S.mode;
     requestAnimationFrame(hideSeaLabels);
   }
@@ -1788,7 +1984,7 @@ function setShPlace(p) {
     ]).pad(0.25),
     {
       paddingTopLeft: [stacked() ? 20 : padL() + 40, stacked() ? padT() + 10 : 60],
-      paddingBottomRight: [60, stacked() && !card.hidden ? card.offsetHeight + 30 : 60],
+      paddingBottomRight: [60, 60],
       maxZoom: 10,
     },
   );
@@ -1816,7 +2012,7 @@ function syncShInputs() {
   Object.entries(SHIN).forEach(([id, k]) => ($('#' + id).value = S.sh[k] || ''));
 }
 syncShInputs();
-$('#shArrDate').min = sd.min;
+$('#shArrDate').min = TODAY;
 
 function renderShuttle() {
   if (S.mode !== 'shuttle') return;
@@ -1857,7 +2053,7 @@ function renderShuttle() {
     : !l
       ? 'Add where you’re staying to see your pickup time.'
       : `Estimated pickup from ${lbl} at <b>${t.pickup}${t.pickupPrev ? ' the day before' : ''}</b>, aiming to reach the airport ${SHUTTLE_TIMING.departureBufferMin / 60} hours before your flight.`;
-  $('#shDepDate').min = S.sh.arrDate || sd.min;
+  $('#shDepDate').min = S.sh.arrDate || TODAY;
   const err = shErr(),
     ee = $('#shErr');
   ee.hidden = !err;
@@ -1870,7 +2066,6 @@ function renderShSummary() {
   $('#summary').textContent = l
     ? `${DIRS[s.dir].t} · ~${fmtDur(l.min)} · ${l.km} km${s.dir === 'ret' ? ' each way' : ''}`
     : 'Bandaranaike International · CMB';
-  $('#optBtn').hidden = true;
   $('#clearBtn').hidden = !(s.place || s.arrDate || s.arrTime || s.depDate || s.depTime);
   $('#pillCount').textContent = nLegs();
   const miss = shMissing(),
@@ -1950,20 +2145,20 @@ function openShuttle() {
   <dl class="m-facts"><div><dt>Travellers</dt><dd>${travTxt()}</dd></div><div><dt>Vehicle</dt><dd>${v.name}</dd></div><div><dt>Drive (est.)</dt><dd>~${fmtDur(l.min)} · ${l.km} km${legs.length > 1 ? ' each way' : ''}</dd></div><div><dt>Fixed price</dt><dd class="m-price">$${total}</dd></div></dl></div>
  <form class="m-form" id="qform" novalidate><button type="button" class="m-close" data-close aria-label="Close">×</button>
   <h2 id="mTitle">Request your transfer</h2><p>$${total} per vehicle${legs.length > 1 ? ' for both transfers' : ''}, fixed price. ${SITE.quoteEndpoint ? 'We’ll confirm availability and email your driver details.' : 'Add your details, then send the request on WhatsApp or by email. We’ll confirm availability and your driver details.'}</p>
-  <div class="f2"><label class="fl" data-f="name"><span>Full name</span><div class="field"><input name="name" autocomplete="name" aria-required="true"></div></label>
-  <label class="fl" data-f="email"><span>Email</span><div class="field"><input name="email" type="email" autocomplete="email" aria-required="true"></div></label></div>
-  <label class="fl" data-f="phone"><span>WhatsApp / phone</span><div class="field"><input name="phone" type="tel" autocomplete="tel" aria-required="true"></div></label>
+  <div class="f2"><label class="fl" data-f="name"><span>Full name</span><div class="field"><input name="name" autocomplete="name" aria-required="true" value="${esc(qd.name)}"></div></label>
+  <label class="fl" data-f="email"><span>Email</span><div class="field"><input name="email" type="email" autocomplete="email" aria-required="true" value="${esc(qd.email)}"></div></label></div>
+  <label class="fl" data-f="phone"><span>WhatsApp / phone</span><div class="field"><input name="phone" type="tel" autocomplete="tel" aria-required="true" value="${esc(qd.phone)}"></div></label>
   <label class="fl"><span>Hotel name and anything else (optional)</span><textarea name="notes" placeholder="Hotel name, luggage, child seats…"></textarea></label>
-  <button class="btn primary" type="submit" style="height:52px">${SITE.quoteEndpoint ? `Request transfer · $${total}` : 'Continue'}</button></form></div>`);
+  <button class="btn primary" type="submit" style="height:52px">${SITE.quoteEndpoint ? `Request transfer · $${total}` : 'Continue'}</button></form></div>`, 'input[name=name]');
 }
 
 document.addEventListener('keydown', (e) => {
   if (e.key === 'Escape') {
     if (!mbg.hidden) closeQuote();
     else if (picking) stopPin();
-    else if (active) closeCard();
+    else if (!card.hidden) closeCard();
   }
-  if (e.key === '/' && mbg.hidden && document.activeElement.tagName !== 'INPUT' && document.activeElement.tagName !== 'TEXTAREA') {
+  if (e.key === '/' && mbg.hidden && card.hidden && !/^(INPUT|TEXTAREA|SELECT)$/.test(document.activeElement.tagName)) {
     e.preventDefault();
     q.focus();
   }
@@ -1973,8 +2168,8 @@ window.addEventListener('resize', () => {
   clearTimeout(rt);
   rt = setTimeout(() => {
     map.invalidateSize({ pan: false });
+    if (!trip.hidden) renderTripOpen(); // wide ↔ stacked: the panel's default changes
     if (view === 'overview') fit();
-    sizeCard();
   }, 150);
 });
 
@@ -1983,9 +2178,8 @@ function update() {
   renderPickupMarker();
   renderPins();
   renderRoute();
-  renderStops();
-  renderPickup();
-  renderDate();
+  renderTrip();
+  renderGuide();
   renderShuttle();
   renderTrav();
   renderSummary();
@@ -1995,11 +2189,12 @@ function update() {
 renderChips();
 update();
 document.documentElement.classList.add('map-ready');
+if (S.mode !== 'shuttle' && !S.stops.length) hintPins(); // step 1: the markers are the next action
 if (staleDates) setTimeout(() => toast('The dates in your saved trip have passed, so we cleared them'), 600);
 
-// Added: deep links from place pages — /#add=<id> adds the stop, /#place=<id> just opens it,
-// /#experiences=<id> opens it with its "Things to do" list expanded, and /#exp=<experience id>
-// does the same with focus on that experience.
+// Added: deep links from place pages — /#add=<id> adds the place and shows the trip panel,
+// /#place=<id> opens its dialog, /#experiences=<id> opens it at its "Things to do" list, and
+// /#exp=<experience id> does the same with focus on that experience (not ticked).
 // A fragment (not a query string) so the homepage keeps a single crawlable URL.
 function openFromHash() {
   // /#transfer (the menu's "Airport transfers") opens the planner in airport-shuttle mode.
@@ -2009,25 +2204,25 @@ function openFromHash() {
     return;
   }
   const m = location.hash.match(/^#(add|place|experiences|exp)=([a-z-]+)$/);
-  if (m && m[1] === 'exp' && X[m[2]]) {
-    // From an experience guide: open its place with the list expanded, focused on it (not ticked).
-    history.replaceState(null, '', location.pathname + location.search);
-    if (S.mode === 'shuttle') setMode('tour');
-    expOpen = true;
-    openDest(X[m[2]].destinationId);
-    const box = card.querySelector(`#dcExpList input[value="${m[2]}"]`);
-    if (box) {
-      box.closest('label').scrollIntoView({ block: 'nearest' });
-      box.focus({ preventScroll: true });
-    }
-    return;
-  }
-  if (!m || !D[m[2]]) return;
+  const id = m && (m[1] === 'exp' ? X[m[2]] && X[m[2]].destinationId : m[2]);
+  if (!id || !D[id]) return;
   history.replaceState(null, '', location.pathname + location.search);
   if (S.mode === 'shuttle') setMode('tour');
-  if (m[1] === 'add') addStop(m[2]);
-  if (m[1] === 'experiences') expOpen = true;
-  openDest(m[2]);
+  if (!mbg.hidden) closeQuote();
+  if (m[1] === 'add') {
+    closeCard();
+    addStop(id);
+    setTripOpen(true);
+    return;
+  }
+  if (m[1] !== 'place') expOpen = true;
+  openDest(id);
+  if (m[1] === 'experiences') $('#dcExp')?.scrollIntoView({ block: 'start' });
+  const box = m[1] === 'exp' && card.querySelector(`#dcExpList input[value="${m[2]}"]`);
+  if (box) {
+    box.closest('label').scrollIntoView({ block: 'nearest' });
+    box.focus({ preventScroll: true });
+  }
 }
 openFromHash();
 window.addEventListener('hashchange', openFromHash);

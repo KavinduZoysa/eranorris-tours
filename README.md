@@ -102,7 +102,7 @@ src/js/app.js                the map + trip planner (ported from the design; cha
 src/js/page.js               content pages: galleries (gallery.js), the site menu, the phone action bar
 src/js/menu.js               site menu enhancement, shared by the map and the content pages
 src/styles/base.css          design tokens, header, site menu, place cards, buttons, footer
-src/styles/app.css           map, planner, card and modal styles (design CSS, changes marked)
+src/styles/app.css           map, planner, dialog and trip panel styles (design CSS, changes marked)
 src/styles/page.css          destination / tour / 404 pages, built from the design's components
 src/templates/*.mjs          HTML for the homepage, place, tour and 404 pages
 src/content/places/*.md      optional long-form content per destination (see _TEMPLATE.md)
@@ -127,8 +127,9 @@ dist/                        build output (git-ignored) – deploy this folder
 
 ## What changed from the design export, and why
 
-The layout, colours, type, map styling, markers, interactions and copy are kept as designed.
-Changes were made only for function, SEO, accessibility or performance:
+The colours, type, map styling and markers are kept as designed. The planner's flow was later
+reshaped into a guided, step-by-step journey (see [Guided trip planner](#guided-trip-planner)).
+Other changes were made only for function, SEO, accessibility or performance:
 
 - **Photos fill the design's empty image slots** (map medallions and destination card). That
   is the slot's intended filled state.
@@ -138,11 +139,11 @@ Changes were made only for function, SEO, accessibility or performance:
   sending anything. It now sends the full trip summary to WhatsApp/email (or `QUOTE_ENDPOINT`),
   and the confirmation only claims what actually happened.
 - **Crawlable content**: a "Places you can add…" section and a footer below the planner list
-  every destination as a real link. The destination card gains a "More about X →" link.
+  every destination as a real link. The destination dialog gains a "More about X →" link.
 - **Accessibility**:
   - Markers are focusable, named, and open with Enter/Space.
-  - Search and pickup fields are ARIA comboboxes; filter chips expose their pressed state.
-  - The modal traps and restores focus; form errors are announced and focus the field.
+  - The search fields are ARIA comboboxes; filter chips expose their pressed state.
+  - Dialogs trap and restore focus; form errors are announced and focus the field.
   - Toasts are a live region, focus outlines are visible, and reduced motion is respected.
   - One design colour was darkened slightly to reach 4.5:1 contrast.
 - **Resilience**: if JavaScript is off or the map script fails, the page says so and points
@@ -160,20 +161,74 @@ Changes were made only for function, SEO, accessibility or performance:
   - CSS is inlined, and the planner's initial state is pre-rendered (no layout shift).
   - Images are AVIF/WebP at several sizes, with lazy loading below the fold.
 
+## Guided trip planner
+
+The homepage leads a visitor through one step at a time. There is one planner and one saved
+state (`S` in `src/js/app.js`, stored in the browser as `eranorris-trip-v1`); the steps are only
+different views of it.
+
+| Step | What the visitor sees | Where it is |
+|---|---|---|
+| 1. Start | The map, the heading "Let's plan your Sri Lanka experience." and one instruction. Markers pulse softly twice. No trip panel, no open place. | `.overlay`, `#guide` |
+| 2. Explore | Choosing a marker (or a search result) opens the place as a dialog: photo, text, facts, "Things to do" with tick boxes, **Add to my trip** and **Close**. | `#dback > #dcard` |
+| 3. Trip | After "Add to my trip" the dialog closes, a message says "Kandy added to your trip!", and the compact trip panel appears: starting point, numbered places, **+ Add another destination**, **Finish planning**. | `#trip` |
+| 4. Review | "Your Sri Lanka trip is taking shape!": starting point, places in order with nights and chosen experiences, drive estimates, **Edit my trip** / **Continue**. | `#mbg`, `openReview()` |
+| 5. Details | Start date (optional), guests, name, email, WhatsApp/phone, **Send my trip request**. | `#mbg`, `openDetails()` |
+
+Rules that the code and tests keep:
+
+- **Opening or closing a place never changes the trip.** Only "Add to my trip" does. Experiences
+  ticked in the dialog of a place that isn't in the trip wait (`draft` in `app.js`) and are
+  kept only when the place is added. For a place already in the trip, ticks apply at once.
+- **No duplicates:** a place in the trip shows "In your trip" and "Remove from my trip".
+- **Starting point ≠ places to visit.** The starting point is `S.pickup` (where the trip begins
+  and ends); the places are `S.stops`. The first place added is never taken as the starting
+  point. "Finish planning" asks for the starting point if it is missing and puts the visitor
+  on that field. "Or drop a pin on the map" covers places that are not in the list.
+- **The guidance line** (`#guide`) changes with the state: choose a place → "Great! Now select
+  another destination, or set your starting point." → "…choose Finish planning…".
+- **The trip panel stays small:** names, nights and a count of experiences. Places can be
+  moved earlier or later, removed, or put in the shortest order. It can be closed and reopened.
+  On wide screens it floats over the right of the map; on stacked layouts (≤ 1100 px) it is a
+  drawer along the bottom of the map and the zoom buttons move up above it.
+- **No vehicle choice for tours.** The request suggests the smallest vehicle that fits the
+  group ("Vehicle: Van (suggested for the group size, to be confirmed)"). The fields sent to
+  `QUOTE_ENDPOINT` are unchanged. Airport transfers still choose a vehicle, because it sets
+  the fixed price.
+- **The request is honest:** with `QUOTE_ENDPOINT`, the button shows "Sending…", a second
+  press is ignored, and success says the request was sent and that nothing is booked yet. A
+  failure keeps the form and offers WhatsApp. Without an endpoint, the last screen offers
+  WhatsApp or email and says nothing is sent until the visitor presses send there. What was
+  typed is kept (in memory only) if the dialog is closed or a step is revisited.
+- **Airport transfers** keep the original side panel. It opens from "Only need an airport
+  transfer?" under the search box, from the site menu, or from `/#transfer`; its "Tour"
+  button returns to the guided planner.
+- **Deep links:** `/#add=<id>` adds the place and shows the trip panel; `/#place=<id>` opens
+  its dialog; `/#experiences=<id>` and `/#exp=<experience id>` open it at "Things to do".
+- **Without JavaScript** (or if the script fails) the side panel shows a note with WhatsApp
+  and email links, and the place list below the map still works.
+
 ## Mobile and desktop behaviour
 
 Tested at 280–2560 px wide, portrait and landscape, with touch and mouse.
 
 - **Phones (portrait)**:
-  - The map fills the screen under the header, with the planner below it.
+  - The map fills the screen under the header. A place opens as a sheet from the bottom
+    (nearly full height); its content scrolls on its own, "Add to my trip" and "Close" stay in
+    reach, and the page behind does not scroll.
+  - The trip is a one-row drawer at the bottom of the map ("Your trip · 2 places" and "Finish
+    planning"); it opens to show the starting point and the places. The header's "Your trip"
+    button jumps back to it from anywhere on the page.
+  - Once a place is in the trip, the big heading is hidden (it stays in the page for screen
+    readers) so the island and the drawer both fit.
   - The filter chips form one swipeable row.
   - One-finger swipes scroll the page; two fingers pan and pinch the map (a short hint
-    says so). Taps on places, the pickup pin and double-tap zoom work as usual.
-- **Phones (landscape)**: the overlay sits on the left, as on desktop. The destination card
-  opens in its place as a compact side-by-side card, so the island stays visible.
-- **Tablets and desktop**: map and planner side by side. On short laptop screens (≈ 650 px
-  tall) the whole planner, including "Request a quote", stays on screen. The mouse wheel
-  zooms the map as designed, and the page still scrolls from the planner and header.
+    says so). Taps on places, the starting-point pin and double-tap zoom work as usual.
+- **Phones (landscape)**: the overlay sits on the left, as on desktop; the trip is a small
+  card on the right, and the place dialog uses nearly the whole screen.
+- **Tablets and desktop**: the map has the full width, with the search on the left and the
+  trip panel floating on the right once a place is added. The place dialog is centred over a
+  dimmed map. The mouse wheel zooms the map as designed.
 - **Touch screens in general**:
   - Form fields are 16 px, so iOS doesn't zoom in when one is tapped.
   - Small controls have larger invisible tap areas.
@@ -196,22 +251,26 @@ how far). Cards are listed in that order and labelled with it; on destination pa
 grouped under those headings. Who provides an experience isn't shown: all of them are arranged
 through partners (owner, November 2026), and guests don't need that detail.
 
-- **Map:** the destination card has a collapsible "Things to do in X" list with a
-  checkbox per experience. It works with mouse, touch and keyboard (Space toggles).
-  Choosing an experience never adds, removes or reorders a stop, and never moves the map.
-  It isn't shown in airport-shuttle mode.
-- **Planner (step 01):**
-  - Chosen experiences appear under their stop, each with a × to remove it.
-  - Experiences at places that aren't (or are no longer) in the route are kept under
-    "Experiences at places not in your route", with an "Add … to route" button. Removing a
-    stop never discards its experiences, and the toast says so.
-  - "Clear" empties everything.
+- **Map:** the destination dialog has a "Things to do in X" list (open by default,
+  collapsible) with a checkbox per experience. It works with mouse, touch and keyboard (Space
+  toggles). Choosing an experience never adds, removes or reorders a stop, and never moves
+  the map. It isn't shown in airport-shuttle mode.
+  - For a place that isn't in the trip yet, ticks are kept only when the visitor presses "Add
+    to my trip". "Close" drops them: closing never adds anything.
+  - For a place already in the trip, a tick applies at once.
+- **Trip panel:** shows only a count per place ("2 nights · 1 experience").
+- **Review step:**
+  - Chosen experiences appear under their place, each with a × to remove it.
+  - Experiences at places that are no longer in the route are kept under "Also interested in ·
+    places not in your route", with an "Add … to my trip" button. Removing a place never
+    discards its experiences, and the message says so.
+  - "Clear trip" (in the trip panel) asks first, then empties everything.
 - **Saved with the trip:** selections are stored in the browser with the rest of the trip.
 - **Quote request:** the summary and the WhatsApp/email message list experiences under
   each destination, plus an "Also interested in (not in the route yet)" group. With
   `QUOTE_ENDPOINT` set, the JSON also has an `experiences` array grouped by destination.
 - **Destination pages:** they list the experiences in plain HTML (crawlable) with the
-  fuller `details` text, and link to `/#experiences=<id>`, which opens the map card with the
+  fuller `details` text, and link to `/#experiences=<id>`, which opens the map dialog with the
   list expanded. No structured data is added for experiences.
 - **Map bundle:** the app gets a trimmed copy of the data (no `details`, `source` or
   `imageAlt`), generated by the build, so longer card text doesn't slow the map down.
@@ -418,8 +477,10 @@ The site is laid out for phones first and tested at 320, 375, 390, 430, 768, 102
   images are requested at thumbnail size there.
 - **Touch targets** are at least 44 px on touch screens (larger hit areas where the visual size
   stays the same), and headings scale fluidly with `clamp()` to the same desktop sizes.
-- **Planner on small phones:** the nights stepper moves under the place name; opening a place
-  doesn't zoom the map in, and closing its card returns to the whole island.
+- **Planner on small phones:** see [Guided trip planner](#guided-trip-planner). In the review
+  step the nights stepper moves under the place name. Opening a place never moves or zooms the
+  map; the island is fitted again only when the layout changes (for example when the trip
+  drawer first appears).
 
 ## Licences and attribution
 
