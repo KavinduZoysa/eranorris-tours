@@ -5,8 +5,9 @@ export const esc = (s) =>
   String(s ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]);
 
 // Inline, before anything renders: lets CSS tell "no JS" from "JS on", and flags a map
-// script that fails to load or throws during start-up so the fallback note appears.
-const BOOT = `document.documentElement.classList.add('js');addEventListener('error',function(e){var h=document.documentElement;if(!h.classList.contains('map-ready')&&e.filename&&/\\/assets\\/app\\./.test(e.filename))h.classList.add('map-failed')})`;
+// script that fails to load or throws during start-up so the fallback note appears (the page
+// then goes back to its plain main-page view: see data-svc in src/templates/home.mjs).
+const BOOT = `document.documentElement.classList.add('js');addEventListener('error',function(e){var h=document.documentElement;if(!h.classList.contains('map-ready')&&e.filename&&/\\/assets\\/app\\./.test(e.filename)){h.classList.add('map-failed');h.removeAttribute('data-svc')}})`;
 
 export function layout(ctx, page) {
   const { site, u, abs, assets } = ctx;
@@ -91,7 +92,7 @@ export function menu(ctx) {
   return `<details class="menu">
     <summary class="menu-btn">${ICON_MENU}<span class="menu-lbl">Menu</span><span class="sr-only"> (site menu)</span></summary>
     <nav class="menu-p" aria-label="Site menu">
-      <div class="menu-act"><a class="btn primary" href="${u('/')}">Plan your trip on the map</a><a class="btn menu-alt" href="${u('/')}#transfer">Airport transfers</a></div>
+      <div class="menu-act"><a class="btn primary" href="${u('/')}#tour">Plan a tour on the map</a><a class="btn primary" href="${u('/')}#transfer">Airport transfers</a></div>
       <div class="menu-gs">${places.join('')}${guides}${contact}</div>
     </nav>
   </details>`;

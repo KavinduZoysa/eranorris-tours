@@ -223,16 +223,34 @@ export const VEHICLES = [
   { id: 'coach', name: 'Mini coach', model: 'Toyota Coaster', cap: 20 },
 ];
 
-// Confirm: site.config.mjs → confirmed.shuttleFares. These airport-transfer rates come from the
-// design prototype and are shown to customers as fixed prices. Replace them with your real rates.
+// Not shown on the site. Transfer requests now get a quotation from the team instead of a fixed
+// price, so no page uses these rates. They are kept as the team's reference for quoting; the
+// tables in docs/research/shuttle-fares.md were worked out from them.
 // Fare (USD, one way) = round5(max(min, base + perKm × km) × vehicle multiplier), where km is the
 // estimated road distance below — so a fare is only as good as that estimate.
 export const SHUTTLE_FARES = { min: 25, base: 12, perKm: 0.5, mult: { car: 1, van: 1.45, coach: 2.4 } };
 
 // Confirm: site.config.mjs → confirmed.shuttleService. From the design: the driver meets
-// arriving guests in the arrivals hall; drop-off time allows this many minutes for immigration
-// and bags; departure pickups aim to reach the airport this long before the flight.
+// arriving guests in the arrivals hall, and departure pickups aim to reach the airport this long
+// before the flight. The transfer form mentions both when an airport is chosen.
 export const SHUTTLE_TIMING = { arrivalBufferMin: 45, departureBufferMin: 180 };
+
+// Airport shuttle and private transfers: the places a transfer can start or end. No new places
+// are added here. The two airports, Colombo, Negombo and the cruise terminal come from PICKUPS;
+// the rest are the destinations ("hotels in and around …"). Kandy and Galle appear once, as
+// destinations. The form's lists and the map both use this one list.
+export const AIRPORT_IDS = ['cmb', 'hri'];
+export const TRANSFER_GROUPS = { air: 'Airports', city: 'Colombo, Negombo and the port', place: 'Around Sri Lanka' };
+export const TRANSFER_PLACES = [
+  ...['cmb', 'hri', 'colombo', 'negombo', 'port'].map((id) => {
+    const p = PICKUPS.find((x) => x.id === id);
+    const air = AIRPORT_IDS.includes(id);
+    return { ...p, group: air ? 'air' : 'city', label: air ? `${p.name} (${p.code})` : p.name };
+  }),
+  ...DESTS.map((d) => ({ id: d.id, name: d.name, short: d.name, label: d.name, sub: 'Hotels in and around ' + d.name, lat: d.lat, lng: d.lng, group: 'place' })).sort((a, b) =>
+    a.name.localeCompare(b.name),
+  ),
+];
 
 // Great-circle distance in km, and the design's drive estimate (road factor 1.4, ~40 km/h).
 // These are rough estimates, not routed distances or guaranteed journey times — the interface

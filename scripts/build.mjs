@@ -15,7 +15,7 @@ import site from '../site.config.mjs';
 import { DESTS, PHOTO_CREDITS } from '../src/data/destinations.mjs';
 import { EXPERIENCES, EXP_CATS, EXP_KINDS, experiencesFor } from '../src/data/experiences.mjs';
 import { GALLERIES, GALLERY_IMAGES } from '../src/data/galleries.mjs';
-import { homeBody } from '../src/templates/home.mjs';
+import { homeBody, SVC_BOOT } from '../src/templates/home.mjs';
 import { esc, layout } from '../src/templates/layout.mjs';
 import { activityPage, creditsPage, notFoundPage, placePage, tourPage } from '../src/templates/pages.mjs';
 import { parseFrontMatter } from './lib/frontmatter.mjs';
@@ -476,12 +476,14 @@ await emit({
   title: `Private Tours in Sri Lanka with Your Own Driver | ${site.name}`,
   ogTitle: `Plan a private tour of Sri Lanka, one stop at a time | ${site.name}`,
   description:
-    'Plan a private tour of Sri Lanka on an interactive map. Pick places like Sigiriya, Kandy, Ella and Galle, choose your pickup and dates, and get a quote.',
+    'Plan a private tour of Sri Lanka on an interactive map, or request a private airport transfer. Pick places like Sigiriya, Kandy, Ella and Galle and get a quote.',
   css: 'home',
   bodyClass: 'home',
   header: '',
+  // Before first paint: which service view to show (see SVC_BOOT in src/templates/home.mjs).
+  head: `<script>${SVC_BOOT}</script>`,
   body: homeBody(ctx),
-  scripts: `<script src="${u('/' + jsRel)}" defer onerror="document.documentElement.classList.add('map-failed')"></script>`,
+  scripts: `<script src="${u('/' + jsRel)}" defer onerror="var h=document.documentElement;h.classList.add('map-failed');h.removeAttribute('data-svc')"></script>`,
   jsonld: [
     {
       '@context': 'https://schema.org',

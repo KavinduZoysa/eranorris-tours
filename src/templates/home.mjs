@@ -1,16 +1,23 @@
-// Homepage: the map-first planner from the supplied design, plus a crawlable places index.
-// Markup inside <div class="app"> follows design/design-source.html. Dynamic regions
-// (#chips, #vehicles, …) are pre-rendered in their initial state so the page
-// is complete before JavaScript runs and nothing shifts when it does.
+// Homepage: two services on one map, plus a crawlable places index.
+// Markup inside <div class="app"> grew from design/design-source.html. Dynamic regions
+// (#chips, the two location lists, …) are pre-rendered in their initial state so the page is
+// complete before JavaScript runs and nothing shifts when it does.
 //
-// The tour planner is a guided flow (see "Guided trip planner" in README.md):
-//   1. the map with one instruction            (.overlay, #guide)
-//   2. a place opens as a dialog               (#dback > #dcard)
-//   3. the compact itinerary appears           (#trip)
-//   4. review, then details, then send         (#mbg, built in src/js/app.js)
-// The side panel (#panel) is only used for airport transfers.
-import { CATS, DESTS, PICKUPS, VEHICLES } from '../data/destinations.mjs';
+// One page, three views. <html data-svc> says which one is showing (see SVC_BOOT below):
+//   (none)   the main page: two service cards, "Plan My Tour" and "Book Airport Transfer"  (#svc)
+//   "tour"   the guided tour planner (see "Guided trip planner" in README.md):
+//              the map with one instruction (#guide) → a place opens as a dialog (#dcard)
+//              → the compact itinerary (#trip) → review, details, send (#mbg)
+//   "sh"     airport shuttle and private transfers (see "Airport shuttle" in README.md):
+//              two locations, pickup A and drop-off B (#tcard) → details → review → send (#mbg)
+// The two services keep separate state in src/js/app.js and never change each other.
+import { CATS, DESTS, PICKUPS, TRANSFER_GROUPS, TRANSFER_PLACES } from '../data/destinations.mjs';
 import { brand, esc, menu, picture, waLink } from './layout.mjs';
+
+// Inline in <head>, before first paint: a visitor who comes back to a trip or transfer in
+// progress, or who follows a link such as /#add=kandy or /#transfer, goes straight to that
+// service instead of seeing the service cards flash by. src/js/app.js reads the same attribute.
+export const SVC_BOOT = `(function(){try{var h=location.hash,s=JSON.parse(localStorage.getItem('eranorris-trip-v1')||'{}'),t=s.tr||{},m='';if(h==='#transfer')m='sh';else if(/^#(tour$|add=|place=|experiences=|exp=)/.test(h))m='tour';else if(s.mode==='shuttle'&&(t.from||t.to))m='sh';else if(s.mode==='tour'&&((s.stops||[]).length||s.pickup))m='tour';if(m)document.documentElement.setAttribute('data-svc',m)}catch(e){}})()`;
 
 const SEARCH_ICON = (s) =>
   `<svg width="${s}" height="${s}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-3.5-3.5"></path></svg>`;
@@ -28,11 +35,39 @@ function chips() {
     .join('');
 }
 
-function vehicles() {
-  return VEHICLES.map(
-    (v, i) =>
-      `<button class="vcard ${i === 0 ? 'on' : ''}" data-v="${v.id}" aria-pressed="${i === 0}"><span class="rec">${i === 0 ? 'Best fit' : ''}</span><b>${v.name}</b><small>${v.model}</small><span class="cap">Up to ${v.cap} people</span></button>`,
-  ).join('');
+const PLANE = `<svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M21 16v-2l-8-5V3.5c0-.83-.67-1.5-1.5-1.5S10 2.67 10 3.5V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z"></path></svg>`;
+const SWAP = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 4v16m0 0-3.5-3.5M7 20l3.5-3.5M17 20V4m0 0-3.5 3.5M17 4l3.5 3.5"></path></svg>`;
+
+// The same list of places for "Pickup location" and "Drop-off location" (TRANSFER_PLACES).
+function placeOptions(placeholder) {
+  const groups = Object.entries(TRANSFER_GROUPS)
+    .map(([g, label]) => `<optgroup label="${esc(label)}">${TRANSFER_PLACES.filter((p) => p.group === g).map((p) => `<option value="${p.id}">${esc(p.label)}</option>`).join('')}</optgroup>`)
+    .join('');
+  return `<option value="" disabled selected>${placeholder}</option>${groups}<option value="pin">Somewhere else: drop a pin on the map</option>`;
+}
+
+// One card per service on the main page. The pictures are drawn from what the map already
+// uses (place photos, the airport marker, the dotted route), so the two cards belong together.
+function serviceCards(ctx) {
+  const med = (id) => `<span class="svc-m"><img src="${ctx.photos[id].med}" alt="" width="96" height="96" decoding="async"></span>`;
+  return `<div class="svc" id="svc">
+        <article class="svc-c" aria-labelledby="svcTour">
+          <div class="svc-v tour" aria-hidden="true">${['sigiriya', 'kandy', 'ella', 'galle'].map(med).join('')}</div>
+          <div class="svc-b">
+            <h2 id="svcTour">Plan Your Sri Lanka Tour</h2>
+            <p>Discover amazing places, explore experiences and build your own personalised private tour.</p>
+            <button type="button" class="btn primary" data-go="tour">Plan My Tour</button>
+          </div>
+        </article>
+        <article class="svc-c" aria-labelledby="svcSh">
+          <div class="svc-v sh" aria-hidden="true"><span class="svc-pt a">${PLANE}</span><span class="svc-ln"></span><span class="svc-pt b"></span></div>
+          <div class="svc-b">
+            <h2 id="svcSh">Airport Shuttle &amp; Private Transfers</h2>
+            <p>Need a comfortable transfer? Choose your pickup and drop-off locations and request your private transfer.</p>
+            <button type="button" class="btn primary" data-go="shuttle">Book Airport Transfer</button>
+          </div>
+        </article>
+      </div>`;
 }
 
 function placeCards(ctx) {
@@ -53,7 +88,7 @@ export function homeBody(ctx) {
   const { site } = ctx;
   return `<header class="top">
   ${brand(ctx)}
-  <div class="top-r"><button class="trip-pill" id="tripPill"><span id="pillLbl">Your trip</span> <b id="pillCount">0</b></button>${menu(ctx)}</div>
+  <div class="top-r"><button class="trip-pill" id="tripPill" hidden><span id="pillLbl">Your trip</span> <b id="pillCount">0</b></button>${menu(ctx)}</div>
 </header>
 
 <main id="content">
@@ -62,21 +97,43 @@ export function homeBody(ctx) {
     <div id="map" role="region" aria-label="Map of Sri Lanka with ${DESTS.length} places. Tab to a place and press Enter to open it."></div>
     <div class="shade"></div>
     <div class="overlay">
-      <p class="eyebrow">Build your Sri Lanka trip · ${DESTS.length} places</p>
-      <h1 id="h1" data-m="tour">Let’s plan your Sri Lanka <em>experience.</em></h1>
-      <p class="guide" id="guide" data-k="s1">Start by selecting a destination on the map to explore what you can experience there.</p>
-      <div class="search" role="search">
-        <label class="sbox">
-          ${SEARCH_ICON(18)}
-          <input id="q" type="text" placeholder="Search Sigiriya, Ella, leopards…" autocomplete="off" aria-label="Search destinations" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="results">
-          <kbd aria-hidden="true">/</kbd>
-        </label>
-        <ul class="results" id="results" role="listbox" aria-label="Matching places" hidden></ul>
+      <div class="svc-tabs" id="modes" role="group" aria-label="Choose a service"><button type="button" data-mode="tour" aria-pressed="false">Tour planner</button><button type="button" data-mode="shuttle" aria-pressed="false">Airport shuttle</button></div>
+      <p class="eyebrow">Two ways to travel with us</p>
+      <h1 id="h1" data-m="home" tabindex="-1">Private tours and <em>airport transfers</em> in Sri Lanka</h1>
+      <p class="guide" id="guide" data-k="home">Choose what you need. You can switch between the two at any time.</p>
+
+      ${serviceCards(ctx)}
+
+      <div class="tour-ui">
+        <div class="search" role="search">
+          <label class="sbox">
+            ${SEARCH_ICON(18)}
+            <input id="q" type="text" placeholder="Search Sigiriya, Ella, leopards…" autocomplete="off" aria-label="Search destinations" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="results">
+            <kbd aria-hidden="true">/</kbd>
+          </label>
+          <ul class="results" id="results" role="listbox" aria-label="Matching places" hidden></ul>
+        </div>
+        <div class="chips" id="chips" role="group" aria-label="Filter places by type">${chips()}</div>
       </div>
-      <div class="chips" id="chips" role="group" aria-label="Filter places by type">${chips()}</div>
-      <p class="ov-alt"><button type="button" class="linkbtn" id="toShuttle">Only need an airport transfer?</button></p>
+
+      <section class="tcard" id="tcard" aria-labelledby="tcH">
+        <h2 class="tagl" id="tcH">Your transfer</h2>
+        <div class="tf" id="tfFrom">
+          <label for="tFrom"><b class="ab" aria-hidden="true">A</b>Pickup location</label>
+          <div class="field"><select id="tFrom" aria-describedby="tFromErr">${placeOptions('Choose where we pick you up')}</select></div>
+          <p class="err" id="tFromErr" role="alert" hidden></p>
+        </div>
+        <button type="button" class="tswap" id="tSwap" aria-label="Swap pickup and drop-off" disabled>${SWAP}</button>
+        <div class="tf" id="tfTo">
+          <label for="tTo"><b class="ab" aria-hidden="true">B</b>Drop-off location</label>
+          <div class="field"><select id="tTo" aria-describedby="tToErr">${placeOptions('Choose where we take you')}</select></div>
+          <p class="err" id="tToErr" role="alert" hidden></p>
+        </div>
+        <p class="tsum" id="tSum" aria-live="polite" hidden></p>
+        <div class="t-acts"><button type="button" class="linkbtn mut" id="tClear" hidden>Clear</button><button type="button" class="btn primary" id="tGo">Continue</button></div>
+      </section>
     </div>
-    <div class="map-fallback" role="note"><b>The interactive map isn’t available</b>You can still <a href="#places">browse all ${DESTS.length} places</a> below, or <a href="${waLink(ctx, `Hello ${site.name}, I’d like to plan a private tour of Sri Lanka.`)}" target="_blank" rel="noopener">plan your trip with us on WhatsApp</a>.</div>
+    <div class="map-fallback" role="note"><b>The planner isn’t available</b>It needs JavaScript and the interactive map. You can still <a href="#places">browse all ${DESTS.length} places</a> below. To plan a private tour or request an airport transfer, message us on <a href="${waLink(ctx, `Hello ${site.name}, I’d like to plan a private tour or an airport transfer in Sri Lanka.`)}" target="_blank" rel="noopener">WhatsApp</a> or email <a href="mailto:${esc(site.contact.email)}">${esc(site.contact.email)}</a>.</div>
     <div class="gest" id="gest" aria-hidden="true"><span>Use two fingers to move the map</span></div>
     <div class="pinbanner" id="pinBanner" hidden><span id="pinTxt">Click the map to set your starting point</span><button id="pinCancel">Cancel</button></div>
 
@@ -106,83 +163,6 @@ export function homeBody(ctx) {
         <button type="button" class="btn primary" id="finishBtn">Finish planning</button>
       </div>
     </aside>
-  </section>
-
-  <section class="panel" id="panel" aria-labelledby="pTitle">
-    <div class="modes" id="modes" role="group" aria-label="What are you booking?"><button data-mode="tour" aria-pressed="false">Tour</button><button data-mode="shuttle" class="on" aria-pressed="true">Airport shuttle</button></div>
-    <div class="p-head">
-      <div>
-        <h2 id="pTitle">Airport transfer</h2>
-        <p id="summary">Bandaranaike International · CMB</p>
-      </div>
-      <button class="linkbtn mut" id="clearBtn" hidden>Clear</button>
-    </div>
-
-    <div id="shView">
-    <section class="step" aria-labelledby="sh1">
-      <div class="step-h"><span class="n">01</span><h3 id="sh1">Trip type</h3></div>
-      <div class="dirs" id="shDir" role="group" aria-labelledby="sh1">
-        <button class="vcard" data-dir="arr" aria-pressed="true"><b>Arrival</b><small>Airport → hotel</small></button>
-        <button class="vcard" data-dir="dep" aria-pressed="false"><b>Departure</b><small>Hotel → airport</small></button>
-        <button class="vcard" data-dir="ret" aria-pressed="false"><b>Return</b><small>Both ways</small></button>
-      </div>
-    </section>
-
-    <section class="step" aria-labelledby="sh2">
-      <div class="step-h"><span class="n">02</span><h3 id="sh2">Route</h3></div>
-      <div class="shroute" id="shRoute">
-        <div class="shrow"><span class="tagl" id="apTag">From</span>
-          <div class="chosen fixed"><span class="code">CMB</span><span><b>Bandaranaike International Airport</b><small>Katunayake</small></span></div>
-        </div>
-        <div class="leg" id="shLeg" hidden></div>
-        <div class="shrow"><span class="tagl" id="htTag">To</span>
-          <div id="shChosen"></div>
-          <div id="shPicker">
-            <label class="field">
-              ${SEARCH_ICON(16)}
-              <input id="shIn" type="text" placeholder="Where are you staying?" autocomplete="off" aria-label="Hotel location" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="shList">
-            </label>
-            <ul class="pk-list" id="shList" role="listbox" aria-label="Hotel areas" hidden></ul>
-            <div class="pk-alt"><button class="linkbtn" id="shPinBtn">Drop a pin on the map</button></div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section class="step" aria-labelledby="sh3">
-      <div class="step-h"><span class="n">03</span><h3 id="sh3">Flight times</h3><span class="opt">Optional</span></div>
-      <div class="flt" id="shArr">
-        <span class="tagl" style="display:block;margin-bottom:8px">Arrival flight lands</span>
-        <div class="f2">
-          <label class="field"><input id="shArrDate" type="date" aria-label="Arrival date"></label>
-          <label class="field"><input id="shArrTime" type="time" step="300" aria-label="Landing time"></label>
-        </div>
-        <p class="hint" id="shArrInfo"></p>
-      </div>
-      <div class="flt" id="shDep">
-        <span class="tagl" style="display:block;margin-bottom:8px">Departure flight leaves</span>
-        <div class="f2">
-          <label class="field"><input id="shDepDate" type="date" aria-label="Departure date"></label>
-          <label class="field"><input id="shDepTime" type="time" step="300" aria-label="Departure time"></label>
-        </div>
-        <p class="hint" id="shDepInfo"></p>
-      </div>
-      <p class="hint bad" id="shErr" role="alert" hidden></p>
-    </section>
-    </div>
-
-    <section class="step" aria-labelledby="st4">
-      <div class="step-h"><span class="n">04</span><h3 id="st4">Travellers &amp; vehicle</h3></div>
-      <div class="trow"><div><b id="adLbl">Adults</b><small>12 years and over</small></div><div class="stepper" data-k="adults" role="group" aria-labelledby="adLbl"><button data-d="-1" aria-label="Fewer adults">−</button><span id="adults" aria-live="polite">2</span><button data-d="1" aria-label="More adults">+</button></div></div>
-      <div class="trow"><div><b id="chLbl">Children</b><small>2–11 years</small></div><div class="stepper" data-k="children" role="group" aria-labelledby="chLbl"><button data-d="-1" aria-label="Fewer children" disabled>−</button><span id="children" aria-live="polite">0</span><button data-d="1" aria-label="More children">+</button></div></div>
-      <div class="veh" id="vehicles">${vehicles()}</div>
-    </section>
-
-    <div class="cta">
-      <p id="ctaHint">Add where you’re staying to request a transfer.</p>
-      <button class="btn primary" id="quoteBtn" disabled aria-describedby="ctaHint">Request transfer</button>
-    </div>
-    <p class="nojs-note">The trip planner needs JavaScript. To plan a private tour, message us on <a href="${waLink(ctx, `Hello ${site.name}, I’d like to plan a private tour of Sri Lanka.`)}" target="_blank" rel="noopener">WhatsApp</a> or email <a href="mailto:${esc(site.contact.email)}">${esc(site.contact.email)}</a>.</p>
   </section>
 </div>
 

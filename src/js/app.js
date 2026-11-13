@@ -1,10 +1,17 @@
-// Map-first trip planner — ported from the supplied design, then reshaped into a guided flow:
-// choose a place on the map → explore it in a dialog → "Add to my trip" → the compact trip
-// panel appears → "Finish planning" → review → details → send. One state object (S) drives
-// all of it; see "Guided trip planner" in README.md. Other changes from the design are
-// commented where they happen (photos, accessibility, deep links, real request hand-off).
+// The homepage's two services on one map — ported from the supplied design, then reshaped:
+//
+//   Tour planner     choose a place on the map → explore it in a dialog → "Add to my trip" →
+//                    the compact trip panel appears → "Finish planning" → review → details → send.
+//   Airport shuttle  choose a pickup (A) and a drop-off (B), from the lists or the map →
+//                    "Continue" → travel details → review → "Request Airport Transfer".
+//
+// The main page shows both as cards; S.mode says which view is on screen ('home', 'tour' or
+// 'shuttle'). The tour's state (S.stops, S.pickup, S.exps, …) and the transfer's state (S.tr)
+// are kept apart and never change each other. See "Guided trip planner" and "Airport shuttle"
+// in README.md. Other changes from the design are commented where they happen (photos,
+// accessibility, deep links, real request hand-off).
 import L from 'leaflet';
-import { CATS, DESTS, PICKUPS, VEHICLES, SHUTTLE_FARES, SHUTTLE_TIMING, hav, legInfo, fmtDur, nightsTxt } from '../data/destinations.mjs';
+import { AIRPORT_IDS, CATS, DESTS, PICKUPS, SHUTTLE_TIMING, TRANSFER_PLACES, VEHICLES, hav, legInfo, fmtDur, nightsTxt } from '../data/destinations.mjs';
 import { EXPERIENCES, EXP_CATS, EXP_KINDS, experiencesFor } from '../data/experiences.mjs';
 import { initMenu } from './menu.js';
 
@@ -32,7 +39,7 @@ const store = {
     } catch (e) {}
   },
 };
-let S = Object.assign({ stops: [], pickup: null, start: '', adults: 2, children: 0, vehicle: null }, store.get());
+let S = Object.assign({ stops: [], pickup: null, start: '', adults: 2, children: 0 }, store.get());
 S.stops = (S.stops || []).filter((s) => D[s.id]);
 // Added: selected experiences (ids from src/data/experiences.mjs), saved with the trip like stops.
 // Kept independent of the route: choosing one never adds, removes or reorders a stop.
@@ -44,7 +51,23 @@ const ymd = (t) => `${t.getFullYear()}-${String(t.getMonth() + 1).padStart(2, '0
 const TODAY = ymd(new Date());
 let staleDates = false;
 if (S.start && S.start < TODAY) (S.start = ''), (staleDates = true);
-if (S.sh) for (const k of ['arrDate', 'depDate']) if (S.sh[k] && S.sh[k] < TODAY) (S.sh[k] = ''), (staleDates = true);
+// Added: the airport shuttle's own state — two locations and a few details. A location is
+// { id } from TRANSFER_PLACES, or { id: 'pin', lat, lng } for a pin dropped on the map.
+const TL = Object.fromEntries(TRANSFER_PLACES.map((p) => [p.id, p]));
+const okLoc = (p) => (p && (p.id === 'pin' ? Number.isFinite(p.lat) && Number.isFinite(p.lng) : !!TL[p.id]) ? p : null);
+// (An earlier version saved a transfer as "the airport and one place": carry that over once.)
+const oldSh = S.sh && S.sh.place ? (S.sh.dir === 'dep' ? { from: S.sh.place, to: { id: 'cmb' } } : { from: { id: 'cmb' }, to: S.sh.place }) : {};
+S.tr = Object.assign({ from: null, to: null, date: '', time: '', pax: 2 }, oldSh, S.tr || {});
+S.tr.from = okLoc(S.tr.from);
+S.tr.to = okLoc(S.tr.to);
+S.tr.pax = Math.max(1, Math.min(20, Math.round(+S.tr.pax) || 2));
+if (S.tr.date && S.tr.date < TODAY) (S.tr.date = ''), (S.tr.time = ''), (staleDates = true);
+delete S.sh;
+delete S.vehicle;
+// Which view is on screen: 'home' (the main page's two service cards), 'tour' or 'shuttle'. A
+// small inline script chose it before first paint (SVC_BOOT in src/templates/home.mjs): a
+// visitor with a trip or transfer in progress, or a link such as /#add=kandy, skips the cards.
+S.mode = { tour: 'tour', sh: 'shuttle' }[document.documentElement.getAttribute('data-svc')] || 'home';
 let filter = 'all',
   active = null,
   picking = false,
@@ -111,11 +134,9 @@ function plan() {
   }
   return { rows, ret, nights: day, drive, km };
 }
-function vehicleId() {
-  const fit = VEHICLES.filter((v) => v.cap >= pax());
-  const cur = VEHICLES.find((v) => v.id === S.vehicle);
-  return cur && cur.cap >= pax() ? cur.id : fit[0].id;
-}
+// Changed: guests don't choose a vehicle (tours or transfers). We suggest the smallest one that
+// takes the group, and the request says it is a suggestion to be confirmed.
+const fitVehicle = (n) => VEHICLES.find((v) => v.cap >= n) || VEHICLES.at(-1);
 function toast(t) {
   const el = $('#toast');
   // Added: keep it clear of what the visitor is using. At the top while a dialog is open
@@ -322,9 +343,10 @@ fetch(SITE.assets.land)
   .then(drawLand)
   .catch((e) => console.warn('Map geometry failed to load', e));
 const isNarrow = () => window.innerWidth <= 900;
-// Added: phones in landscape use the side-by-side overlay (as on desktop) — see app.css.
+// Added: phones in landscape use the side-by-side overlay (as on desktop) — see app.css. Not for
+// the airport shuttle: its card needs the width, so it stays above the map there too.
 const sideLayout = window.matchMedia('(max-width: 900px) and (max-height: 500px) and (orientation: landscape)');
-const stacked = () => window.innerWidth <= 1100 && !sideLayout.matches;
+const stacked = () => window.innerWidth <= 1100 && !(sideLayout.matches && S.mode !== 'shuttle');
 function padL() {
   if (stacked()) return 0;
   const o = document.querySelector('.overlay');
@@ -345,13 +367,14 @@ function padB() {
 }
 function padT() {
   if (!stacked()) return 30;
+  if (S.mode === 'shuttle') return 20; // there the transfer card sits above the map, not over it (app.css)
   const o = document.querySelector('.overlay').getBoundingClientRect(),
     m = mapwrap.getBoundingClientRect();
   return Math.max(30, o.bottom - m.top + 12);
 }
 // How the current view came about. 'overview': the whole island, refitted when the layout
-// changes. 'route': zoomed to the airport transfer route; changing or clearing the place (or
-// switching mode) puts the overview back. 'user': the visitor panned or zoomed, so the app
+// changes. 'route': zoomed to a transfer's two locations; changing or clearing one (or
+// switching service) puts the overview back. 'user': the visitor panned or zoomed, so the app
 // leaves it. Opening a place never moves the map: it opens as a dialog over it.
 let view = 'overview';
 function fit() {
@@ -366,9 +389,11 @@ function fit() {
       [5.92, 79.68],
       [9.83, 81.88],
     ],
-    stacked()
-      ? { paddingTopLeft: [16, padT()], paddingBottomRight: [16, padB()] }
-      : { paddingTopLeft: [padL() + 20, 30], paddingBottomRight: [padR(), 30] },
+    S.mode === 'home'
+      ? { paddingTopLeft: [24, 24], paddingBottomRight: [24, 24] } // a backdrop behind the service cards
+      : stacked()
+        ? { paddingTopLeft: [16, padT()], paddingBottomRight: [16, padB()] }
+        : { paddingTopLeft: [padL() + 20, 30], paddingBottomRight: [padR(), 30] },
   );
 }
 fit();
@@ -389,6 +414,15 @@ new ResizeObserver(() => {
 }).observe(mapwrap);
 map.on('zoomend', () => mapwrap.classList.toggle('far', map.getZoom() < 7));
 mapwrap.classList.toggle('far', map.getZoom() < 7);
+const PLANE =
+  '<svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M21 16v-2l-8-5V3.5c0-.83-.67-1.5-1.5-1.5S10 2.67 10 3.5V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z"></path></svg>';
+// Opens a marker's place with Enter or Space (markers are focusable).
+const openOnKey = (id) => (e) => {
+  if (e.key !== 'Enter' && e.key !== ' ') return;
+  e.preventDefault();
+  e.stopPropagation();
+  openDest(id);
+};
 const markers = {};
 DESTS.forEach((d, i) => {
   // Changed: the design's empty <image-slot> placeholders are filled with the supplied photos.
@@ -405,28 +439,42 @@ DESTS.forEach((d, i) => {
   // Added: markers are focusable (Leaflet) — make them announce properly and open with Enter/Space.
   const el = m.getElement();
   el.setAttribute('aria-label', `${d.name}, ${CATS[d.cat].label}: ${d.hl}`);
-  el.addEventListener('keydown', (e) => {
-    if (e.key !== 'Enter' && e.key !== ' ') return;
-    e.preventDefault();
-    e.stopPropagation();
-    openDest(d.id);
-  });
+  el.addEventListener('keydown', openOnKey(d.id));
   markers[d.id] = m;
+});
+// Added (airport shuttle): the two airports are on the map as well, and can be chosen like a
+// place. They are shown only in that service (renderPickupMarker).
+const airMarkers = {};
+AIRPORT_IDS.forEach((id) => {
+  const p = TL[id];
+  const m = L.marker([p.lat, p.lng], {
+    icon: L.divIcon({ className: '', iconSize: [0, 0], html: `<div class="pk ap"><span class="sq">${PLANE}</span><span class="pl"></span></div>` }),
+    keyboard: true,
+    title: p.name,
+    zIndexOffset: 3100,
+  });
+  m.on('click', () => (picking ? map.fire('click', { latlng: L.latLng(p.lat, p.lng) }) : openDest(id)));
+  // Leaflet builds the marker's element each time it is added to the map.
+  m.on('add', () => {
+    const el = m.getElement();
+    el.setAttribute('aria-label', `${p.name} (${p.code}), airport`);
+    el.addEventListener('keydown', openOnKey(id));
+  });
+  airMarkers[id] = m;
 });
 function renderPins() {
   DESTS.forEach((d) => {
     const el = markers[d.id].getElement();
     if (!el) return;
     const pin = el.firstElementChild;
-    const idx = tripIdx(d.id);
+    const idx = tripIdx(d.id),
+      role = trRole(d.id); // a transfer's pickup or drop-off
     pin.classList.toggle('in', idx > -1);
-    pin.classList.toggle('sel', isHotel(d.id));
+    pin.classList.toggle('sel', !!role);
     pin.classList.toggle('active', active === d.id);
-    pin.classList.toggle(
-      'off',
-      !(filter === 'all' || d.cat === filter || idx > -1 || active === d.id || isHotel(d.id)),
-    );
-    pin.querySelector('.no').textContent = idx > -1 ? idx + 1 : isHotel(d.id) ? 'Hotel' : '';
+    // The category filter belongs to the tour planner; the other views show every place.
+    pin.classList.toggle('off', S.mode === 'tour' && !(filter === 'all' || d.cat === filter || idx > -1 || active === d.id));
+    pin.querySelector('.no').textContent = idx > -1 ? idx + 1 : role ? TBADGE[role] : '';
     markers[d.id].setZIndexOffset(active === d.id ? 2000 : idx > -1 ? 1000 : 0);
     // Added: filtered-out (invisible) markers leave the tab order.
     const off = pin.classList.contains('off');
@@ -450,7 +498,7 @@ function layoutPins() {
     if (!pin || pin.classList.contains('off')) return;
     const p = map.latLngToLayerPoint([d.lat, d.lng]);
     const idx = tripIdx(d.id);
-    const hs = isHotel(d.id);
+    const hs = !!trRole(d.id);
     items.push({
       d,
       pin,
@@ -464,18 +512,18 @@ function layoutPins() {
     });
   });
   const fixed = [];
-  [pkMarker, apMarker].forEach((m) => {
-    if (!m) return;
+  fixedMarkers().forEach((m) => {
     const p = map.latLngToLayerPoint(m.getLatLng());
     fixed.push({ x: p.x, y: p.y, r: 16 });
   });
   const rects = [],
     cr0 = map.getContainer().getBoundingClientRect();
-  [pkMarker, apMarker].forEach((m) => {
-    const pl = m && m.getElement() && m.getElement().querySelector('.pl');
+  fixedMarkers().forEach((m) => {
+    const pl = m.getElement() && m.getElement().querySelector('.pl');
     if (!pl) return;
     const b = pl.getBoundingClientRect(),
       a = map.containerPointToLayerPoint([b.left - cr0.left, b.top - cr0.top]);
+    if (!b.width) return; // a hidden label takes no room
     rects.push([a.x - 2, a.y - 2, a.x + b.width + 2, a.y + b.height + 2]);
   });
   const r = R + 4;
@@ -567,8 +615,7 @@ function placeLabels(items, R) {
     if (o.idx > -1 || o.hs)
       obst.push({ id: o.d.id + 'b', r: [o.x + R - (o.hs ? 42 : 15), o.y - R - 8, o.x + R + 8, o.y - R + 15] });
   });
-  [pkMarker, apMarker].forEach((m, i) => {
-    if (!m) return;
+  fixedMarkers().forEach((m, i) => {
     const el = m.getElement(),
       pl = el && el.querySelector('.pl'),
       p = map.latLngToLayerPoint(m.getLatLng());
@@ -577,7 +624,7 @@ function placeLabels(items, R) {
       const cr = map.getContainer().getBoundingClientRect(),
         b = pl.getBoundingClientRect(),
         a = map.containerPointToLayerPoint([b.left - cr.left, b.top - cr.top]);
-      obst.push({ id: 'pkl' + i, r: [a.x, a.y, a.x + b.width, a.y + b.height] });
+      if (b.width) obst.push({ id: 'pkl' + i, r: [a.x, a.y, a.x + b.width, a.y + b.height] });
     }
   });
   items.sort((a, b) => a.pr - b.pr);
@@ -654,25 +701,33 @@ function hideSeaLabels() {
 map.on('moveend', hideSeaLabels);
 map.on('zoomend', () => layoutPins());
 document.fonts && document.fonts.ready.then(() => layoutPins());
-let pkMarker = null,
-  apMarker = null;
+let pkMarker = null, // tour: the starting point
+  trMarkers = []; // transfer: A or B, when it is not a destination or an airport (renderTrMarkers)
+// Markers that are not destinations: the destination pins and their names keep clear of them.
+const fixedMarkers = () => (S.mode === 'shuttle' ? [...AIRPORT_IDS.map((id) => airMarkers[id]), ...trMarkers] : [pkMarker]).filter((m) => m && map.hasLayer(m));
+// Each service marks only its own choices on the map.
 function tripIdx(id) {
-  return S.mode === 'shuttle' ? -1 : S.stops.findIndex((s) => s.id === id);
+  return S.mode === 'tour' ? S.stops.findIndex((s) => s.id === id) : -1;
 }
-function isHotel(id) {
-  return S.mode === 'shuttle' && !!S.sh && !!S.sh.place && S.sh.place.id === id;
+function trRole(id) {
+  if (S.mode !== 'shuttle') return null;
+  return S.tr.from && S.tr.from.id === id ? 'from' : S.tr.to && S.tr.to.id === id ? 'to' : null;
 }
 function renderPickupMarker() {
   if (pkMarker) {
     map.removeLayer(pkMarker);
     pkMarker = null;
   }
-  if (apMarker) {
-    map.removeLayer(apMarker);
-    apMarker = null;
-  }
-  if (S.mode === 'shuttle') return renderShMarkers();
-  const p = pickupPt();
+  trMarkers.forEach((m) => map.removeLayer(m));
+  trMarkers = [];
+  const sh = S.mode === 'shuttle';
+  AIRPORT_IDS.forEach((id) => {
+    const m = airMarkers[id];
+    if (sh && !map.hasLayer(m)) m.addTo(map);
+    else if (!sh && map.hasLayer(m)) map.removeLayer(m);
+  });
+  if (sh) return renderTrMarkers();
+  const p = S.mode === 'tour' && pickupPt();
   if (!p) return;
   const isPin = S.pickup.id === 'pin';
   const icon = L.divIcon({
@@ -715,7 +770,17 @@ function curve(a, b) {
 }
 function renderRoute() {
   routeLayer.clearLayers();
-  if (S.mode === 'shuttle') return renderShRoute();
+  if (S.mode === 'shuttle') {
+    // A transfer: one line from the pickup to the drop-off, once both are chosen.
+    const a = trPt('from'),
+      b = trPt('to');
+    if (!a || !b) return;
+    const c = curve(a, b);
+    L.polyline(c, { className: 'route-glow', weight: 4, interactive: false }).addTo(routeLayer);
+    L.polyline(c, { className: 'route', weight: 2.5, interactive: false }).addTo(routeLayer);
+    return;
+  }
+  if (S.mode !== 'tour') return;
   const o = pickupPt();
   const pts = [];
   if (o) pts.push(o);
@@ -852,13 +917,14 @@ function openDest(id, opts = {}) {
   }
   active = id;
   // Experiences ticked for a place that isn't in the trip wait here until it is added.
-  draft = S.mode !== 'shuttle' && tripIdx(id) === -1 ? new Set(expsAt(id)) : null;
+  draft = S.mode === 'tour' && tripIdx(id) === -1 ? new Set(expsAt(id)) : null;
   renderPins();
   renderCard();
   if (!opts.keepFocus) focusCard();
 }
+// Focus goes to the dialog's main action ("Add to my trip", "Set as pickup", or "Close").
 function focusCard() {
-  const t = ['[data-act="add"]', '[data-act="sethotel"]', '.dc-foot [data-act="close"]'].map((x) => card.querySelector(x)).find(Boolean);
+  const t = card.querySelector('.dc-foot .btn.primary') || card.querySelector('.dc-x');
   if (t) t.focus({ preventScroll: true });
 }
 function closeCard() {
@@ -873,7 +939,63 @@ function closeCard() {
   if (lost && cardReturn && cardReturn !== document.body && document.contains(cardReturn)) focusQuiet(cardReturn);
   cardReturn = null;
 }
+const closeBtn = (primary) => `<button type="button" class="btn ${primary ? 'primary' : 'ghost'}" data-act="close">Close</button>`;
+function showCard() {
+  card.hidden = false;
+  dback.hidden = false;
+  document.documentElement.classList.add('dlg-open'); // no scrolling of the page behind the dialog
+  renderCardState();
+}
+// Airport shuttle: the same dialog, for any transfer location. It only says where the place is
+// and asks what it should be: the pickup or the drop-off. No activities, no tour planning.
+function renderLocCard() {
+  const p = TL[active],
+    d = D[active];
+  const x = `<button type="button" class="dc-x" data-act="close" aria-label="Close ${esc(p.name)}">×</button>`;
+  const sizes = '(max-width: 600px) 100vw, 620px';
+  let head, meta;
+  if (d) {
+    const ph = SITE.assets.photos[d.id];
+    head = `<div class="dc-img"><picture><source type="image/avif" srcset="${ph.cardAvif[0]} 480w, ${ph.cardAvif[1]} 800w" sizes="${sizes}"><img src="${ph.card[0]}" srcset="${ph.card[0]} 480w, ${ph.card[1]} 800w" sizes="${sizes}" alt="${esc(d.alt)}" width="480" height="192"></picture>${x}</div>`;
+    meta = `<span class="tag" style="--c:${CATS[d.cat].c}">${CATS[d.cat].label}</span><span>${d.hl}</span>`;
+  } else {
+    const air = AIRPORT_IDS.includes(p.id);
+    head = `<div class="dc-img plain">${air ? PLANE : '<span class="sq"></span>'}${x}</div>`;
+    meta = `${air ? '<span class="tag" style="--c:#C9BBA6">Airport</span>' : ''}<span>${p.code}</span>`;
+  }
+  card.innerHTML = `<div class="dc-scroll" id="dcScroll">${head}
+ <div class="dc-body"><div class="dc-meta">${meta}</div>
+ <h2 id="dcTitle">${esc(p.name)}</h2><p>${esc(p.sub)}.</p><dl class="dc-facts" id="dcFacts"></dl></div></div>
+ <div class="dc-foot" id="dcActions"></div>`;
+  showCard();
+}
+function renderLocState() {
+  const p = TL[active],
+    role = trRole(active),
+    word = { from: 'pickup', to: 'drop-off' };
+  // How far it is from (or to) the other end, when one is already chosen.
+  const ok = role ? (role === 'from' ? 'to' : 'from') : S.tr.from ? 'from' : 'to',
+    other = trPt(ok);
+  const facts = $('#dcFacts');
+  facts.hidden = !other;
+  if (other) {
+    const leg = legInfo(other, p);
+    facts.innerHTML = `<div><dt>${ok === 'from' ? 'From' : 'To'} ${esc(trLabel(ok))}</dt><dd>~${fmtDur(leg.min)} · ${leg.km} km (est.)</dd></div>`;
+  }
+  const btn = (k, label, primary) => `<button type="button" class="btn ${primary ? 'primary' : 'ghost'}" data-act="set${k}">${label}</button>`;
+  let foot;
+  if (role) foot = `<span class="in-trip"><i>${role === 'from' ? 'A' : 'B'}</i>Your ${word[role]}</span>${btn(ok, `Use as ${word[ok]} instead`, false)}${closeBtn(true)}`;
+  else if (S.tr.from && S.tr.to) foot = `${btn('from', 'Change pickup to here', false)}${btn('to', 'Change drop-off to here', false)}${closeBtn(true)}`;
+  else {
+    // The main action is the end that is still missing: the pickup first.
+    const next = S.tr.from ? 'to' : 'from',
+      alt = next === 'from' ? 'to' : 'from';
+    foot = `${closeBtn(false)}${btn(alt, `Set as ${word[alt]}`, false)}${btn(next, `Set as ${word[next]}`, true)}`;
+  }
+  $('#dcActions').innerHTML = foot;
+}
 function renderCard() {
+  if (S.mode === 'shuttle') return renderLocCard();
   const d = D[active];
   // Changed: photo instead of an empty image slot; added a crawlable link to the place page.
   const ph = SITE.assets.photos[d.id];
@@ -882,10 +1004,7 @@ function renderCard() {
  <div class="dc-body"><div class="dc-meta"><span class="tag" style="--c:${CATS[d.cat].c}">${CATS[d.cat].label}</span><span>${d.hl}</span></div>
  <h2 id="dcTitle">${d.name}</h2><p>${d.desc} <a class="dc-more" href="${SITE.base}/places/${d.id}/">More about ${d.name}<span aria-hidden="true"> →</span></a></p><dl class="dc-facts" id="dcFacts"></dl>${expBlock(d)}</div></div>
  <div class="dc-foot" id="dcActions"></div>`;
-  card.hidden = false;
-  dback.hidden = false;
-  document.documentElement.classList.add('dlg-open'); // no scrolling of the page behind the dialog
-  renderCardState();
+  showCard();
 }
 
 /* experiences (added) */
@@ -927,28 +1046,18 @@ card.addEventListener('change', (e) => {
 });
 function renderCardState() {
   if (!active || card.hidden) return;
+  if (S.mode === 'shuttle') return renderLocState();
   const d = D[active];
-  const close = (primary) => `<button type="button" class="btn ${primary ? 'primary' : 'ghost'}" data-act="close">Close</button>`;
+  const close = closeBtn;
   // Added: keep the experience checkboxes in step with the trip (or with the ticks waiting here).
   const ex = $('#dcExp');
   if (ex) {
-    ex.hidden = S.mode === 'shuttle';
     ex.querySelectorAll('input[type=checkbox]').forEach((i) => (i.checked = draft ? draft.has(i.value) : S.exps.includes(i.value)));
     const n = draft ? draft.size : expsAt(d.id).length;
     $('#dcExpSel').textContent = n ? `${n} selected` : '';
     $('#dcExpNote').textContent = draft
       ? `Tick what you’d like to do. Your choices are kept when you add ${d.name} to your trip. Choosing one isn’t a booking, and it doesn’t change your route.`
       : 'Ticked experiences are part of your trip request. Choosing one isn’t a booking, and it doesn’t change your route.';
-  }
-  if (S.mode === 'shuttle') {
-    const leg = legInfo(AIR, d),
-      sel = !!S.sh.place && S.sh.place.id === d.id;
-    $('#dcFacts').innerHTML =
-      `<div><dt>From CMB Airport</dt><dd>~${fmtDur(leg.min)} · ${leg.km} km (est.)</dd></div><div><dt>Car, one way</dt><dd>$${fare(leg.km, 'car')}</dd></div>`;
-    $('#dcActions').innerHTML = sel
-      ? `<span class="in-trip"><i>✓</i>Your hotel location</span>${close(true)}`
-      : `${close(false)}<button type="button" class="btn primary" data-act="sethotel">Set as hotel location</button>`;
-    return;
   }
   const idx = S.stops.findIndex((s) => s.id === d.id);
   let from = null,
@@ -989,10 +1098,10 @@ card.addEventListener('click', (e) => {
   const act = a.dataset.act;
   if (act === 'close') closeCard();
   else if (act === 'add') addFromCard();
-  else if (act === 'sethotel') {
-    const id = active;
+  else if (act === 'setfrom' || act === 'setto') {
+    const id = active; // a transfer's pickup or drop-off; the dialog closes like "Add to my trip"
     closeCard();
-    setShPlace({ id });
+    setTr(act === 'setfrom' ? 'from' : 'to', { id });
   } else if (act === 'remove') {
     const id = active;
     removeStop(id);
@@ -1112,13 +1221,6 @@ function optimise() {
   toast(saved >= 10 ? `Route reordered · about ${fmtDur(saved)} less driving` : 'Route reordered');
 }
 $('#optBtn').onclick = optimise;
-$('#clearBtn').onclick = () => {
-  Object.assign(S.sh, { place: null, arrDate: '', arrTime: '', depDate: '', depTime: '' });
-  syncShInputs();
-  update();
-  fit(); // back to the whole island
-  toast('Transfer cleared');
-};
 $('#tripClear').onclick = () => {
   if (!window.confirm('Clear your trip? This removes your places, experiences and starting point.')) return;
   S.stops = [];
@@ -1160,7 +1262,7 @@ new ResizeObserver(syncTripH).observe(trip);
 tripTg.onclick = () => setTripOpen(tripBody.hidden);
 function renderTrip() {
   const n = S.stops.length,
-    show = S.mode !== 'shuttle' && n > 0;
+    show = S.mode === 'tour' && n > 0;
   app.classList.toggle('has-trip', show);
   if (trip.hidden === show) {
     // The panel arrives with the first place and leaves with the last one.
@@ -1238,23 +1340,31 @@ function setPickup(p) {
   toast('Starting point set · ' + pickupLabel());
 }
 function startPin(t) {
-  pinTarget = t === 'shuttle' ? 'shuttle' : 'tour';
+  pinTarget = t === 'from' || t === 'to' ? t : 'tour';
   $('#pinTxt').textContent =
-    pinTarget === 'shuttle' ? `${TAP} the map where you’re staying` : `${TAP} the map to set your starting point`;
+    pinTarget === 'tour' ? `${TAP} the map to set your starting point` : `${TAP} the map to set your ${TWORD[pinTarget].toLowerCase()} point`;
   picking = true;
   mapwrap.classList.add('picking'); // also hides the trip panel, so the whole map can be used
   $('#pinBanner').hidden = false;
   closeCard();
-  if (isNarrow()) window.scrollTo({ top: 0, behavior: reduceMotion() ? 'auto' : 'smooth' });
-  if (pinTarget === 'tour') $('#pinCancel').focus({ preventScroll: true });
+  const behavior = reduceMotion() ? 'auto' : 'smooth';
+  // Bring the map into view: at the top of the page for a tour; below the transfer card otherwise.
+  if (pinTarget === 'tour') isNarrow() && window.scrollTo({ top: 0, behavior });
+  else if (stacked()) mapwrap.scrollIntoView({ block: 'end', behavior });
+  $('#pinCancel').focus({ preventScroll: true });
 }
 function stopPin() {
-  const back = pinTarget === 'tour' && mapwrap.contains(document.activeElement);
+  const back = mapwrap.contains(document.activeElement);
   picking = false;
   mapwrap.classList.remove('picking');
   $('#pinBanner').hidden = true;
   syncTripH();
-  if (back && !trip.hidden && !tripBody.hidden) $('#pinBtn').focus({ preventScroll: true });
+  if (pinTarget === 'tour') {
+    if (back && !trip.hidden && !tripBody.hidden) $('#pinBtn').focus({ preventScroll: true });
+  } else {
+    if (stacked()) window.scrollTo({ top: 0, behavior: reduceMotion() ? 'auto' : 'smooth' });
+    TSEL[pinTarget].focus({ preventScroll: true });
+  }
 }
 $('#pinBtn').onclick = () => startPin();
 $('#pinCancel').onclick = stopPin;
@@ -1262,7 +1372,7 @@ map.on('click', (e) => {
   if (picking) {
     stopPin();
     const pp = { id: 'pin', lat: e.latlng.lat, lng: e.latlng.lng };
-    pinTarget === 'shuttle' ? setShPlace(pp) : setPickup(pp);
+    pinTarget === 'tour' ? setPickup(pp) : setTr(pinTarget, pp);
   }
 });
 function renderPickup() {
@@ -1288,15 +1398,37 @@ function renderPickup() {
 /* guidance (added): one line under the heading that says what to do next */
 const guide = $('#guide');
 const GUIDE = {
+  home: guide.innerHTML, // the main page, as it was built
+  // tour planner
   s1: 'Start by selecting a destination on the map to explore what you can experience there.',
   s2: 'Great! Now select another destination, or <button type="button" class="linkbtn" data-start>set your starting point</button>.',
   s3: 'Add more places from the map, or choose <b>Finish planning</b> when your trip looks right.',
+  // airport shuttle
+  t0: 'Choose your pickup and drop-off locations to request your private airport transfer.',
+  ta: 'Now choose your drop-off location, from the list or on the map.',
+  tb: 'Now choose your pickup location, from the list or on the map.',
+  t2: 'Your transfer is set. Choose <b>Continue</b> to add your travel details.',
 };
 function renderGuide() {
-  const k = S.mode === 'shuttle' ? 'sh' : !S.stops.length ? 's1' : !S.pickup ? 's2' : 's3';
+  const k =
+    S.mode === 'home'
+      ? 'home'
+      : S.mode === 'shuttle'
+        ? S.tr.from && S.tr.to
+          ? 't2'
+          : S.tr.from
+            ? 'ta'
+            : S.tr.to
+              ? 'tb'
+              : 't0'
+        : !S.stops.length
+          ? 's1'
+          : !S.pickup
+            ? 's2'
+            : 's3';
   if (guide.dataset.k === k) return;
   guide.dataset.k = k;
-  guide.innerHTML = k === 'sh' ? COPY.shuttle.p : GUIDE[k];
+  guide.innerHTML = GUIDE[k];
   requestAnimationFrame(hideSeaLabels);
 }
 guide.addEventListener('click', (e) => {
@@ -1323,63 +1455,29 @@ function stepTrav(k, by) {
   S[k] = v;
   update();
 }
-document.querySelectorAll('.stepper[data-k]').forEach((st) =>
-  st.addEventListener('click', (e) => {
-    const b = e.target.closest('button');
-    if (b) stepTrav(st.dataset.k, +b.dataset.d);
-  }),
-);
-// Changed: guests no longer choose a vehicle for a tour. We suggest the smallest one that fits
-// the group and the request says so. (Airport transfers still choose one: it sets the price.)
-const tourVehicle = () => VEHICLES.find((v) => v.cap >= pax());
-function renderTrav() {
-  $('#adults').textContent = S.adults;
-  $('#children').textContent = S.children;
-  document.querySelector('[data-k="adults"] [data-d="-1"]').disabled = S.adults <= 1;
-  document.querySelector('[data-k="children"] [data-d="-1"]').disabled = S.children <= 0;
-  document.querySelectorAll('[data-k] [data-d="1"]').forEach((b) => (b.disabled = pax() >= 20));
-  const vid = vehicleId();
-  const rec = tourVehicle().id;
-  const shl = S.mode === 'shuttle' ? shLeg() : null;
-  $('#vehicles').innerHTML = VEHICLES.map(
-    (v) =>
-      `<button class="vcard ${v.id === vid ? 'on' : ''}" data-v="${v.id}" aria-pressed="${v.id === vid}" ${v.cap < pax() ? 'disabled' : ''}><span class="rec">${v.id === rec ? 'Best fit' : ''}</span><b>${v.name}</b><small>${v.model}</small>${shl ? `<span class="vp">$${fare(shl.km, v.id) * nLegs()}</span>` : ''}<span class="cap">Up to ${v.cap} people</span></button>`,
-  ).join('');
-}
-$('#vehicles').addEventListener('click', (e) => {
-  const b = e.target.closest('[data-v]');
-  if (!b || b.disabled) return;
-  S.vehicle = b.dataset.v;
-  update();
-});
+const tourVehicle = () => fitVehicle(pax());
 
-/* summary + the header's trip button (phones) */
+/* the header's trip button (phones): only while a tour is being planned */
 function renderSummary() {
-  const pill = $('#tripPill');
-  if (S.mode === 'shuttle') {
-    pill.hidden = false;
-    return renderShSummary();
-  }
   const n = S.stops.length;
-  pill.hidden = !n; // nothing to jump to until a place is in the trip
+  $('#tripPill').hidden = !(S.mode === 'tour' && n); // nothing to jump to until a place is in the trip
   $('#pillCount').textContent = n;
 }
 $('#tripPill').onclick = () => {
-  const behavior = reduceMotion() ? 'auto' : 'smooth';
-  if (S.mode === 'shuttle') return window.scrollTo({ top: $('#panel').offsetTop - 60, behavior });
-  window.scrollTo({ top: 0, behavior });
+  window.scrollTo({ top: 0, behavior: reduceMotion() ? 'auto' : 'smooth' });
   setTripOpen(true);
   tripTg.focus({ preventScroll: true });
 };
 
-/* request dialog: review, then details, then send (tours); one form for airport transfers */
+/* request dialog: review, then details, then send (tours); details, then review, then send (transfers) */
 const mbg = $('#mbg');
 let hotel = 'Mid-range';
 // Added: dialog focus handling — remember the opener, trap Tab inside, restore on close.
 let modalReturn = null;
 // Added: what the visitor typed is kept if the dialog is closed or a step is revisited.
 // It lives in memory only and is never saved on the device.
-const qd = { name: '', email: '', phone: '', country: '', notes: '' };
+// (name, email and phone are shared by the two services; the rest belong to one of them.)
+const qd = { name: '', email: '', phone: '', country: '', notes: '', flight: '', luggage: '', tnotes: '' };
 function showModal(html, focusSel) {
   if (mbg.hidden) {
     modalReturn = document.activeElement;
@@ -1515,41 +1613,30 @@ function renderGuests() {
 // (or email) as a pre-filled message. The confirmation copy only claims what happened.
 const fmtLong = (d) => d.toLocaleDateString('en-GB', { weekday: 'short', day: 'numeric', month: 'short', year: 'numeric' });
 const mapsLink = (p) => `https://www.google.com/maps?q=${p.lat.toFixed(5)},${p.lng.toFixed(5)}`;
-function requestText(sh, ref, f) {
+function tourText(ref, f) {
   const out = [];
-  if (sh) {
-    const v = VEHICLES.find((x) => x.id === vehicleId());
-    const t = shTimes(),
-      title = DIRS[S.sh.dir].title;
-    out.push(`Hello ${SITE.name}, I’d like to book an airport transfer (ref ${ref}).`, '');
-    out.push(`${title} · ${v.name} · $${shTotal()} fixed price per vehicle`);
-    if (needArr()) out.push(`Arrival: CMB Airport → ${shLabel()} · ${flightTxt('arr', t)}`);
-    if (needDep()) out.push(`Departure: ${shLabel()} → CMB Airport · ${flightTxt('dep', t)}`);
-    if (S.sh.place.id === 'pin') out.push(`Hotel location: ${mapsLink(S.sh.place)}`);
-  } else {
-    const p = plan();
-    out.push(`Hello ${SITE.name}, I’d like a quote for a private tour (ref ${ref}).`, '');
-    out.push(`Route: ${daysTxt(p)} · about ${fmtDur(p.drive)} driving, ${p.km} km (estimate)`);
-    p.rows.forEach((r) => {
-      out.push(`${r.i + 1}. ${r.d.name} — ${nightsTxt(r.s.nights)} (${stopWhen(r)})`);
-      expsAt(r.d.id).forEach((x) => out.push(`   • ${X[x].name}`)); // added: chosen experiences
+  const p = plan();
+  out.push(`Hello ${SITE.name}, I’d like a quote for a private tour (ref ${ref}).`, '');
+  out.push(`Route: ${daysTxt(p)} · about ${fmtDur(p.drive)} driving, ${p.km} km (estimate)`);
+  p.rows.forEach((r) => {
+    out.push(`${r.i + 1}. ${r.d.name} — ${nightsTxt(r.s.nights)} (${stopWhen(r)})`);
+    expsAt(r.d.id).forEach((x) => out.push(`   • ${X[x].name}`)); // added: chosen experiences
+  });
+  const { outside } = expGroups();
+  if (outside.length) {
+    out.push('Also interested in (not in the route yet):');
+    outside.forEach((id) => {
+      out.push(`- ${D[id].name}`);
+      expsAt(id).forEach((x) => out.push(`   • ${X[x].name}`));
     });
-    const { outside } = expGroups();
-    if (outside.length) {
-      out.push('Also interested in (not in the route yet):');
-      outside.forEach((id) => {
-        out.push(`- ${D[id].name}`);
-        expsAt(id).forEach((x) => out.push(`   • ${X[x].name}`));
-      });
-    }
-    out.push(`Starting point (pickup and drop-off): ${pickupLabel()}${S.pickup.id === 'pin' ? ' ' + mapsLink(S.pickup) : ''}`);
-    // Changed: the vehicle is our suggestion for the group size, not the guest's choice.
-    out.push(
-      `Start date: ${S.start ? fmtLong(dateAt(0)) : 'flexible, not chosen yet'}`,
-      `Vehicle: ${tourVehicle().name} (suggested for the group size, to be confirmed)`,
-      `Hotels: ${hotel}`,
-    );
   }
+  out.push(`Starting point (pickup and drop-off): ${pickupLabel()}${S.pickup.id === 'pin' ? ' ' + mapsLink(S.pickup) : ''}`);
+  // Changed: the vehicle is our suggestion for the group size, not the guest's choice.
+  out.push(
+    `Start date: ${S.start ? fmtLong(dateAt(0)) : 'flexible, not chosen yet'}`,
+    `Vehicle: ${tourVehicle().name} (suggested for the group size, to be confirmed)`,
+    `Hotels: ${hotel}`,
+  );
   out.push(`Travellers: ${travTxt()}`, '', `Name: ${f.name}`, `Email: ${f.email}`);
   if (f.phone) out.push(`Phone: ${f.phone}`);
   if (f.country) out.push(`Country: ${f.country}`);
@@ -1566,12 +1653,49 @@ function expPayload() {
     experiences: expsAt(id).map((x) => ({ id: x, name: X[x].name })),
   }));
 }
+/* sending (the tour and the transfer share this) */
+const reqLinks = (text, subject) => ({
+  wa: `https://wa.me/${SITE.contact.whatsapp}?text=${encodeURIComponent(text)}`,
+  mail: `mailto:${SITE.contact.email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(text)}`,
+});
+const doneHtml = (refLabel, h, body, actions) =>
+  `<button type="button" class="m-close" data-close aria-label="Close">×</button><div class="done"><span class="ref">${refLabel}</span><h2 tabindex="-1">${h}</h2><p>${body}</p><div class="row">${actions}</div></div>`;
+const BACK_BTN = `<button type="button" class="btn primary" data-close>Back to map</button>`;
+const handoffBtns = (l) => `<a class="btn primary" href="${esc(l.wa)}" target="_blank" rel="noopener">Send on WhatsApp</a><a class="btn ghost" href="${esc(l.mail)}">Send by email</a>`;
+const newRef = (pre) => pre + String(Math.floor(1000 + Math.random() * 9000));
 let sending = false; // a request is on its way: ignore further presses
-async function submitQuote(e) {
-  e.preventDefault();
-  if (sending) return;
-  const f = e.target;
-  const sh = S.mode === 'shuttle';
+// POSTs a request to the form endpoint. While it runs, the button says "Sending…" and is off.
+// If it fails, the screen stays as it is, with a message and a WhatsApp link, and the visitor
+// can try again. Returns true only after a successful response.
+async function deliver(body, btn, wa) {
+  const label = btn.textContent;
+  sending = true;
+  btn.disabled = true;
+  btn.textContent = 'Sending…';
+  try {
+    const r = await fetch(SITE.quoteEndpoint, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+      body: JSON.stringify(body),
+    });
+    if (!r.ok) throw new Error('HTTP ' + r.status);
+    return true;
+  } catch (err) {
+    console.warn('Request could not be sent', err);
+    btn.disabled = false;
+    btn.textContent = label;
+    mbg.querySelector('.send-err')?.remove();
+    (btn.closest('.m-acts, .rv-foot') || btn).insertAdjacentHTML(
+      'beforebegin',
+      `<p class="hint bad send-err" role="alert">We couldn’t send your request just now. Please try again, or <a href="${esc(wa)}" target="_blank" rel="noopener">send it on WhatsApp</a>.</p>`,
+    );
+    return false;
+  } finally {
+    sending = false;
+  }
+}
+// Marks what is wrong in a details form and puts the visitor on the first problem.
+function checkForm(f, phoneMsg) {
   let ok = true;
   f.querySelectorAll('.fl .err').forEach((x) => x.remove());
   f.querySelectorAll('.fl.bad').forEach((x) => x.classList.remove('bad'));
@@ -1583,84 +1707,50 @@ async function submitQuote(e) {
     fl.querySelector('input').setAttribute('aria-invalid', 'true');
     fl.insertAdjacentHTML('beforeend', `<span class="err">${m}</span>`);
   };
-  if (f.date && f.date.value && f.date.value < TODAY) bad('date', 'Please choose today or a later date');
+  const date = f.querySelector('[data-f="date"] input');
+  if (date && date.value && date.value < TODAY) bad('date', 'Please choose today or a later date');
   if (!f.name.value.trim()) bad('name', 'Please enter your name');
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(f.email.value.trim())) bad('email', 'Please enter a valid email');
-  if (f.phone.value.replace(/\D/g, '').length < 7)
-    bad('phone', sh ? 'Please enter a phone number so the driver can reach you' : 'Please enter a WhatsApp or phone number so we can reach you');
-  if (!ok) {
-    f.querySelector('[aria-invalid]').focus();
+  if (f.phone.value.replace(/\D/g, '').length < 7) bad('phone', phoneMsg);
+  if (!ok) f.querySelector('[aria-invalid]').focus();
+  return ok;
+}
+async function submitQuote(e) {
+  e.preventDefault();
+  if (sending) return;
+  const f = e.target;
+  if (f.dataset.kind === 'transfer') {
+    // A transfer's details are checked here; it is sent from its review step (sendTransfer).
+    if (checkForm(f, 'Please enter a WhatsApp or phone number so the driver can reach you')) openTrReview();
     return;
   }
-  const ref = (sh ? 'SL-T-' : 'SL-') + String(Math.floor(1000 + Math.random() * 9000));
+  if (!checkForm(f, 'Please enter a WhatsApp or phone number so we can reach you')) return;
+  const ref = newRef('SL-');
   const val = (k) => (f[k] ? f[k].value.trim() : '');
   const data = { name: val('name'), email: val('email'), phone: val('phone'), country: val('country'), notes: val('notes') };
   const first = esc(data.name.split(' ')[0]);
-  const em = esc(data.email);
-  const text = requestText(sh, ref, data);
-  const subject = sh ? `Airport transfer request ${ref}` : `Private tour quote request ${ref}`;
-  const wa = `https://wa.me/${SITE.contact.whatsapp}?text=${encodeURIComponent(text)}`;
-  const mail = `mailto:${SITE.contact.email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(text)}`;
-  const done = (refLabel, h, body, actions) => {
-    f.innerHTML = `<button type="button" class="m-close" data-close aria-label="Close">×</button><div class="done"><span class="ref">${refLabel}</span><h2 tabindex="-1">${h}</h2><p>${body}</p><div class="row">${actions}</div></div>`;
+  const text = tourText(ref, data);
+  const subject = `Private tour quote request ${ref}`;
+  const links = reqLinks(text, subject);
+  const done = (...a) => {
+    f.innerHTML = doneHtml(...a);
     f.querySelector('.done h2').focus();
   };
-  const back = `<button type="button" class="btn primary" data-close>Back to map</button>`;
-  const handoff = `<a class="btn primary" href="${esc(wa)}" target="_blank" rel="noopener">Send on WhatsApp</a><a class="btn ghost" href="${esc(mail)}">Send by email</a>`;
-  const kind = sh ? DIRS[S.sh.dir].title.toLowerCase() : '';
-
   if (SITE.quoteEndpoint) {
-    const btn = f.querySelector('[type=submit]'),
-      label = btn.textContent;
-    sending = true;
-    btn.disabled = true;
-    btn.textContent = 'Sending…';
-    try {
-      const r = await fetch(SITE.quoteEndpoint, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
-        body: JSON.stringify({ ref, type: sh ? 'airport-transfer' : 'tour', ...data, experiences: sh ? [] : expPayload(), _subject: subject, message: text }),
-      });
-      if (!r.ok) throw new Error('HTTP ' + r.status);
-    } catch (err) {
-      console.warn('Request could not be sent', err);
-      btn.disabled = false;
-      btn.textContent = label;
-      f.querySelector('.send-err')?.remove();
-      (btn.closest('.m-acts') || btn).insertAdjacentHTML(
-        'beforebegin',
-        `<p class="hint bad send-err" role="alert">We couldn’t send your request just now. Please try again, or <a href="${esc(wa)}" target="_blank" rel="noopener">send it on WhatsApp</a>.</p>`,
-      );
-      return;
-    } finally {
-      sending = false;
-    }
-    if (sh)
-      return done(
-        `Request ${ref}`,
-        `Thank you, ${first}.`,
-        `Your ${kind} request (<b>$${shTotal()}</b>, fixed price per vehicle) has been sent. We’ll confirm availability and email your driver details to <b>${em}</b>.`,
-        back,
-      );
+    const ok = await deliver({ ref, type: 'tour', ...data, experiences: expPayload(), _subject: subject, message: text }, f.querySelector('[type=submit]'), links.wa);
+    if (!ok) return;
     return done(
       `Request ${ref}`,
       `Thank you, ${first}.`,
-      `Your trip request has been sent to our travel planners. We’ll reply to <b>${em}</b> with a quote and our suggestions. Nothing is booked yet.`,
-      back,
+      `Your trip request has been sent to our travel planners. We’ll reply to <b>${esc(data.email)}</b> with a quote and our suggestions. Nothing is booked yet.`,
+      BACK_BTN,
     );
   }
-  if (sh)
-    return done(
-      `Request ${ref}`,
-      `Nearly done, ${first}.`,
-      `Your ${kind} request (<b>$${shTotal()}</b>, fixed price per vehicle) is ready. Nothing is sent or booked until you press send on WhatsApp or in your email app; we’ll then confirm availability and your driver details.`,
-      handoff,
-    );
   done(
     `Request ${ref}`,
     `Nearly done, ${first}.`,
     `Your trip request is ready. Choose how to send it: nothing is sent or booked until you press send on WhatsApp or in your email app. We’ll then reply with a quote and our suggestions.`,
-    handoff,
+    handoffBtns(links),
   );
 }
 function closeQuote() {
@@ -1670,21 +1760,28 @@ function closeQuote() {
   if (modalReturn && document.contains(modalReturn)) modalReturn.focus();
   modalReturn = null;
 }
-// Remember typed details (not the transfer form's own notes: they mean something else).
+// Remember typed details.
 mbg.addEventListener('input', (e) => {
   const k = e.target.name;
-  if (k in qd && !(k === 'notes' && S.mode === 'shuttle')) qd[k] = e.target.value;
+  if (k in qd) qd[k] = e.target.value;
 });
+// Dates and times are saved as they are chosen: the tour's start date, the transfer's date and time.
 mbg.addEventListener('change', (e) => {
-  if (e.target.id !== 'qDate') return;
+  const id = e.target.id;
+  if (id !== 'qDate' && id !== 'tDate' && id !== 'tTime') return;
   // Typed dates can get past the picker's minimum.
-  if (e.target.value && e.target.value < TODAY) {
+  if (id !== 'tTime' && e.target.value && e.target.value < TODAY) {
     e.target.value = '';
     toast('Please choose today or a later date');
   }
-  S.start = e.target.value;
-  update();
-  $('#qDateInfo').innerHTML = dateInfo();
+  if (id === 'qDate') {
+    S.start = e.target.value;
+    update();
+    $('#qDateInfo').innerHTML = dateInfo();
+  } else {
+    S.tr[id === 'tDate' ? 'date' : 'time'] = e.target.value;
+    save();
+  }
 });
 mbg.addEventListener('click', (e) => {
   if (e.target === mbg || e.target.closest('[data-close]')) return closeQuote();
@@ -1726,430 +1823,338 @@ mbg.addEventListener('click', (e) => {
       x.setAttribute('aria-pressed', String(x === t));
     });
   }
+  // airport shuttle
+  else if (act === 'tr-edit') {
+    closeQuote();
+    if (stacked()) window.scrollTo({ top: 0, behavior: reduceMotion() ? 'auto' : 'smooth' });
+    TSEL.from.focus({ preventScroll: true });
+  } else if (act === 'tr-details') openTrDetails();
+  else if (act === 'tr-send') sendTransfer(t);
+  else if (t.closest('[data-tq]')) {
+    S.tr.pax = Math.max(1, Math.min(20, S.tr.pax + +t.dataset.d));
+    save();
+    renderTrPax();
+    if (t.disabled) [...t.parentElement.querySelectorAll('button')].find((b) => !b.disabled)?.focus();
+  }
 });
-$('#quoteBtn').onclick = () => openShuttle();
 
-/* airport shuttle */
-const AIR = P.cmb;
-const SHPLACES = [
-  P.colombo,
-  P.negombo,
-  P.port,
-  ...DESTS.map((d) => ({
-    id: d.id,
-    code: d.name
-      .replace(/[^A-Za-z]/g, '')
-      .slice(0, 3)
-      .toUpperCase(),
-    name: d.name,
-    short: d.name,
-    sub: 'Hotels in and around ' + d.name,
-    lat: d.lat,
-    lng: d.lng,
-  })),
-];
-const SHP = Object.fromEntries(SHPLACES.map((p) => [p.id, p]));
-const DIRS = {
-  arr: { t: 'Arrival', title: 'Arrival transfer' },
-  dep: { t: 'Departure', title: 'Departure transfer' },
-  ret: { t: 'Return', title: 'Return transfer' },
-};
-// Changed: rates live in src/data/destinations.mjs (SHUTTLE_FARES) — confirm them before launch.
-function fare(km, vid) {
-  const F = SHUTTLE_FARES;
-  return Math.round((Math.max(F.min, F.base + km * F.perKm) * F.mult[vid]) / 5) * 5;
-}
-S.mode = S.mode === 'shuttle' ? 'shuttle' : 'tour';
-S.sh = Object.assign({ dir: 'arr', place: null, arrDate: '', arrTime: '', depDate: '', depTime: '' }, S.sh || {});
-if (S.sh.place && S.sh.place.id !== 'pin' && !SHP[S.sh.place.id]) S.sh.place = null;
-let pinTarget = 'tour';
-function needArr() {
-  return S.sh.dir !== 'dep';
-}
-function needDep() {
-  return S.sh.dir !== 'arr';
-}
-function nLegs() {
-  return S.sh.dir === 'ret' ? 2 : 1;
-}
-function shPt() {
-  const p = S.sh.place;
-  return !p ? null : p.id === 'pin' ? p : SHP[p.id];
-}
-function shLabel() {
-  const p = S.sh.place;
-  if (!p) return '';
-  if (p.id !== 'pin') return SHP[p.id].short;
-  const n = nearest(p);
-  return 'Pin near ' + (n.short || n.name);
-}
-function shLeg() {
-  const p = shPt();
-  return p ? legInfo(AIR, p) : null;
-}
-function shTotal() {
-  const l = shLeg();
-  return l ? fare(l.km, vehicleId()) * nLegs() : 0;
-}
-const hm = (t) => {
-  const [h, m] = t.split(':').map(Number);
-  return h * 60 + m;
-};
-const fmtT = (m) => {
-  m = ((m % 1440) + 1440) % 1440;
-  return String(Math.floor(m / 60)).padStart(2, '0') + ':' + String(m % 60).padStart(2, '0');
-};
-const dOf = (s, off) => {
-  const d = new Date(s + 'T00:00:00');
-  d.setDate(d.getDate() + off);
-  return d;
-};
-const andList = (a) => (a.length > 1 ? a.slice(0, -1).join(', ') + ' and ' + a.at(-1) : a[0]);
-const travTxt = () =>
-  `${S.adults} ${S.adults === 1 ? 'adult' : 'adults'}${S.children ? `, ${S.children} ${S.children === 1 ? 'child' : 'children'}` : ''}`;
-function shTimes() {
-  const l = shLeg(),
-    o = {};
-  if (l && S.sh.arrTime) {
-    const at = hm(S.sh.arrTime) + SHUTTLE_TIMING.arrivalBufferMin + l.min;
-    o.hotelAt = fmtT(at);
-    o.hotelNext = at >= 1440;
-  }
-  if (l && S.sh.depTime) {
-    const pk = Math.floor((hm(S.sh.depTime) - SHUTTLE_TIMING.departureBufferMin - l.min) / 15) * 15;
-    o.pickup = fmtT(pk);
-    o.pickupPrev = pk < 0;
-  }
-  return o;
-}
-function shErr() {
-  const s = S.sh;
-  if (
-    s.dir === 'ret' &&
-    s.arrDate &&
-    s.arrTime &&
-    s.depDate &&
-    s.depTime &&
-    `${s.depDate}T${s.depTime}` <= `${s.arrDate}T${s.arrTime}`
-  )
-    return 'Your departure flight must be after your arrival flight.';
-  return '';
-}
-// Only the place is needed to request a transfer; flight details can follow later.
-function shMissing() {
-  return S.sh.place ? [] : ['where you’re staying'];
-}
-const flightsOpen = () => (needArr() && !(S.sh.arrDate && S.sh.arrTime)) || (needDep() && !(S.sh.depDate && S.sh.depTime));
-// A flight in the request message: whatever is known, and what will follow.
-function flightTxt(dir, t) {
-  const [d, tm] = dir === 'arr' ? [S.sh.arrDate, S.sh.arrTime] : [S.sh.depDate, S.sh.depTime];
-  const verb = dir === 'arr' ? 'lands' : 'leaves';
-  const pickup = dir === 'dep' && tm ? ` · estimated pickup ${t.pickup}${t.pickupPrev ? ' the day before' : ''}` : '';
-  if (d && tm) return `flight ${verb} ${fmtLong(dOf(d, 0))} at ${tm}${pickup}`;
-  if (d) return `flight ${verb} ${fmtLong(dOf(d, 0))}, time to follow`;
-  if (tm) return `flight ${verb} at ${tm}, date to follow${pickup}`;
-  return 'flight details to follow';
-}
-// The same, short, for the request summary.
-function flightShort(dir, t) {
-  const [d, tm] = dir === 'arr' ? [S.sh.arrDate, S.sh.arrTime] : [S.sh.depDate, S.sh.depTime];
-  if (dir === 'arr') {
-    if (d && tm) return `${fmtDs(dOf(d, 0))} · lands ${tm}`;
-    if (d) return `${fmtDs(dOf(d, 0))} · time to follow`;
-    return tm ? `Lands ${tm} · date to follow` : 'Flight details to follow';
-  }
-  if (d && tm) return `${fmtDs(dOf(d, t.pickupPrev ? -1 : 0))} · estimated pickup ${t.pickup}`;
-  if (d) return `Flight ${fmtDs(dOf(d, 0))} · time to follow`;
-  return tm ? `Estimated pickup ${t.pickup}${t.pickupPrev ? ' the day before' : ''} · date to follow` : 'Flight details to follow';
-}
-
+/* services: the main page's two cards, and the switch between the two services */
 const ovEb = $('.overlay .eyebrow'),
   ovH = $('.overlay h1');
 const COPY = {
-  tour: { eb: ovEb.innerHTML, h: ovH.innerHTML }, // the line under the heading: see renderGuide()
-  shuttle: {
-    eb: 'Bandaranaike International · CMB',
-    h: 'Airport transfers, <em>at a fixed price.</em>',
-    p: 'Choose an arrival, departure or return transfer, then tell us where you’re staying and when your flight is. The price is per vehicle and shown before you send your request.',
-  },
-};
+  home: { eb: ovEb.innerHTML, h: ovH.innerHTML }, // as the page was built
+  tour: { eb: `Build your Sri Lanka trip · ${DESTS.length} places`, h: 'Let’s plan your Sri Lanka <em>experience.</em>' },
+  shuttle: { eb: 'Airport shuttle and private transfers', h: 'Where would you like <em>to go?</em>' },
+}; // the line under the heading: see renderGuide()
+const travTxt = () =>
+  `${S.adults} ${S.adults === 1 ? 'adult' : 'adults'}${S.children ? `, ${S.children} ${S.children === 1 ? 'child' : 'children'}` : ''}`;
 function setMode(m) {
   if (S.mode === m) return;
   if (picking) stopPin();
   closeCard();
   S.mode = m;
   update();
-  // The two modes lay the page out differently (side panel, text above the map), so the island is
-  // fitted again. This also stops a zoomed transfer route from carrying over into the tour planner.
-  // A view the visitor chose is left alone.
-  if (view !== 'user') fit();
+  // Each view lays the page out differently, so the map is fitted again: to the transfer if both
+  // of its locations are chosen, otherwise to the whole island. A view the visitor chose is kept.
+  if (m === 'shuttle' && S.tr.from && S.tr.to) viewTransfer();
+  else if (view !== 'user') fit();
+  if (m === 'tour' && !S.stops.length) hintPins(); // step 1 of the tour: the markers are the next action
 }
-// Changed: the side panel is only for airport transfers. Its "Tour" button goes back to the map
-// planner; the link under the search box ("Only need an airport transfer?") comes here.
+// "Plan My Tour" / "Book Airport Transfer" on the main page, and the two-way switch that stays
+// on screen inside each service.
+function goService(m, viaCard) {
+  if (S.mode === m) return;
+  setMode(m);
+  window.scrollTo({ top: 0, behavior: 'auto' });
+  if (viaCard) ovH.focus({ preventScroll: true }); // the card is gone: put the new heading in focus
+}
+$('#svc').addEventListener('click', (e) => {
+  const b = e.target.closest('[data-go]');
+  if (b) goService(b.dataset.go, true);
+});
 $('#modes').addEventListener('click', (e) => {
   const b = e.target.closest('[data-mode]');
-  if (!b || b.dataset.mode === S.mode) return;
-  setMode(b.dataset.mode);
-  if (isNarrow()) window.scrollTo({ top: 0, behavior: reduceMotion() ? 'auto' : 'smooth' });
-  map.getContainer().focus({ preventScroll: true }); // the panel (and this button) is gone
+  if (b) goService(b.dataset.mode, false);
 });
-$('#toShuttle').onclick = () => {
-  setMode('shuttle');
-  $('#modes [data-mode="shuttle"]').focus({ preventScroll: true });
-  if (isNarrow()) window.scrollTo({ top: $('#panel').offsetTop - 60, behavior: reduceMotion() ? 'auto' : 'smooth' });
-};
 function renderMode() {
-  const sh = S.mode === 'shuttle';
-  app.classList.toggle('mode-sh', sh); // shows the side panel (app.css)
-  document.querySelectorAll('#modes [data-mode]').forEach((b) => {
-    const on = b.dataset.mode === S.mode;
-    b.classList.toggle('on', on);
-    b.setAttribute('aria-pressed', on);
-  });
-  $('#pillLbl').textContent = sh ? 'Transfer' : 'Your trip';
-  if (ovH.dataset.m !== S.mode) {
-    const c = COPY[S.mode];
+  const m = S.mode,
+    root = document.documentElement;
+  // app.css shows one view from this attribute (none = the main page with the two service cards).
+  if (m === 'home') root.removeAttribute('data-svc');
+  else root.setAttribute('data-svc', m === 'shuttle' ? 'sh' : 'tour');
+  document.querySelectorAll('#modes [data-mode]').forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.mode === m)));
+  map.getContainer().inert = m === 'home'; // behind the service cards the map is only a backdrop
+  if (ovH.dataset.m !== m) {
+    const c = COPY[m];
     ovEb.innerHTML = c.eb;
     ovH.innerHTML = c.h;
-    ovH.dataset.m = S.mode;
+    ovH.dataset.m = m;
     requestAnimationFrame(hideSeaLabels);
   }
 }
 
-const shIn = $('#shIn'),
-  shList = $('#shList');
-let shRes = [],
-  shHi = 0;
-function shSearch() {
-  const t = shIn.value.trim().toLowerCase();
-  shRes = SHPLACES.filter((p) => !t || (p.name + ' ' + p.sub + ' ' + p.code).toLowerCase().includes(t));
-  shHi = 0;
-  renderShList();
+/* airport shuttle and private transfers (changed): exactly two locations, a pickup (A) and a
+   drop-off (B), then a few travel details. Its state is S.tr. Nothing here reads or writes the
+   tour's places, starting point or experiences, and the tour never touches S.tr. */
+const TSEL = { from: $('#tFrom'), to: $('#tTo') };
+const TWORD = { from: 'Pickup', to: 'Drop-off' };
+const TBADGE = { from: 'A · Pickup', to: 'B · Drop-off' };
+let tErr = { from: false, to: false }; // "Continue" was pressed while this location was missing
+let pinTarget = 'tour'; // what a dropped pin sets: the tour's starting point, or a transfer's 'from' / 'to'
+const dayOf = (s) => new Date(s + 'T00:00:00');
+const trPt = (k) => {
+  const p = S.tr[k];
+  return !p ? null : p.id === 'pin' ? p : TL[p.id];
+};
+function pinName(p) {
+  const n = nearest(p);
+  return 'Pin near ' + (n.short || n.name);
 }
-function renderShList() {
-  shList.hidden = false;
-  shList.innerHTML =
-    shRes
-      .map(
-        (p, i) =>
-          `<li class="${i === shHi ? 'hi' : ''}" data-i="${i}" id="sh-${i}" role="option" aria-selected="${i === shHi}"><span class="code">${p.code}</span><span><b>${p.name}</b><small>${p.sub}</small></span></li>`,
-      )
-      .join('') +
-    `<li class="pinopt ${shHi === shRes.length ? 'hi' : ''}" data-pin="1" id="sh-${shRes.length}" role="option" aria-selected="${shHi === shRes.length}"><span class="code">PIN</span><span><b>Somewhere else</b><small>Drop a pin on the map</small></span></li>`;
-  comboState(shIn, shList, 'sh-' + shHi);
-}
-shIn.addEventListener('focus', shSearch);
-shIn.addEventListener('input', shSearch);
-shIn.addEventListener('blur', () => setTimeout(() => hideList(shIn, shList), 120));
-shIn.addEventListener('keydown', (e) => {
-  if (shList.hidden) return;
-  if (e.key === 'ArrowDown') {
-    shHi = Math.min(shRes.length, shHi + 1);
-    renderShList();
-    e.preventDefault();
-  } else if (e.key === 'ArrowUp') {
-    shHi = Math.max(0, shHi - 1);
-    renderShList();
-    e.preventDefault();
-  } else if (e.key === 'Enter') {
-    shHi === shRes.length ? startPin('shuttle') : setShPlace({ id: shRes[shHi].id });
-  } else if (e.key === 'Escape') shIn.blur();
-});
-shList.addEventListener('mousedown', (e) => {
-  const li = e.target.closest('li');
-  if (!li) return;
-  e.preventDefault();
-  li.dataset.pin ? startPin('shuttle') : setShPlace({ id: shRes[+li.dataset.i].id });
-});
-$('#shPinBtn').onclick = () => startPin('shuttle');
-$('#shChosen').addEventListener('click', (e) => {
-  if (e.target.closest('[data-shchange]')) {
-    S.sh.place = null;
-    update();
-    fit(); // the map had zoomed to the old transfer route
-    setTimeout(() => shIn.focus(), 0);
-  }
-});
-function setShPlace(p) {
-  S.sh.place = p;
-  shIn.value = '';
-  shIn.blur();
-  hideList(shIn, shList);
+// Short name for the map and the card; full name for the review and the request.
+const trLabel = (k) => (!S.tr[k] ? '' : S.tr[k].id === 'pin' ? pinName(S.tr[k]) : TL[S.tr[k].id].short);
+const trFull = (k) => (!S.tr[k] ? '' : S.tr[k].id === 'pin' ? pinName(S.tr[k]) : TL[S.tr[k].id].label);
+const trLeg = () => (S.tr.from && S.tr.to ? legInfo(trPt('from'), trPt('to')) : null);
+const isAir = (k) => !!S.tr[k] && AIRPORT_IDS.includes(S.tr[k].id);
+function setTr(k, p) {
+  const o = k === 'from' ? 'to' : 'from';
+  // One place can't be both ends: choosing it for the other end makes the two change places.
+  const swap = !!S.tr[o] && p.id !== 'pin' && S.tr[o].id === p.id;
+  if (swap) S.tr[o] = S.tr[k];
+  S.tr[k] = p;
+  tErr[k] = false;
   update();
-  const pt = shPt();
-  map.fitBounds(
-    L.latLngBounds([
-      [AIR.lat, AIR.lng],
-      [pt.lat, pt.lng],
-    ]).pad(0.25),
-    {
-      paddingTopLeft: [stacked() ? 20 : padL() + 40, stacked() ? padT() + 10 : 60],
-      paddingBottomRight: [60, 60],
-      maxZoom: 10,
-    },
-  );
-  view = 'route';
-  toast('Hotel location set · ' + shLabel());
+  viewTransfer();
+  // Stacked layouts: once both are chosen, "Continue" (above the map) comes into view.
+  if (S.tr.from && S.tr.to && stacked()) $('#tGo').scrollIntoView({ block: 'nearest', behavior: reduceMotion() ? 'auto' : 'smooth' });
+  toast(swap && S.tr[o] ? 'Pickup and drop-off swapped' : `${TWORD[k]} set · ${trLabel(k)}`);
 }
-$('#shDir').addEventListener('click', (e) => {
-  const b = e.target.closest('[data-dir]');
-  if (!b) return;
-  S.sh.dir = b.dataset.dir;
-  update();
-});
-const SHIN = { shArrDate: 'arrDate', shArrTime: 'arrTime', shDepDate: 'depDate', shDepTime: 'depTime' };
-Object.entries(SHIN).forEach(([id, k]) =>
-  $('#' + id).addEventListener('change', (e) => {
-    if (/Date$/.test(k) && e.target.value && e.target.value < TODAY) {
-      e.target.value = '';
-      toast('Please choose today or a later date');
-    }
-    S.sh[k] = e.target.value;
-    update();
+// Both chosen: the map zooms to the transfer. If not, back to the whole island (unless the
+// visitor has moved the map themselves).
+function viewTransfer() {
+  const a = trPt('from'),
+    b = trPt('to');
+  if (a && b) {
+    map.invalidateSize({ pan: false });
+    map.fitBounds(
+      L.latLngBounds([
+        [a.lat, a.lng],
+        [b.lat, b.lng],
+      ]).pad(0.25),
+      {
+        paddingTopLeft: [stacked() ? 20 : padL() + 40, stacked() ? padT() + 10 : 60],
+        paddingBottomRight: [60, 60],
+        maxZoom: 10,
+      },
+    );
+    view = 'route';
+  } else if (view === 'route') fit();
+}
+Object.entries(TSEL).forEach(([k, sel]) =>
+  sel.addEventListener('change', () => {
+    const v = sel.value;
+    if (v === 'pin') {
+      renderTransfer(); // the list goes back to what was chosen; the map takes over
+      startPin(k);
+    } else if (TL[v]) setTr(k, { id: v });
   }),
 );
-function syncShInputs() {
-  Object.entries(SHIN).forEach(([id, k]) => ($('#' + id).value = S.sh[k] || ''));
-}
-syncShInputs();
-$('#shArrDate').min = TODAY;
-
-function renderShuttle() {
+$('#tSwap').onclick = () => {
+  [S.tr.from, S.tr.to] = [S.tr.to, S.tr.from];
+  update();
+  viewTransfer();
+  toast('Pickup and drop-off swapped');
+};
+$('#tClear').onclick = () => {
+  Object.assign(S.tr, { from: null, to: null, date: '', time: '' });
+  tErr = { from: false, to: false };
+  update();
+  fit(); // back to the whole island
+  toast('Transfer cleared');
+  TSEL.from.focus({ preventScroll: true });
+};
+// "Continue" needs both locations: if one is missing it says so and puts the visitor on it.
+$('#tGo').onclick = () => {
+  tErr = { from: !S.tr.from, to: !S.tr.to };
+  if (!tErr.from && !tErr.to) return openTrDetails();
+  renderTransfer();
+  TSEL[tErr.from ? 'from' : 'to'].focus();
+};
+function renderTransfer() {
   if (S.mode !== 'shuttle') return;
-  const d = S.sh.dir,
-    l = shLeg(),
-    t = shTimes(),
-    lbl = esc(shLabel());
-  document.querySelectorAll('#shDir [data-dir]').forEach((b) => {
-    b.classList.toggle('on', b.dataset.dir === d);
-    b.setAttribute('aria-pressed', String(b.dataset.dir === d));
-  });
-  $('#shRoute').classList.toggle('rev', d === 'dep');
-  $('#apTag').textContent = d === 'dep' ? 'To' : 'From';
-  $('#htTag').textContent = d === 'dep' ? 'From' : 'To';
-  const lg = $('#shLeg');
-  lg.hidden = !l;
-  if (l) lg.textContent = `~${fmtDur(l.min)} · ${l.km} km${d === 'ret' ? ' · each way' : ''} (est.)`;
-  const c = $('#shChosen'),
-    pk = $('#shPicker');
-  if (!S.sh.place) {
-    c.innerHTML = '';
-    pk.hidden = false;
-  } else {
-    pk.hidden = true;
-    const isPin = S.sh.place.id === 'pin',
-      p = shPt();
-    c.innerHTML = `<div class="chosen"><span class="code">${isPin ? 'PIN' : p.code}</span><span><b>${isPin ? lbl : p.name}</b><small>${isPin ? 'Drag the pin on the map to adjust' : p.sub}</small></span><button class="linkbtn" data-shchange aria-label="Change hotel location">Change</button></div>`;
+  for (const [k, sel] of Object.entries(TSEL)) {
+    const p = S.tr[k];
+    // A dropped pin shows in the list as "Pin near …".
+    let o = sel.querySelector('option[value="here"]');
+    if (p && p.id === 'pin') {
+      if (!o) sel.insertBefore((o = new Option('', 'here')), sel.querySelector('option[value="pin"]'));
+      o.textContent = pinName(p);
+    } else if (o) o.remove();
+    sel.value = !p ? '' : p.id === 'pin' ? 'here' : p.id;
+    const miss = tErr[k] && !p,
+      err = $(`#${sel.id}Err`),
+      msg = miss ? `Please choose a ${TWORD[k].toLowerCase()} location` : '';
+    sel.closest('.tf').classList.toggle('bad', miss);
+    if (miss) sel.setAttribute('aria-invalid', 'true');
+    else sel.removeAttribute('aria-invalid');
+    if (err.textContent !== msg) err.textContent = msg;
+    err.hidden = !miss;
   }
-  $('#shArr').hidden = !needArr();
-  $('#shDep').hidden = !needDep();
-  $('#shArrInfo').innerHTML = !S.sh.arrTime
-    ? 'Local time, if you know it; you can also send it later. Your driver waits for you in the arrivals hall.'
-    : !l
-      ? 'Add where you’re staying to see your drop-off time.'
-      : `Your driver waits in arrivals. You’ll reach ${lbl} around <b>${t.hotelAt}${t.hotelNext ? ' the next day' : ''}</b>, allowing ${SHUTTLE_TIMING.arrivalBufferMin} min for immigration and bags (estimate).`;
-  $('#shDepInfo').innerHTML = !S.sh.depTime
-    ? 'Local time, if you know it; you can also send it later. We’ll work out when to collect you.'
-    : !l
-      ? 'Add where you’re staying to see your pickup time.'
-      : `Estimated pickup from ${lbl} at <b>${t.pickup}${t.pickupPrev ? ' the day before' : ''}</b>, aiming to reach the airport ${SHUTTLE_TIMING.departureBufferMin / 60} hours before your flight.`;
-  $('#shDepDate').min = S.sh.arrDate || TODAY;
-  const err = shErr(),
-    ee = $('#shErr');
-  ee.hidden = !err;
-  ee.textContent = err;
+  const leg = trLeg(),
+    sum = $('#tSum'),
+    txt = leg ? `<b>${esc(trLabel('from'))}</b> to <b>${esc(trLabel('to'))}</b>: about ${fmtDur(leg.min)}, ${leg.km} km (estimate)` : '';
+  if (sum.dataset.t !== txt) sum.innerHTML = sum.dataset.t = txt; // only when it changes: it is read out
+  sum.hidden = !leg;
+  $('#tSwap').disabled = !(S.tr.from || S.tr.to);
+  $('#tClear').hidden = !(S.tr.from || S.tr.to);
 }
-function renderShSummary() {
-  const l = shLeg(),
-    v = VEHICLES.find((x) => x.id === vehicleId()),
-    s = S.sh;
-  $('#summary').textContent = l
-    ? `${DIRS[s.dir].t} · ~${fmtDur(l.min)} · ${l.km} km${s.dir === 'ret' ? ' each way' : ''}`
-    : 'Bandaranaike International · CMB';
-  $('#clearBtn').hidden = !(s.place || s.arrDate || s.arrTime || s.depDate || s.depTime);
-  $('#pillCount').textContent = nLegs();
-  const miss = shMissing(),
-    err = shErr(),
-    total = shTotal();
-  $('#quoteBtn').disabled = !!(miss.length || err);
-  $('#ctaHint').innerHTML =
-    (total
-      ? `<span class="cta-price"><b>$${total}</b><span>${DIRS[s.dir].title} · ${v.name}<br>Fixed price per vehicle</span></span>`
-      : '') +
-    (miss.length
-      ? `<span>Add ${andList(miss)} to request a transfer.</span>`
-      : err
-        ? `<span>${err}</span>`
-        : flightsOpen()
-          ? '<span>You can send your flight details later.</span>'
-          : '');
+// On the map: a destination shows A or B on its own marker (renderPins), an airport on its
+// marker's label, and any other place (Colombo, Negombo, the port, a dropped pin) gets a marker here.
+function renderTrMarkers() {
+  AIRPORT_IDS.forEach((id) => {
+    const el = airMarkers[id].getElement();
+    if (!el) return;
+    const role = trRole(id);
+    el.firstElementChild.classList.toggle('on', !!role);
+    el.querySelector('.pl').innerHTML = role ? `<b>${TBADGE[role]}</b> · ${esc(TL[id].short)}` : `<b>Airport</b> · ${TL[id].code}`;
+  });
+  for (const k of ['from', 'to']) {
+    const p = S.tr[k];
+    if (!p || D[p.id] || AIRPORT_IDS.includes(p.id)) continue;
+    const pt = trPt(k),
+      isPin = p.id === 'pin';
+    const m = L.marker([pt.lat, pt.lng], {
+      icon: L.divIcon({
+        className: '',
+        iconSize: [0, 0],
+        html: `<div class="pk on ${isPin ? 'drag' : ''} ${pt.lng > 80.6 ? 'r' : ''}"><span class="sq"></span><span class="pl"><b>${TBADGE[k]}</b> · ${esc(trLabel(k))}</span></div>`,
+      }),
+      draggable: isPin,
+      zIndexOffset: 3000,
+      keyboard: false,
+    }).addTo(map);
+    if (isPin)
+      m.on('dragend', (e) => {
+        const ll = e.target.getLatLng();
+        S.tr[k] = { id: 'pin', lat: ll.lat, lng: ll.lng };
+        update();
+      });
+    trMarkers.push(m);
+  }
 }
-const PLANE =
-  '<svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M21 16v-2l-8-5V3.5c0-.83-.67-1.5-1.5-1.5S10 2.67 10 3.5V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z"></path></svg>';
-function renderShMarkers() {
-  apMarker = L.marker([AIR.lat, AIR.lng], {
-    icon: L.divIcon({
-      className: '',
-      iconSize: [0, 0],
-      html: `<div class="pk ap"><span class="sq">${PLANE}</span><span class="pl"><b>Airport</b> · CMB</span></div>`,
-    }),
-    zIndexOffset: 3100,
-    keyboard: false,
-    interactive: false,
-  }).addTo(map);
-  const p = shPt();
-  if (!p || D[S.sh.place.id]) return;
-  const isPin = S.sh.place.id === 'pin',
-    right = !(p.lng < AIR.lng && hav(p, AIR) >= 25);
-  pkMarker = L.marker([p.lat, p.lng], {
-    icon: L.divIcon({
-      className: '',
-      iconSize: [0, 0],
-      html: `<div class="pk ${isPin ? 'drag' : ''} ${right ? 'r' : ''}"><span class="sq"></span><span class="pl"><b>Hotel</b> · ${esc(shLabel())}</span></div>`,
-    }),
-    draggable: isPin,
-    zIndexOffset: 3000,
-    keyboard: false,
-  }).addTo(map);
-  if (isPin)
-    pkMarker.on('dragend', (e) => {
-      const ll = e.target.getLatLng();
-      S.sh.place = { id: 'pin', lat: ll.lat, lng: ll.lng };
-      update();
-    });
+
+// Step 1 of 2: when, how many, and how to reach the guest. No vehicle to choose: we recommend
+// one. The two locations stay in view beside (or above) the form.
+function trWhenHint() {
+  const later = 'Not sure yet? Leave the date and time empty: you can send them later.';
+  if (isAir('from')) return `For an airport pickup, give the time your flight lands: your driver waits for you in the arrivals hall. ${later}`;
+  if (isAir('to')) return `For a flight, we suggest reaching the airport ${SHUTTLE_TIMING.departureBufferMin / 60} hours before it leaves. ${later}`;
+  return later;
 }
-function renderShRoute() {
-  const p = shPt();
-  if (!p) return;
-  const d = S.sh.dir;
-  const draw = (a, b) => {
-    const c = curve(a, b);
-    L.polyline(c, { className: 'route-glow', weight: 4, interactive: false }).addTo(routeLayer);
-    L.polyline(c, { className: 'route', weight: 2.5, interactive: false }).addTo(routeLayer);
+function openTrDetails() {
+  const leg = trLeg(),
+    v = (k) => esc(qd[k]);
+  showModal(
+    `<div class="modal tr" role="dialog" aria-modal="true" aria-labelledby="mTitle">
+ <div class="m-sum"><h3>Your transfer</h3>
+  <ol class="m-stops"><li><span class="n">A</span><span class="nm">${esc(trLabel('from'))}</span><span class="dt">Pickup</span></li><li><span class="n">B</span><span class="nm">${esc(trLabel('to'))}</span><span class="dt">Drop-off</span></li></ol>
+  <dl class="m-facts"><div><dt>Drive (est.)</dt><dd>~${fmtDur(leg.min)} · ${leg.km} km</dd></div><div><dt>Vehicle</dt><dd>We’ll recommend one</dd></div></dl></div>
+ <form class="m-form" id="qform" novalidate data-kind="transfer"><button type="button" class="m-close" data-close aria-label="Close">×</button>
+  <p class="m-step">Step 1 of 2 · Travel details</p>
+  <h2 id="mTitle" tabindex="-1">Request your private transfer</h2><p>Tell us when you travel and how to reach you. We’ll confirm availability and send you a quotation. Nothing is booked until you confirm it with us.</p>
+  <div class="f2"><div class="fl" data-f="date"><label for="tDate">Travel date</label><div class="field"><input id="tDate" name="tdate" type="date" min="${TODAY}" value="${S.tr.date}" aria-describedby="tWhen"></div></div>
+  <div class="fl"><label for="tTime">Preferred pickup time</label><div class="field"><input id="tTime" name="ttime" type="time" step="300" value="${S.tr.time}" aria-describedby="tWhen"></div></div></div>
+  <p class="hint" id="tWhen">${trWhenHint()}</p>
+  <div class="trow"><div><b id="tPaxL">Passengers</b><small>Adults and children together</small></div><div class="stepper" data-tq="pax" role="group" aria-labelledby="tPaxL"><button type="button" data-d="-1" aria-label="Fewer passengers">−</button><span id="tPax" aria-live="polite"></span><button type="button" data-d="1" aria-label="More passengers">+</button></div></div>
+  <div class="f2"><label class="fl" data-f="name"><span>Full name</span><div class="field"><input name="name" autocomplete="name" aria-required="true" value="${v('name')}"></div></label>
+  <label class="fl" data-f="email"><span>Email</span><div class="field"><input name="email" type="email" autocomplete="email" aria-required="true" value="${v('email')}"></div></label></div>
+  <div class="f2"><label class="fl" data-f="phone"><span>WhatsApp / phone</span><div class="field"><input name="phone" type="tel" autocomplete="tel" aria-required="true" value="${v('phone')}"></div></label>
+  <label class="fl"><span>Flight number or details (optional)</span><div class="field"><input name="flight" autocomplete="off" placeholder="e.g. UL 504, lands 08:30" value="${v('flight')}"></div></label></div>
+  <label class="fl"><span>Luggage (optional)</span><div class="field"><input name="luggage" autocomplete="off" placeholder="e.g. 2 large suitcases, 1 surfboard" value="${v('luggage')}"></div></label>
+  <label class="fl"><span>Anything else? (optional)</span><textarea name="tnotes" placeholder="Hotel name, child seats, special requests…">${v('tnotes')}</textarea></label>
+  <div class="m-acts"><button type="button" class="btn ghost" data-act="tr-edit">Edit locations</button><button class="btn primary" type="submit">Review request</button></div></form></div>`,
+    '#mTitle',
+  );
+  renderTrPax();
+}
+function renderTrPax() {
+  const g = mbg.querySelector('[data-tq="pax"]');
+  if (!g) return;
+  $('#tPax').textContent = S.tr.pax;
+  g.querySelector('[data-d="-1"]').disabled = S.tr.pax <= 1;
+  g.querySelector('[data-d="1"]').disabled = S.tr.pax >= 20;
+}
+// Step 2 of 2: everything in one list, then the request goes out.
+function openTrReview() {
+  const leg = trLeg(),
+    word = isAir('from') || isAir('to') ? 'Airport' : 'Private';
+  const row = (dt, dd) => `<div><dt>${dt}</dt><dd>${dd}</dd></div>`;
+  const opt = (dt, val) => (val.trim() ? row(dt, esc(val.trim())) : '');
+  showModal(
+    `<div class="modal rv tr" role="dialog" aria-modal="true" aria-labelledby="mTitle" aria-describedby="mLede"><button type="button" class="m-close" data-close aria-label="Close">×</button>
+ <div class="rv-body">
+  <p class="m-step">Step 2 of 2 · Review and send</p>
+  <h2 id="mTitle" tabindex="-1">Your ${word} Transfer Request</h2>
+  <p class="rv-lede" id="mLede">Please check your details. ${SITE.quoteEndpoint ? '' : 'On the next screen you send the request to us on WhatsApp or by email. '}We’ll confirm availability and send you a quotation. Nothing is booked until you confirm it with us.</p>
+  <dl class="tr-rev">${row('Pickup location', `<b class="ab" aria-hidden="true">A</b>${esc(trFull('from'))}`)}${row('Drop-off location', `<b class="ab" aria-hidden="true">B</b>${esc(trFull('to'))}`)}${row('Date', S.tr.date ? fmtLong(dayOf(S.tr.date)) : 'To be confirmed')}${row('Preferred pickup time', S.tr.time || 'To be confirmed')}${row('Passengers', S.tr.pax)}${opt('Flight', qd.flight)}${opt('Luggage', qd.luggage)}${opt('Notes', qd.tnotes)}${row('Name', esc(qd.name.trim()))}${row('Email', esc(qd.email.trim()))}${row('WhatsApp / phone', esc(qd.phone.trim()))}</dl>
+  <p class="hint">Estimated drive: about ${fmtDur(leg.min)}, ${leg.km} km. We’ll recommend a vehicle for your group and luggage.</p>
+ </div>
+ <div class="rv-foot"><button type="button" class="btn ghost" data-act="tr-details">Edit details</button><button type="button" class="btn primary" data-act="tr-send">Request ${word} Transfer</button></div></div>`,
+    '#mTitle',
+  );
+}
+function transferText(ref, f) {
+  const leg = trLeg(),
+    n = S.tr.pax,
+    at = (k) => `${trFull(k)}${S.tr[k].id === 'pin' ? ' ' + mapsLink(S.tr[k]) : ''}`;
+  const out = [`Hello ${SITE.name}, I’d like a quote for a private transfer (ref ${ref}).`, ''];
+  out.push(`Pickup (A): ${at('from')}`, `Drop-off (B): ${at('to')}`);
+  out.push(`Date: ${S.tr.date ? fmtLong(dayOf(S.tr.date)) : 'to be confirmed'}`, `Preferred pickup time: ${S.tr.time || 'to be confirmed'}`);
+  out.push(`Passengers: ${n}`);
+  if (qd.flight.trim()) out.push(`Flight: ${qd.flight.trim()}`);
+  if (qd.luggage.trim()) out.push(`Luggage: ${qd.luggage.trim()}`);
+  // The vehicle is our suggestion for the group size, not the guest's choice.
+  out.push(`Vehicle: ${fitVehicle(n).name} (suggested for the group size, to be confirmed)`, `Estimated drive: about ${fmtDur(leg.min)}, ${leg.km} km`);
+  out.push('', `Name: ${f.name}`, `Email: ${f.email}`, `Phone: ${f.phone}`);
+  if (f.notes) out.push(`Notes: ${f.notes}`);
+  return out.join('\n');
+}
+// For a form endpoint: the same details as fields (the message has them as text too).
+function trPayload() {
+  const end = (k) => {
+    const p = trPt(k);
+    return { id: S.tr[k].id, name: trFull(k), lat: +p.lat.toFixed(5), lng: +p.lng.toFixed(5) };
   };
-  if (d !== 'dep') draw(AIR, p);
-  if (d !== 'arr') draw(p, AIR);
+  return { pickup: end('from'), dropoff: end('to'), date: S.tr.date, time: S.tr.time, passengers: S.tr.pax, flight: qd.flight.trim(), luggage: qd.luggage.trim() };
 }
-function openShuttle() {
-  const l = shLeg(),
-    v = VEHICLES.find((x) => x.id === vehicleId()),
-    t = shTimes(),
-    total = shTotal(),
-    lbl = esc(shLabel()),
-    legs = [];
-  if (needArr()) legs.push({ r: `CMB → ${lbl}`, dt: flightShort('arr', t) });
-  if (needDep()) legs.push({ r: `${lbl} → CMB`, dt: flightShort('dep', t) });
-  showModal(`<div class="modal" role="dialog" aria-modal="true" aria-labelledby="mTitle">
- <div class="m-sum"><p class="eyebrow">Airport transfer</p><h3>${DIRS[S.sh.dir].title}</h3>
-  <ol class="m-stops">${legs.map((g, i) => `<li><span class="n">0${i + 1}</span><span class="nm">${g.r}</span><span class="dt">${g.dt}</span></li>`).join('')}</ol>
-  <dl class="m-facts"><div><dt>Travellers</dt><dd>${travTxt()}</dd></div><div><dt>Vehicle</dt><dd>${v.name}</dd></div><div><dt>Drive (est.)</dt><dd>~${fmtDur(l.min)} · ${l.km} km${legs.length > 1 ? ' each way' : ''}</dd></div><div><dt>Fixed price</dt><dd class="m-price">$${total}</dd></div></dl></div>
- <form class="m-form" id="qform" novalidate><button type="button" class="m-close" data-close aria-label="Close">×</button>
-  <h2 id="mTitle">Request your transfer</h2><p>$${total} per vehicle${legs.length > 1 ? ' for both transfers' : ''}, fixed price. ${SITE.quoteEndpoint ? 'We’ll confirm availability and email your driver details.' : 'Add your details, then send the request on WhatsApp or by email. We’ll confirm availability and your driver details.'}</p>
-  <div class="f2"><label class="fl" data-f="name"><span>Full name</span><div class="field"><input name="name" autocomplete="name" aria-required="true" value="${esc(qd.name)}"></div></label>
-  <label class="fl" data-f="email"><span>Email</span><div class="field"><input name="email" type="email" autocomplete="email" aria-required="true" value="${esc(qd.email)}"></div></label></div>
-  <label class="fl" data-f="phone"><span>WhatsApp / phone</span><div class="field"><input name="phone" type="tel" autocomplete="tel" aria-required="true" value="${esc(qd.phone)}"></div></label>
-  <label class="fl"><span>Hotel name and anything else (optional)</span><textarea name="notes" placeholder="Hotel name, luggage, child seats…"></textarea></label>
-  <button class="btn primary" type="submit" style="height:52px">${SITE.quoteEndpoint ? `Request transfer · $${total}` : 'Continue'}</button></form></div>`, 'input[name=name]');
+async function sendTransfer(btn) {
+  if (sending) return;
+  const ref = newRef('SL-T-');
+  const data = { name: qd.name.trim(), email: qd.email.trim(), phone: qd.phone.trim(), country: '', notes: qd.tnotes.trim() };
+  const text = transferText(ref, data);
+  const subject = `${isAir('from') || isAir('to') ? 'Airport' : 'Private'} transfer request ${ref}`;
+  const links = reqLinks(text, subject);
+  const done = (...a) => {
+    const m = mbg.querySelector('.modal');
+    m.innerHTML = `<div class="rv-body">${doneHtml(...a)}</div>`;
+    m.querySelector('.done h2').focus();
+  };
+  if (SITE.quoteEndpoint) {
+    // type "airport-transfer" tells a transfer from a tour; `transfer` carries its details as fields.
+    const ok = await deliver({ ref, type: 'airport-transfer', ...data, experiences: [], transfer: trPayload(), _subject: subject, message: text }, btn, links.wa);
+    if (!ok) return;
+    return done(
+      `Request ${ref}`,
+      'Thank you! Your transfer request has been sent.',
+      `We’ll review your details and contact you to confirm availability and provide a quotation. We’ll reply to <b>${esc(data.email)}</b>. Nothing is booked yet.`,
+      BACK_BTN,
+    );
+  }
+  done(
+    `Request ${ref}`,
+    `Nearly done, ${esc(data.name.split(' ')[0])}.`,
+    `Your transfer request is ready. Choose how to send it: nothing is sent or booked until you press send on WhatsApp or in your email app. We’ll then confirm availability and send you a quotation.`,
+    handoffBtns(links),
+  );
 }
 
 document.addEventListener('keydown', (e) => {
@@ -2158,7 +2163,8 @@ document.addEventListener('keydown', (e) => {
     else if (picking) stopPin();
     else if (!card.hidden) closeCard();
   }
-  if (e.key === '/' && mbg.hidden && card.hidden && !/^(INPUT|TEXTAREA|SELECT)$/.test(document.activeElement.tagName)) {
+  // "/" jumps to the tour planner's search.
+  if (e.key === '/' && S.mode === 'tour' && mbg.hidden && card.hidden && !/^(INPUT|TEXTAREA|SELECT)$/.test(document.activeElement.tagName)) {
     e.preventDefault();
     q.focus();
   }
@@ -2180,8 +2186,7 @@ function update() {
   renderRoute();
   renderTrip();
   renderGuide();
-  renderShuttle();
-  renderTrav();
+  renderTransfer();
   renderSummary();
   renderCardState();
   save();
@@ -2189,26 +2194,30 @@ function update() {
 renderChips();
 update();
 document.documentElement.classList.add('map-ready');
-if (S.mode !== 'shuttle' && !S.stops.length) hintPins(); // step 1: the markers are the next action
+if (S.mode === 'tour' && !S.stops.length) hintPins(); // step 1 of the tour: the markers are the next action
+if (S.mode === 'shuttle' && S.tr.from && S.tr.to) viewTransfer(); // a transfer in progress: show it
 if (staleDates) setTimeout(() => toast('The dates in your saved trip have passed, so we cleared them'), 600);
 
-// Added: deep links from place pages — /#add=<id> adds the place and shows the trip panel,
-// /#place=<id> opens its dialog, /#experiences=<id> opens it at its "Things to do" list, and
-// /#exp=<experience id> does the same with focus on that experience (not ticked).
+// Added: deep links. /#tour and /#transfer (the site menu) open a service directly. From place
+// pages: /#add=<id> adds the place and shows the trip panel, /#place=<id> opens its dialog,
+// /#experiences=<id> opens it at its "Things to do" list, and /#exp=<experience id> does the
+// same with focus on that experience (not ticked). All of those belong to the tour planner.
 // A fragment (not a query string) so the homepage keeps a single crawlable URL.
 function openFromHash() {
-  // /#transfer (the menu's "Airport transfers") opens the planner in airport-shuttle mode.
-  if (location.hash === '#transfer') {
+  if (location.hash === '#transfer' || location.hash === '#tour') {
+    const m = location.hash === '#tour' ? 'tour' : 'shuttle';
     history.replaceState(null, '', location.pathname + location.search);
-    setMode('shuttle');
+    if (!mbg.hidden) closeQuote();
+    setMode(m);
+    window.scrollTo({ top: 0, behavior: 'auto' });
     return;
   }
   const m = location.hash.match(/^#(add|place|experiences|exp)=([a-z-]+)$/);
   const id = m && (m[1] === 'exp' ? X[m[2]] && X[m[2]].destinationId : m[2]);
   if (!id || !D[id]) return;
   history.replaceState(null, '', location.pathname + location.search);
-  if (S.mode === 'shuttle') setMode('tour');
   if (!mbg.hidden) closeQuote();
+  setMode('tour');
   if (m[1] === 'add') {
     closeCard();
     addStop(id);

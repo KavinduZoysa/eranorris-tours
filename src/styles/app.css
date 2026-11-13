@@ -1,6 +1,7 @@
-/* Map, planner, destination dialog and request dialog — from the supplied design, unchanged unless marked.
-   The guided flow (place dialog, trip panel, review step) is in the last section of this file. */
-.app{display:grid;grid-template-columns:minmax(0,1fr) 420px;height:calc(100vh - 60px);min-height:640px}
+/* Map, planner, place dialog and request dialog — from the supplied design, unchanged unless marked.
+   Further down: the guided tour planner (place dialog, trip panel, review step), then the main
+   page's two service cards and the airport shuttle. */
+.app{display:grid;grid-template-columns:minmax(0,1fr);height:calc(100vh - 60px);min-height:640px} /* changed: one column — the map has the whole width (the side panel is gone) */
 .mapwrap{position:relative;overflow:hidden;background:#101415}
 #map{position:absolute;inset:0;z-index:0;background:#0E1518}
 .leaflet-container{font-family:var(--sans);background:radial-gradient(ellipse at 60% 50%,#13202A 0,#0E1518 70%)}
@@ -61,6 +62,7 @@ kbd{font:500 11px var(--mono);border:1px solid rgba(20,17,14,.18);border-radius:
 .pin .no{position:absolute;right:-8px;top:-8px;min-width:21px;height:21px;padding:0 4px;box-sizing:border-box;border-radius:11px;background:var(--lat);color:#fff;border:2px solid var(--cream);display:none;place-items:center;font:600 11px/1 var(--mono)}
 .pin.in .no{display:grid}
 .pin.sel .no{display:grid;font-size:9px;letter-spacing:.05em;text-transform:uppercase;padding:0 6px}
+.pin.sel .no{right:auto;left:calc(100% - 16px);white-space:nowrap} /* added: "A · Pickup" / "B · Drop-off" stay on one line, growing to the right */
 .pin.in .med,.pin.sel .med{border-color:var(--cream)}
 .pin:hover .med,.pin.active .med{--s:1.14}
 .pin.active .med{border-color:var(--cream)}
@@ -112,22 +114,9 @@ kbd{font:500 11px var(--mono);border:1px solid rgba(20,17,14,.18);border-radius:
 .pinbanner button{height:32px;padding:0 14px;border-radius:999px;border:0;background:rgba(255,255,255,.18);color:#fff;font-size:13px}
 .pinbanner button:hover{background:rgba(255,255,255,.3)}
 
-.panel{background:var(--cream);overflow:auto;display:flex;flex-direction:column;position:relative}
-.modes{display:grid;grid-template-columns:1fr 1fr;gap:4px;margin:20px 28px 0;padding:4px;border-radius:999px;background:rgba(20,17,14,.07)}
-.modes button{height:40px;border:0;border-radius:999px;background:none;font-size:14px;font-weight:500;color:#645a50 /* changed from var(--mut): 4.47:1 → 4.98:1 contrast */;display:flex;align-items:center;justify-content:center;gap:8px;transition:background .15s,color .15s}
-.modes button:not(.on):hover{color:var(--ink)}
-.modes button.on{background:var(--ink);color:var(--cream)}
-.p-head{padding:22px 28px 22px;border-bottom:1px solid var(--line);display:flex;align-items:flex-end;justify-content:space-between;gap:12px}
-.p-head h2{font:400 42px/1 var(--serif);margin:0;letter-spacing:-.01em}
-.p-head p{margin:10px 0 0;font:500 11.5px var(--mono);letter-spacing:.05em;text-transform:uppercase;color:var(--mut)}
 .linkbtn{border:0;background:none;padding:0;color:var(--lat);font-weight:500;font-size:13px}
 .linkbtn:hover{text-decoration:underline}
 .linkbtn.mut{color:var(--mut)}
-.step{padding:22px 28px 24px;border-bottom:1px solid var(--line)}
-.step-h{display:flex;align-items:baseline;gap:12px;margin-bottom:14px}
-.step-h .n{font:500 12px var(--mono);color:var(--lat)}
-.step-h h3{font:600 15px var(--sans);margin:0}
-.step-h .opt{margin-left:auto;font:500 10.5px var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--mut)}
 .stops{list-style:none;margin:0;padding:0}
 .stop{display:grid;grid-template-columns:28px minmax(0,1fr) auto;align-items:center;gap:12px;padding:8px 0} /* changed: used by the review step; the remove column is gone */
 .stop .num{width:28px;height:28px;border-radius:50%;background:var(--lat);color:#fff;display:grid;place-items:center;font:600 12px var(--mono)}
@@ -158,53 +147,14 @@ kbd{font:500 11px var(--mono);border:1px solid rgba(20,17,14,.18);border-radius:
 .field svg{flex:none;color:var(--mut)}
 .field input,.field select{flex:1;border:0;background:none;outline:none;font:400 15px var(--sans);color:var(--ink);min-width:0;height:100%}
 .field input::placeholder{color:#857a6e}
-.pk-list{list-style:none;margin:6px 0 0;padding:6px;border:1px solid var(--line);border-radius:12px;background:var(--paper);max-height:268px;overflow:auto}
-.pk-list li{display:grid;grid-template-columns:30px minmax(0,1fr);gap:10px;align-items:center;padding:8px 10px;border-radius:8px;cursor:pointer}
-.pk-list li.hi{background:rgba(180,69,42,.09)}
-.pk-list .code{height:24px;border-radius:6px;background:rgba(20,17,14,.07);display:grid;place-items:center;font:600 9.5px var(--mono);letter-spacing:.03em}
-.pk-list b{font-weight:500;font-size:14px;display:block}
-.pk-list small{color:var(--mut);font-size:12.5px}
-.pk-list li.pinopt .code{background:var(--lat);color:#fff}
-.chosen{display:grid;grid-template-columns:34px minmax(0,1fr) auto;align-items:center;gap:12px;padding:12px 12px 12px 14px;border-radius:12px;background:var(--paper);border:1px solid var(--line)}
-.chosen .code{height:34px;border-radius:8px;background:var(--ink);color:var(--cream);display:grid;place-items:center;font:600 10px var(--mono)}
-.chosen b{display:block;font-weight:500;font-size:14.5px}
-.chosen small{color:var(--mut);font-size:12.5px}
 .pk-alt{display:flex;gap:16px;margin-top:12px}
 .hint{margin:10px 0 0;font-size:13px;color:var(--mut);line-height:1.45}
 .hint b{color:var(--ink);font-weight:500}
 .trow{display:flex;align-items:center;justify-content:space-between;padding:6px 0}
 .trow b{font-weight:500;font-size:14.5px;display:block}
 .trow small{display:block;color:var(--mut);font-size:12.5px;margin-top:1px}
-.veh{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-top:14px}
-.vcard{text-align:left;padding:12px;border-radius:12px;border:1px solid rgba(20,17,14,.18);background:var(--paper);display:flex;flex-direction:column;gap:5px;min-height:108px;transition:border-color .15s,box-shadow .15s}
-.vcard:hover:not(:disabled){border-color:rgba(20,17,14,.4)}
-.vcard b{font:400 22px/1 var(--serif)}
-.vcard small{font-size:11.5px;color:var(--mut);line-height:1.3}
-.vcard .cap{font:500 10px var(--mono);text-transform:uppercase;letter-spacing:.05em;color:var(--mut);margin-top:auto}
-.vcard .rec{font:600 9.5px var(--mono);color:var(--lat);text-transform:uppercase;letter-spacing:.05em;min-height:11px}
-.vcard.on{border-color:var(--lat);box-shadow:inset 0 0 0 1px var(--lat);background:#fff}
-.vcard:disabled{opacity:.38;cursor:not-allowed}
-.cta{position:sticky;bottom:0;margin-top:auto;padding:22px 28px 22px;background:linear-gradient(rgba(243,236,224,0),var(--cream) 22px);display:flex;flex-direction:column;gap:10px}
-.cta p{margin:0;font-size:13px;color:var(--mut);line-height:1.4}
-.cta p b{color:var(--ink);font-weight:500}
-.cta .btn{height:54px;width:100%;font-size:15px}
-.cta p>span{display:block}
-.cta .cta-price{display:flex;align-items:center;gap:14px;margin-bottom:6px}
-.cta .cta-price b{font:400 44px/1 var(--serif);color:var(--ink);letter-spacing:-.01em}
-.cta .cta-price span{font-size:12.5px;line-height:1.35;color:var(--mut)}
-.dirs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
-.dirs .vcard{min-height:0;gap:4px}
-.dirs .vcard b{font-size:20px}
-.shroute{display:flex;flex-direction:column;gap:4px}
-.shroute.rev{flex-direction:column-reverse}
-.shrow{display:flex;flex-direction:column;gap:6px}
 .tagl{font:500 10.5px var(--mono);text-transform:uppercase;letter-spacing:.06em;color:var(--mut)}
-.chosen.fixed{background:transparent}
-.flt+.flt{margin-top:20px}
-.flt .f2{gap:8px}
 .hint.bad{color:var(--lat2);font-weight:500}
-.vcard .vp{font:500 14px var(--mono);color:var(--ink)}
-.m-facts dd.m-price{font:400 32px/1 var(--serif);color:var(--cream)}
 
 .toast{position:fixed;z-index:4000;left:16px;right:16px;margin:0 auto;width:fit-content;bottom:28px;transform:translateY(20px);opacity:0;pointer-events:none;background:var(--ink);color:var(--cream);padding:12px 18px;border-radius:999px;font-size:14px;box-shadow:0 12px 30px rgba(0,0,0,.4);transition:opacity .2s,transform .2s;border:1px solid rgba(243,236,224,.12)}
 .toast.show{opacity:1;transform:none}
@@ -247,7 +197,7 @@ kbd{font:500 11px var(--mono);border:1px solid rgba(20,17,14,.18);border-radius:
 .done .row{display:flex;gap:10px;margin-top:8px}
 
 @media (max-height:780px){h1{font-size:46px}.guide{margin-bottom:16px}}
-@media (max-width:1100px){.app{grid-template-columns:minmax(0,1fr) 380px}
+@media (max-width:1100px){
   .shade{background:linear-gradient(180deg,rgba(20,17,14,.94) 0,rgba(20,17,14,.6) 200px,rgba(20,17,14,0) 320px)}
   .overlay{left:20px;right:20px;top:20px;width:auto;max-width:520px}
   h1{font-size:36px;margin-bottom:10px}.eyebrow{display:none}
@@ -255,7 +205,6 @@ kbd{font:500 11px var(--mono);border:1px solid rgba(20,17,14,.18);border-radius:
 @media (max-width:900px){
   .app{display:block;height:auto;min-height:0}
   .mapwrap{height:82vh;min-height:600px}
-  .panel{overflow:visible}
   .shade{background:linear-gradient(180deg,rgba(20,17,14,.94) 0,rgba(20,17,14,.6) 240px,rgba(20,17,14,0) 380px)}
   .overlay{left:16px;right:16px;top:20px;width:auto}
   h1{font-size:32px}.eyebrow{display:none}
@@ -275,10 +224,9 @@ kbd{font:500 11px var(--mono);border:1px solid rgba(20,17,14,.18);border-radius:
 .dc-more{white-space:nowrap;font-weight:500}
 
 /* Fallback when JavaScript is off or the map script fails: point to the crawlable list. */
-.map-fallback{display:none;position:absolute;z-index:2;left:36px;right:36px;bottom:36px;max-width:420px;padding:18px 20px;border-radius:16px;background:var(--paper);color:var(--ink);font-size:14px;line-height:1.5;box-shadow:0 26px 64px rgba(0,0,0,.55)}
+.map-fallback{display:none;position:relative;z-index:2;width:min(640px,calc(100% - 32px));margin:0 auto 36px;padding:18px 20px;border-radius:16px;background:var(--paper);color:var(--ink);font-size:14px;line-height:1.5;box-shadow:0 26px 64px rgba(0,0,0,.55)} /* changed: sits under the service cards, in the page's flow */
 .map-fallback b{display:block;font:400 24px/1.1 var(--serif);margin-bottom:6px}
 html:not(.js) .map-fallback,html.map-failed .map-fallback{display:block}
-html:not(.js) .search,html:not(.js) .chips,html:not(.js) .ov-alt,html.map-failed .search,html.map-failed .chips,html.map-failed .ov-alt{display:none}
 
 /* Places index under the planner — every destination as a real link. */
 .places{background:var(--paper);color:var(--ink);padding:72px 28px 80px;border-top:1px solid var(--line)}
@@ -288,10 +236,6 @@ html:not(.js) .search,html:not(.js) .chips,html:not(.js) .ov-alt,html.map-failed
 .places-h p{margin:0;max-width:440px;font-size:15px;line-height:1.55;color:var(--mut);text-wrap:pretty}
 .pl-grid{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:20px}
 @media (max-width:900px){.places{padding:48px 16px 56px}.places-h h2{font-size:36px}}
-.nojs-note{display:none;margin:0;padding:22px 28px;font-size:14px;line-height:1.5;color:var(--mut)}
-html:not(.js) .nojs-note,html.map-failed .nojs-note{display:block}
-html:not(.js) .panel .modes,html:not(.js) .panel .step,html:not(.js) .panel .cta,html:not(.js) .panel .p-head .linkbtn,
-html.map-failed .panel .modes,html.map-failed .panel .step,html.map-failed .panel .cta{display:none}
 
 /* ---------------------------------------------------------------------------
    Responsive refinements (added): phones, landscape phones, tablets, short laptops.
@@ -342,7 +286,6 @@ html.map-failed .panel .modes,html.map-failed .panel .step,html.map-failed .pane
   .chip::after,.linkbtn::after,.rm::after,.mv::after,.stepper button::after,.dc-x::after,.m-close::after{content:'';position:absolute;inset:-6px}
   .stepper button::after{inset:-7px}
   .linkbtn::after{inset:-14px -6px}
-  .modes button{height:44px}
   .dc-nav button::after{content:'';position:absolute;inset:-3px}
   .leaflet-bar a{width:44px!important;height:44px!important;line-height:44px!important}
 }
@@ -421,21 +364,11 @@ html.map-failed .panel .modes,html.map-failed .panel .step,html.map-failed .pane
 /* ---------------------------------------------------------------------------
    Guided trip planner (added). One step at a time:
    1 the map and one instruction · 2 a place opens as a dialog · 3 the compact trip panel
-   appears · 4 review · 5 details. The side panel is only used for airport transfers.
+   appears · 4 review · 5 details.
    --------------------------------------------------------------------------- */
-/* Tours: the map has the whole width. `html.js` is set before first paint, so nothing shifts
-   when the script starts; without JavaScript (or if it fails) the panel shows its fallback note. */
-html.js:not(.map-failed) .app:not(.mode-sh){grid-template-columns:minmax(0,1fr)}
-html.js:not(.map-failed) .app:not(.mode-sh) .panel{display:none}
-
-/* Step 1: the instruction, and a way out for visitors who only want a transfer. */
+/* Step 1: the instruction. */
 .guide b{color:var(--cream);font-weight:600}
 .guide .linkbtn{font:inherit;font-weight:600;color:var(--latL);text-decoration:underline;text-underline-offset:3px}
-.ov-alt{margin:14px 0 0}
-.ov-alt .linkbtn{font-size:13px;color:rgba(243,236,224,.82);text-decoration:underline;text-underline-offset:3px}
-.ov-alt .linkbtn:hover{color:var(--cream)}
-.mode-sh .ov-alt{display:none}
-@media (max-width:1100px){.mode-sh .guide{display:none}}
 /* A short, soft ring on each marker says "you can choose these". It runs twice and stops
    (under 5 s in all), and not at all with reduced motion (see base.css). */
 .pin .med::after{content:'';position:absolute;inset:-7px;border-radius:50%;border:2px solid color-mix(in oklab,var(--c) 60%,white);opacity:0;pointer-events:none}
@@ -537,7 +470,6 @@ html.dlg-open,html.dlg-open body{overflow:hidden}
 /* Phones: less text above the map, so the island and the trip drawer both fit. Once a place is
    in the trip the heading has done its job; it stays in the page for assistive technology. */
 @media (max-width:900px){
-  .ov-alt{display:none} /* the menu has "Airport transfers" */
   .has-trip h1{position:absolute;width:1px;height:1px;margin:-1px;padding:0;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
 }
 @media (max-width:480px){
@@ -590,3 +522,174 @@ html.dlg-open,html.dlg-open body{overflow:hidden}
 @media (max-width:900px){.modal.dt .m-stops,.modal.dt .m-also{display:none}}
 @media (max-width:380px){.rv-route{padding:10px 12px}}
 @media (max-width:340px){h1{font-size:27px}}
+
+/* ---------------------------------------------------------------------------
+   Two services on one page (added). <html data-svc> says which view is showing:
+   no attribute = the main page with its two service cards · "tour" = the tour planner ·
+   "sh" = the airport shuttle. src/js/app.js sets it; a small inline script sets it before
+   first paint too, so a visitor who goes straight to a service never sees the cards flash by.
+   --------------------------------------------------------------------------- */
+.svc-tabs,.tour-ui,.tcard{display:none}
+html[data-svc] .svc{display:none}
+html[data-svc] .svc-tabs{display:inline-flex}
+html[data-svc="tour"] .tour-ui,html[data-svc="sh"] .tcard{display:block}
+html[data-svc]:not(.map-ready) .overlay{visibility:hidden} /* until the script is ready: the map only, no half-built view */
+h1:focus{outline:none} /* the heading takes focus when a service opens; it is not a control */
+
+/* The main page: heading and two cards, centred over the dimmed map (a backdrop here: it can't
+   be clicked). The section grows with its content, so nothing is cut off on any screen. */
+html:not([data-svc]) .app{height:auto;min-height:calc(100vh - 60px);min-height:calc(100svh - 60px)}
+html:not([data-svc]) .mapwrap{display:flex;flex-direction:column;justify-content:center;height:auto;min-height:calc(100vh - 60px);min-height:calc(100svh - 60px)}
+html:not([data-svc]) .shade{background:rgba(16,13,11,.76)}
+html:not([data-svc]) .overlay{position:relative;left:auto;right:auto;top:auto;width:min(960px,calc(100% - 48px));max-width:none;margin:0 auto;padding:44px 0 40px;text-align:center}
+html:not([data-svc]) h1{font-size:clamp(34px,4.6vw,56px);line-height:1;max-width:780px;margin:0 auto 14px}
+html:not([data-svc]) .guide{max-width:none;margin:0 auto 30px;font-size:16px}
+.svc{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px;text-align:left}
+.svc-c{display:flex;flex-direction:column;overflow:hidden;background:var(--paper);color:var(--ink);border-radius:22px;box-shadow:0 26px 64px rgba(0,0,0,.5)}
+/* The picture on each card is drawn from what the map already uses: place photos with stop
+   numbers and the dotted route for the tour; the airport marker, A and B for the transfer. */
+.svc-v{position:relative;height:132px;display:flex;align-items:center;justify-content:center;background:radial-gradient(ellipse at 60% 45%,#1B2A34 0,#0E1518 78%)}
+.svc-v::before{content:'';position:absolute;left:16%;right:16%;top:50%;border-top:2px dotted rgba(243,236,224,.55)}
+.svc-v.tour{counter-reset:svc}
+.svc-m{position:relative;z-index:1;flex:none;width:60px;height:60px;margin:0 9px;border-radius:50%;border:2.5px solid var(--cream);box-shadow:0 0 0 3px rgba(20,17,14,.6),0 8px 18px rgba(0,0,0,.5);counter-increment:svc}
+.svc-m img{width:100%;height:100%;border-radius:50%;object-fit:cover;display:block}
+.svc-m::after,.svc-pt::after{content:counter(svc);position:absolute;right:-8px;top:-8px;box-sizing:border-box;min-width:21px;height:21px;border-radius:11px;background:var(--lat);color:#fff;border:2px solid var(--cream);display:grid;place-items:center;font:600 10.5px/1 var(--mono)}
+.svc-v.sh::before{left:34%;right:34%}
+.svc-pt{position:relative;z-index:1;flex:none;display:grid;place-items:center;color:var(--ink)}
+.svc-pt.a{width:50px;height:50px;border-radius:13px;background:var(--cream);box-shadow:0 0 0 2px var(--ink),0 8px 18px rgba(0,0,0,.5)}
+.svc-pt.a svg{width:24px;height:24px}
+.svc-pt.a::after{content:'A'}
+.svc-pt.b{width:22px;height:22px;transform:rotate(45deg);background:var(--cream);border:3px solid var(--ink);box-shadow:0 0 0 2px var(--cream),0 8px 18px rgba(0,0,0,.5)}
+.svc-pt.b::after{content:'B';right:-19px;top:-19px;transform:rotate(-45deg)}
+.svc-ln{flex:0 0 32%}
+.svc-b{flex:1;display:flex;flex-direction:column;align-items:flex-start;gap:10px;padding:22px 26px 26px}
+.svc-b h2{font:400 34px/1.04 var(--serif);margin:0;letter-spacing:-.005em;text-wrap:balance}
+.svc-b p{margin:0 0 8px;font-size:15px;line-height:1.55;color:#3b342d;text-wrap:pretty}
+.svc-b .btn{margin-top:auto;height:52px;padding:0 28px;font-size:15px}
+html:not(.js) .svc .btn,html.map-failed .svc .btn{display:none} /* the buttons need the script; the note under the cards says what to do */
+@media (max-width:640px){
+  /* Phones: both cards fit on the first screen. A small picture beside the title, button full width. */
+  html:not([data-svc]) .overlay{width:auto;margin:0 16px;padding:22px 0 24px;text-align:left}
+  html:not([data-svc]) h1{font-size:30px;margin:0 0 8px}
+  html:not([data-svc]) .guide{margin:0 0 16px;font-size:14.5px;line-height:1.45}
+  .svc{grid-template-columns:1fr;gap:12px}
+  .svc-c{display:grid;grid-template-columns:56px minmax(0,1fr);align-items:center;gap:0 14px;padding:16px;border-radius:18px}
+  .svc-v{width:56px;height:56px;border-radius:14px}
+  .svc-v::before,.svc-ln,.svc-pt.b,.svc-m:nth-child(n+3),.svc-m::after,.svc-pt::after{display:none}
+  .svc-m{width:30px;height:30px;margin:0 -4px;border-width:2px;box-shadow:none}
+  .svc-pt.a{width:34px;height:34px;border-radius:9px}
+  .svc-pt.a svg{width:18px;height:18px}
+  .svc-b{display:contents}
+  .svc-b h2{font-size:25px}
+  .svc-b p{grid-column:1/-1;margin:10px 0 0;font-size:14.5px;line-height:1.45}
+  .svc-b .btn{grid-column:1/-1;width:100%;height:48px;margin-top:14px}
+}
+
+/* Inside a service: a two-way switch, so the other service is always one press away. */
+.svc-tabs{gap:4px;margin:0 0 20px;padding:4px;border-radius:999px;background:rgba(20,17,14,.62);border:1px solid rgba(243,236,224,.22);backdrop-filter:blur(6px)}
+.svc-tabs button{position:relative;height:36px;padding:0 16px;border:0;border-radius:999px;background:none;color:rgba(243,236,224,.88);font-size:13.5px;font-weight:500;white-space:nowrap;transition:background .15s,color .15s}
+.svc-tabs button:hover{color:#fff}
+.svc-tabs button[aria-pressed="true"]{background:var(--cream);color:var(--ink)}
+@media (max-width:900px){
+  html[data-svc] .svc-tabs{display:grid;grid-template-columns:1fr 1fr;margin-bottom:12px;padding:3px}
+  .svc-tabs button{height:32px}
+}
+@media (pointer:coarse){.svc-tabs button::after{content:'';position:absolute;inset:-7px 0}}
+/* Very short phones: with a trip in progress the switch steps aside so the island and the trip
+   drawer both fit (the site menu still has both services). A little less text height, too. */
+@media (max-width:900px) and (max-height:620px) and (orientation:portrait){
+  html[data-svc] .has-trip .svc-tabs{display:none}
+  html[data-svc="tour"] .overlay{top:12px}
+  html[data-svc="tour"] h1{font-size:26px;margin-bottom:6px}
+  html[data-svc="tour"] .guide{margin-bottom:8px}
+  html[data-svc="tour"] .sbox{height:44px}
+  html[data-svc="tour"] .results{top:52px}
+}
+
+/* ---------------------------------------------------------------------------
+   Airport shuttle (changed): two locations, pickup A and drop-off B, in one card.
+   --------------------------------------------------------------------------- */
+/* The heading and the card are in the page's flow on every screen (not laid over a fixed-height
+   map), so "Continue" can never be cut off: on a short screen the section simply grows. */
+html[data-svc="sh"] .app{height:auto;min-height:calc(100vh - 60px);min-height:calc(100svh - 60px)}
+html[data-svc="sh"] .mapwrap{display:flex;flex-direction:column;min-height:calc(100vh - 60px);min-height:calc(100svh - 60px)}
+html[data-svc="sh"] .overlay{position:relative;left:auto;right:auto;top:auto;margin:36px;width:min(400px,calc(100% - 72px))}
+@media (max-height:760px){
+  /* Short laptop screens: a little less above the card, so it all fits without scrolling. */
+  html[data-svc="sh"] .overlay{margin-top:22px;margin-bottom:22px}
+  html[data-svc="sh"] .eyebrow{display:none}
+  html[data-svc="sh"] h1{font-size:40px;margin-bottom:10px}
+  html[data-svc="sh"] .svc-tabs{margin-bottom:14px}
+  html[data-svc="sh"] .guide{margin-bottom:14px}
+}
+.tcard{background:var(--paper);color:var(--ink);border-radius:20px;padding:16px 18px 18px;box-shadow:0 22px 56px rgba(0,0,0,.5)}
+.tcard>.tagl{display:block;margin:0 0 12px;font-weight:500}
+.tf label{display:flex;align-items:center;gap:8px;margin:0 0 6px;font-size:13.5px;font-weight:600}
+.ab{flex:none;width:22px;height:22px;border-radius:50%;background:var(--lat);color:#fff;display:inline-grid;place-items:center;font:600 11px/1 var(--mono)}
+.tf .field{height:48px}
+.tf.bad .field{border-color:var(--lat2)}
+.tf .err{margin:6px 0 0;font-size:12.5px;line-height:1.35;color:var(--lat2);font-weight:500}
+/* The swap button sits at the right of the drop-off label's row. */
+.tswap{position:relative;z-index:1;display:grid;place-items:center;width:34px;height:34px;margin:8px 2px -24px auto;border-radius:50%;border:1px solid rgba(20,17,14,.2);background:var(--paper);color:var(--ink)}
+.tswap:hover:not(:disabled){background:rgba(20,17,14,.06)}
+.tswap:disabled{opacity:.35;cursor:not-allowed}
+.tswap+.tf label{min-height:26px;padding-right:44px}
+.tsum{margin:12px 0 0;padding:10px 12px;border-radius:12px;background:rgba(20,17,14,.05);font-size:13.5px;line-height:1.45;color:#3b342d}
+.tsum b{font-weight:600;color:var(--ink)}
+.t-acts{display:flex;align-items:center;gap:14px;margin-top:14px}
+.t-acts .btn{margin-left:auto;height:50px;padding:0 30px;font-size:15px}
+@media (max-width:480px){.t-acts .btn{flex:1 1 auto}}
+@media (pointer:coarse){.tswap::after{content:'';position:absolute;inset:-5px}}
+/* Stacked layouts (and phones held sideways): the card comes first, in the page's flow, and
+   the map is a block of its own under it. The fields are never squeezed, the map does not take
+   over a small screen, and the whole island (or the transfer) always fits in it. */
+@media (max-width:1100px){
+  html[data-svc="sh"] .app{display:block;height:auto;min-height:0}
+  html[data-svc="sh"] .mapwrap{display:flex;flex-direction:column;height:auto;min-height:calc(100vh - 60px);min-height:calc(100svh - 60px)}
+  html[data-svc="sh"] #map{position:relative;inset:auto;order:3;flex:1 0 340px;margin-top:16px}
+  html[data-svc="sh"] .shade{display:none}
+  html[data-svc="sh"] .overlay{position:relative;left:auto;right:auto;top:auto;width:auto;max-width:560px;margin:20px 20px 0}
+  html[data-svc="sh"] h1{font-size:32px;margin-bottom:8px}
+  html[data-svc="sh"] .pinbanner{left:12px;right:12px;top:auto;bottom:12px;justify-content:space-between}
+}
+@media (max-width:900px){html[data-svc="sh"] .overlay{margin:16px 16px 0}}
+@media (max-width:480px){html[data-svc="sh"] h1{font-size:28px}}
+/* On the map: the airports can be chosen; a chosen end is highlighted. */
+.pk.ap{cursor:pointer}
+/* Zoomed out (small maps), an airport that is not chosen shows its icon only, so its name
+   does not cover the places around it. */
+.far .pk.ap:not(.on) .pl{display:none}
+.pk.on .pl{background:var(--lat);color:#fff}
+.pk.on .pl b{color:#fff}
+.leaflet-marker-icon:focus-visible .pk .sq{box-shadow:0 0 0 3px var(--latL),0 6px 14px rgba(0,0,0,.55)}
+/* The place dialog, for a location without a photo (airports, Colombo, Negombo, the port). */
+.dc-img.plain{height:76px;display:grid;place-items:center;background:radial-gradient(ellipse at 50% 60%,#1B2A34 0,#0E1518 80%);color:var(--cream)}
+.dc-img.plain svg{width:28px;height:28px}
+.dc-img.plain .sq{width:14px;height:14px;transform:rotate(45deg);background:var(--cream);border:3px solid var(--ink);box-shadow:0 0 0 2px var(--cream)}
+/* The request dialog: A and B beside the form, then one list to check before sending. */
+.modal.tr .m-stops .n{font-size:13px}
+.tr-rev{margin:0;padding:4px 16px;border:1px solid var(--line);border-radius:16px;background:#fff}
+.tr-rev>div{display:grid;grid-template-columns:172px minmax(0,1fr);gap:12px;padding:10px 0;border-top:1px solid var(--line)}
+.tr-rev>div:first-child{border-top:0}
+.tr-rev dt{padding-top:3px;font:500 10.5px var(--mono);text-transform:uppercase;letter-spacing:.06em;color:var(--mut)}
+.tr-rev dd{display:flex;align-items:center;gap:8px;margin:0;font-size:14.5px;font-weight:500;overflow-wrap:anywhere}
+.tr-rev+.hint{margin-top:14px}
+.modal.rv>.send-err{margin:0;padding:10px 34px 0}
+@media (max-width:600px){
+  .tr-rev>div{grid-template-columns:1fr;gap:2px;padding:8px 0}
+  .modal.tr .rv-foot .btn{white-space:nowrap}
+  .modal.tr .rv-foot .btn.ghost{flex:0 0 auto}
+  .modal.rv>.send-err{padding:10px 20px 0}
+}
+/* Short laptop screens: the main page's cards a little lower in height, so both buttons show. */
+@media (max-height:760px) and (min-width:641px){
+  html:not([data-svc]) .overlay{padding:24px 0 26px}
+  html:not([data-svc]) .guide{margin-bottom:20px}
+  .svc-v{height:100px}
+  .svc-b{padding:18px 26px 22px}
+}
+/* Very narrow phones: the review's two buttons stack (the main one on top), so neither is cut off. */
+@media (max-width:360px){
+  .modal.tr .rv-foot{flex-direction:column-reverse}
+  .modal.tr .rv-foot .btn,.modal.tr .rv-foot .btn.ghost{flex:1 1 auto;width:100%}
+}

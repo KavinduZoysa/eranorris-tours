@@ -40,8 +40,9 @@ export default {
     brand: true, //          "Eranorris" is the customer-facing name for the tours business
     contact: true, //        WhatsApp number, phone and email above receive tour enquiries
     address: true, //        the business location above (or set address: null)
-    shuttleFares: false, //   SHUTTLE_FARES in src/data/destinations.mjs are your real fixed prices
-    shuttleService: true, // SHUTTLE_TIMING: driver meets guests in arrivals; 45 min / 3 h buffers
+    // (shuttleFares was here. The site no longer shows transfer prices, so there is nothing to
+    // confirm: a transfer request gets a quotation. The rates stay in src/data/destinations.mjs.)
+    shuttleService: true, // SHUTTLE_TIMING: driver meets guests in arrivals; at the airport 3 h before a departure
     vehicles: true, //       VEHICLES: models and passenger capacities you operate
     pickups: true, //        PICKUPS: you collect from every listed place (incl. Colombo Port, Mattala)
     hotelOptions: true, //   the quote form's hotel choices (Budget / Mid-range / Luxury) are services you offer

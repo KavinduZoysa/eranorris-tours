@@ -62,8 +62,6 @@ picture{display:contents} /* added: <picture> wrappers don't affect layout */
 .menu-p{position:absolute;right:16px;top:calc(100% + 8px);width:min(600px,calc(100vw - 32px));max-height:calc(100vh - 84px);overflow:auto;overscroll-behavior:contain;padding:20px 22px 22px;background:#1b1713;color:var(--cream);border:1px solid rgba(243,236,224,.12);border-radius:20px;box-shadow:0 24px 60px rgba(0,0,0,.45)}
 .menu-act{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:18px}
 .menu-act .btn{flex:1 1 200px}
-.menu-alt{background:none;border:1px solid rgba(243,236,224,.25);color:var(--cream)}
-.menu-alt:hover{border-color:rgba(243,236,224,.5);color:var(--cream)}
 .menu-gs{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px 24px}
 .menu-h{margin:10px 0 2px;font:500 11px var(--mono);letter-spacing:.1em;text-transform:uppercase;color:rgba(243,236,224,.5)}
 .menu-g ul{list-style:none;margin:0;padding:0}

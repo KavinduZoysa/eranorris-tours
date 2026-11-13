@@ -1,8 +1,12 @@
 # Airport shuttle prices — current figures
 
-Snapshot of what the site shows on 8 November 2026, for transfers between Bandaranaike
+> **Update, November 2026:** the site no longer shows these prices. A transfer is now a request
+> between any two places, and the guest gets a quotation from the team. This file is kept as a
+> reference for quoting.
+
+Snapshot of what the site showed on 8 November 2026, for transfers between Bandaranaike
 International Airport (CMB) and each place. US dollars, **one way, fixed price per vehicle**; a
-return transfer is double. Not yet confirmed (`site.config.mjs → confirmed.shuttleFares`).
+return transfer is double. These figures were never confirmed by the owner.
 
 How they are worked out (from the design prototype, in `src/data/destinations.mjs`):
 - Price = $12 + $0.50 per km, at least $25; then ×1.45 for a van and ×2.4 for a mini coach;

@@ -63,8 +63,7 @@ each one `true` under `confirmed` in `site.config.mjs` once checked.
 | `brand` | "Eranorris" is the name customers should see | `site.config.mjs → name` |
 | `contact` | WhatsApp +94 71 063 0867, phone, eranories@gmail.com receive tour enquiries | `site.config.mjs → contact` |
 | `address` | "Based in Hikkaduwa, Sri Lanka" (footer + structured data), or set `address: null` | `site.config.mjs → address` |
-| `shuttleFares` | Airport-transfer prices are shown as **fixed prices**; they come from the design's formula on *estimated* distances | `SHUTTLE_FARES` |
-| `shuttleService` | Driver meets guests in the arrivals hall; 45 min after landing; pickups aim for 3 h before departure | `SHUTTLE_TIMING` |
+| `shuttleService` | Driver meets guests in the arrivals hall; you aim to reach the airport 3 h before a departure (the transfer form says both) | `SHUTTLE_TIMING` |
 | `vehicles` | Toyota Prius (3), KDH van (7), Coaster (20); children count towards capacity | `VEHICLES` |
 | `pickups` | You collect from all 7 listed places, incl. Colombo Port and Mattala airport | `PICKUPS` |
 | `hotelOptions` | The quote form offers Budget / Mid-range / Luxury hotels: confirm you arrange hotels | `src/js/app.js → openQuote` |
@@ -76,7 +75,11 @@ each one `true` under `confirmed` in `site.config.mjs` once checked.
 - **Wording:** "private tour with your own driver" and "our travel planners".
 - **Children:** the planner's children range is 2–11; how do you handle infants and child seats?
 - **Drive times:** the formula ignores expressways (e.g. airport→Galle shows ~4h 40m). Add
-  real figures for common legs in `ROUTE_TIMES`. Fares use the same distances.
+  real figures for common legs in `ROUTE_TIMES`.
+- **Transfer prices:** the site no longer shows a price for an airport transfer: the guest asks
+  and you reply with a quotation. The old rates (`SHUTTLE_FARES`, with the tables in
+  `docs/research/shuttle-fares.md`) are kept only as your reference. Tell us if you want
+  confirmed prices shown again.
 
 **Content and Search Console**
 
@@ -150,7 +153,8 @@ Other changes were made only for function, SEO, accessibility or performance:
   to the place list and WhatsApp; `localStorage` failures no longer break the planner.
 - **Honest expectations**:
   - Drive times, distances and transfer pickup times are labelled as estimates.
-  - Airport transfers are *requested*, not "booked" (there is no availability system).
+  - Airport transfers are *requested*, not "booked" (there is no availability system), and no
+    price is shown: the guest gets a quotation.
   - The form says up front when a request will be sent through WhatsApp or email.
   - Saved trips with past dates are cleared, so no request can go out for a date that has
     passed.
@@ -161,11 +165,72 @@ Other changes were made only for function, SEO, accessibility or performance:
   - CSS is inlined, and the planner's initial state is pre-rendered (no layout shift).
   - Images are AVIF/WebP at several sizes, with lazy loading below the fold.
 
+## Main page: two services
+
+The main page offers two services as two equal cards over the map:
+
+| Card | Text | Button | Opens |
+|---|---|---|---|
+| **Plan Your Sri Lanka Tour** | "Discover amazing places, explore experiences and build your own personalised private tour." | Plan My Tour | the [guided trip planner](#guided-trip-planner) |
+| **Airport Shuttle & Private Transfers** | "Need a comfortable transfer? Choose your pickup and drop-off locations and request your private transfer." | Book Airport Transfer | the [airport shuttle](#airport-shuttle) |
+
+- **One page, three views.** `<html data-svc>` says which is showing: no attribute = the main
+  page, `tour` = the tour planner, `sh` = the airport shuttle. `src/js/app.js` sets it
+  (`S.mode`), and `src/styles/app.css` shows one view from it. One map and one script serve all
+  three.
+- **A switch stays on screen** inside each service ("Tour planner | Airport shuttle"), so the
+  other one is always one press away. The site menu has both too (`/#tour`, `/#transfer`).
+- **Coming back:** a visitor with a trip or a transfer in progress returns straight to it; so
+  does anyone following a link such as `/#add=kandy` or `/#transfer`. A small inline script
+  (`SVC_BOOT` in `src/templates/home.mjs`) decides this before the first paint, so the cards
+  never flash by. Everyone else sees the two cards.
+- **The pictures on the cards** are drawn from what the map already uses (four place photos
+  with stop numbers; the airport marker, A and B with the dotted route). No new images.
+- **Separate state.** The tour keeps `S.stops`, `S.pickup`, `S.exps`, `S.start`, `S.adults`,
+  `S.children`; the transfer keeps `S.tr`. Neither service reads or writes the other's, and
+  each marks only its own choices on the map. "Clear" in one leaves the other alone.
+
+## Airport shuttle
+
+A transfer has exactly two locations: a pickup (A) and a drop-off (B). No stops, no
+activities, no vehicle choice, no price.
+
+| Step | What the visitor sees | Where it is |
+|---|---|---|
+| 1. Start | "Where would you like to go?", one instruction, and one card with two lists: **Pickup location** and **Drop-off location**. | `#tcard` |
+| 2. Choose | Each location comes from its list, or from the map: a marker opens the place dialog with **Set as pickup** / **Set as drop-off** (nothing is chosen until one is pressed). The map shows A, B and a line between them. A swap button changes them over. | `#tFrom`, `#tTo`, `#dcard` |
+| 3. Summary | With both chosen, the card says "CMB Airport to Galle: about 4h 40m, 185 km (estimate)" and the map zooms to the transfer. **Continue**. | `#tSum` |
+| 4. Details | Travel date and pickup time (both may be left empty), passengers, name, email, WhatsApp/phone; optional flight, luggage and notes. A and B stay in view. **Edit locations** / **Review request**. | `#mbg`, `openTrDetails()` |
+| 5. Review | "Your Airport Transfer Request": everything in one list. **Edit details** / **Request Airport Transfer**. | `#mbg`, `openTrReview()` |
+
+Rules that the code and tests keep:
+
+- **The places** are `TRANSFER_PLACES` in `src/data/destinations.mjs`: the two airports,
+  Colombo, Negombo and the cruise terminal (from `PICKUPS`), then the 16 destinations
+  ("hotels in and around …"). Airports come first in the lists and are on the map. "Somewhere
+  else" drops a pin, for either end. No place was added for this.
+- **Only two, never the same.** Choosing for one end the place that is already the other end
+  makes the two change places. A third place can only replace one of them.
+- **"Continue" needs both.** If one is missing it says which, and puts the visitor on it.
+- **No vehicle and no price.** The request names a suggested vehicle for the number of
+  passengers, to be confirmed. The guest is told we will confirm availability and send a
+  quotation, and that nothing is booked until they confirm.
+- **Airport advice** uses the confirmed timings (`SHUTTLE_TIMING`): for an airport pickup, "your
+  driver waits for you in the arrivals hall"; for a drop-off at an airport, "we suggest
+  reaching the airport 3 hours before it leaves".
+- **Sending** works as for a tour (see below). With `QUOTE_ENDPOINT` the JSON has
+  `type: "airport-transfer"` (a tour has `type: "tour"`) and a `transfer` object: `pickup` and
+  `dropoff` (`id`, `name`, `lat`, `lng`), `date`, `time`, `passengers`, `flight`, `luggage`.
+  The other fields are the same as before (`ref`, `name`, `email`, `phone`, `notes`,
+  `message`, …). Success says "Thank you! Your transfer request has been sent."
+- **Layout:** on wide screens the card sits beside the map. On stacked layouts (≤ 1100 px, and
+  phones held sideways) the card comes first and the map is a block of its own under it, so
+  the map never takes over a small screen and the whole island always fits in it.
+
 ## Guided trip planner
 
-The homepage leads a visitor through one step at a time. There is one planner and one saved
-state (`S` in `src/js/app.js`, stored in the browser as `eranorris-trip-v1`); the steps are only
-different views of it.
+The tour planner leads a visitor through one step at a time. The steps are only different
+views of one saved state (`S` in `src/js/app.js`, stored in the browser as `eranorris-trip-v1`).
 
 | Step | What the visitor sees | Where it is |
 |---|---|---|
@@ -191,22 +256,19 @@ Rules that the code and tests keep:
   moved earlier or later, removed, or put in the shortest order. It can be closed and reopened.
   On wide screens it floats over the right of the map; on stacked layouts (≤ 1100 px) it is a
   drawer along the bottom of the map and the zoom buttons move up above it.
-- **No vehicle choice for tours.** The request suggests the smallest vehicle that fits the
-  group ("Vehicle: Van (suggested for the group size, to be confirmed)"). The fields sent to
-  `QUOTE_ENDPOINT` are unchanged. Airport transfers still choose a vehicle, because it sets
-  the fixed price.
+- **No vehicle choice.** The request suggests the smallest vehicle that fits the group
+  ("Vehicle: Van (suggested for the group size, to be confirmed)"). The fields sent to
+  `QUOTE_ENDPOINT` for a tour are unchanged.
 - **The request is honest:** with `QUOTE_ENDPOINT`, the button shows "Sending…", a second
   press is ignored, and success says the request was sent and that nothing is booked yet. A
   failure keeps the form and offers WhatsApp. Without an endpoint, the last screen offers
   WhatsApp or email and says nothing is sent until the visitor presses send there. What was
   typed is kept (in memory only) if the dialog is closed or a step is revisited.
-- **Airport transfers** keep the original side panel. It opens from "Only need an airport
-  transfer?" under the search box, from the site menu, or from `/#transfer`; its "Tour"
-  button returns to the guided planner.
-- **Deep links:** `/#add=<id>` adds the place and shows the trip panel; `/#place=<id>` opens
-  its dialog; `/#experiences=<id>` and `/#exp=<experience id>` open it at "Things to do".
-- **Without JavaScript** (or if the script fails) the side panel shows a note with WhatsApp
-  and email links, and the place list below the map still works.
+- **Deep links:** `/#tour` opens the planner; `/#add=<id>` adds the place and shows the trip
+  panel; `/#place=<id>` opens its dialog; `/#experiences=<id>` and `/#exp=<experience id>`
+  open it at "Things to do".
+- **Without JavaScript** (or if the script fails) the main page still shows both service
+  cards (without their buttons), a note with WhatsApp and email links, and the place list.
 
 ## Mobile and desktop behaviour
 
@@ -254,7 +316,7 @@ through partners (owner, November 2026), and guests don't need that detail.
 - **Map:** the destination dialog has a "Things to do in X" list (open by default,
   collapsible) with a checkbox per experience. It works with mouse, touch and keyboard (Space
   toggles). Choosing an experience never adds, removes or reorders a stop, and never moves
-  the map. It isn't shown in airport-shuttle mode.
+  the map. The airport shuttle shows no experiences.
   - For a place that isn't in the trip yet, ticks are kept only when the visitor presses "Add
     to my trip". "Close" drops them: closing never adds anything.
   - For a place already in the trip, a tick applies at once.
@@ -463,7 +525,7 @@ Ella, Hikkaduwa, Nuwara Eliya) were replaced this way in November 2026; see
 The site is laid out for phones first and tested at 320, 375, 390, 430, 768, 1024 and 1440 px.
 
 - **Site menu** (every page): a menu button in the header opens the places by category, the
-  experience guides, airport transfers (`/#transfer` opens the planner in shuttle mode) and
+  experience guides, both services (`/#tour` and `/#transfer` open them directly) and
   contact links. It is a `<details>` element, so it works without JavaScript; `src/js/menu.js`
   adds Escape, closing on an outside click or a link, and no background scrolling while the
   full-screen phone menu is open.
