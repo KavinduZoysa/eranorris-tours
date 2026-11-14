@@ -9,6 +9,8 @@
 // src/images/destinations/ (see `photo`); `focus` is the [x, y] focal point used
 // when cropping (0–1).
 
+import { ROAD_LEGS } from './route-times.mjs';
+
 export const CATS = {
   culture: { label: 'Culture', c: '#E8A05C' },
   beach: { label: 'Beach', c: '#6FC3D0' },
@@ -252,25 +254,32 @@ export const TRANSFER_PLACES = [
   ),
 ];
 
-// Great-circle distance in km, and the design's drive estimate (road factor 1.4, ~40 km/h).
-// These are rough estimates, not routed distances or guaranteed journey times — the interface
-// labels them as estimates.
+// Drive estimates. In order of preference:
+//   1. ROUTE_TIMES below: your own figures, shown exactly as you give them.
+//   2. ROAD_LEGS (src/data/route-times.mjs): road distances and drive times from OpenStreetMap
+//      road data, made by `npm run prepare:routes` for every pair of PICKUPS and DESTS.
+//   3. The design's formula, for a pin dropped on the map: straight-line distance × 1.4 for
+//      the bends in the road, at about 40 km/h.
+// All of them are estimates, not guaranteed journey times, and the interface says so.
 const rad = (x) => (x * Math.PI) / 180;
 export function hav(a, b) {
   const dl = rad(b.lat - a.lat), dg = rad(b.lng - a.lng);
   const h = Math.sin(dl / 2) ** 2 + Math.cos(rad(a.lat)) * Math.cos(rad(b.lat)) * Math.sin(dg / 2) ** 2;
   return 12742 * Math.asin(Math.sqrt(h));
 }
-// Optional: real road distances (km) and typical drive times (minutes) for common legs. Where a
-// pair is listed it replaces the formula, for drive times and for transfer fares. Keys are two
-// ids from DESTS or PICKUPS joined by "|", in either order, e.g.  'cmb|galle': { km: 150, min: 150 }.
-// Empty until you supply figures — the formula ignores expressways, so it can overstate times.
+// Optional: your own road distance (km) and usual drive time (minutes) for a leg, when you know
+// it better than the road data (for example from your drivers). A pair listed here wins over
+// ROAD_LEGS and is shown exactly as given. Keys are two ids from DESTS or PICKUPS joined by "|",
+// in either order. Format example (made-up numbers):  'kandy|ella': { km: 140, min: 240 }.
 export const ROUTE_TIMES = {};
 export function legInfo(a, b) {
-  const known = a.id && b.id && (ROUTE_TIMES[`${a.id}|${b.id}`] || ROUTE_TIMES[`${b.id}|${a.id}`]);
-  if (known) return { km: known.km, min: known.min };
-  const km = hav(a, b) * 1.4;
-  return { km: Math.max(5, Math.round(km / 5) * 5), min: Math.max(10, Math.round(((km / 40) * 60) / 10) * 10) };
+  const pair = (t) => a.id && b.id && (t[`${a.id}|${b.id}`] || t[`${b.id}|${a.id}`]);
+  const own = pair(ROUTE_TIMES);
+  if (own) return { km: own.km, min: own.min };
+  const road = pair(ROAD_LEGS);
+  const km = road ? road[0] : hav(a, b) * 1.4;
+  const min = road ? road[1] : (km / 40) * 60;
+  return { km: Math.max(5, Math.round(km / 5) * 5), min: Math.max(10, Math.round(min / 10) * 10) };
 }
 export function fmtDur(m) {
   if (m < 60) return m + ' min';

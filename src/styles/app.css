@@ -159,6 +159,7 @@ kbd{font:500 11px var(--mono);border:1px solid var(--line-strong);border-radius:
 .field input::placeholder{color:var(--text-faint)}
 .pk-alt{display:flex;gap:16px;margin-top:12px}
 .hint{margin:10px 0 0;font-size:13px;color:var(--text-muted);line-height:1.5}
+.hint a{color:inherit;text-decoration:underline;text-underline-offset:2px} /* the OpenStreetMap credit: underlined, so not told apart by colour alone */
 .hint b{color:var(--text);font-weight:600}
 .trow{display:flex;align-items:center;justify-content:space-between;padding:6px 0}
 .trow b{font-weight:500;font-size:14.5px;display:block}

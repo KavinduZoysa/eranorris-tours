@@ -7,7 +7,8 @@ import { existsSync, readdirSync, readFileSync, statSync } from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { parse } from 'node-html-parser';
-import { DESTS, PHOTO_CREDITS } from '../src/data/destinations.mjs';
+import { DESTS, PHOTO_CREDITS, PICKUPS, hav } from '../src/data/destinations.mjs';
+import { ROAD_LEGS } from '../src/data/route-times.mjs';
 import { EXPERIENCES, EXP_KINDS } from '../src/data/experiences.mjs';
 import { PLACEHOLDER_HOST } from './lib/target.mjs';
 
@@ -284,6 +285,17 @@ if (PROD) {
 for (const js of files.filter((f) => f.endsWith('.js'))) {
   const src = readFileSync(js, 'utf8');
   for (const m of src.matchAll(/"(\/(?:[\w.-]+\/)*(?:img|geo)\/[^"]+)"/g)) if (!resolves(m[1])) err(rel(js), `bundle references missing ${m[1]}`);
+}
+
+// Every pair of places has a road drive time (src/data/route-times.mjs). A place added or
+// renamed since the last `npm run prepare:routes` falls back to the rough straight-line formula.
+{
+  const ids = [...PICKUPS, ...DESTS].map((p) => p.id);
+  const P = Object.fromEntries([...PICKUPS, ...DESTS].map((p) => [p.id, p]));
+  const missing = new Set();
+  for (const a of ids)
+    for (const b of ids) if (a < b && !ROAD_LEGS[`${a}|${b}`] && !ROAD_LEGS[`${b}|${a}`] && hav(P[a], P[b]) > 0) missing.add(a).add(b);
+  if (missing.size) warn('src/data/route-times.mjs', `no road drive times for ${[...missing].join(', ')}: run npm run prepare:routes`);
 }
 
 // Launch readiness. Informational for everyday checks; blocking with --release.

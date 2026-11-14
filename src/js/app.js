@@ -212,6 +212,9 @@ if (coarse) {
 // on small phones instead of wrapping over the places in the south.
 map.attributionControl.addAttribution('Map: <a href="https://www.naturalearthdata.com/">Natural Earth</a>');
 // Changed: credit added up front (not after the file loads) so the control doesn't grow and shift the zoom buttons.
+// Drive times come from OpenStreetMap road data (src/data/route-times.mjs); its licence asks for
+// this credit where the data is used, so it sits beside the drive estimates in the two reviews.
+const OSM_CREDIT = 'road data © <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a> contributors';
 const DIST_CREDIT = '<a href="https://www.geoboundaries.org/" title="District boundaries">geoBoundaries</a>';
 map.attributionControl.addAttribution(DIST_CREDIT);
 map.createPane('land');
@@ -1561,7 +1564,7 @@ function openReview() {
   <h3 class="tagl">Your selected destinations</h3>
   <div class="rv-route" id="rvRoute">${reviewRoute()}</div>
   <dl class="rv-sum" id="rvSum">${reviewSum()}</dl>
-  <p class="hint">Drive times and distances are rough estimates, not guaranteed journey times. You can change the nights here; to add, remove or reorder places, choose “Edit my trip”.</p>
+  <p class="hint">Drive times and distances are rough estimates, not guaranteed journey times (${OSM_CREDIT}). You can change the nights here; to add, remove or reorder places, choose “Edit my trip”.</p>
   <div id="rvOut">${expOutsideHtml()}</div>
  </div>
  <div class="rv-foot"><button type="button" class="btn ghost" data-act="edit">Edit my trip</button><button type="button" class="btn primary" data-act="details">Continue</button></div></div>`,
@@ -2107,7 +2110,7 @@ function openTrReview() {
   <h2 id="mTitle" tabindex="-1">Your ${word} Transfer Request</h2>
   <p class="rv-lede" id="mLede">Please check your details. ${SITE.quoteEndpoint ? '' : 'On the next screen you send the request to us on WhatsApp or by email. '}We’ll confirm availability and send you a quotation. Nothing is booked until you confirm it with us.</p>
   <dl class="tr-rev">${row('Pickup location', `<b class="ab" aria-hidden="true">A</b>${esc(trFull('from'))}`)}${row('Drop-off location', `<b class="ab" aria-hidden="true">B</b>${esc(trFull('to'))}`)}${row('Date', S.tr.date ? fmtLong(dayOf(S.tr.date)) : 'To be confirmed')}${row('Preferred pickup time', S.tr.time || 'To be confirmed')}${row('Passengers', S.tr.pax)}${opt('Flight', qd.flight)}${opt('Luggage', qd.luggage)}${opt('Notes', qd.tnotes)}${row('Name', esc(qd.name.trim()))}${row('Email', esc(qd.email.trim()))}${row('WhatsApp / phone', esc(qd.phone.trim()))}</dl>
-  <p class="hint">Estimated drive: about ${fmtDur(leg.min)}, ${leg.km} km. We’ll recommend a vehicle for your group and luggage.</p>
+  <p class="hint">Estimated drive: about ${fmtDur(leg.min)}, ${leg.km} km (${OSM_CREDIT}). We’ll recommend a vehicle for your group and luggage.</p>
  </div>
  <div class="rv-foot"><button type="button" class="btn ghost" data-act="tr-details">Edit details</button><button type="button" class="btn primary" data-act="tr-send">Request ${word} Transfer</button></div></div>`,
     '#mTitle',
