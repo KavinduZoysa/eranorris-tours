@@ -287,9 +287,6 @@ html:not(.js) .map-fallback,html.map-failed .map-fallback{display:block}
 }
 
 /* Touch screens */
-.gest{position:absolute;z-index:3;left:50%;top:58%;transform:translate(-50%,-50%);pointer-events:none;opacity:0;transition:opacity .2s}
-.gest span{display:block;white-space:nowrap;background:rgba(28,46,43,.9);color:var(--on-dark);padding:10px 16px;border-radius:var(--r-pill);font-size:14px;box-shadow:0 12px 30px rgba(0,0,0,.35);border:1px solid rgba(248,247,242,.14)}
-.gest.show{opacity:1}
 .leaflet-marker-draggable{touch-action:none} /* the pickup pin stays draggable with one finger */
 @media (pointer:coarse){
   /* 16 px stops iOS Safari from zooming the page when a field is focused. */
@@ -718,4 +715,32 @@ html[data-svc="sh"] .overlay{position:relative;left:auto;right:auto;top:auto;mar
 @media (max-width:360px){
   .modal.tr .rv-foot{flex-direction:column-reverse}
   .modal.tr .rv-foot .btn,.modal.tr .rv-foot .btn.ghost{flex:1 1 auto;width:100%}
+}
+
+/* ---------------------------------------------------------------------------
+   Phones held upright, tour planner (changed): the map comes first.
+   - A compact strip of controls over the top of the map: the service switch, a one-line
+     heading, a short guide line, the search and one row of filter chips.
+   - A taller map: the whole screen under the header except a 56 px strip, so the page can
+     always be scrolled with a swipe outside the map (one finger moves the map: app.js).
+     svh ignores the browser's sliding toolbars, so the height doesn't jump while scrolling.
+   - A slimmer trip bar, clear of the screen's bottom edge (safe area) on phones that have one.
+   Tablets, desktop, landscape phones and the airport shuttle keep their layouts.
+   --------------------------------------------------------------------------- */
+@media (max-width:600px) and (orientation:portrait){
+  html[data-svc="tour"] .mapwrap{height:calc(100vh - 116px);height:calc(100svh - 116px);min-height:440px}
+  html[data-svc="tour"] .shade{background:linear-gradient(180deg,rgb(var(--map-shade) / .94) 0,rgb(var(--map-shade) / .6) 170px,rgb(var(--map-shade) / 0) 260px)}
+  html[data-svc="tour"] .overlay{top:10px}
+  html[data-svc="tour"] .svc-tabs{margin-bottom:8px}
+  html[data-svc="tour"] .svc-tabs button{height:30px}
+  html[data-svc="tour"] h1{font-size:24px;line-height:1.1;margin-bottom:4px}
+  html[data-svc="tour"] .guide{font-size:13.5px;line-height:1.35;margin-bottom:8px}
+  html[data-svc="tour"] .sbox{height:42px;padding:0 12px 0 14px}
+  html[data-svc="tour"] .results{top:48px}
+  html[data-svc="tour"] .chips{margin-top:8px}
+  html[data-svc="tour"] .chip{height:30px;padding:0 12px}
+  html[data-svc="tour"] .trip.drawer{bottom:calc(10px + env(safe-area-inset-bottom,0px))}
+  html[data-svc="tour"] .trip.drawer.shut .trip-tg{min-height:52px;padding:6px 6px 6px 14px}
+  html[data-svc="tour"] .trip.drawer.shut .trip-f{padding:6px 6px 6px 2px}
+  html[data-svc="tour"] .trip.drawer.shut .trip-f .btn{height:40px;padding:0 16px}
 }

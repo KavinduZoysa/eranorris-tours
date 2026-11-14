@@ -157,8 +157,10 @@ const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&l
 
 /* map */
 const mapwrap = $('#mapwrap');
-// Added: touch devices pan the map with two fingers so a one-finger swipe scrolls the page
-// to the planner instead of getting trapped in a full-width map. Pinch-zoom and taps work as before.
+// Changed: one finger moves the map on touch screens too (it used to need two fingers, so after
+// zooming in on a phone a swipe scrolled the page and the map seemed stuck). Two fingers pinch
+// to zoom. The page still scrolls from everywhere outside the map: on phones the map stops short
+// of the screen's height (app.css), and behind the main page's service cards it is inert.
 const coarse = window.matchMedia('(pointer: coarse)').matches;
 const map = L.map('map', {
   zoomControl: false,
@@ -168,7 +170,6 @@ const map = L.map('map', {
   // and above the trip drawer.
   minZoom: 6,
   maxZoom: 10.5,
-  dragging: !coarse,
   // Changed: was [[4.4, 77.6], [11, 84]]. That box was too tight for the view to shift the island
   // clear of the overlay on short or narrow screens, so places ended up hidden under the search
   // and chips. Wider limits still keep the island in reach.
@@ -181,33 +182,6 @@ const map = L.map('map', {
 const zoomCtl = L.control.zoom({ position: 'bottomright' }).addTo(map);
 // Added: wording follows the input device ("Tap" on touch screens).
 const TAP = coarse ? 'Tap' : 'Click';
-// Added: short hint when a one-finger swipe on the map scrolls the page instead of panning it.
-const gest = $('#gest');
-let gestT, touchStart = null;
-if (coarse) {
-  const el = map.getContainer();
-  el.addEventListener(
-    'touchstart',
-    (e) => {
-      const ok = e.touches.length === 1 && !e.target.closest('.leaflet-marker-draggable, .leaflet-control');
-      touchStart = ok ? [e.touches[0].clientX, e.touches[0].clientY] : null;
-    },
-    { passive: true },
-  );
-  el.addEventListener(
-    'touchmove',
-    (e) => {
-      if (!touchStart || e.touches.length !== 1) return;
-      const t = e.touches[0];
-      if (Math.hypot(t.clientX - touchStart[0], t.clientY - touchStart[1]) < 14) return;
-      touchStart = null;
-      gest.classList.add('show');
-      clearTimeout(gestT);
-      gestT = setTimeout(() => gest.classList.remove('show'), 1500);
-    },
-    { passive: true },
-  );
-}
 // Changed: shorter credits ("Map: Natural Earth, geoBoundaries"), so the line stays on one row
 // on small phones instead of wrapping over the places in the south.
 map.attributionControl.addAttribution('Map: <a href="https://www.naturalearthdata.com/">Natural Earth</a>');
@@ -641,6 +615,23 @@ function placeLabels(items, R) {
       if (b.width) obst.push({ id: 'pkl' + i, r: [a.x, a.y, a.x + b.width, a.y + b.height] });
     }
   });
+  // Added: on stacked layouts (phones, tablets) a name never runs off the map's edge or under
+  // the controls laid over the map (search and chips, zoom buttons, credits, trip bar); it takes
+  // another free side of its marker instead. Wide screens keep the design's placement.
+  let edge = null;
+  if (stacked()) {
+    const cr = map.getContainer().getBoundingClientRect(),
+      tl = map.containerPointToLayerPoint([4, 4]),
+      br = map.containerPointToLayerPoint([cr.width - 4, cr.height - 4]);
+    edge = [tl.x, tl.y, br.x, br.y];
+    document.querySelectorAll('.overlay>*,.leaflet-control,.trip:not([hidden]),.pinbanner:not([hidden])').forEach((e) => {
+      const b = e.getBoundingClientRect();
+      if (!b.width) return;
+      const a = map.containerPointToLayerPoint([b.left - cr.left, b.top - cr.top]);
+      obst.push({ id: 'ui', r: [a.x, a.y, a.x + b.width, a.y + b.height] });
+    });
+  }
+  const inside = (r) => !edge || (r[0] >= edge[0] && r[1] >= edge[1] && r[2] <= edge[2] && r[3] <= edge[3]);
   items.sort((a, b) => a.pr - b.pr);
   const placed = [];
   items.forEach((o) => {
@@ -664,7 +655,7 @@ function placeLabels(items, R) {
     for (const k of [o.d.pos, 'r', 'l', 't', 'b', 'tr', 'tl', 'br', 'bl']) {
       const [dx, dy] = C[k];
       const rc = [o.x + dx, o.y + dy, o.x + dx + w, o.y + dy + h];
-      if (!obst.some((b) => b.id !== o.d.id && hit(rc, b.r)) && !placed.some((b) => hit(rc, b))) {
+      if (inside(rc) && !obst.some((b) => b.id !== o.d.id && hit(rc, b.r)) && !placed.some((b) => hit(rc, b))) {
         pick = { dx, dy, rc };
         break;
       }
@@ -704,16 +695,22 @@ function hideSeaLabels() {
       '.pin:not(.nolbl):not(.off) .lbl,.pin:not(.off) .med,.pk .pl,.pk .sq,.overlay>*,.leaflet-control,.trip:not([hidden]),.pinbanner:not([hidden])',
     ),
   ].map(rr);
+  // Added: on stacked layouts a sea or district name cut by the map's edge is hidden too.
+  const m = stacked() && map.getContainer().getBoundingClientRect();
+  const cut = (r) => m && (r[0] + 6 < m.left || r[2] - 6 > m.right || r[1] + 6 < m.top || r[3] - 6 > m.bottom);
   document.querySelectorAll('.sea,.dist').forEach((s) => {
     s.style.opacity = '';
     const r = rr(s);
-    const h = obs.some((o) => hit(r, o));
+    const h = cut(r) || obs.some((o) => hit(r, o));
     s.style.opacity = h ? '0' : '';
     if (!h) obs.push(r);
   });
 }
 map.on('moveend', hideSeaLabels);
 map.on('zoomend', () => layoutPins());
+// Added: on stacked layouts the names are placed again after a pan or a refit too, as the
+// map's edges and the controls over it are then in different places relative to the markers.
+map.on('moveend', () => stacked() && layoutPins());
 document.fonts && document.fonts.ready.then(() => layoutPins());
 let pkMarker = null, // tour: the starting point
   trMarkers = []; // transfer: A or B, when it is not a destination or an airport (renderTrMarkers)

@@ -134,7 +134,6 @@ export function homeBody(ctx) {
       </section>
     </div>
     <div class="map-fallback" role="note"><b>The planner isn’t available</b>It needs JavaScript and the interactive map. You can still <a href="#places">browse all ${DESTS.length} places</a> below. To plan a private tour or request an airport transfer, message us on <a href="${waLink(ctx, `Hello ${site.name}, I’d like to plan a private tour or an airport transfer in Sri Lanka.`)}" target="_blank" rel="noopener">WhatsApp</a> or email <a href="mailto:${esc(site.contact.email)}">${esc(site.contact.email)}</a>.</div>
-    <div class="gest" id="gest" aria-hidden="true"><span>Use two fingers to move the map</span></div>
     <div class="pinbanner" id="pinBanner" hidden><span id="pinTxt">Click the map to set your starting point</span><button id="pinCancel">Cancel</button></div>
 
     <aside class="trip" id="trip" aria-labelledby="tripH" hidden>

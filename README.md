@@ -321,17 +321,30 @@ Rules that the code and tests keep:
 Tested at 280–2560 px wide, portrait and landscape, with touch and mouse.
 
 - **Phones (portrait)**:
-  - The map fills the screen under the header. A place opens as a sheet from the bottom
+  - The tour planner puts the map first. Over its top sits a compact strip: the service
+    switch, a one-line heading, a short guide line, the search and one swipeable row of filter
+    chips. The map fills the screen under the header except a 56 px strip at the bottom, so
+    some page is always on screen to scroll with (`svh`, so the height doesn't jump when the
+    browser's toolbars slide).
+  - A place opens as a sheet from the bottom
     (nearly full height); its content scrolls on its own, "Add to my trip" and "Close" stay in
     reach, and the page behind does not scroll.
-  - The trip is a one-row drawer at the bottom of the map ("Your trip · 2 places" and "Finish
-    planning"); it opens to show the starting point and the places. The header's "Your trip"
-    button jumps back to it from anywhere on the page.
+  - The trip is a slim one-row bar at the bottom of the map ("Your trip · 2 places · 5 days"
+    and "Finish planning"), clear of the screen's safe area; it opens to show the starting
+    point and the places. The zoom buttons and the credits sit above it. The header's "Your
+    trip" button jumps back to it from anywhere on the page.
   - Once a place is in the trip, the big heading is hidden (it stays in the page for screen
     readers) so the island and the drawer both fit.
   - The filter chips form one swipeable row.
-  - One-finger swipes scroll the page; two fingers pan and pinch the map (a short hint
-    says so). Taps on places, the starting-point pin and double-tap zoom work as usual.
+  - **Gestures:** one finger moves the map in any direction, also after places are added;
+    two fingers pinch to zoom; the + and − buttons work too. A swipe outside the map (header,
+    heading, guide line, search, the strip under the map) scrolls the page. Taps on places,
+    the starting-point pin and double-tap zoom work as usual. (Until November 2026 one finger
+    scrolled the page and the map needed two fingers; on phones that made the map feel stuck.)
+  - **Place names** (phones and tablets): a name never runs off the map's edge or under the
+    controls over the map; it moves to a free side of its marker, or waits hidden until there
+    is room (the marker still opens the place). Sea and district names cut by the edge are
+    hidden. Wide screens keep the design's placement.
 - **Phones (landscape)**: the overlay sits on the left, as on desktop; the trip is a small
   card on the right, and the place dialog uses nearly the whole screen.
 - **Tablets and desktop**: the map has the full width, with the search on the left and the
