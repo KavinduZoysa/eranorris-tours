@@ -46,8 +46,8 @@ export default {
     vehicles: true, //       VEHICLES: models and passenger capacities you operate
     pickups: true, //        PICKUPS: you collect from every listed place (incl. Colombo Port, Mattala)
     hotelOptions: true, //   the quote form's hotel choices (Budget / Mid-range / Luxury) are services you offer
-    destinationCopy: false, // the 16 destination descriptions, suggested nights and seasons
+    destinationCopy: true, // the 16 destination descriptions, suggested nights and seasons
     experiences: true, //    src/data/experiences.mjs: each one is offered/arranged, and its text is right
-    photoRights: false, //    you are licensed to use every photo in src/images/, and each shows the named place
+    photoRights: true, //    you are licensed to use every photo in src/images/, and each shows the named place
   },
 };
