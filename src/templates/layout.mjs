@@ -23,7 +23,7 @@ export function layout(ctx, page) {
 <meta name="description" content="${esc(page.description)}">
 <meta name="robots" content="${robots}">
 ${page.canonical ? `<link rel="canonical" href="${esc(page.canonical)}">` : ''}
-<meta name="theme-color" content="#14110E">
+<meta name="theme-color" content="#263B38">
 <link rel="icon" href="${u('/favicon.svg')}" type="image/svg+xml">
 <link rel="icon" href="${u('/favicon-32.png')}" sizes="32x32" type="image/png">
 <link rel="apple-touch-icon" href="${u('/apple-touch-icon.png')}">

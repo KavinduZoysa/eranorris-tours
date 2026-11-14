@@ -217,7 +217,18 @@ map.attributionControl.addAttribution(DIST_CREDIT);
 map.createPane('land');
 map.getPane('land').style.zIndex = 250;
 map.getPane('land').style.pointerEvents = 'none';
-const grat = { pane: 'land', color: '#F3ECE0', weight: 1, opacity: 0.05, interactive: false };
+// Changed: the map's colours are the design tokens in src/styles/app.css (:root, --map-*), so the
+// whole palette lives in one place. The values after || are only used if the styles are missing.
+const tokens = getComputedStyle(document.documentElement);
+const tok = (name, fallback) => tokens.getPropertyValue(name).trim() || fallback;
+const MAPC = {
+  line: tok('--map-line', '#E9F1EC'),
+  land: tok('--map-land', '#26493E'),
+  landHover: tok('--map-land-hover', '#30594B'),
+  neighbour: tok('--map-neighbour', '#173A35'),
+  coast: tok('--map-coast', '#D9A441'),
+};
+const grat = { pane: 'land', color: MAPC.line, weight: 1, opacity: 0.05, interactive: false };
 // Changed: graticule extended to match the wider bounds.
 for (let la = 0; la <= 17; la += 0.5)
   L.polyline(
@@ -257,19 +268,19 @@ function drawLand(fc) {
   L.geoJSON(ind, {
     pane: 'land',
     interactive: false,
-    style: { color: '#F3ECE0', opacity: 0.2, weight: 1, fillColor: '#1C1915', fillOpacity: 1 },
+    style: { color: MAPC.line, opacity: 0.2, weight: 1, fillColor: MAPC.neighbour, fillOpacity: 1 },
   }).addTo(map);
   distP.then((ok) => {
     if (ok) return;
     L.geoJSON(lk, {
       pane: 'land',
       interactive: false,
-      style: { color: '#E07B57', opacity: 0.16, weight: 10, fill: false },
+      style: { color: MAPC.coast, opacity: 0.22, weight: 10, fill: false },
     }).addTo(map);
     L.geoJSON(lk, {
       pane: 'land',
       interactive: false,
-      style: { color: '#EFE3D1', opacity: 0.75, weight: 1.25, fillColor: '#2C251E', fillOpacity: 1 },
+      style: { color: MAPC.line, opacity: 0.75, weight: 1.25, fillColor: MAPC.land, fillOpacity: 1 },
     }).addTo(map);
   });
 }
@@ -287,18 +298,18 @@ const distP = fetch(SITE.assets.districts)
     L.geoJSON(gj, {
       pane: 'dist',
       interactive: false,
-      style: { color: '#E07B57', opacity: 0.16, weight: 10, fill: false },
+      style: { color: MAPC.coast, opacity: 0.22, weight: 10, fill: false },
     }).addTo(map);
     L.geoJSON(gj, {
       pane: 'dist',
       interactive: false,
-      style: { color: '#EFE3D1', opacity: 0.8, weight: 2.5, fill: false },
+      style: { color: MAPC.line, opacity: 0.8, weight: 2.5, fill: false },
     }).addTo(map);
     const base = {
-      color: '#EFE3D1',
+      color: MAPC.line,
       opacity: 0.2,
       weight: 1,
-      fillColor: '#2C251E',
+      fillColor: MAPC.land,
       fillOpacity: 1,
       className: 'dpoly',
     };
@@ -308,7 +319,7 @@ const distP = fetch(SITE.assets.districts)
       onEachFeature: (f, l) => {
         const n = f.properties.name;
         l.on('mouseover', () => {
-          l.setStyle({ fillColor: '#3B3229', opacity: 0.45 });
+          l.setStyle({ fillColor: MAPC.landHover, opacity: 0.45 });
           distLbl[n].classList.add('hov');
         });
         l.on('mouseout', () => {
@@ -961,7 +972,7 @@ function renderLocCard() {
   } else {
     const air = AIRPORT_IDS.includes(p.id);
     head = `<div class="dc-img plain">${air ? PLANE : '<span class="sq"></span>'}${x}</div>`;
-    meta = `${air ? '<span class="tag" style="--c:#C9BBA6">Airport</span>' : ''}<span>${p.code}</span>`;
+    meta = `${air ? '<span class="tag" style="--c:var(--ocean)">Airport</span>' : ''}<span>${p.code}</span>`;
   }
   card.innerHTML = `<div class="dc-scroll" id="dcScroll">${head}
  <div class="dc-body"><div class="dc-meta">${meta}</div>

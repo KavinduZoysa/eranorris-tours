@@ -130,14 +130,15 @@ dist/                        build output (git-ignored) – deploy this folder
 
 ## What changed from the design export, and why
 
-The colours, type, map styling and markers are kept as designed. The planner's flow was later
+The type, layout and markers are kept as designed; the colours (the map's too) were later
+replaced by the [Tropical Premium identity](#visual-identity-tropical-premium). The planner's flow was later
 reshaped into a guided, step-by-step journey (see [Guided trip planner](#guided-trip-planner)).
 Other changes were made only for function, SEO, accessibility or performance:
 
 - **Photos fill the design's empty image slots** (map medallions and destination card). That
   is the slot's intended filled state.
-- **Brand**: the design's placeholder name → "Eranorris" (see above). The favicon uses the design thumbnail's
-  terracotta circle with an "E".
+- **Brand**: the design's placeholder name → "Eranorris" (see above). The favicon is an ocean-blue
+  circle with an ivory "E" (it was the design thumbnail's terracotta circle).
 - **Real request hand-off**: the design's form showed a "sent"/"booked" confirmation without
   sending anything. It now sends the full trip summary to WhatsApp/email (or `QUOTE_ENDPOINT`),
   and the confirmation only claims what actually happened.
@@ -148,7 +149,7 @@ Other changes were made only for function, SEO, accessibility or performance:
   - The search fields are ARIA comboboxes; filter chips expose their pressed state.
   - Dialogs trap and restore focus; form errors are announced and focus the field.
   - Toasts are a live region, focus outlines are visible, and reduced motion is respected.
-  - One design colour was darkened slightly to reach 4.5:1 contrast.
+  - Every text colour reaches WCAG AA contrast (see [Visual identity](#visual-identity-tropical-premium)).
 - **Resilience**: if JavaScript is off or the map script fails, the page says so and points
   to the place list and WhatsApp; `localStorage` failures no longer break the planner.
 - **Honest expectations**:
@@ -164,6 +165,49 @@ Other changes were made only for function, SEO, accessibility or performance:
   - The design's Google Fonts files are self-hosted and preloaded.
   - CSS is inlined, and the planner's initial state is pre-rendered (no layout shift).
   - Images are AVIF/WebP at several sizes, with lazy loading below the fold.
+
+## Visual identity: Tropical Premium
+
+The site's colours are taken from the island: the ocean, the hill country, golden beaches and
+sunshine, on warm ivory and white. Photographs carry most of the colour; the interface stays calm.
+Changed in November 2026 from the design's brown and terracotta palette. Only the look changed:
+markup, behaviour, content, URLs and SEO are the same.
+
+**Tokens** (all in `:root` in `src/styles/base.css`; components use the role tokens, never raw colours):
+
+| Token | Colour | Used for |
+|---|---|---|
+| `--ocean` (`--primary`) | #167D91 | main buttons, selected states, checkboxes, focus ring on light surfaces |
+| `--ocean-ink` (`--link`) / `--ocean-dark` | #136E80 / #0F6475 | text links (5.5:1 on ivory) / button hover |
+| `--ocean-light` | #D9F0F0 | highlighted list rows, the transfer summary |
+| `--forest` (`--secondary`) / `--forest-light` | #356B50 / #E5EFE5 | secondary (outline) buttons, small labels, the "Plan a private tour" band |
+| `--sand` (`--accent`, `--journey`) / `--sand-light` | #D9A441 / #F7EBD1 | heading accents, the visitor's journey on the map (stops, route, A and B), "Featured" badges |
+| `--earth` | #795744 | "Featured" text, notes in nearby-place cards (a small heritage accent) |
+| `--charcoal` (`--text`, `--surface-dark`) | #263B38 | headings, the header, the footer, dark panels |
+| `--ivory` (`--bg`) / `--white` (`--surface`) | #F8F7F2 / #FFFFFF | page background / cards, dialogs, forms |
+| `--text-body`, `--text-muted`, `--danger` | #34433F, #5D6A66, #B42318 | body text, secondary text, error messages |
+
+Also: radius (`--r-sm` … `--r-xl`, `--r-pill`), shadows (`--shadow-sm/md/lg`), motion
+(`--t-fast`, `--t-med`, `--ease`), spacing (`--sp-1` … `--sp-8`) and fonts (`--serif` for
+headings, `--sans` for text, `--label` for small uppercase labels, `--mono` for numbers and map
+labels). The map's own colours are `--map-*` in `src/styles/app.css`; `src/js/app.js` reads them.
+
+**How the colours are used**
+- One main action per view, in ocean blue; secondary actions are a forest-green outline.
+- On the map (a deep ocean with a forest-green island and a golden coastline) everything the
+  visitor has chosen is golden sand: stop numbers, the route, A and B. Interface controls stay
+  ocean blue.
+- Inner pages: an ivory hero beside the photo gallery, a white "at a glance" strip, white cards,
+  a short golden line above each section heading, and a soft green closing band.
+- Header and footer are deep charcoal green, with golden labels in the footer and menu.
+- Errors have their own red; they are no longer the same colour as the buttons.
+
+**Accessibility:** every page and every dialog state passes the axe-core colour-contrast check
+(text 4.5:1, large text 3:1); links inside running text are underlined; focus is an ocean ring on
+light surfaces and a light-ocean ring on dark ones; hover colours are switched off on touch
+screens so a tapped control never looks selected.
+
+**Villa pages:** this site has none, so none were styled.
 
 ## Main page: two services
 
