@@ -29,6 +29,13 @@ export default {
   // This value is public in the page source: never put a secret key here.
   quoteEndpoint: env.QUOTE_ENDPOINT || '',
 
+  // Google Analytics: the Google tag ID from Analytics → Admin → Data streams → the web stream
+  // → View tag instructions → Install manually ("Google only"). Use one ID only: the "All"
+  // snippet (GTM-…) loads the same tag, so adding both would count every visit twice.
+  // The tag is added only to real production builds, so local previews, staging and `npm test`
+  // builds never count as visits. Public in the page source, not a secret. Empty: no tag.
+  googleTag: 'G-5DFFESR4N7',
+
   // Business location: shown in the footer and used in structured data. Set to null to omit.
   // Taken from eranorrissrilanka.com — confirm below.
   address: { locality: 'Hikkaduwa', region: 'Southern Province', country: 'LK', countryName: 'Sri Lanka' },

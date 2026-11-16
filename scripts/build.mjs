@@ -459,6 +459,9 @@ for (const c of [...Object.values(placeContent), ...activities]) {
 // Pages
 const guides = builtActivities.map((a) => ({ slug: a.slug, name: a.h1 || EXPERIENCES.find((e) => e.id === a.experience)?.name || a.slug }));
 const ctx = { site, u, abs, photos, expPhotos, expCardPhotos, galleryPhotos, expGuide, guides, fontPreloads, assets: {}, toursFor: (id) => builtTours.filter((t) => (t.places || []).includes(id)) };
+// Google Analytics only on the real site (see googleTag in site.config.mjs).
+if (site.googleTag && !/^(G|GT|GTM)-[A-Z0-9]+$/.test(site.googleTag)) fail([`googleTag "${site.googleTag}" in site.config.mjs is not a Google tag ID (G-…).`]);
+ctx.googleTag = PROD && !target.test ? site.googleTag || '' : '';
 ctx.assets.ogDefault = { src: photos.sigiriya.og, alt: DESTS[0].alt };
 const sitemap = [];
 const report = [];

@@ -9,6 +9,16 @@ export const esc = (s) =>
 // then goes back to its plain main-page view: see data-svc in src/templates/home.mjs).
 const BOOT = `document.documentElement.classList.add('js');addEventListener('error',function(e){var h=document.documentElement;if(!h.classList.contains('map-ready')&&e.filename&&/\\/assets\\/app\\./.test(e.filename)){h.classList.add('map-failed');h.removeAttribute('data-svc')}})`;
 
+// Google Analytics: Google's current "Install manually" snippet for the Google tag. It loads
+// gtm.js and has no gtag('config') line: the settings live in Analytics. Only in production
+// builds (ctx.googleTag is empty otherwise; see googleTag in site.config.mjs).
+const googleTag = (id) => `<script async src="https://www.googletagmanager.com/gtm.js?id=${id}"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+</script>`;
+
 export function layout(ctx, page) {
   const { site, u, abs, assets } = ctx;
   const robots = page.indexable ? 'index, follow, max-image-preview:large' : 'noindex, follow';
@@ -19,6 +29,7 @@ export function layout(ctx, page) {
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+${ctx.googleTag ? googleTag(ctx.googleTag) : ''}
 <title>${esc(page.title)}</title>
 <meta name="description" content="${esc(page.description)}">
 <meta name="robots" content="${robots}">

@@ -88,6 +88,13 @@ each one `true` under `confirmed` in `site.config.mjs` once checked.
 - **Quote delivery (optional):** set `QUOTE_ENDPOINT` so requests arrive directly. Without
   it, visitors are told they must press send in WhatsApp or email. The value is public:
   never use a secret key.
+- **Google Analytics:** the Google tag ID is `googleTag` in `site.config.mjs`
+  (`G-5DFFESR4N7`, the "Google only" snippet). The tag goes at the top of every page, but
+  only in a real production build: `npm run dev`, staging and `npm test` builds have no tag,
+  so test visits are never counted. Use one ID only; the "All" snippet (`GTM-…`) loads the
+  same tag, and both together would count every visit twice. There is no cookie consent
+  banner, and the site has no privacy page yet; Google's Analytics terms ask for a privacy
+  policy that mentions Google Analytics and cookies.
 - **After the first deploy:**
   - verify the domain in Google Search Console and submit `/sitemap.xml`
   - inspect the homepage URL, and run it through the Rich Results Test
