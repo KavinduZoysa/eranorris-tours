@@ -349,7 +349,10 @@ Tested at 280–2560 px wide, portrait and landscape, with touch and mouse.
   card on the right, and the place dialog uses nearly the whole screen.
 - **Tablets and desktop**: the map has the full width, with the search on the left and the
   trip panel floating on the right once a place is added. The place dialog is centred over a
-  dimmed map. The mouse wheel zooms the map as designed.
+  dimmed map. The mouse wheel (or a two-finger trackpad swipe) over the map scrolls the page;
+  Ctrl or ⌘ + wheel, a trackpad pinch, the + and − buttons and a double-click zoom the map.
+  (Until November 2026 the wheel zoomed the map, and in the tour planner and the shuttle,
+  where the map fills the screen, the page's scroll bar seemed stuck.)
 - **Touch screens in general**:
   - Form fields are 16 px, so iOS doesn't zoom in when one is tapped.
   - Small controls have larger invisible tap areas.

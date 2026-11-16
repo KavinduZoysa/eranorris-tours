@@ -387,6 +387,13 @@ function fit() {
 fit();
 const userView = () => (view = 'user');
 map.on('dragstart', userView);
+// Changed: the mouse wheel (or a two-finger trackpad swipe) over the map scrolls the page, so the
+// page's scroll bar moves. It used to zoom the map, and in the tour planner and the shuttle the
+// map fills the screen, so the page seemed stuck. Ctrl or ⌘ + wheel still zooms the map (so does
+// a trackpad pinch, which browsers send as Ctrl + wheel), as do the + and − buttons and a
+// double-click. Phones have no wheel, so nothing changes there. Stopping the event here, before
+// it reaches Leaflet's wheel zoom, leaves the browser to scroll the page.
+map.getContainer().addEventListener('wheel', (e) => e.ctrlKey || e.metaKey || e.stopPropagation(), { capture: true });
 map.getContainer().addEventListener('wheel', userView, { passive: true });
 map.getContainer().addEventListener('touchstart', (e) => e.touches.length > 1 && userView(), { passive: true });
 map.getContainer().addEventListener('keydown', (e) => /^(Arrow|\+$|-$|=$)/.test(e.key) && userView());
