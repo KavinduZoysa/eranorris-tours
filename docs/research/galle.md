@@ -100,7 +100,7 @@ airport, Colombo, Hikkaduwa, Bentota, Mirissa, Udawalawe and Yala.
 - The UNESCO page itself could not be fetched (403); facts taken from search summaries and the
   nomination document.
 
-## Business information that needs the owner (also in the file's `verify:`)
+## Business information that needs the owner (answered 2026-11-17 — see "Owner answers" at the end)
 - Whether the villa site's "Whale Watching Mirissa & Galle Tour" is offered to tour guests, and its
   terms.
 - How guests explore the fort (on foot alone, or with the driver).
@@ -214,3 +214,22 @@ Its site (https://whalewatching.navy.lk/, checked 2026-11-07) says cruises are s
 maintenance and that the last schedule ran from the naval base at Trincomalee (from July 2025),
 not Galle. The mention and the source were removed; re-add only if cruises resume from a
 southern port.
+
+## Owner answers (2026-11-17)
+All nine `verify:` questions were answered by the owner and the list was removed from the guide.
+The guide stays a **draft** for now (owner's choice): its FAQ links to the Mirissa whale-watching
+guide, which is not published yet, and a published page may not link to a draft guide. Publish
+Galle together with, or after, Mirissa and `mirissa-whale-watching`; then add a `reviewed:` date
+and `status: published`.
+
+| Question | Owner's answer | What changed |
+|---|---|---|
+| "Whale Watching Mirissa & Galle Tour" for tour guests | Yes, offered. Don't describe the Galle part or its length on the page: details go to guests by WhatsApp/email | Nothing |
+| Whale-watching pickup time ("around 8 a.m." vs boats at 6–7 am) | Don't mention a time in descriptions; the FAQ ("often around 6–7 am") is correct | Nothing (no description gives a pickup time). The same question is still open in `mirissa.md` and `mirissa-whale-watching.md` |
+| Stilt fishing stops, paying for photos | Yes, the driver stops if guests want; we tell guests the photos are paid, at the time or when they first chat with us | Nothing (the page already says to agree on any payment first) |
+| Koggala Lake, Martin Wickramasinghe museum, Handunugoda | Yes, offered on guest request | Nothing (they are activity cards guests can tick) |
+| Inside the fort: alone or with the driver? | Guests can walk on their own; the driver can come along at no charge if they want | Nothing (owner chose not to add a sentence) |
+| Recommended stay; stay inside the fort? | 2 nights (as in the planner). Staying inside the fort is not needed, only if guests like | `stay:` "2 nights"; "How long to stay" now suggests two nights. The FAQ on staying inside the fort already matches |
+| Galle as a pickup point | Confirmed | Nothing |
+| Hero photo galle-fort-lighthouse | The owner has permission to use it; it shows the lighthouse and an old rampart wall | Nothing |
+| Experience photos galle-fort and jungle-beach | Fine; the owner has permission (the beach photo's people are small and far away) | Nothing |

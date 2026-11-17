@@ -8,7 +8,7 @@ file named in each section), then run the command again.
 Set each to `true` in `site.config.mjs → confirmed` once checked.
 
 
-## Guide questions (135 open in 19 files)
+## Guide questions (112 open in 16 files)
 
 Answer them, update the text if needed, and delete each item from the file’s `verify:` list. A page can only be published once its list is empty.
 
@@ -74,18 +74,6 @@ Answer them, update the text if needed, and delete each item from the file’s `
 - [ ] Rail status — last checked 6 November 2026 (Nanu Oya–Badulla running; everything west of Nanu Oya closed). Re-check before publishing and update the train section and FAQ.
 - [ ] Do we take guests to the commercial zipline or the Uva Halpewatte factory, or recommend any operator? The page names them only as things to do nearby.
 
-### Galle — `src/content/places/galle.md`
-
-- [ ] Is the villa site's "Whale Watching Mirissa & Galle Tour" offered to tour guests? If so, what does the Galle part include, how long is it and where does it start?
-- [ ] The villa site's guide says whale-watching pickup is "around 8 a.m.", but Mirissa boats usually leave between about 6 and 7 am. Does the tour use a Mirissa boat (with an earlier pickup) or another departure?
-- [ ] The villa tour lists stilt fishing "on availability". Do drivers stop at Koggala or Ahangama for it, and what do we tell guests about paying for photos? The page describes it as a tourism fact only.
-- [ ] Do we suggest the Koggala Lake boat trip, the Martin Wickramasinghe museum or Handunugoda tea estate to tour guests? The page describes them as nearby options only.
-- [ ] Inside the fort, do guests explore on foot on their own, or does the driver accompany them? (The page makes no claim either way.)
-- [ ] Recommended stay — the design suggests 2 nights; the page says 1–2. Which do we advise, and do we suggest staying inside the fort?
-- [ ] Galle is listed as a pickup point in the planner ("Any hotel in Galle or the fort"). Is that confirmed (site.config.mjs → confirmed.pickups)?
-- [ ] Galle hero photo (galle-fort-lighthouse) — rights confirmed, and it shows the lighthouse and ramparts.
-- [ ] Experience photos galle-fort and jungle-beach (from the villa site) — rights and consent for any people shown.
-
 ### Kandy — `src/content/places/kandy.md`
 
 - [ ] Which Kandy visits do we actually arrange — Temple of the Tooth, Peradeniya, the dance show — and is it driver-only or with a guide?
@@ -95,16 +83,6 @@ Answer them, update the text if needed, and delete each item from the file’s `
 - [ ] Rail status (Cyclone Ditwah repairs) — re-check before publishing and update the rail paragraphs and FAQ. Status last checked 6 November 2026 — no trains reaching Kandy; Colombo–Peradeniya/Gampola suspended again since 25 October.
 - [ ] Do our drivers take guests further out — the Knuckles range, Ambuluwawa, the Hanthana trails — and do we arrange or recommend local hiking guides? The page makes no claim.
 - [ ] Kandy hero photo — rights confirmed, and it shows the Temple of the Tooth.
-
-### Mirissa — `src/content/places/mirissa.md`
-
-- [ ] Do we suggest Weligama surf lessons, Matara and Dondra Head, or the beaches further east (Hiriketiya, Tangalle) to tour guests? The page describes them as nearby options only.
-- [ ] The villa site's whale-watching tour mentions a villa pickup "around 8 a.m.", while Mirissa boats usually leave between about 6 and 7 am. Which is right for tour guests?
-- [ ] Is whale watching (listed on the villa site as part of the "Whale Watching Mirissa & Galle Tour") offered to tour guests? If so, on what terms, which boat or operator, and is the boat licensed under the 2012 sea-mammal regulations?
-- [ ] Do we offer Coconut Tree Hill as a stop, and do we know the current access arrangements on the private land?
-- [ ] Recommended stay — the design suggests 2 nights; the page says 2–3, with a spare morning for whale watching. Which do we advise?
-- [ ] Mirissa hero photo (mirissa-bay) — rights confirmed. Note the design's photoOf says "a blue whale", but the photo is an aerial view of the bay; which is correct?
-- [ ] Experience photos whale-watching and coconut-tree-hill (from the villa site) — rights confirmed, and was the whale photo taken off Mirissa?
 
 ### Nuwara Eliya — `src/content/places/nuwara-eliya.md`
 
@@ -188,16 +166,6 @@ Answer them, update the text if needed, and delete each item from the file’s `
 - [ ] Which base do we usually suggest for the safari — Sigiriya, Habarana or Polonnaruwa? The experience is listed under Sigiriya.
 - [ ] Do we have our own photos of wild elephants at Minneriya or Kaudulla (taken from a distance, not captive or ride elephants) for a gallery?
 - [ ] Re-check before publishing — the 2026 Gathering, any new Minneriya–Kaudulla ticketing system or entrance, and whether Minneriya and Kaudulla are on the online permit system.
-
-### Whale watching from Mirissa — `src/content/experiences/mirissa-whale-watching.md`
-
-- [ ] Is whale watching offered to tour guests? The villa site lists it as part of the "Whale Watching Mirissa & Galle Tour"; if so, what are the terms (boat or operator, shared or private, duration, pickup, price, what is included)? The page makes no claim.
-- [ ] If we recommend or book a boat, is it licensed by the Department of Wildlife Conservation under the 2012 regulations, with a registered guide, life jackets in children's sizes and passenger insurance?
-- [ ] Is the wildlife permit fee normally included in operators' prices at Mirissa? The page only tells guests to ask.
-- [ ] The experience card no longer says "a large boat" (from the villa site's tour). Add the boat type back only if it applies to tour guests.
-- [ ] The villa site's guide gives a villa pickup "around 8 a.m." for whale watching, but Mirissa boats usually leave between about 6 and 7 am. Does the villa tour use a Mirissa boat (with an earlier pickup) or another departure?
-- [ ] SLTDA's whale-watching criteria were still marked "final draft" when checked in November 2026. Re-check before publishing; if they are adopted, the "draft" wording in "Choosing a responsible boat" needs updating.
-- [ ] Experience photo whale-watching (from the villa site) — rights confirmed, taken off Mirissa, and taken from a legal distance. Add a gallery: line once more photos are approved.
 
 ### Temple of the Sacred Tooth Relic — `src/content/experiences/temple-of-the-sacred-tooth-relic.md`
 

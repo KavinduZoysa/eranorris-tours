@@ -27,8 +27,8 @@ itself. Photos with clearly identifiable people were skipped where possible.
 | galle-fort-from-above | Clock tower, ramparts, harbour | villa site (galle_fort_tour_1) |
 | galle-ramparts-sea | Rampart walkway by the sea | tours/galle-fort |
 | galle-jungle-beach | Jungle Beach (captioned "near Unawatuna"); swimmers in the distance | villa site |
-| mirissa-whale-tail | Whale's tail (captioned "sightings never guaranteed") | villa site (whale_watching_1). Was it taken off Mirissa? |
-| mirissa-coconut-tree-hill | Palms on Coconut Tree Hill | villa site |
+| mirissa-whale-tail | Whale's tail (captioned "sightings never guaranteed") | villa site (whale_watching_1). Where it was taken is unknown, and the tail looks like a humpback's (barnacles on the tips), so since 2026-11-17 the caption no longer says "off Mirissa" (owner's choice) |
+| mirissa-coconut-tree-hill | Coconut Tree Hill from above | **Replaced 2026-11-17.** The villa-site photo was watermarked ("LK9490BEED" repeated across the image; also the card photo coconut-tree-hill). Owner chose the Commons photo "Amazing Coconut Tree Hill" by Sachin Kaveesha Fernando, CC BY-SA 4.0 (https://commons.wikimedia.org/wiki/File:Amazing_Coconut_Tree_Hill.jpg), now used for the gallery slide and the card, credited under the slide and on /photo-credits/ |
 | yala-elephants / buffalo / crocodile / spotted-deer | Wildlife | tours/yala. Confirm they were taken in Yala |
 | hikkaduwa-tsunami-museum | Railway carriage at the museum (captioned "near Hikkaduwa") | villa site |
 | hikkaduwa-rathgama-lagoon | Lagoon at sunset, with small silhouettes in a boat | villa site (kayak1) |

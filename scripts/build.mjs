@@ -135,7 +135,7 @@ const galleryPhotos = {};
 for (const [name, g] of Object.entries(GALLERY_IMAGES)) {
   const src = r('src', 'images', 'gallery', `${name}.jpg`);
   if (!existsSync(src)) continue; // reported by the data checks below
-  galleryPhotos[name] = { ...(await photoSet(src, 'img/gallery', name, g.focus)), alt: g.alt, caption: g.caption };
+  galleryPhotos[name] = { ...(await photoSet(src, 'img/gallery', name, g.focus)), alt: g.alt, caption: g.caption, credit: g.credit };
 }
 for (const d of DESTS) photos[d.id].keys = SET.map(([k, w]) => [k, w]);
 
@@ -424,6 +424,12 @@ for (const [id, names] of Object.entries(GALLERIES)) {
 for (const [n, g] of Object.entries(GALLERY_IMAGES)) {
   if (!g.alt) contentErrors.push(`src/data/galleries.mjs → ${n}: alt text is required.`);
   if (!existsSync(r('src', 'images', 'gallery', `${n}.jpg`))) contentErrors.push(`src/data/galleries.mjs → ${n}: src/images/gallery/${n}.jpg not found (run npm run prepare:images).`);
+  // Openly licensed (Commons) photos need a full credit, as main photos do in PHOTO_CREDITS.
+  if (/^https:\/\//.test(g.from || '') && !g.credit) contentErrors.push(`src/data/galleries.mjs → ${n}: a Commons photo needs a credit.`);
+  if (g.credit) {
+    for (const k of ['title', 'author', 'license']) if (!g.credit[k]) contentErrors.push(`src/data/galleries.mjs → ${n}: credit.${k} is required.`);
+    for (const k of ['licenseUrl', 'source', 'authorUrl']) if ((k !== 'authorUrl' || g.credit[k]) && !/^https?:\/\/\S+$/.test(g.credit[k] || '')) contentErrors.push(`src/data/galleries.mjs → ${n}: credit.${k} must be a URL.`);
+  }
 }
 for (const e of EXPERIENCES)
   for (const k of ['where', 'details', 'season']) if (e[k] != null && (typeof e[k] !== 'string' || !e[k].trim())) contentErrors.push(`src/data/experiences.mjs → ${e.id}: ${k} must be text, or left out.`);

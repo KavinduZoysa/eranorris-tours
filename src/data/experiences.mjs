@@ -256,7 +256,7 @@ export const EXPERIENCES = [
     id: 'mirissa-whale-watching', destinationId: 'mirissa', kind: 'activity', category: 'wildlife', source: 'eranorrissrilanka.com',
     name: 'Whale and dolphin watching',
     shortDescription: 'Head out to the deep water off Mirissa to look for whales and dolphins. The season runs from about November to April; sightings are never guaranteed.',
-    details: 'Boats leave Mirissa harbour around dawn for the deep water just off the south coast, where blue whales, sperm whales and spinner dolphins feed. Trips usually spend 3–5 hours at sea and run from about November to April. Licensed boats must carry a registered guide and keep at least 100 m from whales; sightings are common in season but never guaranteed.',
+    details: 'Boats leave Mirissa harbour around dawn for the deep water just off the south coast, where blue whales, sperm whales and spinner dolphins feed. Trips usually spend 3–5 hours at sea and run from about November to April. Licensed boats must carry a registered guide and keep at least 100 m from whales; sightings are common in season but never guaranteed. With us you go out on a large boat, and the trip and all its charges, including the wildlife permit, are part of your tour price.',
     image: 'whale-watching', imageAlt: 'Whale’s tail rising above the sea',
   },
   {
@@ -264,7 +264,7 @@ export const EXPERIENCES = [
     name: 'Coconut Tree Hill',
     shortDescription: 'Walk up to the palm-covered headland at Mirissa for views along the coast.',
     details: 'A short walk from the main beach, this headland of reddish cliffs and leaning palms looks along the coast and out to sea, and is busiest around sunrise and sunset. It is on private land, and access arrangements have changed in the past.',
-    image: 'coconut-tree-hill', imageAlt: 'Coconut palms on a headland above the sea at Mirissa',
+    image: 'coconut-tree-hill', imageAlt: 'Coconut Tree Hill seen from above: palms on a headland of red earth, with surf breaking all around',
   },
   {
     id: 'mirissa-weligama-surf-lesson', destinationId: 'mirissa', kind: 'activity', category: 'water', source: 'research',
@@ -772,7 +772,9 @@ export const EXPERIENCE_PHOTO_SOURCES = {
   'galle-fort': 'whale-watching-and-galle/webp/galle_fort_tour_2.webp',
   'jungle-beach': 'whale-watching-and-galle/webp/jungle_beach_tour_1.webp',
   'whale-watching': 'whale-watching-and-galle/whale_watching_1.jpg',
-  'coconut-tree-hill': 'whale-watching-and-galle/coconut_tree_hill_1.jpeg',
+  // Commons photo (CC BY-SA 4.0), credited on /photo-credits/ via the gallery entry
+  // mirissa-coconut-tree-hill in galleries.mjs, which uses the same original.
+  'coconut-tree-hill': 'https://upload.wikimedia.org/wikipedia/commons/6/6c/Amazing_Coconut_Tree_Hill.jpg',
   'yala-elephant': 'yala/webp/elephant.webp',
   'lion-rock-climb': 'tours:sigiriya/WhatsApp Image 2026-10-14 at 12.35.22 PM.jpeg',
   'nine-arches-bridge': 'tours:galle/WhatsApp Image 2026-10-14 at 12.34.39 PM.jpeg',

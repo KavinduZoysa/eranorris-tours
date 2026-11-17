@@ -7,12 +7,15 @@
 //                 (Wikimedia Commons originals, credited in PHOTO_CREDITS) → src/images/destinations/
 //                 (1200×800)
 //   experiences:  EXPERIENCE_PHOTO_SOURCES — paths in the villa site's assets/images folder
-//                 (default: ../eranorris-srilanka/assets/images), or 'tours:<path under
-//                 ~/villas/tours>' → src/images/experiences/ (longest side ≤ 1200, not cropped)
+//                 (default: ../eranorris-srilanka/assets/images), 'tours:<path under
+//                 ~/villas/tours>', or an https URL (Commons original, credited through the
+//                 gallery entry that uses the same original) → src/images/experiences/
+//                 (longest side ≤ 1200, not cropped)
 //   --only:       process just these output names (e.g. --only=stilt-fishing,tsunami-museum),
 //                 leaving every other master untouched
 //   galleries:    GALLERY_IMAGES in src/data/galleries.mjs ('tours:' = ~/villas/tours,
-//                 'villa-site:' = the villa site folder) → src/images/gallery/ (longest side ≤ 1600)
+//                 'villa-site:' = the villa site folder, or an https URL with a `credit`)
+//                 → src/images/gallery/ (longest side ≤ 1600)
 import { mkdir } from 'node:fs/promises';
 import { homedir } from 'node:os';
 import path from 'node:path';
@@ -56,8 +59,10 @@ for (const d of DESTS.filter((x) => wanted(x.photo))) {
 
 const expOut = new URL('../src/images/experiences/', import.meta.url);
 await mkdir(expOut, { recursive: true });
+// Experience and gallery sources may also be Wikimedia Commons originals (https URLs).
+const input = (from) => (/^https:\/\//.test(from) ? load(from) : source(from));
 for (const [name, rel] of Object.entries(EXPERIENCE_PHOTO_SOURCES).filter(([n]) => wanted(n))) {
-  const info = await sharp(source(rel))
+  const info = await sharp(await input(rel))
     .rotate()
     .resize(1200, 1200, { fit: 'inside', withoutEnlargement: true })
     .jpeg({ quality: 84, mozjpeg: true })
@@ -68,7 +73,7 @@ for (const [name, rel] of Object.entries(EXPERIENCE_PHOTO_SOURCES).filter(([n]) 
 const galOut = new URL('../src/images/gallery/', import.meta.url);
 await mkdir(galOut, { recursive: true });
 for (const [name, img] of Object.entries(GALLERY_IMAGES).filter(([n]) => wanted(n))) {
-  const info = await sharp(source(img.from))
+  const info = await sharp(await input(img.from))
     .rotate()
     .resize(1600, 1600, { fit: 'inside', withoutEnlargement: true })
     .jpeg({ quality: 84, mozjpeg: true })

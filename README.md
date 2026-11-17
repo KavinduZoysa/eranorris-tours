@@ -526,8 +526,10 @@ destination. The "Choose it on the map" button (`/#exp=<experience id>`) opens t
 with that experience in view.
 
 **Galleries:** `src/data/galleries.mjs` maps each destination to extra photos after its main
-photo. Only the business's own photos are used, and only where the subject and place are
-identifiable. Places with one photo show no controls. The gallery is a swipeable strip with
+photo. The business's own photos are used, and only where the subject and place are
+identifiable. Where an own photo can't be used (e.g. it is watermarked), an openly licensed
+Commons photo of the place may replace it, with a `credit` that appears under the slide and on
+`/photo-credits/` (Coconut Tree Hill in the Mirissa gallery, since November 2026). Places with one photo show no controls. The gallery is a swipeable strip with
 previous/next buttons, a counter, dots and arrow keys (`src/js/gallery.js`, part of the
 2 KB page script), and it works without JavaScript. Gaps and the photos to confirm are in `docs/research/photos.md`.
 
@@ -620,7 +622,10 @@ photographer, licence and source page to `PHOTO_CREDITS` in the same file. The c
 appears under the photo on the place page and on `/photo-credits/` (linked from every footer),
 and `npm run check` fails if it goes missing. Six main photos (Adam's Peak, Arugam Bay, Bentota,
 Ella, Hikkaduwa, Nuwara Eliya) were replaced this way in November 2026; see
-`docs/research/photos.md`.
+`docs/research/photos.md`. Gallery photos (`GALLERY_IMAGES[].from` plus `credit` in
+`src/data/galleries.mjs`) and activity-card photos (`EXPERIENCE_PHOTO_SOURCES`) can be Commons
+URLs in the same way; a card photo is credited on `/photo-credits/` through the gallery entry
+that uses the same original.
 
 ## Phones and tablets
 
@@ -655,5 +660,6 @@ The site is laid out for phones first and tested at 320, 375, 390, 430, 768, 102
 - District boundaries: geoBoundaries (CC BY 4.0) – credited on the map.
 - Fonts: Geist, Geist Mono, Instrument Serif (SIL Open Font License).
 - Photos: the business's own photos and the photos supplied with the design (confirm with
-  `confirmed.photoRights`), plus six Wikimedia Commons photos under CC0, CC BY 2.0 and
-  CC BY-SA 3.0/4.0, credited under each photo and on `/photo-credits/` (`PHOTO_CREDITS`).
+  `confirmed.photoRights`), plus seven Wikimedia Commons photos under CC0, CC BY 2.0 and
+  CC BY-SA 3.0/4.0, credited under each photo and on `/photo-credits/` (`PHOTO_CREDITS`, and
+  `credit` in `src/data/galleries.mjs`).

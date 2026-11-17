@@ -62,7 +62,7 @@ the airport, Colombo, Galle, Hikkaduwa, Yala, Udawalawe and Ella.
   says 3.5–4.5 h.
 - Busiest weeks: "December to March" is a general pattern from travel guides, not an official figure.
 
-## Business information that needs the owner (also in the file's `verify:`)
+## Business information that needs the owner (answered 2026-11-17 — see "Owner answers" at the end)
 - Whether whale watching is offered to tour guests, and on what terms; which boat or operator; licence.
 - Whether Coconut Tree Hill is a stop the business recommends, and current access.
 - Recommended stay (design: 2 nights; page: 2–3 with a spare morning).
@@ -146,3 +146,31 @@ is unconfirmed (see docs/research/owner-checklist.md).
 - **Hummanaya blowhole** (`mirissa-hummanaya-blowhole`, excursion)
   - https://en.wikipedia.org/wiki/Hummanaya
   - Note: Single source (Wikipedia). Which months are best could not be confirmed (often said to be the south-west monsoon). 'Keep behind the barriers' assumes barriers exist — verify. Move to a Tangalle page if one is created (it is 12 km from Tangalle).
+
+## Owner answers (2026-11-17)
+All seven `verify:` questions were resolved and the list was removed (the last one, the
+watermarked Coconut Tree Hill photo, by replacing the photo: see below).
+
+| Question | Owner's answer | What changed |
+|---|---|---|
+| Weligama surf lessons, Matara and Dondra Head, Hiriketiya, Tangalle | Offered on request | Nothing (activity cards guests can tick; the beaches stay as nearby options) |
+| Whale-watching pickup ("around 8 a.m." vs boats at 6–7 am) | Don't mention a time; the page's 6–7 am is correct (same answer as for Galle) | Nothing |
+| Whale watching for tour guests, operator, licence | Offered; details go to guests by WhatsApp/email. Boats are licensed, carry a registered guide, children's life jackets and passenger insurance | Nothing here (see the whale-watching guide's record for the price and boat-type changes) |
+| Coconut Tree Hill: a stop? access? | Yes, drivers stop; access is free | The bullet and the FAQ now say it is free to walk up (the private-land caution stays) |
+| Recommended stay | 2 nights | `stay:` "2 nights"; "How long to stay" and the FAQ now suggest two nights, with the second morning as the fallback for a cancelled boat trip. The planner already used 2 |
+| Hero photo mirissa-bay; design's photoOf "a blue whale" | OK (rights confirmed site-wide); photoOf had already been corrected to "the bay" | Nothing |
+| Photos whale-watching and coconut-tree-hill | Whale photo: keep it, but the caption must not say "off Mirissa" (where it was taken is unknown; the tail looks like a humpback's). Coconut Tree Hill: owner asked to remove the watermark and use it | Gallery caption is now "Whale watching — sightings are never guaranteed". The watermark was **not** removed (it identifies the photo's owner; removing it could breach copyright); the owner then chose a freely licensed replacement (next section) |
+
+## Coconut Tree Hill photo replaced (2026-11-17)
+The villa-site photo (card `coconut-tree-hill`, gallery `mirissa-coconut-tree-hill`) carried a
+watermark repeated across the image ("LK9490BEED"; a web search for the code found nothing).
+Wikimedia Commons has no CC0 photo of the hill; of the CC BY / CC BY-SA ones, two were offered
+and the owner chose **"Amazing Coconut Tree Hill" by Sachin Kaveesha Fernando, CC BY-SA 4.0**
+(https://commons.wikimedia.org/wiki/File:Amazing_Coconut_Tree_Hill.jpg): a drone view from above,
+2019-03-11, own work. Place: the file's description ("Coconut Tree Hill … overlooking the Mirissa
+bay") and category "Mirissa"; the headland of palms on red earth matches the four GPS-tagged
+Commons photos of the hill (about 5.939° N, 80.468° E). No identifiable people (a few tiny
+figures). The site's copies are resized (card ≤ 1200 px, gallery ≤ 1600 px) and cropped for
+display; the credit is under the gallery slide and on /photo-credits/, which also names the card.
+Not chosen: "Coconut Tree Hill, Sri Lanka" (Sergei Gussev, CC BY 2.0, portrait), and
+"Coconut tree hills" (Swanthika, CC BY-SA 4.0), which shows several identifiable people.

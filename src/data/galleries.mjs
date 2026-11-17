@@ -1,18 +1,24 @@
 // Destination photo galleries. The first photo of every gallery is the destination's main
 // photo (DESTS[].photo in destinations.mjs); the names listed here are added after it.
 //
-// Only the business's own photos are used for these extra slides: the owner's tour album
-// (~/villas/tours) and photos already published on eranorrissrilanka.com. Each one was
-// chosen only where the subject and place are identifiable from the photo itself; anything
-// uncertain was left out. Confirm with site.config.mjs → confirmed.photoRights (rights, and
-// that people shown are happy to appear). Photo gaps are listed in docs/research/photos.md.
+// The extra slides are the business's own photos: the owner's tour album (~/villas/tours) and
+// photos already published on eranorrissrilanka.com. Each one was chosen only where the subject
+// and place are identifiable from the photo itself; anything uncertain was left out. Confirm
+// with site.config.mjs → confirmed.photoRights (rights, and that people shown are happy to
+// appear). Where an own photo can't be used (e.g. it is watermarked), an openly licensed
+// Wikimedia Commons photo of the actual place may replace it, with a `credit`. Photo gaps are
+// listed in docs/research/photos.md.
 //
 // GALLERY_IMAGES fields
 //   alt      what the photo shows (required)
 //   caption  optional visible caption — use it when the subject is near, not in, the place
 //   focus    [x, y] focal point (0–1) for the 3:2 crop
-//   from     source file: 'tours:<path under ~/villas/tours>' or 'villa-site:<path under the
-//            villa site's assets/images>' (used only by scripts/prepare-images.mjs)
+//   from     source file: 'tours:<path under ~/villas/tours>', 'villa-site:<path under the
+//            villa site's assets/images>', or a Wikimedia Commons original (https URL)
+//            (used only by scripts/prepare-images.mjs)
+//   credit   required for openly licensed photos (CC0, CC BY, CC BY-SA; never NC or ND):
+//            { title, author, authorUrl?, license, licenseUrl, source } as in PHOTO_CREDITS.
+//            Shown under the photo instead of a caption, and on /photo-credits/.
 
 export const GALLERY_IMAGES = {
   'sigiriya-lion-paws': {
@@ -60,14 +66,21 @@ export const GALLERY_IMAGES = {
 
   'mirissa-whale-tail': {
     alt: 'A whale’s tail rising out of the sea',
-    caption: 'Whale watching off Mirissa — sightings are never guaranteed',
+    caption: 'Whale watching — sightings are never guaranteed', // not "off Mirissa": where the photo was taken is unknown (owner, 2026-11-17)
     focus: [0.5, 0.45],
     from: 'villa-site:whale-watching-and-galle/whale_watching_1.jpg',
   },
+  // Replaced 2026-11-17: the villa-site photo carried another party's watermark. Owner chose this
+  // Commons photo (docs/research/mirissa.md → "Coconut Tree Hill photo replaced").
   'mirissa-coconut-tree-hill': {
-    alt: 'Tall coconut palms on the headland of Coconut Tree Hill above the sea',
-    focus: [0.5, 0.5],
-    from: 'villa-site:whale-watching-and-galle/coconut_tree_hill_1.jpeg',
+    alt: 'Coconut Tree Hill seen from above: palms on a headland of red earth, with surf breaking all around',
+    focus: [0.5, 0.62],
+    from: 'https://upload.wikimedia.org/wikipedia/commons/6/6c/Amazing_Coconut_Tree_Hill.jpg',
+    credit: {
+      title: 'Amazing Coconut Tree Hill', author: 'Sachin Kaveesha Fernando',
+      license: 'CC BY-SA 4.0', licenseUrl: 'https://creativecommons.org/licenses/by-sa/4.0/',
+      source: 'https://commons.wikimedia.org/wiki/File:Amazing_Coconut_Tree_Hill.jpg',
+    },
   },
 
   'yala-elephants': {

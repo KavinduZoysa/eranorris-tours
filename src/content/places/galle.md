@@ -1,10 +1,11 @@
 ---
 # Research: docs/research/galle.md
-status: draft
+status: published
+reviewed: 2026-11-17
 title: Galle Guide: The Fort, Ramparts & Nearby Beaches | Eranorris
 description: Plan a visit to Galle Fort: the ramparts, museums and old streets, plus Unawatuna, Jungle Beach and Koggala, how long to stay and when to go.
 intro: A walled town on a headland, fortified by the Portuguese and rebuilt by the Dutch, where people still live, work and worship inside the ramparts.
-stay: 1–2 nights; a full day covers the fort
+stay: 2 nights
 gettingThere: About 2–2.5 hours from the airport by expressway, depending on traffic
 bestTime: Driest from about December to April; the south-west monsoon brings rain and rough seas from May to September
 goodFor: Walking, colonial history, architecture, cafés, sunset on the walls
@@ -20,16 +21,6 @@ sources:
   - Central Cultural Fund — Maritime Archaeology Museum, Galle | https://ccf.gov.lk/museums/galle-museum/
   - Sri Lanka Tourism — Galle Fort | https://www.srilanka.travel/attraction?attraction_id=153
   - Martin Wickramasinghe Trust — the museum at Koggala | https://martinwickramasinghe.com/museum.html
-verify:
-  - Is the villa site's "Whale Watching Mirissa & Galle Tour" offered to tour guests? If so, what does the Galle part include, how long is it and where does it start?
-  - The villa site's guide says whale-watching pickup is "around 8 a.m.", but Mirissa boats usually leave between about 6 and 7 am. Does the tour use a Mirissa boat (with an earlier pickup) or another departure?
-  - The villa tour lists stilt fishing "on availability". Do drivers stop at Koggala or Ahangama for it, and what do we tell guests about paying for photos? The page describes it as a tourism fact only.
-  - Do we suggest the Koggala Lake boat trip, the Martin Wickramasinghe museum or Handunugoda tea estate to tour guests? The page describes them as nearby options only.
-  - Inside the fort, do guests explore on foot on their own, or does the driver accompany them? (The page makes no claim either way.)
-  - Recommended stay — the design suggests 2 nights; the page says 1–2. Which do we advise, and do we suggest staying inside the fort?
-  - Galle is listed as a pickup point in the planner ("Any hotel in Galle or the fort"). Is that confirmed (site.config.mjs → confirmed.pickups)?
-  - Galle hero photo (galle-fort-lighthouse) — rights confirmed, and it shows the lighthouse and ramparts.
-  - Experience photos galle-fort and jungle-beach (from the villa site) — rights and consent for any people shown.
 ---
 
 ## Why visit Galle
@@ -75,7 +66,7 @@ East of Unawatuna, the coast road passes places that make an easy half-day from 
 
 ## How long to stay
 
-**Half a day** is enough to walk the ramparts and a few streets. **A full day** adds a museum, lunch in the fort and an afternoon at Unawatuna. **One or two nights** let you see the walls at dawn and dusk, when the day visitors have gone, and leave time for a beach day or the lake and museum at Koggala.
+**Half a day** is enough to walk the ramparts and a few streets. **A full day** adds a museum, lunch in the fort and an afternoon at Unawatuna. **Two nights** is what we suggest: time to see the walls at dawn and dusk, when the day visitors have gone, and to add a beach day or the lake and museum at Koggala.
 
 A typical full day:
 

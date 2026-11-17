@@ -10,6 +10,7 @@ import { parse } from 'node-html-parser';
 import { DESTS, PHOTO_CREDITS, PICKUPS, hav } from '../src/data/destinations.mjs';
 import { ROAD_LEGS } from '../src/data/route-times.mjs';
 import { EXPERIENCES, EXP_KINDS } from '../src/data/experiences.mjs';
+import { GALLERIES, GALLERY_IMAGES } from '../src/data/galleries.mjs';
 import { PLACEHOLDER_HOST } from './lib/target.mjs';
 
 const ROOT = path.resolve(fileURLToPath(new URL('..', import.meta.url)));
@@ -263,6 +264,15 @@ for (const e of EXPERIENCES.filter((x) => x.available !== false)) {
     if (!credit?.querySelector(`a[href="${c.source}"]`) || !credit.text.includes(c.license)) err(`/places/${id}/`, 'main photo is missing its credit (photographer, licence, source)');
     if (credits && !credits.querySelector(`a[href="${c.source}"]`)) err('/photo-credits/', `no credit for the ${id} photo`);
   }
+  // The same for openly licensed gallery photos (galleries.mjs → credit).
+  for (const [id, names] of Object.entries(GALLERIES))
+    for (const n of names) {
+      const c = GALLERY_IMAGES[n]?.credit;
+      if (!c) continue;
+      const shown = (placeDoc(id)?.querySelectorAll('.gal-credit') || []).some((f) => f.querySelector(`a[href="${c.source}"]`) && f.text.includes(c.license));
+      if (!shown) err(`/places/${id}/`, `gallery photo ${n} is missing its credit (photographer, licence, source)`);
+      if (credits && !credits.querySelector(`a[href="${c.source}"]`)) err('/photo-credits/', `no credit for the gallery photo ${n}`);
+    }
 }
 
 // Sitemap ↔ files

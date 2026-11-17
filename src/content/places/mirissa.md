@@ -1,10 +1,11 @@
 ---
 # Research: docs/research/mirissa.md
-status: draft
+status: published
+reviewed: 2026-11-17
 title: Mirissa Guide: Beach, Sea Conditions & Whales | Eranorris
 description: Plan a stay in Mirissa: the beach and headlands, when the sea is safe for swimming, the whale-watching season, nearby beaches and onward routes.
 intro: A small crescent bay on the south coast, with a working fishing harbour that becomes the base for whale-watching boats from about November to April.
-stay: 2–3 nights, with a spare morning in case a boat trip is called off
+stay: 2 nights
 gettingThere: About 2.5–3 hours from the airport by expressway, depending on traffic
 bestTime: About November to April, for calmer seas and the whale-watching season
 goodFor: Beach days, whale watching, sunsets, a base on the south coast
@@ -18,14 +19,6 @@ sources:
   - Sri Lanka Coast Guard (lifesaving posts and sea-safety notices) | https://coastguard.gov.lk/
   - Department of Wildlife Conservation | https://www.dwc.gov.lk/
   - Sea Mammals (Observation, Regulation and Control) Regulations No. 1 of 2012, Gazette 1774/27 (FAOLEX copy) | https://faolex.fao.org/docs/pdf/srl133799.pdf
-verify:
-  - Do we suggest Weligama surf lessons, Matara and Dondra Head, or the beaches further east (Hiriketiya, Tangalle) to tour guests? The page describes them as nearby options only.
-  - The villa site's whale-watching tour mentions a villa pickup "around 8 a.m.", while Mirissa boats usually leave between about 6 and 7 am. Which is right for tour guests?
-  - Is whale watching (listed on the villa site as part of the "Whale Watching Mirissa & Galle Tour") offered to tour guests? If so, on what terms, which boat or operator, and is the boat licensed under the 2012 sea-mammal regulations?
-  - Do we offer Coconut Tree Hill as a stop, and do we know the current access arrangements on the private land?
-  - Recommended stay — the design suggests 2 nights; the page says 2–3, with a spare morning for whale watching. Which do we advise?
-  - Mirissa hero photo (mirissa-bay) — rights confirmed. Note the design's photoOf says "a blue whale", but the photo is an aerial view of the bay; which is correct?
-  - Experience photos whale-watching and coconut-tree-hill (from the villa site) — rights confirmed, and was the whale photo taken off Mirissa?
 ---
 
 ## Why stay in Mirissa
@@ -38,7 +31,7 @@ It is busiest from about December to March. In the evenings, the beach restauran
 
 - **The main beach.** A sheltered crescent, usually calm enough for swimming in season, with shade from the palms behind it.
 - **Parrot Rock.** A small rocky outcrop just off the beach, which you reach by wading across at low tide; a short climb gives a view along the bay. Don’t cross at high tide or when waves are breaking over the channel.
-- **Coconut Tree Hill.** A headland of reddish cliffs and leaning palms a short walk from the main beach, crowded with photographers around sunrise and sunset. It is on private land, and access has been disputed in the past, so arrangements can change.
+- **Coconut Tree Hill.** A headland of reddish cliffs and leaning palms a short walk from the main beach, crowded with photographers around sunrise and sunset. It is free to walk up, but it is on private land and access has been disputed in the past, so arrangements can change.
 - **Secret Beach.** A small cove on the western side, reached from Harbour Road and a steep final path on foot. It is quieter, but has fewer facilities.
 
 ## Whale watching
@@ -69,7 +62,7 @@ Wherever you swim, stay near other bathers and any lifeguards, respect red flags
 
 ## How long to stay
 
-**Two nights** give you one morning at sea and one on the beach. **Three nights** are more relaxed and leave a spare morning in case a boat trip is cancelled because of weather, which happens even in season.
+**Two nights** is what we suggest: one morning at sea and one on the beach, which also leaves a second morning for the boat if the first trip is cancelled because of the weather, which happens even in season.
 
 A typical three days:
 
@@ -106,7 +99,7 @@ Yes, at low tide, by wading a short channel from the beach. Check the tide first
 
 ### Is Coconut Tree Hill open to visitors?
 
-It is usually open to walk up, but it is on private land and access has been disputed in the past. Check locally before you go.
+Yes, and it is free to walk up. It is on private land, though, and access has been disputed in the past, so arrangements can change.
 
 ### Where can I learn to surf near Mirissa?
 
@@ -114,4 +107,4 @@ Weligama, about 5 km west, is the usual choice: a long sandy bay with gentle wav
 
 ### How many nights should I spend in Mirissa?
 
-Two or three. If whale watching is the main reason for coming, allow three nights so you have a second morning in case a trip is cancelled because of the weather.
+Two. That gives you one morning at sea and one on the beach, and a second chance at the boat trip if the first is cancelled because of the weather.

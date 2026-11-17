@@ -1,6 +1,7 @@
 ---
 # Research: docs/research/experience-mirissa-whale-watching.md
-status: draft
+status: published
+reviewed: 2026-11-17
 experience: mirissa-whale-watching
 title: Mirissa Whale Watching: Season, Boats & Tips | Eranorris
 description: What to expect on a whale-watching trip from Mirissa: blue and sperm whales, the November–April season, sea conditions, the rules and seasickness tips.
@@ -15,14 +16,6 @@ sources:
   - Department of Wildlife Conservation | https://www.dwc.gov.lk/
   - Sri Lanka Tourism — whale watching | https://srilanka.travel/whale-watching
   - NHS — motion sickness | https://www.nhs.uk/conditions/motion-sickness/
-verify:
-  - Is whale watching offered to tour guests? The villa site lists it as part of the "Whale Watching Mirissa & Galle Tour"; if so, what are the terms (boat or operator, shared or private, duration, pickup, price, what is included)? The page makes no claim.
-  - If we recommend or book a boat, is it licensed by the Department of Wildlife Conservation under the 2012 regulations, with a registered guide, life jackets in children's sizes and passenger insurance?
-  - Is the wildlife permit fee normally included in operators' prices at Mirissa? The page only tells guests to ask.
-  - The experience card no longer says "a large boat" (from the villa site's tour). Add the boat type back only if it applies to tour guests.
-  - The villa site's guide gives a villa pickup "around 8 a.m." for whale watching, but Mirissa boats usually leave between about 6 and 7 am. Does the villa tour use a Mirissa boat (with an earlier pickup) or another departure?
-  - SLTDA's whale-watching criteria were still marked "final draft" when checked in November 2026. Re-check before publishing; if they are adopted, the "draft" wording in "Choosing a responsible boat" needs updating.
-  - Experience photo whale-watching (from the villa site) — rights confirmed, taken off Mirissa, and taken from a legal distance. Add a gallery: line once more photos are approved.
 ---
 
 ## What you might see
@@ -46,7 +39,7 @@ Even in season, a long swell can roll in from the south. Mornings are often calm
 
 Most trips leave the harbour between about 6 and 7 am, after a safety briefing. Boats range from small converted fishing boats to double-decker vessels carrying dozens of passengers. The run out to deep water can take an hour or more, then the crew scans for blows. A typical trip spends 3–5 hours at sea and returns by late morning or midday, longer if the search goes on.
 
-Under the regulations, each trip also needs a wildlife permit, issued at the departure point. Ask whether it is included in the price.
+Under the regulations, each trip also needs a wildlife permit, issued at the departure point. If you add whale watching to a private tour with us, the boat trip and all its charges, including the permit, are included in your tour price.
 
 ## Choosing a responsible boat
 

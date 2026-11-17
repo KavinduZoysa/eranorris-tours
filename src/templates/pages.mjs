@@ -1,8 +1,8 @@
 // Inner page templates: destination guides (/places/<id>/), experience guides
 // (/experiences/<slug>/), tours (/private-tours/<slug>/), photo credits and the 404 page.
 import { CATS, DESTS, PHOTO_CREDITS, PICKUPS, hav, legInfo, fmtDur, nightsTxt } from '../data/destinations.mjs';
-import { EXPERIENCES, EXP_CATS, experiencesFor, EXP_KINDS } from '../data/experiences.mjs';
-import { GALLERIES } from '../data/galleries.mjs';
+import { EXPERIENCES, EXP_CATS, EXPERIENCE_PHOTO_SOURCES, experiencesFor, EXP_KINDS } from '../data/experiences.mjs';
+import { GALLERIES, GALLERY_IMAGES } from '../data/galleries.mjs';
 import { esc, picture, waLink } from './layout.mjs';
 
 const D = Object.fromEntries(DESTS.map((d) => [d.id, d]));
@@ -46,7 +46,12 @@ export function photoCredit(c) {
   return `Photo: ${by} · <a href="${esc(c.licenseUrl)}" rel="license noopener">${esc(c.license)}</a> · <a href="${esc(c.source)}" rel="noopener">Wikimedia Commons</a>`;
 }
 function destinationSlides(ctx, d) {
-  return [{ ph: ctx.photos[d.id], alt: d.alt, credit: PHOTO_CREDITS[d.id] && photoCredit(PHOTO_CREDITS[d.id]) }, ...(GALLERIES[d.id] || []).filter((n) => ctx.galleryPhotos[n]).map((n) => ({ ph: ctx.galleryPhotos[n], alt: ctx.galleryPhotos[n].alt, caption: ctx.galleryPhotos[n].caption }))];
+  return [{ ph: ctx.photos[d.id], alt: d.alt, credit: PHOTO_CREDITS[d.id] && photoCredit(PHOTO_CREDITS[d.id]) }, ...(GALLERIES[d.id] || []).filter((n) => ctx.galleryPhotos[n]).map((n) => gallerySlide(ctx, n))];
+}
+// An extra gallery photo; an openly licensed one carries its credit (galleries.mjs → credit).
+function gallerySlide(ctx, n) {
+  const g = ctx.galleryPhotos[n];
+  return { ph: g, alt: g.alt, caption: g.caption, credit: g.credit && photoCredit(g.credit) };
 }
 
 function card(ctx, d, extra = '') {
@@ -307,7 +312,7 @@ export function activityPage(ctx, a) {
     { name: a.h1 || e.name, path },
   ]);
   const slides = [
-    ...a.gallery.filter((n) => ctx.galleryPhotos[n]).map((n) => ({ ph: ctx.galleryPhotos[n], alt: ctx.galleryPhotos[n].alt, caption: ctx.galleryPhotos[n].caption })),
+    ...a.gallery.filter((n) => ctx.galleryPhotos[n]).map((n) => gallerySlide(ctx, n)),
   ];
   if (!slides.length && e.image && ctx.expCardPhotos[e.image]) slides.push({ ph: ctx.expCardPhotos[e.image], alt: e.imageAlt });
   if (!slides.length) slides.push({ ph: ctx.photos[d.id], alt: d.alt });
@@ -459,18 +464,26 @@ export function creditsPage(ctx) {
     { name: 'Home', path: '/' },
     { name: 'Photo credits', path: '/photo-credits/' },
   ]);
-  const items = DESTS.filter((d) => PHOTO_CREDITS[d.id])
-    .map((d) => {
-      const c = PHOTO_CREDITS[d.id];
-      return `<li class="pl-card">
-      ${picture(ctx.photos[d.id], CARD_KEYS, { sizes: CARD_SIZES, alt: d.alt, width: 480, height: 320, attrs: 'loading="lazy" decoding="async"' })}
+  const item = (ph, alt, d, c, where = '') => `<li class="pl-card">
+      ${picture(ph, CARD_KEYS, { sizes: CARD_SIZES, alt, width: 480, height: 320, attrs: 'loading="lazy" decoding="async"' })}
       <div class="pl-body">
         <h2 class="cr-t"><a href="${ctx.u(`/places/${d.id}/`)}">${esc(d.name)}</a></h2>
-        <p>“<a href="${esc(c.source)}" rel="noopener">${esc(c.title)}</a>” by ${c.authorUrl ? `<a href="${esc(c.authorUrl)}" rel="noopener">${esc(c.author)}</a>` : esc(c.author)}, licensed under <a href="${esc(c.licenseUrl)}" rel="license noopener">${esc(c.license)}</a>, via Wikimedia Commons. Cropped and resized for this site.</p>
+        <p>“<a href="${esc(c.source)}" rel="noopener">${esc(c.title)}</a>” by ${c.authorUrl ? `<a href="${esc(c.authorUrl)}" rel="noopener">${esc(c.author)}</a>` : esc(c.author)}, licensed under <a href="${esc(c.licenseUrl)}" rel="license noopener">${esc(c.license)}</a>, via Wikimedia Commons.${where} Cropped and resized for this site.</p>
       </div>
     </li>`;
-    })
-    .join('\n    ');
+  // Main photos (PHOTO_CREDITS), then openly licensed gallery photos (galleries.mjs → credit),
+  // naming any activity card that uses the same original.
+  const mains = DESTS.filter((d) => PHOTO_CREDITS[d.id]).map((d) => item(ctx.photos[d.id], d.alt, d, PHOTO_CREDITS[d.id]));
+  const extras = Object.entries(GALLERIES).flatMap(([id, names]) =>
+    names
+      .filter((n) => GALLERY_IMAGES[n]?.credit && ctx.galleryPhotos[n])
+      .map((n) => {
+        const g = GALLERY_IMAGES[n];
+        const cards = EXPERIENCES.filter((e) => e.image && EXPERIENCE_PHOTO_SOURCES[e.image] === g.from).map((e) => `“${esc(e.name)}”`);
+        return item(ctx.galleryPhotos[n], g.alt, D[id], g.credit, ` In the photo gallery${cards.length ? `, and on the ${cards.join(', ')} activity` : ''}.`);
+      }),
+  );
+  const items = [...mains, ...extras].join('\n    ');
   return {
     path: '/photo-credits/',
     title: `Photo credits | ${ctx.site.name}`,

@@ -96,7 +96,7 @@ compliance problems; choosing an operator; seasickness and comfort; the east-coa
 - Typical distance offshore: not stated in an official source. The page says only "a short run
   offshore" and "an hour or more" to deep water.
 
-## Business information that needs the owner (also in the file's `verify:`)
+## Business information that needs the owner (answered 2026-11-17 — see "Owner answers" at the end)
 - Whether whale watching is offered to tour guests; operator, boat type, shared or private, duration,
   pickup, price, inclusions.
 - The licence, guide, life-jacket and insurance status of any boat the business recommends.
@@ -130,3 +130,16 @@ Its site (https://whalewatching.navy.lk/, checked 2026-11-07) says cruises are s
 maintenance and that the last schedule ran from the naval base at Trincomalee (from July 2025),
 not Galle. The mention and the source were removed; re-add only if cruises resume from a
 southern port.
+
+## Owner answers (2026-11-17)
+All seven `verify:` questions were resolved and the list was removed.
+
+| Question | Owner's answer / check | What changed |
+|---|---|---|
+| Offered to tour guests? Terms? | Yes (part of the "Whale Watching Mirissa & Galle Tour"); details go to guests by WhatsApp/email, not on the page | Nothing |
+| Boat licensed (DWC, 2012 rules), registered guide, children's life jackets, passenger insurance | All yes | Nothing (the page's advice on choosing a boat stays general) |
+| Wildlife permit fee | The tour price includes all charges; "mention it appropriately" | "What a trip involves" now says the boat trip and all its charges, including the permit, are included in the tour price (was "Ask whether it is included in the price"). The experience card says the same |
+| Boat type ("a large boat") | Yes, large boats | The experience card now says guests go out on a large boat |
+| Pickup ("around 8 a.m." vs 6–7 am) | Don't mention a time; 6–7 am departures are correct | Nothing |
+| SLTDA criteria still a draft? | Re-checked 2026-11-17: SLTDA's registration page (https://www.sltda.gov.lk/en/register-with-us) still links "FINAL DRAFT CRITERIA FOR WHALE WATCHING FINAL 2026.6.12" | Nothing (the page's "not yet final in late 2026" is still right) |
+| Photo whale-watching: rights, off Mirissa, legal distance | Keep the photo; rights confirmed site-wide; where and how it was taken is unknown | The Mirissa gallery caption no longer says "off Mirissa". Add a `gallery:` line to this guide only once more photos are approved |
