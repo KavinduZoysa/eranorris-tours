@@ -176,13 +176,6 @@ export const EXPERIENCES = [
     details: 'Spice gardens on this coast grow cinnamon, pepper, cardamom, cloves, nutmeg and other spices used in Sri Lankan cooking and Ayurveda. A walk shows the plants and how each spice is harvested; many gardens have a shop.',
   },
   {
-    id: 'hikkaduwa-herbal-cloth-weaving', destinationId: 'hikkaduwa', kind: 'activity', category: 'local-life', source: 'eranorrissrilanka.com',
-    name: 'Handloom weaving and natural dyeing workshop',
-    shortDescription: 'Watch cotton being dyed and woven on wooden handlooms at a small workshop near Hikkaduwa, with a shop selling the finished cloth.',
-    details: 'Small family workshops in the Hikkaduwa and Galle area weave cotton on foot-treadle handlooms, and some colour the yarn with plant dyes such as turmeric or tree bark. A visit shows the dyeing and the looms at work and usually ends in a shop, with no obligation to buy. Most visits take under an hour. How \'herbal\' the dyes are varies from workshop to workshop.',
-    image: 'herbal-cloth-weaving', imageAlt: 'A weaver working at a wooden handloom',
-  },
-  {
     id: 'hikkaduwa-reef-snorkelling', destinationId: 'hikkaduwa', kind: 'activity', category: 'water', source: 'research',
     name: 'Snorkelling on the Hikkaduwa reef',
     shortDescription: 'Snorkel from the beach over the shallow reef of Hikkaduwa National Park, with reef fish and often turtles. Calmest from about November to April.',
@@ -785,7 +778,6 @@ export const EXPERIENCE_PHOTO_SOURCES = {
   'nine-arches-bridge': 'tours:galle/WhatsApp Image 2026-10-14 at 12.34.39 PM.jpeg',
   'tea-estate': 'tours:galle/WhatsApp Image 2026-10-14 at 12.34.49 PM.jpeg',
   'stilt-fishing': 'whale-watching-and-galle/webp/stilt_fishing_1.webp',
-  'herbal-cloth-weaving': 'around-hikkaduwa/webp/hearbal_cloth_weaving_3.webp',
 };
 
 // Available experiences for a destination: featured first, then main attractions, activities and

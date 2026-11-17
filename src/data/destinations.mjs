@@ -108,7 +108,7 @@ export const DESTS = [
     alt: 'Galle lighthouse and fort ramparts framed by palm trees',
   },
   {
-    id: 'hikkaduwa', name: 'Hikkaduwa', cat: 'beach', lat: 6.1395, lng: 80.1063, nights: 1, pos: 'l',
+    id: 'hikkaduwa', name: 'Hikkaduwa', cat: 'beach', lat: 6.1395, lng: 80.1063, nights: 2, pos: 'l', // nights: was 1 (design); owner advises 2 (2026-11-17)
     hl: 'Sea turtles · Coral reef', kw: 'Turtles', photoOf: 'the beach',
     seoTitle: 'Hikkaduwa Turtles & Coral Reef',
     desc: 'A west-coast beach town where green sea turtles feed in the shallows, with a coral reef close to shore and turtle hatcheries nearby.',

@@ -8,7 +8,7 @@ file named in each section), then run the command again.
 Set each to `true` in `site.config.mjs → confirmed` once checked.
 
 
-## Guide questions (144 open in 20 files)
+## Guide questions (135 open in 19 files)
 
 Answer them, update the text if needed, and delete each item from the file’s `verify:` list. A page can only be published once its list is empty.
 
@@ -85,18 +85,6 @@ Answer them, update the text if needed, and delete each item from the file’s `
 - [ ] Galle is listed as a pickup point in the planner ("Any hotel in Galle or the fort"). Is that confirmed (site.config.mjs → confirmed.pickups)?
 - [ ] Galle hero photo (galle-fort-lighthouse) — rights confirmed, and it shows the lighthouse and ramparts.
 - [ ] Experience photos galle-fort and jungle-beach (from the villa site) — rights and consent for any people shown.
-
-### Hikkaduwa — `src/content/places/hikkaduwa.md`
-
-- [ ] Which of the villa site’s Hikkaduwa experiences (cinnamon, Rathgama kayaking, moonstone mine, hatchery, Tsunami Museum, spice garden) are offered to tour guests, on what terms, and with whom (driver only, a local guide, a partner operator)?
-- [ ] Is the villa site’s Hikkaduwa half-day tour (moonstone mine, hatchery, Tsunami Museum) a fixed package for tour guests, and do guests pay the entry charges on the day?
-- [ ] Which hatchery and which Tsunami Museum do the villa site’s photos show, and do we want to name them? The page describes both only in general terms.
-- [ ] Should the page mention the villas in the Hikkaduwa area or link to eranorrissrilanka.com?
-- [ ] Recommended stay — the design suggests 1 night; the page says 1–2 nights or longer as a base. Which do we advise?
-- [ ] Do we arrange snorkelling gear, glass-bottom boats, surf lessons or dives, or do guests book these locally? If we recommend a dive centre or surf school, is it registered with Sri Lanka Tourism (SLTDA) and, for diving, affiliated with an international training agency?
-- [ ] The villa site's "Tour Around Hikkaduwa" includes a "herbal cloth weaving & colour factory" (free entry). Which workshop is it (name, village), and what do guests actually see — handloom weaving, natural or "herbal" dyeing, batik, or silk? Is there any commission or sales arrangement? The page describes such workshops only in general terms.
-- [ ] The Tsunami Honganji Vihara statue height could not be confirmed (sources give 16.5 m, 18.5 m and 30 m), so the page gives none. Do you know the figure from the temple itself?
-- [ ] The journey times here are researched ranges, not our own measured times. Please confirm or correct them from experience.
 
 ### Kandy — `src/content/places/kandy.md`
 

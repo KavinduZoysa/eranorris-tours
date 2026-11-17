@@ -9,7 +9,7 @@
 //   experiences:  EXPERIENCE_PHOTO_SOURCES — paths in the villa site's assets/images folder
 //                 (default: ../eranorris-srilanka/assets/images), or 'tours:<path under
 //                 ~/villas/tours>' → src/images/experiences/ (longest side ≤ 1200, not cropped)
-//   --only:       process just these output names (e.g. --only=stilt-fishing,herbal-cloth-weaving),
+//   --only:       process just these output names (e.g. --only=stilt-fishing,tsunami-museum),
 //                 leaving every other master untouched
 //   galleries:    GALLERY_IMAGES in src/data/galleries.mjs ('tours:' = ~/villas/tours,
 //                 'villa-site:' = the villa site folder) → src/images/gallery/ (longest side ≤ 1600)

@@ -1,10 +1,11 @@
 ---
 # Destination guide, written to docs/content-guide.md. Research: docs/research/hikkaduwa.md
-status: draft
+status: published
+reviewed: 2026-11-17
 title: Hikkaduwa Guide: Reef, Turtles & Surf | Eranorris
 description: Plan a stay in Hikkaduwa: the protected reef, wild sea turtles, swimming safety by season, the surf, the 2004 tsunami memorials and nearby day trips.
 intro: A long-established beach town on the south-west coast, with a protected coral reef just off the sand and green turtles grazing in the shallows.
-stay: 1–2 nights, or longer as a base for Galle and the south coast
+stay: 2 nights
 gettingThere: About 2–2.5 hours by road from the airport via the expressways, traffic permitting
 bestTime: About November to April, when the sea is calmer; rough in the south-west monsoon
 goodFor: Snorkelling, sea turtles, surfing, an easy base for Galle
@@ -20,16 +21,6 @@ sources:
   - Sri Lanka Tourism — the masks of Ambalangoda | https://srilanka.travel/wellness-tourism/The_masks_of_Ambalangoda_from_healing_to_performance
   - Ramsar Convention — Madu Ganga wetland | https://rsis.ramsar.org/ris/1372
   - Sri Lanka Railways — timetables and seat reservations | https://seatreservation.railway.gov.lk/mtktwebslr/
-verify:
-  - Which of the villa site’s Hikkaduwa experiences (cinnamon, Rathgama kayaking, moonstone mine, hatchery, Tsunami Museum, spice garden) are offered to tour guests, on what terms, and with whom (driver only, a local guide, a partner operator)?
-  - Is the villa site’s Hikkaduwa half-day tour (moonstone mine, hatchery, Tsunami Museum) a fixed package for tour guests, and do guests pay the entry charges on the day?
-  - Which hatchery and which Tsunami Museum do the villa site’s photos show, and do we want to name them? The page describes both only in general terms.
-  - Should the page mention the villas in the Hikkaduwa area or link to eranorrissrilanka.com?
-  - Recommended stay — the design suggests 1 night; the page says 1–2 nights or longer as a base. Which do we advise?
-  - Do we arrange snorkelling gear, glass-bottom boats, surf lessons or dives, or do guests book these locally? If we recommend a dive centre or surf school, is it registered with Sri Lanka Tourism (SLTDA) and, for diving, affiliated with an international training agency?
-  - The villa site's "Tour Around Hikkaduwa" includes a "herbal cloth weaving & colour factory" (free entry). Which workshop is it (name, village), and what do guests actually see — handloom weaving, natural or "herbal" dyeing, batik, or silk? Is there any commission or sales arrangement? The page describes such workshops only in general terms.
-  - The Tsunami Honganji Vihara statue height could not be confirmed (sources give 16.5 m, 18.5 m and 30 m), so the page gives none. Do you know the figure from the temple itself?
-  - The journey times here are researched ranges, not our own measured times. Please confirm or correct them from experience.
 ---
 
 ## The town and the beach
@@ -75,7 +66,6 @@ A memorial stands beside the line at Peraliya, where a rebuilt locomotive and ca
 
 - **Seenigama**, just north of town, has a shrine to Devol, a deity regarded as a protector of fishermen and travellers, on a tiny island offshore. Passing drivers often stop to leave offerings in the boxes by the road. It is a working place of worship, not a sight laid on for visitors.
 - **Ambalangoda**, about 13 km north, is known for carved wooden masks, from the *sanni* masks of healing rituals to the *kolam* masks of folk theatre, with family workshops and museums.
-- **Craft workshops.** Small workshops around Hikkaduwa and Galle weave cotton on foot-treadle handlooms, some colouring the yarn with plant dyes, while others make batik. A visit shows the dyeing and the looms at work and usually ends in a shop, with no obligation to buy.
 - **Madu Ganga** at Balapitiya, a little further north, is a mangrove estuary scattered with islands and a Ramsar wetland of international importance. Boat trips usually stop at the temple on Kothduwa island.
 - **Rathgama Lagoon**, just south of town, is calm and fringed with mangroves.
 - **Moonstone mines** at Meetiyagoda, inland towards Ambalangoda, are small hand-dug pits where you can see the stones washed and cut.
@@ -83,12 +73,12 @@ A memorial stands beside the line at Peraliya, where a rebuilt locomotive and ca
 
 ## How long to stay
 
-**One night** is enough to snorkel, look for turtles and catch a sunset. **Two or three nights** let you add Galle, the Madu River or Ambalangoda, and leave a spare morning if the sea is rough. Surfers and divers often stay much longer.
+**Two nights** is what we suggest: time to snorkel, look for turtles and catch a sunset, and to add Galle, the Madu River or Ambalangoda, with a spare morning if the sea is rough. Surfers and divers often stay much longer.
 
 A typical day:
 
 - **Early morning:** snorkel or look for turtles while the sea is calm and the beach empty.
-- **Late morning:** a boat on the Madu River, the masks at Ambalangoda, or a weaving workshop.
+- **Late morning:** a boat on the Madu River or the masks at Ambalangoda.
 - **Afternoon:** the tsunami memorial and museums at Peraliya, then a rest through the heat.
 - **Evening:** sunset on the beach and dinner along the strip.
 

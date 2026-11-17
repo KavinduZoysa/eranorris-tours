@@ -112,7 +112,7 @@ road and rail times to the airport, Galle, Mirissa, Bentota and Yala.
 - Hikkaduwa–Yala time (3.5–4.5 h via the Southern Expressway) is an estimate from distance and
   expressway routing; no direct source found. Mirissa range (1–1.5 h) combines aggregator figures.
 
-## Business information that needs the owner (also in the file’s `verify:`)
+## Business information that needs the owner (answered 2026-11-17 — see "Owner answers" at the end)
 - Which villa-site experiences are offered to tour guests, on what terms, and with whom.
 - Whether the Hikkaduwa half-day tour is a package for tour guests, and who pays entry charges.
 - Which hatchery and Tsunami Museum the villa photos show, and whether to name them.
@@ -257,3 +257,18 @@ The supplied main photo was replaced because it was watermarked, low quality or 
 https://commons.wikimedia.org/wiki/File:Hikka_Beach.jpg. Place confirmed from the file itself: GPS on the file (6.1362, 80.0995) is Hikkaduwa beach; category "Hikkaduwa". It is credited under the photo on the
 page and on /photo-credits/; the site's copy is cropped and resized. The old photo question was
 removed from the guide's `verify:` list.
+
+## Owner answers (2026-11-17)
+All nine `verify:` questions were answered by the owner and the list was removed from the guide.
+
+| Question | Owner's answer | What changed |
+|---|---|---|
+| Villa-site experiences for tour guests | All six (cinnamon, Rathgama kayaking, moonstone mine, hatchery, Tsunami Museum, spice garden) are offered; guests choose some or all | Nothing (the cards already let guests choose) |
+| Half-day tour, entry charges | Not a fixed package: asked when guests chat with us. All inclusive in the tour price | Nothing; the owner chose not to mention prices on the page |
+| Name the hatchery and Tsunami Museum? | Don't name them | Nothing (the page doesn't name them) |
+| Mention or link the villas? | No: a separate business from eranorrissrilanka.com | Nothing |
+| Recommended stay | It depends; say 2 nights | Guide `stay:` "2 nights" and "How long to stay" now suggests two nights; planner default `nights` 1 → 2 (`src/data/destinations.mjs`) |
+| Snorkelling, boats, surf lessons, dives | Partners usually give a lesson; all places are legal and properly licensed | Nothing (the page's safety advice stays general) |
+| "Herbal cloth weaving & colour factory" | Delete it from the activities | Card `hikkaduwa-herbal-cloth-weaving` and its photo deleted; the "Craft workshops" paragraph and "or a weaving workshop" in "A typical day" removed (owner's choice) |
+| Tsunami Honganji Vihara statue height | Leave it out | Nothing (the page gives no height) |
+| Journey times | Correct | Nothing. They also agree with the OpenStreetMap road data (`src/data/route-times.mjs`): airport 148 km / ~2 h 25 min, Galle 20 km / ~30 min, Bentota 37 km / ~55 min, Mirissa 62 km / ~1 h 25 min, Yala 183 km / ~3 h 30 min |

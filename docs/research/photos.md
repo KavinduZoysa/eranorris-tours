@@ -46,7 +46,7 @@ The same rule applies: the business's own photos, subject identifiable from the 
 | nine-arches-bridge | Nine Arches Bridge | The bridge in the jungle | tours/galle album. Confirm it's Ella |
 | tea-estate | Tea estate and factory visit | Hill-country tea estate | tours/galle album |
 | stilt-fishing | Stilt fishing (new card) | Stilt fishermen silhouetted at sunset | villa site (stilt_fishing_1). Where was it taken? |
-| herbal-cloth-weaving | Herbal cloth weaving (new card) | A weaver at a handloom | villa site (hearbal_cloth_weaving_3) |
+| ~~herbal-cloth-weaving~~ | Herbal cloth weaving — **removed 2026-11-17** (owner: not offered; card and photo deleted) | A weaver at a handloom | villa site (hearbal_cloth_weaving_3) |
 
 Not used: `stilt_fishing_2` (a tourist posing on a stilt), `hearbal_cloth_weaving_1/2` (a shop
 with a business's branding, which could suggest a partnership), `traditional_masks_1` (carries a
