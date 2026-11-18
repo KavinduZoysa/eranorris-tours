@@ -233,6 +233,7 @@ The main page offers two services as two equal cards over the map:
   three.
 - **A switch stays on screen** inside each service ("Tour planner | Airport shuttle"), so the
   other one is always one press away. The site menu has both too (`/#tour`, `/#transfer`).
+  Phones have a round "back" button instead: it returns to the main page.
 - **Coming back:** a visitor with a trip or a transfer in progress returns straight to it; so
   does anyone following a link such as `/#add=kandy` or `/#transfer`. A small inline script
   (`SVC_BOOT` in `src/templates/home.mjs`) decides this before the first paint, so the cards
@@ -278,7 +279,8 @@ Rules that the code and tests keep:
   `message`, …). Success says "Thank you! Your transfer request has been sent."
 - **Layout:** on wide screens the card sits beside the map. On stacked layouts (≤ 1100 px, and
   phones held sideways) the card comes first and the map is a block of its own under it, so
-  the map never takes over a small screen and the whole island always fits in it.
+  the map never takes over a small screen and the whole island always fits in it. On phones
+  held upright the card is a sheet over the lower part of a full-height map.
 
 ## Guided trip planner
 
@@ -292,6 +294,10 @@ views of one saved state (`S` in `src/js/app.js`, stored in the browser as `eran
 | 3. Trip | After "Add to my trip" the dialog closes, a message says "Kandy added to your trip!", and the compact trip panel appears: starting point, numbered places, **+ Add another destination**, **Finish planning**. | `#trip` |
 | 4. Review | "Your Sri Lanka trip is taking shape!": starting point, places in order with nights and chosen experiences, drive estimates, **Edit my trip** / **Continue**. | `#mbg`, `openReview()` |
 | 5. Details | Start date (optional), guests, name, email, WhatsApp/phone, **Send my trip request**. | `#mbg`, `openDetails()` |
+
+Phones run the same steps on the map itself, with sheets in place of the panels: see
+[Phones: the map is the menu](#phones-the-map-is-the-menu). A place opens as the same dialog
+there too.
 
 Rules that the code and tests keep:
 
@@ -325,33 +331,12 @@ Rules that the code and tests keep:
 
 ## Mobile and desktop behaviour
 
-Tested at 280–2560 px wide, portrait and landscape, with touch and mouse.
+Tested at 280–2560 px wide, portrait and landscape, with touch and mouse. (The phone layout was
+rebuilt in November 2026; what was checked for it is listed under
+[Phones: the map is the menu](#phones-the-map-is-the-menu).)
 
-- **Phones (portrait)**:
-  - The tour planner puts the map first. Over its top sits a compact strip: the service
-    switch, a one-line heading, a short guide line, the search and one swipeable row of filter
-    chips. The map fills the screen under the header except a 56 px strip at the bottom, so
-    some page is always on screen to scroll with (`svh`, so the height doesn't jump when the
-    browser's toolbars slide).
-  - A place opens as a sheet from the bottom
-    (nearly full height); its content scrolls on its own, "Add to my trip" and "Close" stay in
-    reach, and the page behind does not scroll.
-  - The trip is a slim one-row bar at the bottom of the map ("Your trip · 2 places · 5 days"
-    and "Finish planning"), clear of the screen's safe area; it opens to show the starting
-    point and the places. The zoom buttons and the credits sit above it. The header's "Your
-    trip" button jumps back to it from anywhere on the page.
-  - Once a place is in the trip, the big heading is hidden (it stays in the page for screen
-    readers) so the island and the drawer both fit.
-  - The filter chips form one swipeable row.
-  - **Gestures:** one finger moves the map in any direction, also after places are added;
-    two fingers pinch to zoom; the + and − buttons work too. A swipe outside the map (header,
-    heading, guide line, search, the strip under the map) scrolls the page. Taps on places,
-    the starting-point pin and double-tap zoom work as usual. (Until November 2026 one finger
-    scrolled the page and the map needed two fingers; on phones that made the map feel stuck.)
-  - **Place names** (phones and tablets): a name never runs off the map's edge or under the
-    controls over the map; it moves to a free side of its marker, or waits hidden until there
-    is room (the marker still opens the place). Sea and district names cut by the edge are
-    hidden. Wide screens keep the design's placement.
+- **Phones (up to 600 px wide)**: the map is the menu. See
+  [Phones: the map is the menu](#phones-the-map-is-the-menu).
 - **Phones (landscape)**: the overlay sits on the left, as on desktop; the trip is a small
   card on the right, and the place dialog uses nearly the whole screen.
 - **Tablets and desktop**: the map has the full width, with the search on the left and the
@@ -369,6 +354,84 @@ Tested at 280–2560 px wide, portrait and landscape, with touch and mouse.
 - **Map framing**: the map's pan limits were widened so the island always fits beside or
   below the overlay. The design's tighter limits hid places under the search box and chips
   on small or short screens.
+
+## Phones: the map is the menu
+
+On a phone the page is one tall map, with a white sheet over its lower part. Words are kept off
+the map. Tablets and desktop keep their own layout. The design is on a Claude Design canvas (seven
+phone screens); the code is in the "Phones" parts of `src/js/app.js` and `src/styles/app.css`.
+One screen of the design is not in the site: the view inside a place, where the map zoomed in
+and the things to do were pins. It was built and then taken out again in November 2026.
+A place opens as the dialog with tick boxes, on every screen size.
+
+**What is on the map**
+
+- No heading, no guide line, no district names, no sea names and no grid lines.
+- Each place is a small dot in the colour of its type. One place at a time shows its photo:
+  the place whose card is in view. Places in the trip show their photo and their number.
+- Zoomed in (zoom 8.75 and closer), every place shows its photo and its name again.
+- While the trip sheet is on screen, the filter buttons are hidden, the search box says
+  "Add a place", and the places that are not in the trip are smaller and paler.
+- In the airport transfer, the two ends show only the letter A or B. Their names are in the sheet.
+- Round buttons float over the top: back, the search (tour planner only) and the site menu.
+  The two-way switch is gone here: "back" returns to the main page, where both services are.
+- The credits line sits just above the sheet. The + and − buttons are hidden (two fingers zoom).
+
+**The sheets** (only one shows at a time)
+
+| Sheet | When | What it holds |
+|---|---|---|
+| The two services | main page | the heading, then "Plan a tour" and "Airport transfer", each one row to tap |
+| Place cards (`#sheet`) | tour planner, no place in the trip yet (or after "Add") | one row of cards to swipe: photo, type, name, and + to add the place at once |
+| The trip (`#trip`) | a place is in the trip | closed: the places as a row of photos, the start, and "Review trip". Open (tap the title): the full list to change the start, the order and the places |
+| The transfer card (`#tcard`) | airport shuttle | one box with two rows, A (pickup) and B (drop-off), then the drive estimate and "Continue". A row shows the short name of what was chosen (`.tf-v`). The list of places lies over the whole row and is not seen, so a tap anywhere on the row opens it |
+
+**How a visitor plans a tour**
+
+1. Tap a dot, or swipe the cards. The place in view shows its photo on the map.
+2. Tap the card (or the photo on the map). The place opens as a dialog: photo, text, and
+   "Things to do" with tick boxes. A search result opens it the same way.
+3. Tick what you'd like to do, then press "Add to my trip". The dialog closes and the trip sheet
+   shows. ("Close" adds nothing.)
+4. Or press + on a card: the place is added at once, with nothing ticked.
+5. "Review trip" needs a starting point. If there is none, the trip opens on that field.
+6. Review ("Your trip", step 1 of 2) is a full sheet: one line of totals (places, nights,
+   km), then the trip as a plain list from the start to the end, with − and + for the nights
+   of each place. "Edit" opens the full trip list; the round back button returns to the map.
+7. Details ("Your details", step 2 of 2): adults and children side by side, the start date,
+   then name, email and phone. Country, hotels and the note are behind one link. One button
+   sends the request.
+
+The phone versions of these two steps are built by `openReview()` and `openDetails()` in
+`app.js` when `phone()` is true (the dialog then has the class `ph`). They read and change
+the same state as the desktop versions, and the request that is sent is the same. The
+transfer's two steps keep their desktop content; on phones they get the same top row (a round
+back button and "Step 1 of 2").
+
+**Rules the code keeps**
+
+- Nothing new is saved or sent. Ticks are kept as before (`draft` until the place is added,
+  then `S.exps`), and places use `addStop()` and `removeStop()`. A request made on a phone is
+  the same as one made on desktop.
+- The phone review shows how many things were ticked in a place ("2 nights · 1 thing to do"),
+  not each one. To change them, open the place from the trip sheet. The desktop review
+  still lists each one with a remove button.
+- Opening a place never moves or zooms the map.
+- Links work as before: `/#place=<id>`, `/#experiences=<id>` and `/#exp=<experience id>` open
+  the place's dialog; `/#add=<id>` adds it and shows the trip sheet.
+- The page still scrolls. A swipe on the sheet moves the page; one finger on the map moves the
+  map. The places list and the footer are under the map.
+
+**Checked** at 390 × 844, 360 × 640, 320 × 568 and 430 × 932 in Chrome's phone mode: the main page, the place cards,
+the trip, review, details, the transfer, the search and the menu. The review, details and transfer sheets were changed after that to match
+the design, and checked again at 390 × 844, 360 × 640 and 320 × 568: the error messages, the
+back buttons, the nights buttons, and that nothing is wider than the screen. Not yet checked
+on a real phone.
+
+The place dialog with tick boxes (in place of the view inside a place) was checked at
+1280 × 800 and 390 × 844: opening a place from a marker, from the trip, from a card, from the
+search and from a link; ticking and adding; ticks dropped by "Close" and by Escape; a tick
+saved at once for a place in the trip.
 
 ## Drive times
 
@@ -421,7 +484,7 @@ through partners (owner, November 2026), and guests don't need that detail.
   the map. The airport shuttle shows no experiences.
   - For a place that isn't in the trip yet, ticks are kept only when the visitor presses "Add
     to my trip". "Close" drops them: closing never adds anything.
-  - For a place already in the trip, a tick applies at once.
+  - For a place already in the trip, a tick is saved at once.
 - **Trip panel:** shows only a count per place ("2 nights · 1 experience").
 - **Review step:**
   - Chosen experiences appear under their place, each with a × to remove it.
@@ -452,6 +515,9 @@ field list is documented at the top of that file. For example:
   shortDescription: 'Only facts you can stand behind (≤ 200 characters; shown on the map).',
   details: 'Fuller card text for the destination page: general facts, typical times in words.',
   // where: 'Koggala, about 20 minutes east of Galle',   // where it is, if not in the place itself
+  lat: 6.0258, lng: 80.2175,      // optional: where it is (not shown on the site at the moment)
+  short: 'Sunset walk',           // optional: a short name, 20 characters at most (not shown at the moment)
+  // approx: true,                // optional: it has no single spot, so lat and lng are only a point nearby
   // duration: '2 hours',         // optional, only a duration you've confirmed for your offer
   // price: 'US$ 20 per person',  // optional, only a verified current price
   // image: 'galle-sunset', imageAlt: '…',   // optional: src/images/experiences/galle-sunset.jpg
@@ -463,10 +529,19 @@ field list is documented at the top of that file. For example:
 
 The build stops on an unknown destination, a duplicate or badly formatted id, an unknown
 category, kind or source, an excursion without `where`, a short description over 200
-characters, or a missing image or alt text. `npm run check` confirms every experience is
+characters, a map position outside Sri Lanka, a `short` name over 20 characters, or a missing
+image or alt text. `npm run check` confirms every experience is
 listed on its destination page with its kind. To add photos, put a JPEG in `src/images/experiences/`, or map it in
 `EXPERIENCE_PHOTO_SOURCES` (villa-site path, or `tours:<path>` for the tour album) and run
 `npm run prepare:images -- --only=<name>`.
+
+**Map positions:** every experience has a `lat` and `lng`. They were looked up in November 2026
+on OpenStreetMap (© OpenStreetMap contributors) and, for a few, on Wikipedia. Nobody has checked
+them on the ground. 29 of the 97 have `approx: true`: the thing has no single spot (a cooking
+class, a train ride, a safari where the driver picks the park), so the position is only a point
+nearby. Each also has a `short` name (20 characters at most). **The site does not show these
+at the moment.** They were made for pins inside a place, and that view was taken out. They are
+kept in the data (and checked by the build) so a later map of things to do can use them.
 
 **Owner checklist:** `npm run checklist` writes `docs/research/owner-checklist.md` — every
 unconfirmed site-wide fact, open guide question and (until `confirmed.experiences` is true) the
@@ -630,6 +705,7 @@ that uses the same original.
 ## Phones and tablets
 
 The site is laid out for phones first and tested at 320, 375, 390, 430, 768, 1024 and 1440 px.
+(The map page on phones was rebuilt later: see [Phones: the map is the menu](#phones-the-map-is-the-menu).)
 
 - **Site menu** (every page): a menu button in the header opens the places by category, the
   experience guides, both services (`/#tour` and `/#transfer` open them directly) and
@@ -646,10 +722,9 @@ The site is laid out for phones first and tested at 320, 375, 390, 430, 768, 102
   images are requested at thumbnail size there.
 - **Touch targets** are at least 44 px on touch screens (larger hit areas where the visual size
   stays the same), and headings scale fluidly with `clamp()` to the same desktop sizes.
-- **Planner on small phones:** see [Guided trip planner](#guided-trip-planner). In the review
-  step the nights stepper moves under the place name. Opening a place never moves or zooms the
-  map; the island is fitted again only when the layout changes (for example when the trip
-  drawer first appears).
+- **Planner on phones:** see [Phones: the map is the menu](#phones-the-map-is-the-menu). In
+  the review step the nights stepper moves under the place name on very narrow screens. On
+  every screen size, opening a place never moves or zooms the map.
 
 ## Licences and attribution
 

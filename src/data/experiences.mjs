@@ -15,6 +15,15 @@
 //   shortDescription one or two sentences (≤ 200 characters) — only facts you can stand behind
 //   category         a key of EXP_CATS
 //   where            optional; only when it happens outside the destination itself
+//   lat, lng         where it is. Looked up on OpenStreetMap and Wikipedia in November 2026.
+//                    Nobody has checked them on the ground: fix any that are wrong.
+//                    The site does not show them at the moment (they were made for pins inside
+//                    a place, and that view was taken out). They are kept for later use.
+//   approx           optional; true when the thing has no single spot: it happens in several
+//                    places, it moves (a train ride, a boat trip), or the exact place is not
+//                    known yet. lat and lng are then only a point nearby.
+//   short            a short name, 20 characters at most, taken from `name` (no new facts).
+//                    Not shown at the moment either.
 //   details          optional; a fuller, researched description for the destination page
 //                    card (the map keeps shortDescription). General facts only — never
 //                    what the tour includes. Typical times go here, in words.
@@ -60,12 +69,14 @@ export const EXPERIENCES = [
   // Kandy — requested in the brief. Durations and what is included are not yet known.
   {
     id: 'kandy-temple-of-the-tooth', destinationId: 'kandy', kind: 'attraction', category: 'culture', source: 'brief',
+    lat: 7.2936, lng: 80.6413, short: 'Temple of the Tooth',
     name: 'Temple of the Sacred Tooth Relic',
     shortDescription: 'Visit the Buddhist temple that houses the Sacred Tooth Relic, beside Kandy Lake.',
     details: 'The temple beside Kandy Lake enshrines a relic of the Buddha’s tooth and is busy with worshippers all day, especially at the three daily ceremonies. Cover shoulders and knees, leave your shoes at the entrance and buy tickets from the machines on site.',
   },
   {
     id: 'kandy-peradeniya-botanical-gardens', destinationId: 'kandy', kind: 'attraction', category: 'nature', source: 'brief',
+    lat: 7.2707, lng: 80.5963, short: 'Botanical Gardens',
     name: 'Peradeniya Royal Botanical Gardens',
     shortDescription: 'Walk through the Royal Botanical Gardens at Peradeniya, on the outskirts of Kandy.',
     where: 'Peradeniya, about 5.5 km west of Kandy',
@@ -73,30 +84,35 @@ export const EXPERIENCES = [
   },
   {
     id: 'kandy-kandyan-dance', destinationId: 'kandy', kind: 'activity', category: 'culture', source: 'brief',
+    lat: 7.292, lng: 80.6424, approx: true, short: 'Kandyan dance',
     name: 'Traditional Kandyan dance performance',
     shortDescription: 'Watch a performance of Kandyan dance, the traditional dance of the hill country, with drummers.',
     details: 'The classical dance of the hill country, with drummers and acrobatic ves dancers in silver headdresses. Evening performances for visitors are held at several venues in town and usually last about an hour; seating is often first come, first served.',
   },
   {
     id: 'kandy-lake-walk', destinationId: 'kandy', kind: 'attraction', category: 'history', source: 'research',
+    lat: 7.2902, lng: 80.6432, short: 'Kandy Lake',
     name: 'Kandy Lake and the old city',
     shortDescription: 'Walk around the lake the last king of Kandy created in the early 1800s, past the Temple of the Tooth and the old royal buildings.',
     details: 'Sri Wickrama Rajasinghe, the last king of Kandy, had paddy fields flooded below his palace to make the lake in the early 1800s; its scalloped parapet wall was still unfinished when the kingdom fell in 1815. A path follows the shore past the Temple of the Tooth and the old palace buildings, with the forest of Udawattakele behind. A full circuit takes about an hour at a gentle pace.',
   },
   {
     id: 'kandy-udawattakele', destinationId: 'kandy', kind: 'activity', category: 'nature', source: 'research',
+    lat: 7.2994, lng: 80.6389, short: 'Udawattakele',
     name: 'Udawattakele forest walk',
     shortDescription: 'Walk shaded paths through the forest reserve on the ridge behind the Temple of the Tooth, once the royal pleasure garden, minutes from the centre.',
     details: 'The forest on the ridge behind the temple was the Kandyan kings’ pleasure garden, became a forest reserve in 1856 and a sanctuary in 1938, and covers about 104 ha. Shaded paths wind past ponds and old trees, with plenty of birds and monkeys. It is quieter early in the morning; most visitors walk for one to two hours.',
   },
   {
     id: 'kandy-bahirawakanda', destinationId: 'kandy', kind: 'attraction', category: 'culture', source: 'research',
+    lat: 7.2954, lng: 80.6292, short: 'Bahirawakanda',
     name: 'Bahirawakanda Buddha viewpoint',
     shortDescription: 'Climb to the large white seated Buddha on a hill above Kandy for one of the best views over the city and the lake.',
     details: 'On a hill about 2 km from the centre, a white seated Buddha about 27 m tall, completed in 1992, looks out over Kandy. The terrace around it is one of the best viewpoints over the city, the lake and the surrounding hills, especially late in the afternoon. It is a place of worship: cover shoulders and knees and remove shoes where asked.',
   },
   {
     id: 'kandy-three-temples', destinationId: 'kandy', kind: 'excursion', category: 'history', source: 'research',
+    lat: 7.2338, lng: 80.565, approx: true, short: 'Three temples',
     name: 'Gadaladeniya, Lankatilaka and Embekke temples',
     shortDescription: 'A quiet half-day loop to three 14th-century temples west of Kandy, built in stone, brick and wood; Embekke is known for its carved pillars.',
     where: 'Off the Colombo road, roughly 15 km west of Kandy',
@@ -104,6 +120,7 @@ export const EXPERIENCES = [
   },
   {
     id: 'kandy-ceylon-tea-museum', destinationId: 'kandy', kind: 'activity', category: 'local-life', source: 'research',
+    lat: 7.2686, lng: 80.6327, short: 'Tea Museum',
     name: 'Ceylon Tea Museum, Hanthana',
     shortDescription: 'See old tea machinery and the story of Ceylon tea in a 1925 tea factory in the hills just south of Kandy, with a tea room at the top.',
     where: 'Hanthana, a few kilometres south of Kandy',
@@ -111,12 +128,14 @@ export const EXPERIENCES = [
   },
   {
     id: 'kandy-hanthana-pekoe-trail', destinationId: 'kandy', kind: 'activity', category: 'adventure', source: 'research',
+    lat: 7.2535, lng: 80.628, approx: true, short: 'Hanthana hills',
     name: 'Hanthana hills and the Pekoe Trail',
     shortDescription: 'Walk in the Hanthana range just south of Kandy, where the long-distance Pekoe Trail begins its route through the tea country.',
     details: 'The Hanthana range rises to about 1,240 m just south of the city, with tea estates, grassland and views back over Kandy. The first stage of the Pekoe Trail, a 300 km waymarked route through the hills, runs from Hanthana to Galaha and is graded easy. Start early, carry water and check the trail organisers’ stage conditions, which change with the weather.',
   },
   {
     id: 'kandy-esala-perahera', destinationId: 'kandy', kind: 'activity', category: 'culture', source: 'research',
+    lat: 7.2932, lng: 80.6373, approx: true, short: 'Esala Perahera',
     name: 'Esala Perahera festival',
     shortDescription: 'Watch the torch-lit processions of dancers, drummers and decorated elephants that carry the relic casket through Kandy for ten nights each year.',
     season: 'Usually July or August; the temple publishes the dates each year',
@@ -126,6 +145,7 @@ export const EXPERIENCES = [
   // Hikkaduwa — your villa site's experiences and "Tour Around Hikkaduwa", plus the design text.
   {
     id: 'hikkaduwa-cinnamon', destinationId: 'hikkaduwa', kind: 'activity', category: 'local-life', source: 'eranorrissrilanka.com',
+    lat: 6.15, lng: 80.125, approx: true, short: 'Cinnamon',
     name: 'Cinnamon experience',
     shortDescription: 'Visit a working cinnamon garden with local artisans, learn to harvest and peel the bark by hand, and see how true cinnamon is processed.',
     details: 'Spend time at a working cinnamon garden and learn to peel the bark by hand. The shoots are cut, the outer bark is scraped away and the inner bark loosened with a brass rod, then peeled in thin strips and rolled into quills to dry.',
@@ -134,12 +154,14 @@ export const EXPERIENCES = [
   },
   {
     id: 'hikkaduwa-sea-turtles', destinationId: 'hikkaduwa', kind: 'attraction', category: 'wildlife', source: 'design',
+    lat: 6.1317, lng: 80.0999, short: 'Sea turtles',
     name: 'Sea turtles in the wild',
     shortDescription: 'Green sea turtles feed in the shallows off the beach. Watch from a respectful distance without touching or feeding them; sightings depend on the sea and are never guaranteed.',
     details: 'Green turtles come into the shallows by the reef at the north end of the beach to graze on algae, often a few metres from swimmers. Watch from a distance and don’t touch, chase or feed them, even with the seaweed sold on the beach. Sightings are common in calm weather but never guaranteed.',
   },
   {
     id: 'hikkaduwa-turtle-hatchery', destinationId: 'hikkaduwa', kind: 'activity', category: 'wildlife', source: 'eranorrissrilanka.com',
+    lat: 6.1644, lng: 80.0903, approx: true, short: 'Turtle hatchery',
     name: 'Turtle hatchery',
     shortDescription: 'A privately run hatchery where turtle eggs are incubated and turtles kept in tanks. A captive facility, not a wild encounter.',
     details: 'Privately run hatcheries along this coast incubate eggs taken from nesting beaches before releasing the hatchlings, and keep turtles in tanks. It is a captive facility, not a wild encounter, and practices vary between hatcheries.',
@@ -147,6 +169,7 @@ export const EXPERIENCES = [
   },
   {
     id: 'hikkaduwa-moonstone-mine', destinationId: 'hikkaduwa', kind: 'excursion', category: 'local-life', source: 'eranorrissrilanka.com',
+    lat: 6.1942, lng: 80.0939, short: 'Moonstone mine',
     name: 'Moonstone mine visit',
     shortDescription: 'See the hand-dug moonstone pits at Meetiyagoda and watch the stones being cut and polished; most workshops have a showroom.',
     where: 'Meetiyagoda, inland between Hikkaduwa and Ambalangoda',
@@ -154,6 +177,7 @@ export const EXPERIENCES = [
   },
   {
     id: 'hikkaduwa-rathgama-lagoon-kayaking', destinationId: 'hikkaduwa', kind: 'activity', category: 'nature', source: 'eranorrissrilanka.com',
+    lat: 6.1103, lng: 80.1352, short: 'Lagoon kayaking',
     name: 'Kayaking on Rathgama Lagoon',
     shortDescription: 'Paddle a calm lagoon near Hikkaduwa, bordered by mangroves and coconut palms, with kingfishers and cormorants along the way.',
     where: 'Rathgama, just south of Hikkaduwa',
@@ -163,6 +187,7 @@ export const EXPERIENCES = [
   },
   {
     id: 'hikkaduwa-tsunami-museum', destinationId: 'hikkaduwa', kind: 'attraction', category: 'history', source: 'eranorrissrilanka.com',
+    lat: 6.1665, lng: 80.0893, short: 'Tsunami museum',
     name: 'Tsunami museum and Peraliya memorial',
     shortDescription: 'A museum near Hikkaduwa remembering the 2004 tsunami that struck this coast.',
     where: 'Peraliya and Telwatta, a few kilometres north of Hikkaduwa on the Galle Road',
@@ -171,12 +196,14 @@ export const EXPERIENCES = [
   },
   {
     id: 'hikkaduwa-spice-garden', destinationId: 'hikkaduwa', kind: 'activity', category: 'local-life', source: 'eranorrissrilanka.com',
+    lat: 6.145, lng: 80.12, approx: true, short: 'Spice garden',
     name: 'Spice garden',
     shortDescription: 'Walk through a spice garden and see how Sri Lankan spices are grown.',
     details: 'Spice gardens on this coast grow cinnamon, pepper, cardamom, cloves, nutmeg and other spices used in Sri Lankan cooking and Ayurveda. A walk shows the plants and how each spice is harvested; many gardens have a shop.',
   },
   {
     id: 'hikkaduwa-reef-snorkelling', destinationId: 'hikkaduwa', kind: 'activity', category: 'water', source: 'research',
+    lat: 6.145, lng: 80.0925, short: 'Reef snorkelling',
     name: 'Snorkelling on the Hikkaduwa reef',
     shortDescription: 'Snorkel from the beach over the shallow reef of Hikkaduwa National Park, with reef fish and often turtles. Calmest from about November to April.',
     season: 'About November to April, on calm days',
@@ -184,6 +211,7 @@ export const EXPERIENCES = [
   },
   {
     id: 'hikkaduwa-surfing', destinationId: 'hikkaduwa', kind: 'activity', category: 'water', source: 'research',
+    lat: 6.1195, lng: 80.1151, approx: true, short: 'Surfing',
     name: 'Surfing and surf lessons',
     shortDescription: 'Surf Hikkaduwa\'s reef breaks, or learn on the gentler waves further south around Narigama. The season runs from about November to April.',
     season: 'About November to April',
@@ -191,6 +219,7 @@ export const EXPERIENCES = [
   },
   {
     id: 'hikkaduwa-diving', destinationId: 'hikkaduwa', kind: 'activity', category: 'water', source: 'research',
+    lat: 6.1415, lng: 80.0995, approx: true, short: 'Scuba diving',
     name: 'Scuba diving: reefs and wrecks',
     shortDescription: 'Dive the reefs and wrecks off Hikkaduwa, including the Conch, an early oil tanker. Best in the calmer months, about November to April.',
     season: 'About November to April',
@@ -200,6 +229,7 @@ export const EXPERIENCES = [
   // Galle and Mirissa — your villa site's "Whale Watching Mirissa & Galle Tour", plus the design text.
   {
     id: 'galle-fort', destinationId: 'galle', kind: 'attraction', category: 'history', source: 'eranorrissrilanka.com',
+    lat: 6.0258, lng: 80.2175, short: 'Galle Fort',
     name: 'Galle Fort',
     shortDescription: 'Explore the 17th-century fort town: the ramparts, the lighthouse and the streets inside the walls.',
     details: 'Walk the ramparts that circle the headland, from the Clock Tower to Flag Rock and the lighthouse, then explore the Dutch-era streets inside, with their churches, mosque and museums. The fort is a living town and free to walk; go early or late in the day, when it is cooler and quieter.',
@@ -207,6 +237,7 @@ export const EXPERIENCES = [
   },
   {
     id: 'galle-jungle-beach', destinationId: 'galle', kind: 'attraction', category: 'water', source: 'eranorrissrilanka.com',
+    lat: 6.0159, lng: 80.2379, short: 'Jungle Beach',
     name: 'Jungle Beach and the Japanese Peace Pagoda',
     shortDescription: 'Swim at Jungle Beach, a small cove near Unawatuna, and walk up to the Japanese Peace Pagoda above it. Calmest from about November to April.',
     where: 'Rumassala, near Unawatuna, about 5 km east of Galle Fort',
@@ -216,6 +247,7 @@ export const EXPERIENCES = [
   },
   {
     id: 'galle-stilt-fishing', destinationId: 'galle', kind: 'excursion', category: 'local-life', source: 'eranorrissrilanka.com',
+    lat: 5.9897, lng: 80.3197, approx: true, short: 'Stilt fishermen',
     name: 'Stilt fishermen at Koggala and Ahangama',
     shortDescription: 'See the stilt fishermen on their poles in the shallows east of Galle. Many now pose for paid photos, so agree on any payment first.',
     where: 'Koggala and Ahangama, about 25–40 minutes east of Galle Fort on the coast road',
@@ -225,6 +257,7 @@ export const EXPERIENCES = [
   },
   {
     id: 'galle-koggala-lake', destinationId: 'galle', kind: 'excursion', category: 'nature', source: 'research',
+    lat: 6.0024, lng: 80.3319, short: 'Koggala Lake',
     name: 'Koggala Lake boat trip',
     shortDescription: 'A boat trip on Koggala Lake, a mangrove-fringed lagoon dotted with islands, with stops at a cinnamon island and a temple island.',
     where: 'Koggala, about 14 km (usually 25–35 minutes) east of Galle Fort',
@@ -232,6 +265,7 @@ export const EXPERIENCES = [
   },
   {
     id: 'galle-martin-wickramasinghe-museum', destinationId: 'galle', kind: 'excursion', category: 'culture', source: 'research',
+    lat: 5.989, lng: 80.3275, short: 'Folk Museum',
     name: 'Martin Wickramasinghe Folk Museum, Koggala',
     shortDescription: 'The birthplace of the Sinhala novelist Martin Wickramasinghe and a large museum of village life, crafts and ceremonies at Koggala.',
     where: 'Koggala, about 14 km (usually 25–35 minutes) east of Galle Fort',
@@ -239,6 +273,7 @@ export const EXPERIENCES = [
   },
   {
     id: 'galle-handunugoda-tea-estate', destinationId: 'galle', kind: 'excursion', category: 'local-life', source: 'research',
+    lat: 6.0136, lng: 80.3642, short: 'White tea estate',
     name: 'Handunugoda tea estate (white tea)',
     shortDescription: 'Visit a low-country tea estate inland from Ahangama, known for its white tea, to see the processing and taste the teas.',
     where: 'Inland from Ahangama, about 40 minutes east of Galle Fort',
@@ -246,6 +281,7 @@ export const EXPERIENCES = [
   },
   {
     id: 'galle-unawatuna-beach', destinationId: 'galle', kind: 'attraction', category: 'water', source: 'research',
+    lat: 6.0082, lng: 80.2444, short: 'Unawatuna beach',
     name: 'Unawatuna beach',
     shortDescription: 'Swim at Unawatuna, a crescent bay sheltered by headlands and a reef, a short drive from Galle Fort. Calmest from about November to April.',
     where: 'Unawatuna, about 6 km (usually 15–20 minutes) east of Galle Fort',
@@ -254,6 +290,7 @@ export const EXPERIENCES = [
   },
   {
     id: 'mirissa-whale-watching', destinationId: 'mirissa', kind: 'activity', category: 'wildlife', source: 'eranorrissrilanka.com',
+    lat: 5.9484, lng: 80.4486, short: 'Whale watching',
     name: 'Whale and dolphin watching',
     shortDescription: 'Head out to the deep water off Mirissa to look for whales and dolphins. The season runs from about November to April; sightings are never guaranteed.',
     details: 'Boats leave Mirissa harbour around dawn for the deep water just off the south coast, where blue whales, sperm whales and spinner dolphins feed. Trips usually spend 3–5 hours at sea and run from about November to April. Licensed boats must carry a registered guide and keep at least 100 m from whales; sightings are common in season but never guaranteed. With us you go out on a large boat, and the trip and all its charges, including the wildlife permit, are part of your tour price.',
@@ -261,6 +298,7 @@ export const EXPERIENCES = [
   },
   {
     id: 'mirissa-coconut-tree-hill', destinationId: 'mirissa', kind: 'attraction', category: 'nature', source: 'eranorrissrilanka.com',
+    lat: 5.9393, lng: 80.4683, short: 'Coconut Tree Hill',
     name: 'Coconut Tree Hill',
     shortDescription: 'Walk up to the palm-covered headland at Mirissa for views along the coast.',
     details: 'A short walk from the main beach, this headland of reddish cliffs and leaning palms looks along the coast and out to sea, and is busiest around sunrise and sunset. It is on private land, and access arrangements have changed in the past.',
@@ -268,6 +306,7 @@ export const EXPERIENCES = [
   },
   {
     id: 'mirissa-weligama-surf-lesson', destinationId: 'mirissa', kind: 'activity', category: 'water', source: 'research',
+    lat: 5.9688, lng: 80.4252, short: 'Surf lesson',
     name: 'Surf lesson at Weligama',
     shortDescription: 'Learn to surf on the gentle waves of Weligama Bay, a few minutes west of Mirissa. Lessons run mainly from about November to April.',
     where: 'Weligama Bay, about 5 km west of Mirissa',
@@ -276,6 +315,7 @@ export const EXPERIENCES = [
   },
   {
     id: 'mirissa-matara-dondra-head', destinationId: 'mirissa', kind: 'excursion', category: 'history', source: 'research',
+    lat: 5.9483, lng: 80.5487, approx: true, short: 'Matara and Dondra',
     name: 'Matara forts and Dondra Head lighthouse',
     shortDescription: 'See Matara\'s Dutch forts and the 49 m lighthouse at Dondra Head, the southernmost point of Sri Lanka, a short drive east of Mirissa.',
     where: 'Matara, about 20 minutes east of Mirissa, and Dondra Head, about 6 km further',
@@ -283,6 +323,7 @@ export const EXPERIENCES = [
   },
   {
     id: 'mirissa-hummanaya-blowhole', destinationId: 'mirissa', kind: 'excursion', category: 'nature', source: 'research',
+    lat: 5.9776, lng: 80.7387, short: 'Blowhole',
     name: 'Hummanaya blowhole',
     shortDescription: 'Watch the sea burst through a rock blowhole at Kudawella, east of Mirissa, best when the swell is big. A short walk from the road.',
     where: 'Kudawella, near Dikwella, about 45 minutes to an hour east of Mirissa',
@@ -293,6 +334,7 @@ export const EXPERIENCES = [
   // Yala — your villa site's "Yala National Park Safari" and the design text.
   {
     id: 'yala-jeep-safari', destinationId: 'yala', kind: 'activity', category: 'wildlife', source: 'eranorrissrilanka.com',
+    lat: 6.2764, lng: 81.403, short: 'Yala safari',
     name: 'Yala jeep safari',
     shortDescription: 'Explore the scrubland and lagoons of Yala in an open-top jeep, looking for elephants, leopards, sloth bears, crocodiles and birds. Sightings are never guaranteed.',
     details: 'Drive through Yala’s scrub, grassland and lagoons in an open safari jeep, at dawn or in the late afternoon when animals are most active. Block I is known for leopards; elephants, water buffalo, crocodiles and many birds are seen regularly, and sloth bears mainly from about May to July. Sightings are never guaranteed, and parts of the park usually close for several weeks around September–October.',
@@ -301,6 +343,7 @@ export const EXPERIENCES = [
   },
   {
     id: 'yala-bundala-national-park', destinationId: 'yala', kind: 'excursion', category: 'wildlife', source: 'research',
+    lat: 6.2099, lng: 81.2252, short: 'Bundala birds',
     name: 'Bundala National Park birdwatching safari',
     shortDescription: 'A quieter jeep drive around the coastal lagoons of Bundala, a Ramsar wetland known for waterbirds and, in some years, flamingos.',
     where: 'Bundala National Park, west of Tissamaharama, about 20–30 minutes by road',
@@ -309,6 +352,7 @@ export const EXPERIENCES = [
   },
   {
     id: 'yala-kataragama', destinationId: 'yala', kind: 'excursion', category: 'culture', source: 'research',
+    lat: 6.4185, lng: 81.3337, short: 'Kataragama',
     name: 'Kataragama shrine and evening puja',
     shortDescription: 'Join pilgrims at Kataragama, a shrine town sacred to Buddhists, Hindus and Muslims, for the drumming and offerings of the evening puja.',
     where: 'Kataragama, about 19 km north of Tissamaharama, around 30 minutes by road',
@@ -317,6 +361,7 @@ export const EXPERIENCES = [
   },
   {
     id: 'yala-tissamaharama-stupa', destinationId: 'yala', kind: 'attraction', category: 'history', source: 'research',
+    lat: 6.2798, lng: 81.2915, short: 'Tissa stupa',
     name: 'Tissamaharama stupa and Tissa Wewa',
     shortDescription: 'See the great white stupa of Ruhuna’s ancient capital and the 2,000-year-old Tissa Wewa reservoir, best at sunset.',
     where: 'Tissamaharama, the main base for Yala',
@@ -324,6 +369,7 @@ export const EXPERIENCES = [
   },
   {
     id: 'yala-sithulpawwa', destinationId: 'yala', kind: 'excursion', category: 'history', source: 'research',
+    lat: 6.3869, lng: 81.4497, short: 'Sithulpawwa',
     name: 'Sithulpawwa rock monastery',
     shortDescription: 'An ancient cave monastery on rock outcrops in the Yala wilderness, still an active temple, reached by a road through the park.',
     where: 'Inside Yala, about 28 km from Kirinda by a park road; roughly 1–1.5 hours from Tissamaharama',
@@ -331,6 +377,7 @@ export const EXPERIENCES = [
   },
   {
     id: 'yala-kirinda', destinationId: 'yala', kind: 'excursion', category: 'culture', source: 'research',
+    lat: 6.2141, lng: 81.3343, short: 'Kirinda',
     name: 'Kirinda rock temple and beach',
     shortDescription: 'Climb to a temple on a rock above the sea at Kirinda, linked by legend to Queen Viharamahadevi, with views over dunes and the coast.',
     where: 'Kirinda, about 10 km south of Tissamaharama, around 20 minutes by road',
@@ -338,6 +385,7 @@ export const EXPERIENCES = [
   },
   {
     id: 'yala-lunugamvehera-safari', destinationId: 'yala', kind: 'excursion', category: 'wildlife', source: 'research',
+    lat: 6.4807, lng: 81.203, short: 'Lunugamvehera',
     name: 'Lunugamvehera National Park safari',
     shortDescription: 'A quieter jeep safari in the park between Yala and Udawalawe, an elephant corridor with far fewer vehicles than Yala’s Block I.',
     where: 'Lunugamvehera National Park, entrance near Thanamalwila, about 30 minutes north-west of Tissamaharama',
@@ -347,6 +395,7 @@ export const EXPERIENCES = [
   // Other destinations — only activities the approved design text already names.
   {
     id: 'sigiriya-lion-rock-climb', destinationId: 'sigiriya', kind: 'attraction', category: 'history', source: 'design',
+    lat: 7.9567, lng: 80.7599, short: 'Lion Rock',
     name: 'Climbing Lion Rock',
     shortDescription: 'Walk through the water gardens, then climb nearly 200 m past the frescoes to the palace ruins on the summit.',
     details: 'The climb follows the old royal approach: through the water and boulder gardens, up a spiral staircase to the fresco gallery and the Mirror Wall, then past the giant lion’s paws to the palace ruins on the summit. There are about 1,200 steps, some on exposed metal stairways, and most people need 2–3 hours in all. Start as soon as the site opens to avoid the worst of the heat and the queues.',
@@ -354,12 +403,14 @@ export const EXPERIENCES = [
   },
   {
     id: 'sigiriya-pidurangala-rock', destinationId: 'sigiriya', kind: 'activity', category: 'adventure', source: 'research',
+    lat: 7.9661, lng: 80.7617, short: 'Pidurangala',
     name: 'Pidurangala Rock climb',
     shortDescription: 'Climb the rock next to Sigiriya, past a temple and a brick reclining Buddha, for the classic view of Lion Rock, often at sunrise.',
     details: 'Pidurangala rises about 1 km north of Lion Rock. A path from the working temple at its foot climbs past a large brick reclining Buddha to a final boulder scramble where you need your hands; most people reach the top in 30–45 minutes. The temple charges its own fee and asks visitors to cover shoulders and knees. For sunrise, bring a torch and shoes with good grip.',
   },
   {
     id: 'sigiriya-elephant-safari', destinationId: 'sigiriya', kind: 'excursion', category: 'wildlife', source: 'research',
+    lat: 8.0161, lng: 80.8501, approx: true, short: 'Elephant safari',
     name: 'Elephant safari: Minneriya, Kaudulla or Hurulu',
     shortDescription: 'An afternoon jeep safari to see wild elephants graze the old reservoir beds; drivers pick the park on the day. Sightings are never guaranteed.',
     where: 'Minneriya, Kaudulla or Hurulu Eco Park, about 30–60 minutes by road from Sigiriya',
@@ -368,6 +419,7 @@ export const EXPERIENCES = [
   },
   {
     id: 'sigiriya-ritigala', destinationId: 'sigiriya', kind: 'excursion', category: 'history', source: 'research',
+    lat: 8.109, lng: 80.6568, short: 'Ritigala',
     name: 'Ritigala forest monastery',
     shortDescription: 'Walk a paved forest path through the ruins of an ascetic monastery on the lower slopes of Ritigala, a mountain reserve north of Habarana.',
     where: 'Ritigala, about an hour by road north of Sigiriya via Habarana',
@@ -375,6 +427,7 @@ export const EXPERIENCES = [
   },
   {
     id: 'sigiriya-village-tour', destinationId: 'sigiriya', kind: 'activity', category: 'local-life', source: 'research',
+    lat: 8.0423, lng: 80.7565, approx: true, short: 'Village tour',
     name: 'Village tour near Habarana',
     shortDescription: 'A packaged walk through paddy fields, a short boat crossing of a village tank and a home-cooked rice-and-curry lunch. Organised for visitors.',
     where: 'Hiriwadunna and other villages around Habarana, about 20–30 minutes from Sigiriya',
@@ -382,24 +435,28 @@ export const EXPERIENCES = [
   },
   {
     id: 'sigiriya-cooking-class', destinationId: 'sigiriya', kind: 'activity', category: 'food', source: 'research',
+    lat: 7.951, lng: 80.748, approx: true, short: 'Cooking class',
     name: 'Sri Lankan cooking class',
     shortDescription: 'Cook a rice-and-curry meal with a local family near Sigiriya: several curries and a coconut sambol, often in clay pots over a wood fire.',
     details: 'Family kitchens around Sigiriya run hands-on classes. You usually help prepare rice, three or four vegetable or lentil curries and a coconut sambol, often in clay pots over a wood fire, and some start with a garden or market visit. Most last about 3 hours and end with eating what you cooked. Classes are commercial and vary, so mention dietary needs when booking.',
   },
   {
     id: 'polonnaruwa-cycling', destinationId: 'polonnaruwa', kind: 'activity', category: 'history', source: 'design',
+    lat: 7.9418, lng: 80.999, approx: true, short: 'Cycling',
     name: 'Cycling the ancient city',
     shortDescription: 'Cycle the flat, shaded roads between the ruins of the medieval royal city, from the palace and Quadrangle to the Gal Vihara carvings.',
     details: 'Flat, tree-lined roads link the ruins, which stretch several kilometres north from the museum by the reservoir to Gal Vihara, where four Buddha figures are cut from one granite face. Bicycles can be hired in town and near the site; start early, as the open ground heats up quickly.',
   },
   {
     id: 'polonnaruwa-ancient-city', destinationId: 'polonnaruwa', kind: 'attraction', category: 'history', source: 'research',
+    lat: 7.9661, lng: 81.0049, short: 'Gal Vihara',
     name: 'Ancient city and Gal Vihara',
     shortDescription: 'Explore the medieval royal city: the palace walls, the circular Vatadage in the Quadrangle and the Buddha figures carved from one granite face.',
     details: 'Polonnaruwa was the royal capital from 1070 for about two and a half centuries. The ruins run several kilometres north from the museum, where tickets are sold: the royal palace, the Quadrangle with its Vatadage and Hatadage, Rankoth Vehera, Lankatilaka and the four Buddha images of Gal Vihara. A full morning covers the main groups; start early, before the heat.',
   },
   {
     id: 'polonnaruwa-medirigiriya', destinationId: 'polonnaruwa', kind: 'excursion', category: 'history', source: 'research',
+    lat: 8.1562, lng: 80.9962, short: 'Medirigiriya',
     name: 'Medirigiriya Vatadage',
     shortDescription: 'A quiet 7th-century circular relic house on a low rock, ringed by three circles of slender stone pillars, north of Polonnaruwa.',
     where: 'Medirigiriya, about 35 km north of Polonnaruwa (around 45 minutes to an hour by road)',
@@ -407,6 +464,7 @@ export const EXPERIENCES = [
   },
   {
     id: 'polonnaruwa-elephant-safari', destinationId: 'polonnaruwa', kind: 'excursion', category: 'wildlife', source: 'research',
+    lat: 8.0161, lng: 80.8501, approx: true, short: 'Elephant safari',
     name: 'Elephant safari: Minneriya or Kaudulla',
     shortDescription: 'An afternoon jeep safari from Polonnaruwa to see wild elephants on the reservoir grasslands of Minneriya or Kaudulla. Never guaranteed.',
     where: 'Minneriya or Kaudulla National Park, about 30–60 minutes by road from Polonnaruwa',
@@ -415,6 +473,7 @@ export const EXPERIENCES = [
   },
   {
     id: 'nuwara-eliya-tea-factory', destinationId: 'nuwara-eliya', kind: 'activity', category: 'local-life', source: 'design',
+    lat: 6.9699, lng: 80.7955, approx: true, short: 'Tea factory',
     name: 'Tea estate and factory visit',
     shortDescription: 'Visit a tea estate and factory in the hills around Nuwara Eliya.',
     where: 'Estates around Nuwara Eliya and along the Kandy road',
@@ -423,6 +482,7 @@ export const EXPERIENCES = [
   },
   {
     id: 'nuwara-eliya-horton-plains', destinationId: 'nuwara-eliya', kind: 'excursion', category: 'nature', source: 'research',
+    lat: 6.8067, lng: 80.8021, short: 'Horton Plains',
     name: 'Horton Plains and World’s End walk',
     shortDescription: 'Walk the 9 km loop across a high plateau to World’s End, where the escarpment drops about 870 m, and Baker’s Falls. Start at dawn, before the cloud.',
     where: 'Horton Plains National Park, about 32 km by road from Nuwara Eliya',
@@ -431,12 +491,14 @@ export const EXPERIENCES = [
   },
   {
     id: 'nuwara-eliya-gregory-lake', destinationId: 'nuwara-eliya', kind: 'attraction', category: 'nature', source: 'research',
+    lat: 6.9561, lng: 80.7795, short: 'Gregory Lake',
     name: 'Gregory Lake',
     shortDescription: 'Stroll the lakeside path or take a boat on the lake at the edge of town, made in the 1870s below Pidurutalagala.',
     details: 'The lake was created in the 1870s by damming streams below Pidurutalagala, the island’s highest mountain. A path follows the shore, and boats are available, which makes it an easy evening stroll after a day on the road. It is busiest at weekends and in the April holiday season.',
   },
   {
     id: 'nuwara-eliya-hakgala', destinationId: 'nuwara-eliya', kind: 'attraction', category: 'nature', source: 'research',
+    lat: 6.9256, lng: 80.8215, short: 'Hakgala Gardens',
     name: 'Hakgala Botanic Gardens',
     shortDescription: 'Walk the terraced gardens below Hakgala Rock, founded in 1861 to grow cinchona, with roses and other flowers at their best from mid-March to April.',
     where: 'About 9.5 km south-east of Nuwara Eliya on the Badulla road',
@@ -445,6 +507,7 @@ export const EXPERIENCES = [
   },
   {
     id: 'nuwara-eliya-seetha-amman', destinationId: 'nuwara-eliya', kind: 'activity', category: 'culture', source: 'research',
+    lat: 6.9332, lng: 80.8106, short: 'Seetha Amman',
     name: 'Seetha Amman Temple',
     shortDescription: 'Visit the Hindu temple at Sita Eliya dedicated to Sita, where tradition says Ravana held her captive, as told in the Ramayana.',
     where: 'Sita Eliya, a little before Hakgala on the Badulla road',
@@ -452,6 +515,7 @@ export const EXPERIENCES = [
   },
   {
     id: 'nuwara-eliya-lovers-leap', destinationId: 'nuwara-eliya', kind: 'activity', category: 'nature', source: 'research',
+    lat: 6.9766, lng: 80.7857, short: 'Lover’s Leap',
     name: 'Lover’s Leap waterfall walk',
     shortDescription: 'Walk up through the tea of Pedro estate to Lover’s Leap, a waterfall of about 30 m on the slopes just outside town.',
     where: 'Pedro estate, a few kilometres east of the town centre',
@@ -459,6 +523,7 @@ export const EXPERIENCES = [
   },
   {
     id: 'nuwara-eliya-moon-plains', destinationId: 'nuwara-eliya', kind: 'activity', category: 'nature', source: 'research',
+    lat: 6.9505, lng: 80.8068, short: 'Moon Plains',
     name: 'Moon Plains viewpoint',
     shortDescription: 'A grassland reserve near town with a cliff-edge viewpoint often called a mini World’s End. Authorised jeeps usually cover the last stretch.',
     where: 'Moon Plains (Sandatenna), a short drive from Nuwara Eliya',
@@ -466,6 +531,7 @@ export const EXPERIENCES = [
   },
   {
     id: 'nuwara-eliya-waterfalls', destinationId: 'nuwara-eliya', kind: 'excursion', category: 'nature', source: 'research',
+    lat: 7.0557, lng: 80.699, approx: true, short: 'Waterfalls',
     name: 'Ramboda, St Clair’s and Devon falls',
     shortDescription: 'See three of the hill country’s best-known waterfalls from viewpoints on the hill roads: Ramboda on the Kandy road, St Clair’s and Devon near Talawakele.',
     where: 'Ramboda on the Kandy road; St Clair’s and Devon near Talawakele, west of Nuwara Eliya',
@@ -473,18 +539,21 @@ export const EXPERIENCES = [
   },
   {
     id: 'nuwara-eliya-birdwatching', destinationId: 'nuwara-eliya', kind: 'activity', category: 'wildlife', source: 'research',
+    lat: 6.9695, lng: 80.7683, approx: true, short: 'Birdwatching',
     name: 'Birdwatching at Victoria Park and Galway’s Land',
     shortDescription: 'Look for hill-country birds, including endemics, in the town park and the small Galway’s Land National Park. Early morning is best.',
     details: 'Victoria Park in the centre and Galway’s Land National Park, about 2 km east, are both known among birders for hill-country species, including some found only in Sri Lanka, and winter migrants. Go early in the morning, when birds are most active and the paths are quiet. Sightings are never guaranteed.',
   },
   {
     id: 'ella-little-adams-peak', destinationId: 'ella', kind: 'activity', category: 'nature', source: 'design',
+    lat: 6.8651, lng: 81.063, short: 'Little Adam’s Peak',
     name: 'Little Adam’s Peak hike',
     shortDescription: 'An easy hike from Ella to the top of Little Adam’s Peak.',
     details: 'A 1,141 m hill named for its likeness to Adam’s Peak, reached on a gentle path through a tea estate off the Passara road, with steps near the top. Allow 45 minutes to an hour each way, and go early for clearer views and fewer people.',
   },
   {
     id: 'ella-nine-arches-bridge', destinationId: 'ella', kind: 'attraction', category: 'history', source: 'design',
+    lat: 6.876, lng: 81.0616, short: 'Nine Arches',
     name: 'Nine Arches Bridge',
     shortDescription: 'See the Nine Arches Bridge, the stone railway viaduct near Ella.',
     where: 'Demodara, about 2 km from Ella town',
@@ -493,12 +562,14 @@ export const EXPERIENCES = [
   },
   {
     id: 'ella-rock-hike', destinationId: 'ella', kind: 'activity', category: 'adventure', source: 'research',
+    lat: 6.855, lng: 81.0524, short: 'Ella Rock',
     name: 'Ella Rock hike',
     shortDescription: 'The harder of Ella’s two classic hikes: along the railway, then a steep forest path to a high viewpoint over the Ella Gap. Allow 3–4 hours.',
     details: 'The usual route follows the railway for about 2.5 km towards Kital Ella station, then climbs a steep path through forest and eucalyptus to the top, with views down the gap. Plan on three to four hours for the round trip. Paths branch and people sometimes offer to show the way for a fee, so an offline map helps. Start early, and step well clear of the line when a train comes.',
   },
   {
     id: 'ella-ravana-falls', destinationId: 'ella', kind: 'attraction', category: 'nature', source: 'research',
+    lat: 6.8412, lng: 81.0551, short: 'Ravana Falls',
     name: 'Ravana Falls',
     shortDescription: 'A 25 m waterfall beside the Wellawaya road just below Ella, linked by legend to King Ravana of the Ramayana. Fullest after rain.',
     where: 'About 6 km south of Ella on the Wellawaya road',
@@ -506,6 +577,7 @@ export const EXPERIENCES = [
   },
   {
     id: 'ella-hill-country-train', destinationId: 'ella', kind: 'activity', category: 'nature', source: 'research',
+    lat: 6.8761, lng: 81.0475, approx: true, short: 'Train ride',
     name: 'Hill-country train ride',
     shortDescription: 'Ride the line through the tea country to or from Ella, one of Sri Lanka’s best-known train journeys. Services were disrupted after Cyclone Ditwah; check before planning.',
     season: 'All year when services run; check the current timetable before planning around it',
@@ -513,6 +585,7 @@ export const EXPERIENCES = [
   },
   {
     id: 'ella-liptons-seat', destinationId: 'ella', kind: 'excursion', category: 'nature', source: 'research',
+    lat: 6.7807, lng: 81.0155, short: 'Lipton’s Seat',
     name: 'Lipton’s Seat, Haputale',
     shortDescription: 'Go early to the viewpoint above Dambatenne tea estate where Thomas Lipton is said to have surveyed his plantations, before the mist rolls in.',
     where: 'Near Haputale, roughly an hour by road from Ella',
@@ -520,6 +593,7 @@ export const EXPERIENCES = [
   },
   {
     id: 'ella-diyaluma-falls', destinationId: 'ella', kind: 'excursion', category: 'nature', source: 'research',
+    lat: 6.7331, lng: 81.0314, short: 'Diyaluma Falls',
     name: 'Diyaluma Falls',
     shortDescription: 'One of Sri Lanka’s highest waterfalls, about 220 m, near Koslanda. Paths lead to pools near the top; stay well back from the edge.',
     where: 'Near Koslanda, roughly 1.5–2 hours by road from Ella',
@@ -527,6 +601,7 @@ export const EXPERIENCES = [
   },
   {
     id: 'ella-dowa-rock-temple', destinationId: 'ella', kind: 'excursion', category: 'history', source: 'research',
+    lat: 6.8563, lng: 81.0222, short: 'Dowa temple',
     name: 'Dowa rock temple',
     shortDescription: 'An unfinished Buddha about 11 m tall carved into a rock face beside a painted cave shrine, on the Badulla road north of Bandarawela.',
     where: 'On the Badulla road north of Bandarawela, roughly half an hour from Ella',
@@ -534,18 +609,21 @@ export const EXPERIENCES = [
   },
   {
     id: 'ella-tea-factory', destinationId: 'ella', kind: 'activity', category: 'local-life', source: 'research',
+    lat: 6.8896, lng: 81.0348, approx: true, short: 'Tea factory',
     name: 'Tea factory visit near Ella',
     shortDescription: 'See how Uva tea is made at a working factory near Ella, from withering to grading, and taste the result.',
     details: 'Several factories in the Ella area show visitors the process of making black tea: withering the leaf, rolling, fermenting, drying and grading, usually followed by a tasting. Uva teas are known for a bright, brisk flavour. As in the other tea districts, some machines may be idle by day, and photography may not be allowed inside.',
   },
   {
     id: 'ella-pekoe-trail', destinationId: 'ella', kind: 'activity', category: 'adventure', source: 'research',
+    lat: 6.9029, lng: 81.0629, approx: true, short: 'Pekoe Trail',
     name: 'Pekoe Trail stage from Ella',
     shortDescription: 'Walk an easy 9.5 km stage of the Pekoe Trail from Ella to Demodara, through tea and villages, passing near the Nine Arches Bridge.',
     details: 'The Pekoe Trail is a 300 km waymarked route through the hill country. Two stages start or end in Ella: an easy 9.5 km walk to Demodara and a moderate 9.6 km stage from Makulella. The trail organisers publish each stage’s conditions, which change with the weather. Carry water, and start early.',
   },
   {
     id: 'adams-peak-sunrise-climb', destinationId: 'adams-peak', kind: 'activity', category: 'adventure', source: 'design',
+    lat: 6.8204, lng: 80.5176, short: 'Sunrise climb',
     name: 'Overnight sunrise climb',
     shortDescription: 'Climb the sacred summit overnight with pilgrims and hikers to watch the sun rise. The season runs from December to May.',
     where: 'Starts at Dalhousie (Nallathanni), about 32 km from Hatton',
@@ -555,6 +633,7 @@ export const EXPERIENCES = [
   // (listed under Hikkaduwa until November 2026). No duration until confirmed for Bentota.
   {
     id: 'bentota-river-safari', destinationId: 'bentota', kind: 'activity', category: 'nature', source: 'eranorrissrilanka.com',
+    lat: 6.4263, lng: 79.9996, approx: true, short: 'River safari',
     name: 'River safari and mask museum',
     shortDescription: 'A mangrove boat trip on the Bentota River, or on the Madu River at Balapitiya further south, which pairs well with the mask museums of Ambalangoda.',
     where: 'Bentota River at Bentota; Madu Ganga at Balapitiya, about 20 km south; masks at Ambalangoda, about 25 km south',
@@ -563,12 +642,14 @@ export const EXPERIENCES = [
   },
   {
     id: 'bentota-water-sports', destinationId: 'bentota', kind: 'activity', category: 'water', source: 'design',
+    lat: 6.428, lng: 79.999, approx: true, short: 'Water sports',
     name: 'Water sports',
     shortDescription: 'Jet skis, water-skiing, banana boats and windsurfing on the sheltered Bentota River near the mouth. Ask for a briefing and wear a life jacket.',
     details: 'Jet skis, water-skiing, wakeboarding, banana boats and windsurfing run mostly on the sheltered river and lagoon near the mouth, away from the open sea. Operators vary: ask for a safety briefing, wear a life jacket that fits, keep jet skis well clear of swimmers and fishing boats, and don\'t go out after drinking. The sea itself is calmer from about November to April.',
   },
   {
     id: 'bentota-lunuganga', destinationId: 'bentota', kind: 'attraction', category: 'culture', source: 'research',
+    lat: 6.4039, lng: 80.0217, short: 'Lunuganga',
     name: 'Lunuganga, Geoffrey Bawa\'s garden',
     shortDescription: 'Tour the country garden of the architect Geoffrey Bawa, shaped over decades on a former plantation inland from Bentota.',
     where: 'A short drive inland from Bentota',
@@ -576,6 +657,7 @@ export const EXPERIENCES = [
   },
   {
     id: 'bentota-brief-garden', destinationId: 'bentota', kind: 'excursion', category: 'culture', source: 'research',
+    lat: 6.4571, lng: 80.0377, short: 'Brief Garden',
     name: 'Brief Garden (Bevis Bawa\'s garden)',
     shortDescription: 'Wander the sculpture-filled garden of the landscape designer Bevis Bawa, Geoffrey Bawa\'s brother, on a former rubber estate inland from Bentota.',
     where: 'Kalawila, about 10 km inland from Bentota',
@@ -583,12 +665,14 @@ export const EXPERIENCES = [
   },
   {
     id: 'arugam-bay-surfing', destinationId: 'arugam-bay', kind: 'activity', category: 'water', source: 'design',
+    lat: 6.8398, lng: 81.8399, approx: true, short: 'Surfing',
     name: 'Surfing',
     shortDescription: 'Surf the right-hand point breaks around Arugam Bay, from gentle learner waves to Main Point. The season runs from about April to October.',
     details: 'Right-hand point breaks along this coast, from Pottuvil Point in the north to Okanda in the south, work from about April to October, when the wind blows offshore; July and August are busiest. Main Point suits experienced surfers, while its inside section and the softer breaks south of town are used for lessons. Reef and boulders lie under several breaks, so ask locally about the day’s conditions.',
   },
   {
     id: 'arugam-bay-kumana-safari', destinationId: 'arugam-bay', kind: 'excursion', category: 'wildlife', source: 'research',
+    lat: 6.6519, lng: 81.7703, short: 'Kumana safari',
     name: 'Kumana National Park safari',
     shortDescription: 'A jeep safari in Kumana, south of Arugam Bay, known for nesting waterbirds and quieter tracks than Yala. Sightings are never guaranteed.',
     where: 'Kumana National Park, about 40 km south via Panama and Okanda, roughly 1–1.5 hours by road',
@@ -597,6 +681,7 @@ export const EXPERIENCES = [
   },
   {
     id: 'arugam-bay-pottuvil-lagoon-boat-trip', destinationId: 'arugam-bay', kind: 'activity', category: 'nature', source: 'research',
+    lat: 6.8912, lng: 81.8386, short: 'Lagoon boat trip',
     name: 'Pottuvil Lagoon mangrove boat trip',
     shortDescription: 'A slow boat trip through the mangroves of Pottuvil Lagoon at dawn or dusk, looking for birds, crocodiles and sometimes elephants.',
     where: 'Pottuvil Lagoon, just north of Pottuvil, about 10–15 minutes from Arugam Bay',
@@ -604,6 +689,7 @@ export const EXPERIENCES = [
   },
   {
     id: 'arugam-bay-kudumbigala', destinationId: 'arugam-bay', kind: 'excursion', category: 'history', source: 'research',
+    lat: 6.6726, lng: 81.7487, short: 'Kudumbigala',
     name: 'Kudumbigala forest hermitage',
     shortDescription: 'An ancient forest hermitage of rock caves, with a steep climb to a stupa on a granite outcrop and views over jungle and coast.',
     where: 'Near Panama, about 25 km south of Arugam Bay, roughly 40 minutes by road',
@@ -611,6 +697,7 @@ export const EXPERIENCES = [
   },
   {
     id: 'arugam-bay-muhudu-maha-vihara', destinationId: 'arugam-bay', kind: 'attraction', category: 'history', source: 'research',
+    lat: 6.8679, lng: 81.8391, short: 'Muhudu Maha Vihara',
     name: 'Muhudu Maha Vihara',
     shortDescription: 'Ancient Buddhist ruins among the dunes on Pottuvil beach, linked by legend to Queen Viharamahadevi, with granite statues near the sea.',
     where: 'Pottuvil beach, about 4 km north of Arugam Bay',
@@ -618,6 +705,7 @@ export const EXPERIENCES = [
   },
   {
     id: 'arugam-bay-lahugala-elephants', destinationId: 'arugam-bay', kind: 'excursion', category: 'wildlife', source: 'research',
+    lat: 6.9033, lng: 81.7201, short: 'Lahugala',
     name: 'Elephants at Lahugala',
     shortDescription: 'Look for wild elephant herds grazing around the tanks of Lahugala Kitulana, inland from Pottuvil, especially in the dry months.',
     where: 'Lahugala Kitulana, about 16 km inland on the Monaragala road, roughly 20–30 minutes from Arugam Bay',
@@ -628,6 +716,7 @@ export const EXPERIENCES = [
   // udawalawe — added from research (sources: docs/research/udawalawe.md).
   {
     id: 'udawalawe-jeep-safari', destinationId: 'udawalawe', kind: 'activity', category: 'wildlife', source: 'research',
+    lat: 6.4403, lng: 80.8905, short: 'Jeep safari',
     name: 'Udawalawe jeep safari',
     shortDescription: 'Look for wild elephant herds on the open grassland around the Udawalawe reservoir, early or late in the day. Sightings are never guaranteed.',
     season: 'All year; no regular annual closure',
@@ -635,6 +724,7 @@ export const EXPERIENCES = [
   },
   {
     id: 'udawalawe-elephant-transit-home', destinationId: 'udawalawe', kind: 'activity', category: 'wildlife', source: 'research',
+    lat: 6.4269, lng: 80.8171, short: 'Transit Home',
     name: 'Elephant Transit Home (managed facility)',
     shortDescription: 'Watch orphaned elephant calves come in for milk at a wildlife department rehabilitation centre, from a viewing area. No contact.',
     where: 'Beside the main road, a few kilometres west of the park entrance',
@@ -642,6 +732,7 @@ export const EXPERIENCES = [
   },
   {
     id: 'udawalawe-maduwanwela-walawwa', destinationId: 'udawalawe', kind: 'excursion', category: 'history', source: 'research',
+    lat: 6.3892, lng: 80.7037, short: 'Maduwanwela',
     name: 'Maduwanwela Walawwa manor house',
     shortDescription: 'A rambling chieftain’s manor house begun in the 1700s, with courtyards, old furniture and a courtroom, now a little-visited museum.',
     where: 'Maduwanwela, about 26 km beyond Embilipitiya; roughly an hour or more west of Udawalawe',
@@ -651,6 +742,7 @@ export const EXPERIENCES = [
   // trincomalee — added from research (sources: docs/research/trincomalee.md).
   {
     id: 'trincomalee-pigeon-island-snorkelling', destinationId: 'trincomalee', kind: 'activity', category: 'water', source: 'research',
+    lat: 8.7193, lng: 81.2054, short: 'Pigeon Island',
     name: 'Snorkelling at Pigeon Island',
     shortDescription: 'Snorkel the coral reef of Pigeon Island National Park, a short boat ride off Nilaveli, where reef sharks and turtles are often seen.',
     where: 'Pigeon Island National Park, about 1 km off Nilaveli beach, about 15 km north of Trincomalee',
@@ -659,6 +751,7 @@ export const EXPERIENCES = [
   },
   {
     id: 'trincomalee-whale-watching', destinationId: 'trincomalee', kind: 'activity', category: 'wildlife', source: 'research',
+    lat: 8.5987, lng: 81.2226, approx: true, short: 'Whale watching',
     name: 'Whale and dolphin watching',
     shortDescription: 'Head out from Trincomalee to look for blue whales, sperm whales and spinner dolphins, roughly from March to August. Sightings are never guaranteed.',
     season: 'About March to August, outside Mirissa’s November–April season',
@@ -666,6 +759,7 @@ export const EXPERIENCES = [
   },
   {
     id: 'trincomalee-scuba-diving', destinationId: 'trincomalee', kind: 'activity', category: 'water', source: 'research',
+    lat: 8.6984, lng: 81.1929, approx: true, short: 'Scuba diving',
     name: 'Scuba diving',
     shortDescription: 'Dive the reefs around Pigeon Island and nearby rocks with a dive centre north of town; some centres visit Second World War wrecks.',
     season: 'About April or May to September',
@@ -673,12 +767,14 @@ export const EXPERIENCES = [
   },
   {
     id: 'trincomalee-koneswaram-fort-frederick', destinationId: 'trincomalee', kind: 'attraction', category: 'culture', source: 'research',
+    lat: 8.579, lng: 81.2438, short: 'Koneswaram',
     name: 'Koneswaram Temple and Fort Frederick',
     shortDescription: 'Walk through the gate of the old fort to Koneswaram, the clifftop Hindu temple on Swami Rock, high above the sea.',
     details: 'The Portuguese tore down the original temple in 1622 and built the fort with its stones; the Dutch and British held it later, and it is still an army garrison open to visitors, where spotted deer graze. Koneswaram, rebuilt in the 20th century, is one of Sri Lanka’s five ancient Shiva shrines. Remove shoes and cover shoulders and knees. Allow about 1–2 hours; puja times and festivals are busiest.',
   },
   {
     id: 'trincomalee-kanniya-velgam-vehera', destinationId: 'trincomalee', kind: 'excursion', category: 'history', source: 'research',
+    lat: 8.6045, lng: 81.1713, approx: true, short: 'Kanniya hot wells',
     name: 'Kanniya hot wells and Velgam Vehera',
     shortDescription: 'Visit the seven warm-water wells at Kanniya and the ruined monastery of Velgam Vehera, restored by the Hindu Chola kings.',
     where: 'Kanniya, about 8 km north-west of Trincomalee town (about 20 minutes by road); Velgam Vehera a few kilometres further',
@@ -686,6 +782,7 @@ export const EXPERIENCES = [
   },
   {
     id: 'trincomalee-war-cemetery', destinationId: 'trincomalee', kind: 'attraction', category: 'history', source: 'research',
+    lat: 8.6157, lng: 81.2123, short: 'War Cemetery',
     name: 'Trincomalee War Cemetery',
     shortDescription: 'Visit the Commonwealth war cemetery on the Nilaveli road, resting place of more than 300 Second World War service personnel.',
     where: 'On the Nilaveli road, between Trincomalee town and Uppuveli',
@@ -693,6 +790,7 @@ export const EXPERIENCES = [
   },
   {
     id: 'trincomalee-girihandu-seya', destinationId: 'trincomalee', kind: 'excursion', category: 'history', source: 'research',
+    lat: 8.8688, lng: 81.0091, short: 'Girihandu Seya',
     name: 'Girihandu Seya, Thiriyaya',
     shortDescription: 'Climb to a ruined circular relic house and stupa on a rocky hill near the sea, linked by tradition to relics of the Buddha.',
     where: 'Thiriyaya, about 45 km north of Trincomalee, roughly an hour by road through Nilaveli',
@@ -702,12 +800,14 @@ export const EXPERIENCES = [
   // dambulla — added from research (sources: docs/research/dambulla.md).
   {
     id: 'dambulla-cave-temple', destinationId: 'dambulla', kind: 'attraction', category: 'culture', source: 'research',
+    lat: 7.8566, lng: 80.6485, short: 'Cave temple',
     name: 'Dambulla cave temple',
     shortDescription: 'Climb to five painted cave shrines filled with Buddha images, a working temple and UNESCO World Heritage Site above Dambulla town.',
     details: 'Stone steps climb the side of a granite outcrop to five cave shrines with more than 150 statues, including a 14 m reclining Buddha, under ceilings painted with scenes from the Buddha\'s life. The caves have been used for worship since the 1st century BC and are still an active temple. Buy the ticket at the foot before you climb, cover shoulders and knees, and allow 1–2 hours.',
   },
   {
     id: 'dambulla-nalanda-gedige', destinationId: 'dambulla', kind: 'excursion', category: 'history', source: 'research',
+    lat: 7.6697, lng: 80.6459, short: 'Nalanda Gedige',
     name: 'Nalanda Gedige',
     shortDescription: 'A small stone shrine of about the 8th–10th century that blends a South Indian temple plan with Buddhist use, near the road to Kandy.',
     where: 'Nalanda, about 25 km south of Dambulla, just off the Kandy road',
@@ -715,6 +815,7 @@ export const EXPERIENCES = [
   },
   {
     id: 'dambulla-pophams-arboretum', destinationId: 'dambulla', kind: 'activity', category: 'nature', source: 'research',
+    lat: 7.8608, lng: 80.6759, short: 'Arboretum',
     name: 'Popham\'s Arboretum and night loris walk',
     shortDescription: 'Walk quiet trails through a restored patch of dry-zone forest, or join a guided night walk to look for slender lorises.',
     where: 'Kandalama road, a few kilometres east of Dambulla',
@@ -724,6 +825,7 @@ export const EXPERIENCES = [
   // anuradhapura — added from research (sources: docs/research/anuradhapura.md).
   {
     id: 'anuradhapura-sri-maha-bodhi', destinationId: 'anuradhapura', kind: 'attraction', category: 'culture', source: 'research',
+    lat: 8.3447, lng: 80.3972, short: 'Sri Maha Bodhi',
     name: 'Sri Maha Bodhi and the great stupas',
     shortDescription: 'See the sacred Bodhi tree and the white dome of Ruwanwelisaya at evening worship, among pilgrims dressed in white.',
     season: 'Busiest on full-moon (poya) days, and at Vesak and Poson',
@@ -731,12 +833,14 @@ export const EXPERIENCES = [
   },
   {
     id: 'anuradhapura-sacred-city-cycling', destinationId: 'anuradhapura', kind: 'activity', category: 'history', source: 'research',
+    lat: 8.371, lng: 80.3953, approx: true, short: 'Cycling',
     name: 'The sacred city by bicycle',
     shortDescription: 'Cycle the flat roads between Anuradhapura\'s ancient monasteries, from the Abhayagiri ruins to the vast brick stupa of Jetavanaramaya.',
     details: 'The ruins of the Abhayagiri and Jetavana monasteries spread over several kilometres north and east of the centre, linked by flat, shaded roads. A bicycle lets you stop at the Samadhi Buddha, the Kuttam Pokuna twin ponds, the moonstone at Mahasena\'s Palace and Jetavanaramaya. Bicycles can be hired in town; start early, as you walk barefoot at each site.',
   },
   {
     id: 'anuradhapura-mihintale', destinationId: 'anuradhapura', kind: 'excursion', category: 'culture', source: 'research',
+    lat: 8.3475, lng: 80.5127, short: 'Mihintale',
     name: 'Mihintale',
     shortDescription: 'Climb the granite stairway to the hilltop where tradition says Buddhism came to Sri Lanka, with stupas and wide views over the plains.',
     where: 'Mihintale, about 12 km east of Anuradhapura (around 20–30 minutes by road)',
@@ -745,6 +849,7 @@ export const EXPERIENCES = [
   },
   {
     id: 'anuradhapura-aukana-buddha', destinationId: 'anuradhapura', kind: 'excursion', category: 'history', source: 'research',
+    lat: 8.0109, lng: 80.5128, short: 'Aukana Buddha',
     name: 'Aukana Buddha',
     shortDescription: 'See the 5th-century standing Buddha, nearly 12 m tall and carved from the living rock, facing the ancient Kala Wewa reservoir.',
     where: 'Aukana, about an hour by road south of Anuradhapura, near Kala Wewa',
@@ -752,6 +857,7 @@ export const EXPERIENCES = [
   },
   {
     id: 'anuradhapura-wilpattu-safari', destinationId: 'anuradhapura', kind: 'excursion', category: 'wildlife', source: 'research',
+    lat: 8.3076, lng: 80.148, short: 'Wilpattu safari',
     name: 'Wilpattu National Park safari',
     shortDescription: 'A half- or full-day jeep safari in Sri Lanka\'s largest national park, around forest lakes, looking for leopards, sloth bears and elephants.',
     where: 'Hunuwilagama gate, roughly 40–50 km west of Anuradhapura (about 1–1.5 hours by road)',
