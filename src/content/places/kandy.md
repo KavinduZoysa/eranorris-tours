@@ -1,6 +1,7 @@
 ---
 # Reference guide for the content standard (docs/content-guide.md). Research: docs/research/kandy.md
-status: draft
+status: published
+reviewed: 2026-11-18
 title: Kandy Guide: Temple of the Tooth, Lake & Gardens | Eranorris
 description: Plan your visit to Kandy: the Temple of the Sacred Tooth Relic, the lake, Peradeniya’s gardens and Kandyan dance, how long to stay and how it fits a tour.
 intro: Sri Lanka’s last royal capital sits around a lake in the central hills, and its Temple of the Sacred Tooth Relic is one of the most revered shrines in the Buddhist world.
@@ -22,14 +23,6 @@ sources:
   - Sri Lanka Tea Board — Ceylon Tea Museum | https://srilankateaboard.lk/sri-lanka-tea-board/related-institutions/ceylon-tea-museum/
   - Central Province tourism — Ambuluwawa | https://tourism.cp.gov.lk/en/ambuluwawa-tower
   - National Building Research Institute — landslide early warnings | https://nbri.gov.lk/
-verify:
-  - Which Kandy visits do we actually arrange — Temple of the Tooth, Peradeniya, the dance show — and is it driver-only or with a guide?
-  - Do we buy entrance or show tickets, or do guests pay on the day? (The page currently says guests buy temple tickets from the machines.)
-  - Recommended stay — the design suggests 2 nights; the page says 1–2. Which do we advise?
-  - Is offering the train for part of the route (e.g. Nanu Oya to Ella) something we can help with?
-  - Rail status (Cyclone Ditwah repairs) — re-check before publishing and update the rail paragraphs and FAQ. Status last checked 6 November 2026 — no trains reaching Kandy; Colombo–Peradeniya/Gampola suspended again since 25 October.
-  - Do our drivers take guests further out — the Knuckles range, Ambuluwawa, the Hanthana trails — and do we arrange or recommend local hiking guides? The page makes no claim.
-  - Kandy hero photo — rights confirmed, and it shows the Temple of the Tooth.
 ---
 
 ## Why visit Kandy
@@ -51,7 +44,7 @@ The *Sri Dalada Maligawa* enshrines a relic of the Buddha’s tooth, the most sa
 What to expect:
 
 - **Dress.** Cover shoulders and knees. The temple turns away visitors in shorts, sleeveless tops or revealing clothing.
-- **Shoes, bags and tickets.** Shoes and bulky bags are left at reception booths, and everyone passes a security check. Foreign visitors buy tickets from the machines on site; the temple warns that tickets sold by anyone else are not valid.
+- **Shoes, bags and tickets.** Shoes and bulky bags are left at reception booths, and everyone passes a security check. Foreign visitors’ tickets are sold at the machines on site, and the temple warns that tickets sold by anyone else are not valid. On a private tour with us, your entrance ticket is included in the tour price.
 - **Ceremonies.** Drumming and offerings mark the services early in the morning, mid-morning and in the evening, the most atmospheric and busiest times to visit.
 - **Respect.** Move quietly, don’t pose with your back to Buddha images, and ask before photographing worshippers.
 
@@ -94,10 +87,10 @@ A typical full day:
 
 ## Getting there and moving on
 
-- **From the airport or Colombo.** Kandy is around 2–3 hours by road, depending on traffic. In normal times the train from Colombo Fort takes roughly 2.5–3.5 hours, but in early November 2026 no trains were reaching Kandy (see below).
+- **From the airport or Colombo.** Kandy is around 2–3 hours by road, depending on traffic. In normal times the train from Colombo Fort takes roughly 2.5–3.5 hours, but in mid-November 2026 no trains were reaching Kandy (see below).
 - **North to Dambulla and Sigiriya.** Sigiriya is about 90 km away, usually 2.5–3 hours by road, with Dambulla on the way, so most routes spend a night near it.
 - **South to the hill country.** [Nuwara Eliya](/places/nuwara-eliya/) is about 80 km, around 3 hours on winding mountain roads, and the road continues to [Ella](/places/ella/). Heavy rain can trigger landslides that close hill roads for hours or longer.
-- **By rail.** The line from Kandy to Ella is one of Sri Lanka’s best-known train journeys, normally about 6–7 hours. Cyclone Ditwah damaged it badly in late 2025. In early November 2026 the only hill-country trains were running between Nanu Oya, near Nuwara Eliya, and Badulla via Ella. Trains from Colombo had returned to Peradeniya and Gampola in October 2026 but were suspended again after a landslide, and the bridge into Kandy and the line from Gampola to Nanu Oya were still being rebuilt. Officials aim to reopen the whole line by the end of 2026, but targets have slipped before. Check Sri Lanka Railways before planning a rail section.
+- **By rail.** The line from Kandy to Ella is one of Sri Lanka’s best-known train journeys, normally about 6–7 hours. Cyclone Ditwah damaged it badly in late 2025. In mid-November 2026 the only hill-country trains were running between Nanu Oya, near Nuwara Eliya, and Badulla via Ella. Trains from Colombo had returned to Peradeniya and Gampola in October 2026 but were suspended again after a landslide, and the bridge into Kandy and the line from Gampola to Nanu Oya were still being rebuilt. In the November 2026 budget speech, the government said trains should reach Kandy in the first quarter of 2027 and Badulla by mid-2027, but targets have slipped before. The roads are not affected: cars, vans and buses run as usual. Check Sri Lanka Railways before planning a rail section.
 - **In town.** Central Kandy is compact but often congested, so it is easier to walk between the lake, the temple and the old centre.
 
 In a private tour you add Kandy to your route on the map, and your driver handles the roads. The drive times shown in the planner are rough estimates, not road-tested figures.
@@ -116,7 +109,7 @@ Cover your shoulders and knees; the temple turns away visitors in shorts, sleeve
 
 ### When is the Esala Perahera?
 
-Every year in July or August, on dates set by the lunar calendar and published by the Temple of the Sacred Tooth Relic. The 2027 dates had not been announced by early November 2026. Book accommodation early.
+Every year in July or August, on dates set by the lunar calendar and published by the Temple of the Sacred Tooth Relic. The 2027 dates had not been announced by mid-November 2026. Book accommodation early.
 
 ### Is Kandy a good base for visiting Sigiriya?
 
@@ -124,7 +117,7 @@ Not really. Sigiriya is about 2.5–3 hours each way by road. Most travellers st
 
 ### Can I take the train from Kandy to Ella?
 
-Not at the time of writing (early November 2026). After Cyclone Ditwah, the only hill-country trains were running between Nanu Oya, near Nuwara Eliya, and Badulla via Ella, so many travellers drive to Nuwara Eliya and ride the scenic stretch from there. Check Sri Lanka Railways for the latest; once the line reopens, the full Kandy–Ella run is normally around 6–7 hours.
+Not at the time of writing (mid-November 2026). After Cyclone Ditwah, the only hill-country trains were running between Nanu Oya, near Nuwara Eliya, and Badulla via Ella, so many travellers drive to Nuwara Eliya and ride the scenic stretch from there. The roads are open as normal, so the drive by car, van or bus is not affected. Check Sri Lanka Railways for the latest; the government expects the whole line to reopen by mid-2027, and once it does, the full Kandy–Ella run is normally around 6–7 hours.
 
 ### Is the Pinnawala Elephant Orphanage the same as seeing wild elephants?
 

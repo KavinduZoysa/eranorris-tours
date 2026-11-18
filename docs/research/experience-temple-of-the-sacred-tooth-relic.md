@@ -54,3 +54,12 @@ summary and links here.
 
 ## Review again before publishing
 - Ceremony times, ticket prices and museum inclusions (official FAQ).
+
+## Owner answers (2026-11-18)
+Both `verify:` questions were resolved and the list was removed.
+
+| Question | Owner's answer | What changed |
+|---|---|---|
+| Do we arrange the visit (driver drop-off or a guide)? Who pays the entrance ticket? | Offered on request; the driver helps (no guide). The tour price includes everything | The "Tickets" bullet and the FAQ "Do I need to buy tickets in advance?" now say the entrance ticket is included in the tour price; the activity card says the same |
+| Our own photos of the temple for a gallery? | No | Nothing: the guide has no gallery. Add one later if photos become available |
+

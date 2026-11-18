@@ -41,6 +41,10 @@ impact:
   running in the hills; trains to Peradeniya/Gampola were suspended again on 25 October, and
   the bridge into Kandy and Gampola–Nanu Oya were still being rebuilt (official target: end of
   2026). Kandy, Nuwara Eliya, Ella and Adam's Peak quote this status with its date.
+  Re-checked 18 November 2026 for Kandy: no change in service; the new target, from the
+  12 November budget speech (Ada Derana, https://adaderana.lk/news/251545), is Kandy in the
+  first quarter of 2027 and Badulla by mid-2027. Roads are unaffected (owner: cars, vans and
+  buses run as usual). The Kandy guide now says so; update the other three the same way.
 - **Adam's Peak season**: 2026–27 runs from Unduvap Poya (23 December 2026) to Vesak Poya
   (19 May 2027, per the gazette); confirm against the official announcement.
 - **Park closures and rules**: Yala's annual closure (14 September–15 October in 2026), Kumana

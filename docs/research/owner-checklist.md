@@ -8,7 +8,7 @@ file named in each section), then run the command again.
 Set each to `true` in `site.config.mjs → confirmed` once checked.
 
 
-## Guide questions (112 open in 16 files)
+## Guide questions (103 open in 14 files)
 
 Answer them, update the text if needed, and delete each item from the file’s `verify:` list. A page can only be published once its list is empty.
 
@@ -73,16 +73,6 @@ Answer them, update the text if needed, and delete each item from the file’s `
 - [ ] Is the Uva tourism site (visituva.lk) acceptable as an official source? Its footer names the Uva Provincial Council’s Ministry of Tourism.
 - [ ] Rail status — last checked 6 November 2026 (Nanu Oya–Badulla running; everything west of Nanu Oya closed). Re-check before publishing and update the train section and FAQ.
 - [ ] Do we take guests to the commercial zipline or the Uva Halpewatte factory, or recommend any operator? The page names them only as things to do nearby.
-
-### Kandy — `src/content/places/kandy.md`
-
-- [ ] Which Kandy visits do we actually arrange — Temple of the Tooth, Peradeniya, the dance show — and is it driver-only or with a guide?
-- [ ] Do we buy entrance or show tickets, or do guests pay on the day? (The page currently says guests buy temple tickets from the machines.)
-- [ ] Recommended stay — the design suggests 2 nights; the page says 1–2. Which do we advise?
-- [ ] Is offering the train for part of the route (e.g. Nanu Oya to Ella) something we can help with?
-- [ ] Rail status (Cyclone Ditwah repairs) — re-check before publishing and update the rail paragraphs and FAQ. Status last checked 6 November 2026 — no trains reaching Kandy; Colombo–Peradeniya/Gampola suspended again since 25 October.
-- [ ] Do our drivers take guests further out — the Knuckles range, Ambuluwawa, the Hanthana trails — and do we arrange or recommend local hiking guides? The page makes no claim.
-- [ ] Kandy hero photo — rights confirmed, and it shows the Temple of the Tooth.
 
 ### Nuwara Eliya — `src/content/places/nuwara-eliya.md`
 
@@ -166,8 +156,3 @@ Answer them, update the text if needed, and delete each item from the file’s `
 - [ ] Which base do we usually suggest for the safari — Sigiriya, Habarana or Polonnaruwa? The experience is listed under Sigiriya.
 - [ ] Do we have our own photos of wild elephants at Minneriya or Kaudulla (taken from a distance, not captive or ride elephants) for a gallery?
 - [ ] Re-check before publishing — the 2026 Gathering, any new Minneriya–Kaudulla ticketing system or entrance, and whether Minneriya and Kaudulla are on the online permit system.
-
-### Temple of the Sacred Tooth Relic — `src/content/experiences/temple-of-the-sacred-tooth-relic.md`
-
-- [ ] Is a visit to the temple something we arrange (driver drop-off only, or with a guide)? Who pays the entrance ticket?
-- [ ] Do we have our own photos of the temple (exterior, moat, Pattirippuwa) we can add to the gallery?

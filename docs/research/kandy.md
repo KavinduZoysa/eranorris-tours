@@ -90,7 +90,7 @@ Sources:
   The page says "around 2–3 hours, depending on traffic".
 - "Ten nights" of Perahera matches 2026; other years can differ slightly. The page says "for ten nights".
 
-## Business information that needs the owner (also in the file's `verify:`)
+## Business information that needs the owner (answered 2026-11-18 — see "Owner answers" at the end)
 - Which Kandy visits Eranorris arranges (temple, Peradeniya, dance show), and whether it is
   driver-only or includes a guide.
 - Who buys entrance or show tickets.
@@ -249,3 +249,18 @@ is unconfirmed (see docs/research/owner-checklist.md).
   - https://www.cbsl.gov.lk/en/node/20573
   - docs/research/kandy.md (Audit 2026-11-06)
   - Note: Elephants are used in the procession (captive temple elephants); the card does not promote any interaction. 2027 dates not announced by Nov 2026.
+
+## Owner answers and re-checks (2026-11-18)
+All seven `verify:` questions were resolved and the list was removed from the guide.
+
+| Question | Owner's answer / check | What changed |
+|---|---|---|
+| Which Kandy visits do we arrange; driver-only or a guide? | All Kandy activities are offered on request; the driver helps (no guide) | Nothing |
+| Entrance and show tickets | The tour price includes everything | The temple paragraph now says the entrance ticket is included in the tour price (tickets are still sold only at the machines on site). The same change in the Temple of the Tooth guide (bullet and FAQ) and on its activity card |
+| Recommended stay | 1–2 nights | Nothing (the page already says 1–2; the planner's 2 nights is inside the range) |
+| A train section (e.g. Nanu Oya to Ella) | Yes, on the guest's request | Nothing (the page makes no claim) |
+| Rail status | Re-checked 2026-11-18: no change in service since the last check (no trains to Kandy; Colombo–Rambukkana–Peradeniya/Gampola suspended "until further notice" after the 25 October landslide, Daily Mirror https://www.dailymirror.lk/breaking-news/Train-services-between-Rambukkana--Gampola-suspended-until-further-notice/108-353358; only Nanu Oya–Badulla running). New target from the 2027 Budget speech on 12 November 2026 (President, reported by Ada Derana, https://adaderana.lk/news/251545): Kandy in the first quarter of 2027, the whole up-country line to Badulla by mid-2027. A "trains back by 22 November" claim on travel blogs traces to a 16 November **2021** article in The Morning and was ignored. Owner: the roads are working normally (cars, buses, vans) | "Early November" → "mid-November" (both rail mentions and the FAQ); "official target end of 2026" replaced by the budget-speech targets; the rail bullet and the Kandy–Ella FAQ now say the roads are open as usual |
+| Knuckles, Ambuluwawa, Hanthana | Yes, drivers take guests. Ambuluwawa needs no guide; for the other places we arrange guides | Nothing (the page already says most people walk the Knuckles with a local guide) |
+| Hero photo kandy-temple-of-the-tooth | OK: it shows the temple's octagon and moat wall; rights confirmed site-wide | Nothing |
+| (extra) Drive times | Approximately correct (road data: airport ~3 h 05, Nuwara Eliya ~2 h, Dambulla ~2 h 10, Sigiriya ~2 h 40) | Nothing |
+| Esala Perahera 2027 dates | Still not announced (checked 2026-11-18; usually announced in June/July) | FAQ date "early November" → "mid-November" |

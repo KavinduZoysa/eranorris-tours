@@ -62,7 +62,7 @@ export const EXPERIENCES = [
     id: 'kandy-temple-of-the-tooth', destinationId: 'kandy', kind: 'attraction', category: 'culture', source: 'brief',
     name: 'Temple of the Sacred Tooth Relic',
     shortDescription: 'Visit the Buddhist temple that houses the Sacred Tooth Relic, beside Kandy Lake.',
-    details: 'The temple beside Kandy Lake enshrines a relic of the Buddha’s tooth and is busy with worshippers all day, especially at the three daily ceremonies. Cover shoulders and knees, leave your shoes at the entrance and buy tickets from the machines on site.',
+    details: 'The temple beside Kandy Lake enshrines a relic of the Buddha’s tooth and is busy with worshippers all day, especially at the three daily ceremonies. Cover shoulders and knees and leave your shoes at the entrance. On a tour with us, the entrance ticket is included in your tour price.',
   },
   {
     id: 'kandy-peradeniya-botanical-gardens', destinationId: 'kandy', kind: 'attraction', category: 'nature', source: 'brief',

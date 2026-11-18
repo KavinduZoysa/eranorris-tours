@@ -1,6 +1,7 @@
 ---
 # Experience guide. Research: docs/research/experience-temple-of-the-sacred-tooth-relic.md
-status: draft
+status: published
+reviewed: 2026-11-18
 experience: kandy-temple-of-the-tooth
 title: Temple of the Tooth, Kandy: Visitor Guide | Eranorris
 description: What to expect at Kandy’s Temple of the Sacred Tooth Relic — the ceremonies, the shrine and museums, what to wear, tickets and etiquette — before you visit.
@@ -15,9 +16,6 @@ sources:
   - Temple of the Sacred Tooth Relic — Esala Perahera | https://sridaladamaligawa.lk/?p=310
   - Central Cultural Fund — Sri Dalada Maligawa | https://ccf.gov.lk/heritage-sites/temple-of-the-tooth/
   - UNESCO World Heritage — Sacred City of Kandy | https://whc.unesco.org/en/list/450
-verify:
-  - Is a visit to the temple something we arrange (driver drop-off only, or with a guide)? Who pays the entrance ticket?
-  - Do we have our own photos of the temple (exterior, moat, Pattirippuwa) we can add to the gallery?
 ---
 
 ## Why the relic matters
@@ -44,7 +42,7 @@ Exact ceremony times are published on the temple’s visitor FAQ. If you want a 
 
 - **Clothing.** Cover your shoulders and knees. The temple turns away visitors in shorts, sleeveless tops or revealing clothing. Suitable clothing is available at the entrances, but it is simpler to arrive dressed for it.
 - **Shoes and bags.** Shoes are left at a reception booth, with a separate one for foreign visitors. You get a token in return, and everyone passes a security check. Leave plastic bags and anything bulky behind; pets are not allowed.
-- **Tickets.** Foreign visitors buy tickets from the machines on site. The temple warns that tickets sold by anyone else are not valid.
+- **Tickets.** Foreign visitors’ tickets are sold at the machines on site, and the temple warns that tickets sold by anyone else are not valid. On a private tour with us, the entrance ticket is included in your tour price.
 - **Inside.** Walk quietly, keep to the flow of worshippers, and don’t pose for photos with your back to Buddha images. Ask before photographing people at prayer, and follow any signs or staff instructions about photography.
 - **Access.** Visitors with limited mobility can contact the temple administration in advance about transport from the main entrance and use of the lift. The number is on the visitor FAQ.
 
@@ -66,7 +64,7 @@ There are three every day: early in the morning, mid-morning and in the evening.
 
 ### Do I need to buy tickets in advance?
 
-There is no need. Foreign visitors buy tickets at the machines on site, and the temple says tickets sold any other way are not valid. Prices are listed on the visitor FAQ and change from time to time.
+There is no need. Foreign visitors’ tickets are sold at the machines on site, and the temple says tickets sold any other way are not valid. On a private tour with us, the ticket is included in your tour price. Prices are listed on the visitor FAQ and change from time to time.
 
 ### Is the temple accessible for visitors with limited mobility?
 
