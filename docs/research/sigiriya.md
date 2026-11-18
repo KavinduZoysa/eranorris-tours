@@ -123,7 +123,7 @@ destination URLs redirect to the homepage, so no Sri Lanka Tourism page is linke
 - **Hydraulics.** "Wind-powered" or windmill hydraulics claims (Rough Guides, tourism sites) are
   speculative and are not used.
 
-## Business information that needs the owner (also in the file's `verify:`)
+## Business information that needs the owner (answered 2026-11-18 — see "Owner answers" at the end)
 - Who buys the Sigiriya ticket.
 - Whether the driver climbs with guests or waits, and whether a site guide is arranged.
 - Pre-dawn starts for a Pidurangala sunrise.
@@ -300,3 +300,22 @@ is unconfirmed (see docs/research/owner-checklist.md).
   - https://www.byfood.com/experiences/sri-lankan-cooking-class-in-sigiriya-39471
   - https://www.expedia.co.uk/things-to-do/cook-like-a-local-sri-lankan-rice-curry-class-in-sigiriya.a52219134.activity-details
   - Note: Only commercial listings exist for this kind of activity (no official source). Keep only if the owner wants a food option; otherwise merge into the village tour card.
+
+## Owner answers and re-checks (2026-11-18)
+All ten `verify:` questions were resolved and the list was removed from the guide. The
+Minneriya safari guide was answered at the same time (see its record).
+
+| Question | Owner's answer / check | What changed |
+|---|---|---|
+| Sigiriya entrance ticket | The tour price includes everything, at every place: tickets, jeeps, boats and guides | Tickets bullet: "On a tour with us, the entrance ticket is included in your tour price, and so is a site guide if you ask for one." Pidurangala: the temple fee is included. Ritigala: "It has its own ticket, which is included in your tour price with us." Elephant section: the jeep and the park ticket are included. The activity cards are unchanged (their `details` hold general facts only, so the page does not say it twice) |
+| Driver on the rock; site guide | Arranged as per the guest's request only | The Tickets bullet says a site guide is included if the guest asks for one. Nothing about the driver (the page makes no claim) |
+| Pre-dawn start for a Pidurangala sunrise | Yes | Owner chose to add: "your driver can take you there before dawn" (Pidurangala section) |
+| Jeep safaris in Minneriya, Kaudulla or Hurulu | Yes, arranged; the jeep and the park ticket are included (answered in the safari guide's questions) | See above |
+| Recommended stay | 2 nights (already confirmed in the design copy) | Nothing |
+| Rock height | Keep "nearly 200 m" (the CCF, which manages the site, gives 200 m) | Nothing |
+| Hero photo | Rights confirmed site-wide (`confirmed.photoRights`) | Nothing |
+| Village tours and cooking classes | Offered (on the confirmed activity list). Wording: owner chose "They follow a set plan made for visitors, but the farmland and the food are real" instead of "organised for visitors and partly staged" | Village tours paragraph and the village-tour card reworded; "Most follow a set routine:" → "Most include" (card: "follow a set routine:" → "include") so the idea is not said twice |
+| Ritigala from Sigiriya | Offered (on the confirmed activity list) | Ticket sentence only (see the first row) |
+| Fresco photo ban; bees; closures | Re-checked 2026-11-18. No CCF notice lifting the 2015 fresco ban was found; 2026 guides still describe it as in force. No bee or wasp attack reported since August 2024. CCF ticket page re-read: counters 7 am–5 pm, "Sigiriya Museum: Included with Sigiriya ticket", Cultural Triangle Round Ticket listed, online booking available, "Photography permissions are included with tickets", "Professional filming and drone usage require prior written approval from CCF" (https://ccf.gov.lk/vsl/tickets) | Nothing |
+| (extra) Rail via Habarana | Re-checked 2026-11-18: no suspension of the Trincomalee or Batticaloa lines found after their January 2026 reopening (Newsfirst 20 Jan 2026, https://www.newsfirst.lk/2026/01/20/train-services-along-three-routes-resume-after-cyclone-ditwah-disruptions). The Mahawa–Anuradhapura closure for renovation (January 2026) is on the Northern line, not the line through Habarana | Nothing |
+| (extra) Photo | Owner had no own photo of wild elephants; chose a Commons photo, also shown in the Sigiriya gallery so its credit appears on /photo-credits/: "Minneriya National Park, elephants gathering" by Walter Gehr, CC BY-SA 4.0 (Wiki Loves Earth 2019; category "Elephas maximus maximus in Minneriya National Park"), https://commons.wikimedia.org/wiki/File:Minneriya_National_Park,_elephants_gathering.jpg | Gallery image `sigiriya-minneriya-elephants` added after the four own photos |

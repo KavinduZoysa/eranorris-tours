@@ -8,7 +8,7 @@ file named in each section), then run the command again.
 Set each to `true` in `site.config.mjs → confirmed` once checked.
 
 
-## Guide questions (103 open in 14 files)
+## Guide questions (88 open in 12 files)
 
 Answer them, update the text if needed, and delete each item from the file’s `verify:` list. A page can only be published once its list is empty.
 
@@ -95,19 +95,6 @@ Answer them, update the text if needed, and delete each item from the file’s `
 - [ ] Medirigiriya and Dimbulagala — are these stops the driver can include from Polonnaruwa? Neither is an experience card yet; Medirigiriya is proposed as one.
 - [ ] Polonnaruwa hero photo — rights confirmed? It shows the Vatadage (identified from the photo in November 2026; the alt text now names it).
 
-### Sigiriya — `src/content/places/sigiriya.md`
-
-- [ ] Do we include the Sigiriya entrance ticket, or do guests buy it at the site or online?
-- [ ] Does the driver go up with guests or wait at the car park? Do we arrange a site guide, or can guests hire one at the entrance?
-- [ ] Can the driver do a pre-dawn start for a Pidurangala sunrise climb?
-- [ ] Do we arrange jeep safaris in Minneriya, Kaudulla or Hurulu, or do guests book them locally?
-- [ ] Recommended stay — the design and the page both say 2 nights. Confirm.
-- [ ] Rock height — the design says 200 m (as does the Central Cultural Fund); UNESCO gives 180 m. The page and the Lion Rock card say "nearly 200 m". Keep?
-- [ ] Sigiriya hero photo — rights confirmed, and it shows Lion Rock from the water gardens path.
-- [ ] Village tours and cooking classes — do we arrange or recommend any? The page describes them as organised for visitors and partly staged, and does not mention bullock-cart rides.
-- [ ] Ritigala — can the driver include it from Sigiriya (about an hour each way)? Is it a stop we suggest?
-- [ ] The fresco photography ban (2015) and the 2024 bee incident — re-check the current CCF rules and any closures before publishing.
-
 ### Trincomalee — `src/content/places/trincomalee.md`
 
 - [ ] Do we include the east coast in our tours, and can drivers stay over in Trincomalee or Nilaveli? Are there routes or months we don’t offer?
@@ -148,11 +135,3 @@ Answer them, update the text if needed, and delete each item from the file’s `
 - [ ] Do we have our own photos (the plateau, World’s End, Baker’s Falls) for a gallery, with rights confirmed?
 - [ ] Kirigalpotta and Thotupola Kanda trails — currently open, and is separate permission needed? The page only suggests asking the park office.
 - [ ] Rail status for Pattipola and Ohiya — last checked 6 November 2026 (Nanu Oya–Badulla running). Re-check before publishing.
-
-### Minneriya elephant safari and the Gathering — `src/content/experiences/minneriya-elephant-safari.md`
-
-- [ ] Do we arrange the jeep and park tickets, or do guests book a safari locally? Can the driver take guests to the jeep meeting point and wait? The page makes no claim either way.
-- [ ] If we recommend a jeep operator, does it follow the responsible-viewing points on this page (distance, engine off, no surrounding herds, no racing)?
-- [ ] Which base do we usually suggest for the safari — Sigiriya, Habarana or Polonnaruwa? The experience is listed under Sigiriya.
-- [ ] Do we have our own photos of wild elephants at Minneriya or Kaudulla (taken from a distance, not captive or ride elephants) for a gallery?
-- [ ] Re-check before publishing — the 2026 Gathering, any new Minneriya–Kaudulla ticketing system or entrance, and whether Minneriya and Kaudulla are on the online permit system.

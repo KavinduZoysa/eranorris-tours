@@ -23,6 +23,7 @@ itself. Photos with clearly identifiable people were skipped where possible.
 | sigiriya-water-gardens | Path through the water gardens to the rock | tours/sigiriya |
 | sigiriya-summit-ruins | Palace foundations on the summit | tours/sigiriya |
 | sigiriya-summit-view | View over the forest from the top | tours/sigiriya |
+| sigiriya-minneriya-elephants | Wild elephants on the grass beside the Minneriya reservoir | **Added 2026-11-18.** The owner had no own photo of wild elephants for the Minneriya safari guide and chose a Commons photo: "Minneriya National Park, elephants gathering" by Walter Gehr, CC BY-SA 4.0 (https://commons.wikimedia.org/wiki/File:Minneriya_National_Park,_elephants_gathering.jpg). Used in the safari guide (`gallery:`) and the Sigiriya gallery, credited under the slide and on /photo-credits/ |
 | galle-clock-tower-bastion | Clock tower and bastion | villa site (galle_fort_tour_3) |
 | galle-fort-from-above | Clock tower, ramparts, harbour | villa site (galle_fort_tour_1) |
 | galle-ramparts-sea | Rampart walkway by the sea | tours/galle-fort |

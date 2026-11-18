@@ -378,7 +378,7 @@ export const EXPERIENCES = [
     name: 'Village tour near Habarana',
     shortDescription: 'A packaged walk through paddy fields, a short boat crossing of a village tank and a home-cooked rice-and-curry lunch. Organised for visitors.',
     where: 'Hiriwadunna and other villages around Habarana, about 20–30 minutes from Sigiriya',
-    details: 'Village tours around Habarana and Sigiriya, the best known at Hiriwadunna, follow a set routine: a walk along paddy bunds, a crossing of the village tank in a small boat and a rice-and-curry lunch cooked over a wood fire in a village home. They are commercial and partly staged, but the farmland and food are real. Most take 2–3 hours, often around lunchtime.',
+    details: 'Village tours around Habarana and Sigiriya, the best known at Hiriwadunna, include a walk along paddy bunds, a crossing of the village tank in a small boat and a rice-and-curry lunch cooked over a wood fire in a village home. They follow a set plan made for visitors, but the farmland and food are real. Most take 2–3 hours, often around lunchtime.',
   },
   {
     id: 'sigiriya-cooking-class', destinationId: 'sigiriya', kind: 'activity', category: 'food', source: 'research',

@@ -31,7 +31,9 @@ impact:
    own (the six Commons photos are licensed and credited).
 2. **Each guide's `verify:` list.** Many questions ask whether a visit, ticket or activity is
    arranged; the answer for activities is now known (all through partners), so focus on what
-   each page should say about it. Answer the questions, correct the text, then add a
+   each page should say about it. The owner has also said (18 November 2026) that the tour
+   price includes everything at every place: tickets, jeeps, boats and guides (guides on
+   request). Answer the questions, correct the text, then add a
    `reviewed:` date and set `status: published`. The build refuses to publish a page with
    open questions.
 

@@ -1,6 +1,7 @@
 ---
 # Experience guide. Research: docs/research/experience-minneriya-elephant-safari.md
-status: draft
+status: published
+reviewed: 2026-11-18
 experience: sigiriya-elephant-safari
 title: Minneriya Elephant Safari & the Gathering | Eranorris
 description: When to see the elephant Gathering at Minneriya and Kaudulla, how drivers choose a park on the day, what a jeep safari involves and how to watch responsibly.
@@ -15,12 +16,8 @@ sources:
   - Department of Wildlife Conservation — protected areas | https://www.dwc.gov.lk/?page_id=72
   - Department of Wildlife Conservation — contacts and notices | https://www.dwc.gov.lk/
   - Sri Lanka Tourism Development Authority — guideline for vehicle safari operations (PDF) | https://www.sltda.gov.lk/storage/common_media/1%20Vehicle%20Safari%20Final%20Guideline.pdf
-verify:
-  - Do we arrange the jeep and park tickets, or do guests book a safari locally? Can the driver take guests to the jeep meeting point and wait? The page makes no claim either way.
-  - If we recommend a jeep operator, does it follow the responsible-viewing points on this page (distance, engine off, no surrounding herds, no racing)?
-  - Which base do we usually suggest for the safari — Sigiriya, Habarana or Polonnaruwa? The experience is listed under Sigiriya.
-  - Do we have our own photos of wild elephants at Minneriya or Kaudulla (taken from a distance, not captive or ride elephants) for a gallery?
-  - Re-check before publishing — the 2026 Gathering, any new Minneriya–Kaudulla ticketing system or entrance, and whether Minneriya and Kaudulla are on the online permit system.
+gallery:
+  - sigiriya-minneriya-elephants
 ---
 
 ## What the Gathering is
@@ -53,9 +50,11 @@ Nothing is guaranteed: rain, water levels and the herds' movements change from w
 
 ## What a safari involves
 
-Visits are by open safari jeep with a driver. Jeeps are hired mainly in Habarana and Sigiriya. On top of the jeep hire, there is a park entrance charge for each person and vehicle. You pay it at the park ticket office, or book it in advance through the wildlife department's online permit system where the park is listed. Make sure you receive a valid ticket or permit. In late 2025 the department took action against jeeps that had taken visitors into Kaudulla without tickets.
+Visits are by open safari jeep with a driver. Jeeps are hired mainly in Habarana and Sigiriya. On top of the jeep hire, there is a park entrance charge for each person and vehicle. It is paid at the park ticket office, or booked online a day ahead through the wildlife department's permit system. Make sure you receive a valid ticket or permit. In late 2025 the department took action against jeeps that had taken visitors into Kaudulla without tickets. In the peak weeks of 2026, jeeps queued for up to two hours at the Minneriya ticket office around midday.
 
 The department has said it is planning a single ticketing system for Minneriya and Kaudulla, so the arrangements may change.
+
+On a tour with us, you stay in Sigiriya and go on the safari from there. The jeep and the park ticket are included in your tour price. Your driver takes you to the jeep and waits for you.
 
 A typical drive lasts about three hours on rough, dusty tracks, mostly around the grassland at the edge of the tank. As well as elephants, you are likely to see spotted deer, toque macaques and water birds such as painted storks, pelicans and cormorants. Leopards and sloth bears live in the parks but are rarely seen.
 
@@ -70,6 +69,8 @@ In the peak weeks, 400 to 600 jeeps a day have been reported entering Minneriya 
 - Stay in the jeep, keep your voice down and avoid sudden movements.
 - Never feed elephants, in the park or on the roads around it. It is prohibited, and it teaches them to approach vehicles.
 - If too many jeeps gather around one herd, ask the driver to move on. A quieter sighting is usually a better one.
+
+The jeeps we use follow these points.
 
 Wild elephants also cross the main roads around Habarana and Minneriya, especially around dusk. Vehicles should slow down and give them room, and nobody should get out for a photo.
 

@@ -41,6 +41,18 @@ export const GALLERY_IMAGES = {
     focus: [0.5, 0.6],
     from: 'tours:sigiriya/WhatsApp Image 2026-10-14 at 12.35.19 PM (1).jpeg',
   },
+  // Owner had no own photo of wild elephants at Minneriya; chose a Commons photo (2026-11-18).
+  // Also the photo of the Minneriya safari guide (its `gallery:` front matter).
+  'sigiriya-minneriya-elephants': {
+    alt: 'A herd of wild elephants grazing on the grass beside the Minneriya reservoir, with forested hills across the water',
+    focus: [0.5, 0.55],
+    from: 'https://upload.wikimedia.org/wikipedia/commons/3/39/Minneriya_National_Park%2C_elephants_gathering.jpg',
+    credit: {
+      title: 'Minneriya National Park, elephants gathering', author: 'Walter Gehr',
+      license: 'CC BY-SA 4.0', licenseUrl: 'https://creativecommons.org/licenses/by-sa/4.0/',
+      source: 'https://commons.wikimedia.org/wiki/File:Minneriya_National_Park,_elephants_gathering.jpg',
+    },
+  },
 
   'galle-clock-tower-bastion': {
     alt: 'Galle Fort’s clock tower above the grassy ramparts and a stone bastion',
@@ -143,7 +155,7 @@ export const GALLERY_IMAGES = {
 };
 
 export const GALLERIES = {
-  sigiriya: ['sigiriya-lion-paws', 'sigiriya-water-gardens', 'sigiriya-summit-ruins', 'sigiriya-summit-view'],
+  sigiriya: ['sigiriya-lion-paws', 'sigiriya-water-gardens', 'sigiriya-summit-ruins', 'sigiriya-summit-view', 'sigiriya-minneriya-elephants'],
   galle: ['galle-clock-tower-bastion', 'galle-fort-from-above', 'galle-ramparts-sea', 'galle-jungle-beach'],
   mirissa: ['mirissa-whale-tail', 'mirissa-coconut-tree-hill'],
   yala: ['yala-elephants', 'yala-buffalo', 'yala-crocodile', 'yala-spotted-deer'],

@@ -138,7 +138,7 @@ Official and media first:
 - **New entrance near Sigiriya–Pekkulam and the Batu Oya exit.** Under consideration only; not
   on the page.
 
-## Business information that needs the owner (also in the file's `verify:`)
+## Business information that needs the owner (answered 2026-11-18 — see "Owner answers" at the end)
 - Whether jeeps and park tickets are arranged, or guests book locally; whether the driver takes
   guests to the jeep meeting point and waits.
 - Whether any recommended jeep operator follows the responsible-viewing points.
@@ -161,3 +161,14 @@ Official and media first:
 - A mother and calf, without jeeps crowding the frame.
 - Water birds on the tank (painted storks, pelicans).
 - Not captive, ride or temple elephants.
+
+## Owner answers and re-checks (2026-11-18)
+All five `verify:` questions were resolved and the list was removed from the guide.
+
+| Question | Owner's answer / check | What changed |
+|---|---|---|
+| Jeep and park tickets; driver at the jeep meeting point | Yes to both: the jeep and the park ticket are included in the tour price (the owner says the price includes everything at every place), and the driver takes guests to the jeep and waits | New paragraph in "What a safari involves": "On a tour with us, you stay in Sigiriya and go on the safari from there. The jeep and the park ticket are included in your tour price. Your driver takes you to the jeep and waits for you." The Sigiriya page's elephant section says the same; the safari card is unchanged (general facts only) |
+| Jeep operator and the responsible-viewing points | Yes, they follow them | Owner chose to add "The jeeps we use follow these points." after the list |
+| Usual base | Sigiriya | Owner chose to add the "you stay in Sigiriya" sentence (above). The Polonnaruwa FAQ is unchanged (it is still possible) |
+| Own photos of wild elephants | None; owner chose a Wikimedia Commons photo | `gallery: [sigiriya-minneriya-elephants]` — "Minneriya National Park, elephants gathering" by Walter Gehr, CC BY-SA 4.0, https://commons.wikimedia.org/wiki/File:Minneriya_National_Park,_elephants_gathering.jpg (taken 19 June 2019; Wiki Loves Earth 2019; category "Elephas maximus maximus in Minneriya National Park"; no watermark, no vehicles). It is also in the Sigiriya gallery, so the credit is under the photo on both pages and on /photo-credits/ |
+| Re-check: 2026 Gathering, ticketing, online permits | Re-checked 2026-11-18. Sunday Times, 16 Aug 2026 (https://www.sundaytimes.lk/260816/news/minneriya-elephant-joy-soiled-by-ticketing-hassles-and-massive-vehicle-jam-652658.html): two counters (cash, card), details written by hand, the DWC online booking sells tickets only for the following day, more than 500–600 jeeps on a peak day mostly 1–4 pm, queues of up to two hours (busiest noon–3.30 pm), the park closes at 6 pm since 2025, one-way traffic inside. Newsfirst 17 Aug 2026: the unified Minneriya–Kaudulla ticket and a new entrance near Sigiriya–Pekkulam are still plans, no dates. No official 2026 elephant count was found | "book it in advance through the wildlife department's online permit system where the park is listed" → "booked online a day ahead through the wildlife department's permit system"; added (owner OK): "In the peak weeks of 2026, jeeps queued for up to two hours at the Minneriya ticket office around midday." |

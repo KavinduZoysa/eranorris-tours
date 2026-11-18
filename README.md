@@ -529,7 +529,7 @@ with that experience in view.
 photo. The business's own photos are used, and only where the subject and place are
 identifiable. Where an own photo can't be used (e.g. it is watermarked), an openly licensed
 Commons photo of the place may replace it, with a `credit` that appears under the slide and on
-`/photo-credits/` (Coconut Tree Hill in the Mirissa gallery, since November 2026). Places with one photo show no controls. The gallery is a swipeable strip with
+`/photo-credits/` (Coconut Tree Hill in the Mirissa gallery, and wild elephants at Minneriya in the Sigiriya gallery and the safari guide, since November 2026). Places with one photo show no controls. The gallery is a swipeable strip with
 previous/next buttons, a counter, dots and arrow keys (`src/js/gallery.js`, part of the
 2 KB page script), and it works without JavaScript. Gaps and the photos to confirm are in `docs/research/photos.md`.
 
@@ -660,6 +660,6 @@ The site is laid out for phones first and tested at 320, 375, 390, 430, 768, 102
 - District boundaries: geoBoundaries (CC BY 4.0) – credited on the map.
 - Fonts: Geist, Geist Mono, Instrument Serif (SIL Open Font License).
 - Photos: the business's own photos and the photos supplied with the design (confirm with
-  `confirmed.photoRights`), plus seven Wikimedia Commons photos under CC0, CC BY 2.0 and
+  `confirmed.photoRights`), plus eight Wikimedia Commons photos under CC0, CC BY 2.0 and
   CC BY-SA 3.0/4.0, credited under each photo and on `/photo-credits/` (`PHOTO_CREDITS`, and
   `credit` in `src/data/galleries.mjs`).

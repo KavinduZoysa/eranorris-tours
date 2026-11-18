@@ -1,6 +1,7 @@
 ---
 # Draft guide following docs/content-guide.md. Research: docs/research/sigiriya.md
-status: draft
+status: published
+reviewed: 2026-11-18
 title: Sigiriya Guide: Lion Rock, Frescoes & Gardens | Eranorris
 description: Plan a visit to Sigiriya — the Lion Rock climb, frescoes and water gardens, Pidurangala at sunrise, elephant parks nearby and how long to stay.
 intro: A sheer rock rising out of the dry-zone forest, crowned with the ruins of a 5th-century palace and ringed by gardens laid out more than 1,500 years ago.
@@ -20,17 +21,6 @@ sources:
   - UNESCO World Heritage — Ancient City of Sigiriya | https://whc.unesco.org/en/list/202
   - Department of Wildlife Conservation — national park permits online | https://dwc.lankagate.gov.lk/DWCEpermitApp/homeAction.action?lang=en
   - Sri Lanka Railways — train schedules | https://eservices.railway.gov.lk/schedule/searchTrain.action?lang=en
-verify:
-  - Do we include the Sigiriya entrance ticket, or do guests buy it at the site or online?
-  - Does the driver go up with guests or wait at the car park? Do we arrange a site guide, or can guests hire one at the entrance?
-  - Can the driver do a pre-dawn start for a Pidurangala sunrise climb?
-  - Do we arrange jeep safaris in Minneriya, Kaudulla or Hurulu, or do guests book them locally?
-  - Recommended stay — the design and the page both say 2 nights. Confirm.
-  - Rock height — the design says 200 m (as does the Central Cultural Fund); UNESCO gives 180 m. The page and the Lion Rock card say "nearly 200 m". Keep?
-  - Sigiriya hero photo — rights confirmed, and it shows Lion Rock from the water gardens path.
-  - Village tours and cooking classes — do we arrange or recommend any? The page describes them as organised for visitors and partly staged, and does not mention bullock-cart rides.
-  - Ritigala — can the driver include it from Sigiriya (about an hour each way)? Is it a stop we suggest?
-  - The fresco photography ban (2015) and the 2024 bee incident — re-check the current CCF rules and any closures before publishing.
 ---
 
 ## The rock and its story
@@ -60,29 +50,29 @@ The site museum near the entrance displays excavation finds and explains the lay
 - **Timing.** Start as soon as the site opens, or come in the late afternoon. By late morning the rock radiates heat and queues form on the narrow stairs, especially at weekends and on public holidays.
 - **Bees.** Giant honeybees nest on the rock face; signs call them hornets and ask for quiet, and there are mesh shelters near the Lion Platform. Attacks are uncommon but can be serious. In August 2024, 22 visitors needed hospital treatment after part of a nest fell in strong wind, and the site closed for a while. If you are allergic to stings, carry your medication.
 - **What to bring.** Shoes with good grip, a hat and water. There is little shade above the gardens, and the steps are slippery after rain.
-- **Tickets.** Foreign visitors buy tickets at the site or online from the CCF, which also lists a Cultural Triangle round ticket. The CCF says the Sigiriya ticket includes the site museum. Hours and current prices are on the CCF pages linked below. Drones need the CCF's written permission.
+- **Tickets.** Foreign visitors buy tickets at the site or online from the CCF, which also lists a Cultural Triangle round ticket. The CCF says the Sigiriya ticket includes the site museum. Hours and current prices are on the CCF pages linked below. Drones need the CCF's written permission. On a tour with us, the entrance ticket is included in your tour price, and so is a site guide if you ask for one.
 
 <!-- experiences -->
 
 ## Pidurangala
 
-Pidurangala, a second rock about 1 km to the north, is where many of the classic photographs of Sigiriya are taken. Tradition says the monks moved here when Kassapa took Sigiriya, and a working temple at its foot charges its own small fee; cover your shoulders and knees there. The path passes a large brick reclining Buddha and ends in a boulder scramble where you need your hands. Most people reach the top in 30–45 minutes. For sunrise, bring a torch and proper shoes.
+Pidurangala, a second rock about 1 km to the north, is where many of the classic photographs of Sigiriya are taken. Tradition says the monks moved here when Kassapa took Sigiriya, and a working temple at its foot charges its own small fee; cover your shoulders and knees there. The path passes a large brick reclining Buddha and ends in a boulder scramble where you need your hands. Most people reach the top in 30–45 minutes. For sunrise, bring a torch and proper shoes. On a tour with us, the temple fee is included in your tour price, and your driver can take you there before dawn.
 
 ## Ritigala
 
-About an hour's drive north, beyond Habarana, Ritigala rises to 766 m, the highest mountain in the north of the island. Most of it is a strict nature reserve closed to visitors, but the forest monastery on its lower slopes is open. Ascetic monks lived here from about the 1st century BC. A paved path climbs through shady forest past a stone-lined reservoir, a monastery hospital and pairs of raised stone platforms joined by little bridges. It is quiet and rarely crowded, and has its own ticket.
+About an hour's drive north, beyond Habarana, Ritigala rises to 766 m, the highest mountain in the north of the island. Most of it is a strict nature reserve closed to visitors, but the forest monastery on its lower slopes is open. Ascetic monks lived here from about the 1st century BC. A paved path climbs through shady forest past a stone-lined reservoir, a monastery hospital and pairs of raised stone platforms joined by little bridges. It is quiet and rarely crowded. It has its own ticket, which is included in your tour price with us.
 
 ## Wild elephants: Minneriya, Kaudulla and Hurulu
 
 Three protected areas lie about 30–60 minutes' drive away: Minneriya and Kaudulla national parks, linked by a forest corridor, and Hurulu Eco Park near Habarana, a forest reserve run by the Forest Department. In the dry season, roughly July to October, elephants come out to graze fresh grass on the exposed beds of the ancient reservoirs. Around August and September the gathering at Minneriya can reach several hundred animals.
 
-Herds move between the three areas, so jeep drivers usually choose the park on the day. Numbers depend on the water level. When the reservoirs were kept full through the dry season around 2019–2021, the Gathering nearly vanished; it recovered in 2024 and 2025. Sightings are likely in season but never guaranteed. For timing, tickets and how to watch without crowding the herds, see the [Minneriya elephant safari guide](/experiences/minneriya-elephant-safari/).
+Herds move between the three areas, so jeep drivers usually choose the park on the day. Numbers depend on the water level. When the reservoirs were kept full through the dry season around 2019–2021, the Gathering nearly vanished; it recovered in 2024 and 2025. Sightings are likely in season but never guaranteed. On a tour with us, the jeep and the park ticket are included in your tour price. For timing, tickets and how to watch without crowding the herds, see the [Minneriya elephant safari guide](/experiences/minneriya-elephant-safari/).
 
 The elephant rides offered around Habarana use captive, working elephants, not wild ones.
 
 ## Village tours and cooking classes
 
-Village tours are sold all around Habarana and Sigiriya, Hiriwadunna being the best known. Most follow a set routine: a walk along paddy-field bunds, a crossing of the village tank in a small boat, and a rice-and-curry lunch cooked over a wood fire in a village home. They are organised for visitors and partly staged, but the farmland and the food are real. Cooking classes in family kitchens around Sigiriya are more hands-on. You usually help prepare several curries and a coconut sambol, often in clay pots, and then eat them.
+Village tours are sold all around Habarana and Sigiriya, Hiriwadunna being the best known. Most include a walk along paddy-field bunds, a crossing of the village tank in a small boat, and a rice-and-curry lunch cooked over a wood fire in a village home. They follow a set plan made for visitors, but the farmland and the food are real. Cooking classes in family kitchens around Sigiriya are more hands-on. You usually help prepare several curries and a coconut sambol, often in clay pots, and then eat them.
 
 ## How long to stay
 
