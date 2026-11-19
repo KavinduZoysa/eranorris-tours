@@ -81,7 +81,7 @@ airport, Colombo, Hikkaduwa, Galle, Mirissa and Kandy.
   to allow for Colombo traffic.
 - Mirissa "around 2 hours" via the expressway is an estimate from route distance (about 120 km).
 
-## Business information that needs the owner (also in the file’s `verify:`)
+## Business information that needs the owner (answered 2026-11-19 — see "Owner answers" at the end)
 - Whether Eranorris arranges the river safari or water sports (cards come from the design text).
 - Recommended operators and their safety standards.
 - Lunuganga: whether to suggest it, and who pays for the tour.
@@ -171,3 +171,21 @@ The supplied main photo was replaced because it was watermarked, low quality or 
 https://commons.wikimedia.org/wiki/File:Bentota_Estuary.jpg. Place confirmed from the file itself: Commons category "Bentota"; the description names the Bentota estuary. It is credited under the photo on the
 page and on /photo-credits/; the site's copy is cropped and resized. The old photo question was
 removed from the guide's `verify:` list.
+
+## Owner answers and re-checks (2026-11-19)
+All nine `verify:` questions were resolved and the list was removed from the guide.
+
+| Question | Owner's answer / check | What changed |
+|---|---|---|
+| Do we arrange the river safari or water sports | Both are on the confirmed activity list, so they are offered. The tour price includes everything (owner's rule, 2026-11-18), so the boat trip is included. Water sports: arranged if the guest asks, and included in the package price | "On the river", after the Madu Ganga paragraph: "On a tour with us, the river safari is usually on the Madu Ganga. The boat trip takes about 1.5 hours and is included in your tour price." End of the water-sports paragraph: "On a tour with us, we arrange water sports if you ask, and they are included in your tour price." |
+| Which river from Bentota, and how long | Mostly the Madu River at Balapitiya. The boat trip takes about 1.5 hours (owner confirmed this reading of "yes") | In the sentence above. The activity card is unchanged (its `details` hold general facts only; it already describes both rivers) |
+| Operators and safety (life jackets, licences) | The boat and water-sports operators we use are licensed and give every guest a life jacket | End of the water-sports paragraph: "The boat and water-sports operators we use are licensed and give every guest a life jacket." The general safety advice stays |
+| Madu River "baby crocodile photo" and "fish therapy" | Optional; the guest decides | After the trip sentence: "The crocodile and fish-therapy stops are optional, and you can skip them." The general warning ("the crocodile is a captive animal, and handling it is best avoided") and the card's "decline" stay, so the site still does not promote them |
+| Lunuganga: suggest it, and who pays | On the confirmed list. Included by the price rule. Re-checked 2026-11-19 on https://geoffreybawa.com/lunuganga: tours daily at 11:00, 14:00 and 15:00; no reservation needed for the garden tour; USD 20 for foreign visitors; third-party tours not permitted. Matches the page | After the gardens list: "On a tour with us, the entrance to both gardens is included in your tour price." |
+| Brief Garden: suggest it, and is it open | On the confirmed list; entrance included (same sentence). Re-checked 2026-11-19: briefgarden.com still shows no visiting details; no closure news found; a newspaper visit in 2025 (https://www.dailymirror.lk/print/life/A-Visit-to-Brief-Garden/243-307383) | Nothing more (the card already says to check that it is open) |
+| Recommended stay | 2 nights (same as the design and the planner) | Nothing |
+| Is Bentota usually the last stop before the airport | Yes, often | Owner chose to add to "How long to stay": "On a tour with us, Bentota is often the last stop, and your driver takes you from here to the airport." |
+| Journey times | Confirmed. They also match the planner's road data (OSM/Valhalla, no traffic): airport 115 km / about 2 h; Hikkaduwa 37 km / 56 min; Galle 55 km / 82 min; Mirissa 96 km / 104 min; Kandy 176 km / about 4 h | Nothing |
+| (extra) Optional text | Owner chose both river extras | River section: "Your driver takes you to the boat jetty and waits for you. On the same trip, you can visit a mask museum at Ambalangoda, a short drive further south." (the card is "River safari and mask museum") |
+| (extra) Coastal trains | Re-checked 2026-11-19: no disruption found since the Wadduwa derailment of 24 April 2026 (https://newsfirst.lk/2026/04/24/special-bus-services-deployed-as-coastal-train-services-remain-disrupted) | Nothing |
+| (extra) Photos | Rights confirmed site-wide (`confirmed.photoRights`); the main photo is the Commons "Bentota Estuary" photo, credited | Nothing |

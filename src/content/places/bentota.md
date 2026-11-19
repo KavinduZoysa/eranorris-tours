@@ -1,6 +1,7 @@
 ---
 # Destination guide, written to docs/content-guide.md. Research: docs/research/bentota.md
-status: draft
+status: published
+reviewed: 2026-11-19
 title: Bentota Guide: Beach, River & Bawa Gardens | Eranorris
 description: Plan a stay in Bentota: the long beach and its sea by season, river safaris and water sports, the Bawa gardens at Lunuganga and Brief, and onward routes.
 intro: A resort coast where the Bentota River meets the sea, with a long west-facing beach, calm river water and the gardens of the Bawa brothers a short drive inland.
@@ -20,16 +21,6 @@ sources:
   - Geoffrey Bawa Trust — visiting Lunuganga | https://geoffreybawa.com/lunuganga
   - Ramsar Convention — Madu Ganga wetland | https://rsis.ramsar.org/ris/1372
   - Sri Lanka Railways — timetables and seat reservations | https://seatreservation.railway.gov.lk/mtktwebslr/
-verify:
-  - Do we arrange the river safari or water sports, or do guests book them locally? The water-sports card comes from the design text only.
-  - The "River safari and mask museum" card combines the design's Bentota river safari with the villa site's Madu River tour (which started from Hikkaduwa, about 3.5 hours including travel). From Bentota, which river do we use — the Bentota River, the Madu River or either — and how long is the trip? The card gives no duration until confirmed.
-  - Do we recommend particular river or water-sports operators, and have we checked their safety standards (life jackets, licensing)?
-  - The villa site's Madu River tour lists a "baby crocodile photo" and "fish therapy" as extras. These are captive-animal interactions the site must not promote. Are they still part of the tour, and can the tour be offered to tour guests without them? The page now says such stops involve captive animals.
-  - Lunuganga allows only the Geoffrey Bawa Trust’s own tours. Do we suggest a stop there, and do guests pay for the tour on the day?
-  - Do we suggest Brief Garden, and is it currently open to visitors? Its own website gave no visiting details when checked (November 2026).
-  - Recommended stay — the design suggests 2 nights, and the page agrees. Please confirm.
-  - Is Bentota usually a last stop before the airport in our routes? The page suggests it as an end-of-tour beach.
-  - The journey times here are researched ranges, not our own measured times. Please confirm or correct them from experience.
 ---
 
 ## Where the river meets the sea
@@ -56,7 +47,9 @@ The river is the other half of Bentota. Upstream from the bridges it winds betwe
 
 The **Madu Ganga** at Balapitiya, about 20 km south, is a different river and a popular alternative. It widens into a mangrove estuary scattered with islands, listed as a Ramsar wetland of international importance, and boats usually stop at the island temple of Kothduwa and a cinnamon-peeling island. Some trips also stop where a young crocodile is offered for photos, or at a “fish therapy” pool; the crocodile is a captive animal, and handling it is best avoided.
 
-**Water sports** such as jet skis, water-skiing, wakeboarding, banana boats and windsurfing mostly take place on the sheltered river and lagoon near the mouth rather than in the open sea. Operators vary. Ask for a safety briefing, wear the life jacket you are given and check that it fits, keep jet skis well away from swimmers and fishing boats, and skip the water after drinking.
+On a tour with us, the river safari is usually on the Madu Ganga. The boat trip takes about 1.5 hours and is included in your tour price. Your driver takes you to the boat jetty and waits for you. On the same trip, you can visit a mask museum at Ambalangoda, a short drive further south. The crocodile and fish-therapy stops are optional, and you can skip them.
+
+**Water sports** such as jet skis, water-skiing, wakeboarding, banana boats and windsurfing mostly take place on the sheltered river and lagoon near the mouth rather than in the open sea. Operators vary. Ask for a safety briefing, wear the life jacket you are given and check that it fits, keep jet skis well away from swimmers and fishing boats, and skip the water after drinking. On a tour with us, we arrange water sports if you ask, and they are included in your tour price. The boat and water-sports operators we use are licensed and give every guest a life jacket.
 
 <!-- experiences -->
 
@@ -66,6 +59,8 @@ Two gardens inland make Bentota a good stop for anyone interested in architectur
 
 - **Lunuganga** was the country estate of the architect Geoffrey Bawa. He bought the former rubber and cinnamon plantation in 1948 and spent decades shaping it into a garden of terraces, lake views and pavilions. The Geoffrey Bawa Trust runs it and leads guided tours at set times each day; tours by outside guides are not permitted. Expect steep steps and uneven paths.
 - **Brief Garden**, about 10 km inland near Kalawila, belonged to his brother, the landscape designer Bevis Bawa. It is a looser, more personal garden on a former rubber estate, full of sculpture and long open to visitors.
+
+On a tour with us, the entrance to both gardens is included in your tour price.
 
 ## More to see nearby
 
@@ -77,7 +72,7 @@ Two gardens inland make Bentota a good stop for anyone interested in architectur
 
 ## How long to stay
 
-**Two nights** give you a morning on the river, an afternoon at one of the gardens and time on the beach. Many travellers stay longer at the end of a tour: Bentota is one of the easier beaches to reach from the airport, so a final rest here leaves a manageable transfer home.
+**Two nights** give you a morning on the river, an afternoon at one of the gardens and time on the beach. Many travellers stay longer at the end of a tour: Bentota is one of the easier beaches to reach from the airport, so a final rest here leaves a manageable transfer home. On a tour with us, Bentota is often the last stop, and your driver takes you from here to the airport.
 
 A typical day:
 

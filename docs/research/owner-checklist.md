@@ -8,7 +8,7 @@ file named in each section), then run the command again.
 Set each to `true` in `site.config.mjs → confirmed` once checked.
 
 
-## Guide questions (59 open in 8 files)
+## Guide questions (50 open in 7 files)
 
 Answer them, update the text if needed, and delete each item from the file’s `verify:` list. A page can only be published once its list is empty.
 
@@ -41,18 +41,6 @@ Answer them, update the text if needed, and delete each item from the file’s `
 - [ ] The FAQ now tells guests to check their government’s travel advice and mentions the October 2024 alert and its lifting in November 2024 (the UK advice updated in September 2026 no longer names Arugam Bay). Keep it, cut it to a one-line "check your government’s advice", or remove it? Re-check all advisories just before publishing.
 - [ ] Do drivers go on from Arugam Bay to Kumana, Kudumbigala or Lahugala, and do they wait during a Kumana jeep safari? The page lists these only as nearby places.
 - [ ] Cyclone Ditwah (late 2025): no report was found on the Monaragala–Pottuvil (A4) road or the Ella–Wellawaya road in 2026. Please confirm the roads to Arugam Bay are normal.
-- [ ] The journey times here are researched ranges, not our own measured times. Please confirm or correct them from experience.
-
-### Bentota — `src/content/places/bentota.md`
-
-- [ ] Do we arrange the river safari or water sports, or do guests book them locally? The water-sports card comes from the design text only.
-- [ ] The "River safari and mask museum" card combines the design's Bentota river safari with the villa site's Madu River tour (which started from Hikkaduwa, about 3.5 hours including travel). From Bentota, which river do we use — the Bentota River, the Madu River or either — and how long is the trip? The card gives no duration until confirmed.
-- [ ] Do we recommend particular river or water-sports operators, and have we checked their safety standards (life jackets, licensing)?
-- [ ] The villa site's Madu River tour lists a "baby crocodile photo" and "fish therapy" as extras. These are captive-animal interactions the site must not promote. Are they still part of the tour, and can the tour be offered to tour guests without them? The page now says such stops involve captive animals.
-- [ ] Lunuganga allows only the Geoffrey Bawa Trust’s own tours. Do we suggest a stop there, and do guests pay for the tour on the day?
-- [ ] Do we suggest Brief Garden, and is it currently open to visitors? Its own website gave no visiting details when checked (November 2026).
-- [ ] Recommended stay — the design suggests 2 nights, and the page agrees. Please confirm.
-- [ ] Is Bentota usually a last stop before the airport in our routes? The page suggests it as an end-of-tour beach.
 - [ ] The journey times here are researched ranges, not our own measured times. Please confirm or correct them from experience.
 
 ### Dambulla — `src/content/places/dambulla.md`
