@@ -1,6 +1,7 @@
 ---
 # Research: docs/research/udawalawe.md
-status: draft
+status: published
+reviewed: 2026-11-20
 title: Udawalawe Guide: Elephant Safaris & Transit Home | Eranorris
 description: Plan a visit to Udawalawe National Park: wild elephants around the reservoir, safari timing, the Elephant Transit Home and how it fits your route.
 intro: Open grassland and scrub around a large reservoir on the edge of the southern hills, where herds of wild elephants graze in the open through the year.
@@ -17,13 +18,6 @@ sources:
   - Department of Wildlife Conservation | https://www.dwc.gov.lk/
   - Department of Wildlife Conservation — online park permits | https://dwc.lankagate.gov.lk/DWCEpermitApp/homeAction.action?lang=en
   - UNESCO World Heritage — Sinharaja Forest Reserve | https://whc.unesco.org/en/list/405
-verify:
-  - Do we offer an Udawalawe safari or an Elephant Transit Home visit to tour guests? If so, what is included (jeep, permits, guide) and on what terms? There are no Udawalawe experiences in experiences.mjs yet.
-  - Do we help guests choose or book a safari jeep and park permits, or do guests arrange them locally? (The page makes no claim.)
-  - Recommended stay — the design suggests 1 night; the page says 1 night or a half-day stop. Confirm.
-  - Do drivers take guests to Maduwanwela Walawwa or Sinharaja from here, and would a night near Sinharaja (Deniyaya) fit our routes? The page mentions both only as nearby places.
-  - Maduwanwela Walawwa opening days and current condition — no official visitor page was found. Confirm it is open to visitors, or remove it.
-  - Udawalawe hero photo (udawalawe-elephants) — rights confirmed, and taken in Udawalawe. It shows an elephant and calf right beside a jeep; are we happy with how close the vehicle is, given the page's advice on distance?
 ---
 
 ## Why visit Udawalawe
@@ -41,7 +35,7 @@ Much of the land is open grassland and low scrub, with stands of dead trees left
 
 ## Planning a safari
 
-Visitors tour the park in safari jeeps, which start from the main entrance on the Thanamalwila road. Permits are issued by the Department of Wildlife Conservation, at the gate or online. The park is open from around dawn to dusk; check the department for current hours.
+Visitors tour the park in safari jeeps, which start from the main entrance on the Thanamalwila road. Permits are issued by the Department of Wildlife Conservation, at the gate or online. The park is open from around dawn to dusk; check the department for current hours. On a tour with us, the safari jeep and the park permits are included in your tour price, and so is a naturalist guide if you ask for one. Your driver takes you to the park entrance, where the jeep starts, and waits for you.
 
 A drive usually lasts about 3–4 hours. Early morning, from opening time until mid-morning, and late afternoon until closing are cooler and often better for elephants on the move. Middle-of-the-day drives are hot and glaring. The tracks are dusty, so bring a hat, sunscreen, water and binoculars.
 
@@ -51,7 +45,7 @@ A drive usually lasts about 3–4 hours. Early morning, from opening time until 
 
 The Elephant Transit Home, beside the main road a few kilometres west of the park entrance, is a managed rehabilitation facility run by the Department of Wildlife Conservation since 1995. It takes in orphaned and abandoned elephant calves and raises them with limited human contact. When they are about five years old, it releases them into protected areas. Well over a hundred elephants have been released since the late 1990s, including six in 2025.
 
-Visitors watch the calves come in for milk at set feeding times, from a viewing area set back from the animals. You cannot touch or feed them, and between feeds there is often little to see. Feeding times differ between sources, so check them locally on the day. These are young elephants in managed care, not a wild encounter, so you need the national park itself to see elephants living freely.
+Visitors watch the calves come in for milk at set feeding times, from a viewing area set back from the animals. You cannot touch or feed them, and between feeds there is often little to see. Feeding times differ between sources, so check them locally on the day. On a tour with us, the entrance ticket is included in your tour price. These are young elephants in managed care, not a wild encounter, so you need the national park itself to see elephants living freely.
 
 ## Responsible viewing
 
@@ -64,8 +58,8 @@ Visitors watch the calves come in for milk at set feeding times, from a viewing 
 
 Most people come only for the park, but a few places nearby reward a longer stay or a different route:
 
-- **Maduwanwela Walawwa.** Roughly an hour west, beyond Embilipitiya, this rambling manor house of a local chieftain family dates back to the 1700s and was enlarged until 1905. It once had more than a hundred rooms around 21 courtyards; fewer than half survive. The Department of Archaeology runs it as a museum, and few tourists find it. Check that it is open before you go.
-- **Sinharaja Forest Reserve.** The southern edge of this UNESCO-listed rainforest, around Deniyaya, is about 2–2.5 hours away via Embilipitiya. That is a long return trip; it works better as a night of its own on the way to or from the south coast.
+- **Maduwanwela Walawwa.** Roughly an hour west, beyond Embilipitiya, this rambling manor house of a local chieftain family dates back to the 1700s and was enlarged until 1905. It once had more than a hundred rooms around 21 courtyards; fewer than half survive. The Department of Archaeology runs it as a museum, and few tourists find it. Check that it is open before you go. On a tour with us, your driver can take you there.
+- **Sinharaja Forest Reserve.** The southern edge of this UNESCO-listed rainforest, around Deniyaya, is about 2–2.5 hours away via Embilipitiya. That is a long return trip; it works better as a night of its own on the way to or from the south coast. On a tour with us, we can add Sinharaja to your route if you ask.
 - **Lunugamvehera National Park**, near Thanamalwila on the road to Yala, protects a corridor that elephants use between the two parks, and sees few jeeps.
 
 ## How long to stay

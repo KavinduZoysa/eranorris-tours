@@ -78,7 +78,7 @@ airport, Ella, Yala, Mirissa and Galle.
 - Whether only registered jeeps may enter (as in Yala Block I) is not confirmed for Udawalawe. The
   page says visitors "tour the park in safari jeeps" and makes no rule claim.
 
-## Business information that needs the owner (also in the file's `verify:`)
+## Business information that needs the owner (answered 2026-11-20 — see "Owner answers" at the end)
 - Whether the business offers an Udawalawe safari or ETH visit; inclusions and terms.
 - Whether it helps book jeeps and permits.
 - Recommended stay (design: 1 night).
@@ -206,3 +206,20 @@ is unconfirmed (see docs/research/owner-checklist.md).
   - https://archives1.sundayobserver.lk/node/1497
   - https://www.jetwinghotels.com/islandinsider/maduwanwela-walawwa/
   - Note: Hidden gem for history-minded travellers; low priority. No official visitor page; opening days and condition unconfirmed (owner question). Construction date conflicts (late 1600s vs 1725).
+
+## Owner answers and re-checks (2026-11-20)
+All six `verify:` questions were resolved and the list was removed from the guide.
+
+| Question | Owner's answer / check | What changed |
+|---|---|---|
+| Do we offer an Udawalawe safari or a Transit Home visit; what is included | Both are activity cards (added 2026-11-07, so the question's "no Udawalawe experiences yet" was out of date), and every card is confirmed as offered (`confirmed.experiences`). The tour price includes everything (owner's rule, 2026-11-18), with a guide on request | "Planning a safari": "On a tour with us, the safari jeep and the park permits are included in your tour price, and so is a naturalist guide if you ask for one." (same as Yala). Transit Home: "On a tour with us, the entrance ticket is included in your tour price." The activity cards are unchanged (their `details` hold general facts only) |
+| Do we book the jeep and permits | Yes, included (see above) | See above |
+| Recommended stay | 1 night (planner), or half a day on the way | Nothing |
+| Do drivers take guests to Maduwanwela Walawwa or Sinharaja | Maduwanwela: an activity card, so offered. Sinharaja: yes, if guests ask (B1 a) | Owner chose to add: "On a tour with us, your driver can take you there." (Maduwanwela) and "On a tour with us, we can add Sinharaja to your route if you ask." (Sinharaja) |
+| Maduwanwela Walawwa open | Re-checked 2026-11-20: a 2026 resort page lists it as open 8:00 am–4:00 pm, about a 1-hour drive from Udawalawe (https://grandudawalawe.com/experiences/maduwanwela-walawwa/); run by the Department of Archaeology (https://en.wikipedia.org/wiki/Maduwanwela_Walawwa). Fees conflict (free or nominal) | Nothing (the page already says to check that it is open) |
+| Hero photo: how close the jeep is | Looked at the photo: the mother and calf cross a dirt track; a jeep is stopped some way behind them and does not block them. Owner chose B2 b: keep the photo, make the alt text exact | `src/data/destinations.mjs` alt: "Wild elephant and calf beside a safari jeep …" → "Wild elephant and calf crossing a track in front of a stopped safari jeep in Udawalawe National Park" (used on the home page card and the guide) |
+| (extra) Optional text | Owner chose it | "Planning a safari": "Your driver takes you to the park entrance, where the jeep starts, and waits for you." |
+| (extra) Journey times | Not a `verify:` question. All fit the planner road data (OSM/Valhalla, no traffic): airport 275 km / 4 h 09 min; Ella 90 km / 2 h 33 min; Yala gate (Palatupana) 78 km / 2 h 30 min; Mirissa 115 km / 2 h 20 min; Galle 132 km / 2 h 22 min (the page's 2.5–3 h is on the safe side). Owner OK'd | Nothing |
+| (extra) News re-check | 2026-11-20: no 2026 closure of Udawalawe found (the Sep–Oct closure was Yala only). The Transit Home is operating: a calf rescued in Yala on 7 Nov 2026 was taken there (https://www.lankanewspapers.com/2026/11/11/malnourished-baby-elephant-rescued-from-yala-transferred-to-udawalawe-transit-home); two calves wait for release after treatment (https://ent.dailybbnews.com/udawalawe-two-elephant-calves-recovery-release-plan-november-2026/). No 2026 release reported, so "including six in 2025" stays right. Feeding times still conflict (e.g. 9/12/3/6 on https://www.udawalawa.com/blog/udawalawe-elephant-transit-home-guide/) | Nothing (the page says to check them locally) |
+| (extra) For the Polonnaruwa guide later | Newswire, 24 Oct 2026: a new elephant transit home is planned at Kalahagala, near Polonnaruwa (https://www.newswire.lk/2026/10/24/polonnaruwa-to-get-new-elephant-transit-home/) — search result only, not opened | Nothing here |
+| (extra) Photos | Rights confirmed site-wide (`confirmed.photoRights`) | Nothing |

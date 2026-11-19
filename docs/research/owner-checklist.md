@@ -8,7 +8,7 @@ file named in each section), then run the command again.
 Set each to `true` in `site.config.mjs → confirmed` once checked.
 
 
-## Guide questions (50 open in 7 files)
+## Guide questions (44 open in 6 files)
 
 Answer them, update the text if needed, and delete each item from the file’s `verify:` list. A page can only be published once its list is empty.
 
@@ -73,12 +73,3 @@ Answer them, update the text if needed, and delete each item from the file’s `
 - [ ] Trincomalee hero photo (green headland above clear water) — rights confirmed, and where was it taken? The design says Pigeon Island, but the alt text doesn’t name it.
 - [ ] The journey times here are researched ranges, not our own measured times. Please confirm or correct them from experience.
 - [ ] Rail after Cyclone Ditwah — services were reported running again in 2026. Re-check Sri Lanka Railways before publishing.
-
-### Udawalawe — `src/content/places/udawalawe.md`
-
-- [ ] Do we offer an Udawalawe safari or an Elephant Transit Home visit to tour guests? If so, what is included (jeep, permits, guide) and on what terms? There are no Udawalawe experiences in experiences.mjs yet.
-- [ ] Do we help guests choose or book a safari jeep and park permits, or do guests arrange them locally? (The page makes no claim.)
-- [ ] Recommended stay — the design suggests 1 night; the page says 1 night or a half-day stop. Confirm.
-- [ ] Do drivers take guests to Maduwanwela Walawwa or Sinharaja from here, and would a night near Sinharaja (Deniyaya) fit our routes? The page mentions both only as nearby places.
-- [ ] Maduwanwela Walawwa opening days and current condition — no official visitor page was found. Confirm it is open to visitors, or remove it.
-- [ ] Udawalawe hero photo (udawalawe-elephants) — rights confirmed, and taken in Udawalawe. It shows an elephant and calf right beside a jeep; are we happy with how close the vehicle is, given the page's advice on distance?

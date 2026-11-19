@@ -97,7 +97,7 @@ export const DESTS = [
     seoTitle: 'Udawalawe Elephant Safaris',
     desc: 'Open grassland around a reservoir where herds of wild elephants are seen all year.',
     photo: 'udawalawe-elephants', focus: [0.5, 0.6],
-    alt: 'Wild elephant and calf beside a safari jeep in Udawalawe National Park',
+    alt: 'Wild elephant and calf crossing a track in front of a stopped safari jeep in Udawalawe National Park',
   },
   {
     id: 'galle', name: 'Galle', cat: 'culture', lat: 6.0329, lng: 80.2168, nights: 2, pos: 'l',
