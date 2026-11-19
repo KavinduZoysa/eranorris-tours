@@ -8,7 +8,7 @@ file named in each section), then run the command again.
 Set each to `true` in `site.config.mjs → confirmed` once checked.
 
 
-## Guide questions (81 open in 11 files)
+## Guide questions (73 open in 10 files)
 
 Answer them, update the text if needed, and delete each item from the file’s `verify:` list. A page can only be published once its list is empty.
 
@@ -106,17 +106,6 @@ Answer them, update the text if needed, and delete each item from the file’s `
 - [ ] Do drivers take guests to Maduwanwela Walawwa or Sinharaja from here, and would a night near Sinharaja (Deniyaya) fit our routes? The page mentions both only as nearby places.
 - [ ] Maduwanwela Walawwa opening days and current condition — no official visitor page was found. Confirm it is open to visitors, or remove it.
 - [ ] Udawalawe hero photo (udawalawe-elephants) — rights confirmed, and taken in Udawalawe. It shows an elephant and calf right beside a jeep; are we happy with how close the vehicle is, given the page's advice on distance?
-
-### Yala — `src/content/places/yala.md`
-
-- [ ] The villa site lists a "Yala National Park Safari". Is it offered to tour guests? If so, what is included (jeep, tracker or guide, park permits, breakfast), which sessions, and what are the terms?
-- [ ] Do we help guests choose or book a safari jeep and park permits, or do guests arrange them locally? (The page makes no claim.)
-- [ ] The villa site's Yala safari says it includes a naturalist guide. The card on this site no longer says so; add it back only if it applies to tour guests.
-- [ ] Recommended stay — the design suggests 2 nights, as does the page. Confirm.
-- [ ] Yala hero photo (yala-national-park) — rights confirmed. Note the design's photoOf says "a leopard", but the alt text describes rock outcrops and a lake at dusk; which is correct?
-- [ ] Experience photo yala-elephant (from the villa site) — rights confirmed, and was it taken in Yala?
-- [ ] Do drivers take guests to Kataragama, Kirinda, Bundala or Sithulpawwa on a Yala stay, or are these only suggestions? Sithulpawwa is reached by roads through the park; do our vehicles use them, and is a park ticket needed?
-- [ ] The 2026 closure and reopening dates (closed 14 September–15 October; reopened 16 October; bungalows from 1 November) are given as an example. Replace them with the current year's dates before publishing.
 
 ### Horton Plains and World’s End — `src/content/experiences/horton-plains-worlds-end.md`
 

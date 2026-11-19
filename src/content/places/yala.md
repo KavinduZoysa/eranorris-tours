@@ -1,6 +1,7 @@
 ---
 # Research: docs/research/yala.md
-status: draft
+status: published
+reviewed: 2026-11-19
 title: Yala National Park Guide: Safaris & Leopards | Eranorris
 description: Plan a Yala safari: the park's zones, morning or afternoon drives, the dry-season closure, likely wildlife, responsible viewing and how long to stay.
 intro: Dry scrub, rock outcrops and lagoons on the south-east coast, where the most visited part of the park holds one of the densest leopard populations recorded anywhere.
@@ -20,15 +21,6 @@ sources:
   - Sri Lanka Tourism — Kataragama | https://www.srilanka.travel/attraction?attraction_id=169
   - Ruhunu Maha Kataragama Devalaya (official site) | https://rmkd.lk/
   - Central Cultural Fund — Tissamaharama | https://ccf.gov.lk/heritage-sites/tissamaharama
-verify:
-  - The villa site lists a "Yala National Park Safari". Is it offered to tour guests? If so, what is included (jeep, tracker or guide, park permits, breakfast), which sessions, and what are the terms?
-  - Do we help guests choose or book a safari jeep and park permits, or do guests arrange them locally? (The page makes no claim.)
-  - The villa site's Yala safari says it includes a naturalist guide. The card on this site no longer says so; add it back only if it applies to tour guests.
-  - Recommended stay — the design suggests 2 nights, as does the page. Confirm.
-  - Yala hero photo (yala-national-park) — rights confirmed. Note the design's photoOf says "a leopard", but the alt text describes rock outcrops and a lake at dusk; which is correct?
-  - Experience photo yala-elephant (from the villa site) — rights confirmed, and was it taken in Yala?
-  - Do drivers take guests to Kataragama, Kirinda, Bundala or Sithulpawwa on a Yala stay, or are these only suggestions? Sithulpawwa is reached by roads through the park; do our vehicles use them, and is a park ticket needed?
-  - The 2026 closure and reopening dates (closed 14 September–15 October; reopened 16 October; bungalows from 1 November) are given as an example. Replace them with the current year's dates before publishing.
 ---
 
 ## Why visit Yala
@@ -53,15 +45,15 @@ The **other zones**, entered from Galge and Lunugamvehera further north, are lar
 
 At Patanangala, on the coast, a memorial marks the 2004 tsunami, which struck this shore. It is one of the few places where visitors may step out of the jeep.
 
-**Sithulpawwa**, deep in the park, is a rock monastery with caves, stupas and inscriptions dating back to around the 2nd century BC, and it is still an active temple. Pilgrims reach it by roads through the park from Kirinda and from Kataragama. Dress as you would for any temple, and travel in daylight, because elephants use the same roads.
+**Sithulpawwa**, deep in the park, is a rock monastery with caves, stupas and inscriptions dating back to around the 2nd century BC, and it is still an active temple. Pilgrims reach it by roads through the park from Kirinda and from Kataragama. On a tour with us, your driver takes you there in your own vehicle. Dress as you would for any temple, and travel in daylight, because elephants use the same roads.
 
 <!-- experiences -->
 
 ## Planning a safari
 
-Ordinary cars and vans do not go on safari. Visitors enter the park in registered safari jeeps, and since 2024 only licensed jeeps and drivers have been allowed into Block I. Park permits are issued by the Department of Wildlife Conservation, at the gate or online, and each park has a daily limit. In 2026 the government was also discussing a cap on jeeps per session, timed entry slots and a new digital ticket system, so check the rules shortly before you go.
+Ordinary cars and vans do not go on safari. Visitors enter the park in registered safari jeeps, and since 2024 only licensed jeeps and drivers have been allowed into Block I. Park permits are issued by the Department of Wildlife Conservation, at the gate or online, and each park has a daily limit. On a tour with us, the safari jeep and the park permits are included in your tour price, and so is a naturalist guide if you ask for one. In 2026 the government was also discussing a cap on jeeps per session, timed entry slots and a new digital ticket system, so check the rules shortly before you go.
 
-The park is open from around dawn to dusk. Entry and exit times are strictly enforced, and every vehicle must be out by closing time; the wildlife department publishes the current hours. Jeeps based in Tissamaharama set off well before opening time to reach the Palatupana gate. A **morning drive** usually starts at opening time and returns by late morning. An **afternoon drive** runs from mid-afternoon until closing. A **full day** stays in the park through the midday heat, with stops only at designated places.
+The park is open from around dawn to dusk. Entry and exit times are strictly enforced, and every vehicle must be out by closing time; the wildlife department publishes the current hours. Jeeps based in Tissamaharama set off well before opening time to reach the Palatupana gate. A **morning drive** usually starts at opening time and returns by late morning. An **afternoon drive** runs from mid-afternoon until closing. A **full day** stays in the park through the midday heat, with stops only at designated places. On a tour with us, you choose a morning or an afternoon drive; we don’t offer full-day drives.
 
 Animals are most active early and late, and the morning light is softer for photographs. Bring a hat, sunscreen, water, a scarf against the dust, and binoculars.
 
@@ -84,7 +76,7 @@ Because of this, the wildlife department usually closes **Blocks I and II for se
 
 ## How long to stay
 
-**One night** allows an afternoon drive on arrival and a morning drive the next day. **Two nights** add a second morning in the park, a full day, or time for the places nearby. Two drives give you a much better chance of seeing the animals you came for than one.
+**One night** allows an afternoon drive on arrival and a morning drive the next day. **Two nights** add a second morning in the park, or time for the places nearby. Two drives give you a much better chance of seeing the animals you came for than one.
 
 ## Around Tissamaharama
 
@@ -125,7 +117,7 @@ Block I gives you the best odds of seeing a leopard, along with the most jeeps. 
 
 ### Is a full-day safari worth it?
 
-For keen photographers and birdwatchers, yes. For most people, two half-day drives are more comfortable, because the middle of the day is hot and many animals rest.
+On a tour with us, you choose a morning or an afternoon drive; we don’t offer full-day drives. Most people find two half-day drives more comfortable anyway, because the middle of the day is hot and many animals rest.
 
 ### Is Yala suitable for children?
 

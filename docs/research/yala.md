@@ -85,7 +85,7 @@ Ella, Udawalawe, Mirissa and Arugam Bay.
 - Migrant bird season: general (about October–April); no single official source.
 - Journey times are estimates; owner's own figures preferred.
 
-## Business information that needs the owner (also in the file's `verify:`)
+## Business information that needs the owner (answered 2026-11-19 — see "Owner answers" at the end)
 - Whether the villa site's "Yala National Park Safari" is offered to tour guests; inclusions
   (jeep, tracker or guide, permits, breakfast), sessions and terms.
 - Whether the business helps book jeeps and permits.
@@ -277,3 +277,18 @@ is unconfirmed (see docs/research/owner-checklist.md).
   - https://www.srilankatailormade.com/jetwing-hotspots/lunugamvehera-national-park
   - https://dwc.lankagate.gov.lk/DWCEpermitApp/homeAction.action?lang=en
   - Note: Lower priority. No official visitor page; entrance details from operators (Thanamalwila gate about 18 km from Tissa; also Weheragala/Galge). Useful as a crowd-free alternative, also from Udawalawe.
+
+## Owner answers and re-checks (2026-11-19)
+All eight `verify:` questions were resolved and the list was removed from the guide.
+
+| Question | Owner's answer / check | What changed |
+|---|---|---|
+| Is the Yala safari offered to tour guests; what is included; which sessions | Offered (on the confirmed activity list). The tour price includes everything (owner's rule, 2026-11-18), so the jeep and the park permits are included. Morning or afternoon drives only, no full day | "Planning a safari": "On a tour with us, the safari jeep and the park permits are included in your tour price, and so is a naturalist guide if you ask for one." and, after the full-day sentence, "On a tour with us, you choose a morning or an afternoon drive; we don’t offer full-day drives." "How long to stay": removed "a full day". FAQ "Is a full-day safari worth it?" rewritten (owner's choice) to say the same |
+| Do we book the jeep and permits | Yes, included (see above) | See above |
+| Naturalist guide | Only if the guest asks | In the "Planning a safari" sentence above. The activity card is unchanged (its `details` hold general facts only) |
+| Recommended stay | 2 nights | Nothing |
+| Hero photo and the design's "a leopard" | The photo shows rock outcrops above a lake at dusk; the alt text is right and `photoOf` was already corrected to "rock outcrops above a lake". Rights confirmed site-wide | Nothing |
+| Card photo yala-elephant | Rights and place confirmed site-wide (`confirmed.photoRights`) | Nothing |
+| Kataragama, Kirinda, Bundala, Sithulpawwa | All on the confirmed activity list. Sithulpawwa: the driver takes guests in the tour vehicle on the park road | Owner chose to add to the Sithulpawwa paragraph: "On a tour with us, your driver takes you there in your own vehicle." Whether a park ticket is needed on the pilgrim roads was not confirmed (operator and blog sources only); not on the page, and covered by the price rule anyway |
+| 2026 closure dates | 2026 is the current year; dates confirmed by the Sunday Times, 30 Aug 2026 (Zones I–II closed 14 Sep–15 Oct, Zones III–VI open): https://www.sundaytimes.lk/260830/news/monaragala-hardest-hit-by-drought-as-yala-partially-closes-to-protect-wildlife-653661.html. Replace with the 2027 dates when announced | Nothing |
+| (extra) New park rules | Re-checked 2026-11-19: the jeep cap (250–300 per session), timed slots and QR e-tickets are still proposals (Daily Mirror, Jan 2026; Mongabay, Apr 2026); nothing in force found | Nothing (the page says the government was "discussing" them) |
