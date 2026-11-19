@@ -1,6 +1,7 @@
 ---
 # Draft written to the content standard (docs/content-guide.md). Research: docs/research/ella.md
-status: draft
+status: published
+reviewed: 2026-11-19
 title: Ella Guide: Nine Arches Bridge, Hikes & Trains | Eranorris
 description: Plan time in Ella: Little Adam’s Peak and Ella Rock, the Nine Arches Bridge, the hill-country train, day trips to Haputale, and routes south and east.
 intro: Ella is a small town at the head of a gap in the hills, with tea on the slopes around it. It is a base for short hikes to viewpoints, and a stone railway viaduct is a walk away.
@@ -22,14 +23,6 @@ sources:
   - Uva Provincial Council tourism — Lipton’s Seat | https://visituva.lk/destination/liptons-seat
   - The Pekoe Trail — stages and current conditions | https://thepekoetrail.org/pekoe-stages
   - National Building Research Institute — landslide early warnings | https://nbri.gov.lk/
-verify:
-  - Which Ella visits do we actually arrange — Little Adam’s Peak, the Nine Arches Bridge, Ella Rock, Ravana Falls, Lipton’s Seat — and is it driver-only or with a guide?
-  - Do we book train tickets (e.g. Nanu Oya to Ella), and if guests ride the train, how does the driver and luggage fit around it?
-  - Recommended stay — the design suggests 2 nights; the page says 2, with a third optional. Confirm.
-  - Do our drivers do early starts for day trips, e.g. Lipton’s Seat at dawn?
-  - Is the Uva tourism site (visituva.lk) acceptable as an official source? Its footer names the Uva Provincial Council’s Ministry of Tourism.
-  - Rail status — last checked 6 November 2026 (Nanu Oya–Badulla running; everything west of Nanu Oya closed). Re-check before publishing and update the train section and FAQ.
-  - Do we take guests to the commercial zipline or the Uva Halpewatte factory, or recommend any operator? The page names them only as things to do nearby.
 ---
 
 ## Why stay in Ella
@@ -46,7 +39,7 @@ Go early, before the heat, crowds and cloud build, and wear shoes with grip: the
 
 ## Ella Rock
 
-Ella Rock is the harder hike: plan on three to four hours for the round trip, plus time at the top. The usual route follows the railway for about 2.5 km towards Kital Ella station, then climbs a steep path through forest and eucalyptus. Paths branch, and people sometimes offer to show you the way for a fee, so an offline map helps. Start early, and step well clear of the line when you hear a train.
+Ella Rock is the harder hike: plan on three to four hours for the round trip, plus time at the top. The usual route follows the railway for about 2.5 km towards Kital Ella station, then climbs a steep path through forest and eucalyptus. Paths branch, and people sometimes offer to show you the way for a fee, so an offline map helps. On a tour with us, a guide is included if you ask for one. Start early, and step well clear of the line when you hear a train.
 
 ## The Nine Arches Bridge
 
@@ -60,21 +53,22 @@ You can walk there along the tracks from Ella station in about 30–45 minutes, 
 
 Ella is on the Main Line from Colombo to Badulla, and the section from Nanu Oya to Ella is the one most travellers want to ride. It crosses the line’s highest point near Pattipola, at about 1,900 m, then runs along the hillsides past Haputale with long views over tea and valleys.
 
-Cyclone Ditwah damaged the line in late 2025. In early November 2026, trains had been running between Nanu Oya and Badulla via Ella since June 2026, and this was the only part of the hill-country line open: the bridge into Kandy and the line from Gampola to Nanu Oya were still being rebuilt, with the end of 2026 as the official target. Landslides can still interrupt services after heavy rain. Check Sri Lanka Railways before you plan around it.
+Cyclone Ditwah damaged the line in late 2025. In mid-November 2026, trains had been running between Nanu Oya and Badulla via Ella since June 2026, and this was the only part of the hill-country line open: the bridge into Kandy and the line from Gampola to Nanu Oya were still being rebuilt. In the November 2026 budget speech, the government said trains from Colombo should reach Kandy in the first quarter of 2027 and run the whole line to Badulla by mid-2027, but targets have slipped before. The roads are not affected: cars, vans and buses run as usual. Landslides can still interrupt services after heavy rain. Check Sri Lanka Railways before you plan around it.
 
 - **Booking.** Reserved seats can be booked online up to 30 days ahead on the Sri Lanka Railways site, with each passenger’s passport number; the e-ticket arrives by email. Popular trains fill quickly in the busy season.
+- **On a tour with us.** If you want a train section, we book the tickets, and they are included in your tour price. Your driver takes your bags by road and meets you at the station.
 - **Timing.** The Nanu Oya to Ella run takes roughly 2.5–3 hours, and delays are common.
 - **Safety.** Stay inside the carriage. Tourists have been seriously injured, and at least one killed, after leaning out of doors for photos.
 
 ## Day trips from Ella
 
 - **Ravana Falls.** About 6 km down the Wellawaya road, this 25 m waterfall is visible from the roadside. Legend links it, and a nearby cave, to King Ravana of the Ramayana. The rocks are slippery and the water can run fast after rain, so don’t climb the falls.
-- **Lipton’s Seat and Haputale.** Above the Dambatenne tea factory near Haputale, this is the viewpoint from which the tea merchant Thomas Lipton is said to have surveyed his estates. Go early, as mist usually arrives by mid-morning. Haputale is roughly an hour from Ella.
+- **Lipton’s Seat and Haputale.** Above the Dambatenne tea factory near Haputale, this is the viewpoint from which the tea merchant Thomas Lipton is said to have surveyed his estates. Go early, as mist usually arrives by mid-morning. Haputale is roughly an hour from Ella. On a tour with us, your driver can take you there before dawn.
 - **Diyaluma Falls.** Near Koslanda, roughly 1.5–2 hours away, this is one of the highest waterfalls in the country, at about 220 m. Paths lead to pools near the top, just above the drop: keep well back from the edge and stay out of the water after rain.
 - **Dowa rock temple.** On the Badulla road north of Bandarawela, roughly half an hour from Ella, an unfinished Buddha about 11 m tall is carved into a rock face beside a painted cave shrine. Tradition dates it to the 1st century BC.
-- **Horton Plains.** Around 2–2.5 hours away via Haputale and Ohiya; most people visit it from [Nuwara Eliya](/places/nuwara-eliya/), which is closer. See the [Horton Plains and World’s End guide](/experiences/horton-plains-worlds-end/).
+- **Horton Plains.** Around 2–2.5 hours away via Haputale and Ohiya; most people visit it from [Nuwara Eliya](/places/nuwara-eliya/), which is closer.
 
-Closer to town, the Uva Halpewatte factory shows visitors how Uva tea is made, and a commercial zipline more than half a kilometre long crosses a valley off the Passara road. Two stages of the Pekoe Trail, a 300 km walking route through the hills, start or end in Ella: an easy 9.5 km stage to Demodara and a moderate one from Makulella.
+Closer to town, tea factories show visitors how Uva tea is made, and a commercial zipline more than half a kilometre long crosses a valley off the Passara road. On a tour with us, we take you to the zipline if you ask, and the ride is included in your tour price. Two stages of the Pekoe Trail, a 300 km walking route through the hills, start or end in Ella: an easy 9.5 km stage to Demodara and a moderate one from Makulella.
 
 ## How long to stay
 
@@ -113,11 +107,11 @@ Yes. It is about 2 km, roughly 30–45 minutes along the railway from Ella stati
 
 ### Can I take the train from Kandy to Ella?
 
-Not all the way, at the time of writing (early November 2026). After Cyclone Ditwah, trains were running only between Nanu Oya, near Nuwara Eliya, and Badulla via Ella, so many travellers go by road to Nanu Oya and ride the scenic stretch from there. Check Sri Lanka Railways for the latest.
+Not all the way, at the time of writing (mid-November 2026). After Cyclone Ditwah, trains were running only between Nanu Oya, near Nuwara Eliya, and Badulla via Ella, so many travellers go by road to Nanu Oya and ride the scenic stretch from there. The roads are open as normal, so the drive by car, van or bus is not affected. Check Sri Lanka Railways for the latest; the government expects the whole line to reopen by mid-2027.
 
 ### Is Ella Rock safe to hike without a guide?
 
-Many people walk it independently, but the paths branch and are poorly marked. Start early, carry water and an offline map, and walk with others if you can.
+Many people walk it independently, but the paths branch and are poorly marked. Start early, carry water and an offline map, and walk with others if you can. On a tour with us, a guide is included if you ask for one.
 
 ### Should I choose Ella or Nuwara Eliya?
 

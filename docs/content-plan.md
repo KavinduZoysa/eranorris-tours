@@ -46,7 +46,8 @@ impact:
   Re-checked 18 November 2026 for Kandy: no change in service; the new target, from the
   12 November budget speech (Ada Derana, https://adaderana.lk/news/251545), is Kandy in the
   first quarter of 2027 and Badulla by mid-2027. Roads are unaffected (owner: cars, vans and
-  buses run as usual). The Kandy guide now says so; update the other three the same way.
+  buses run as usual). The Kandy guide now says so, and so does Ella (re-checked 19 November
+  2026: no change); update Nuwara Eliya and Adam's Peak the same way.
 - **Adam's Peak season**: 2026–27 runs from Unduvap Poya (23 December 2026) to Vesak Poya
   (19 May 2027, per the gazette); confirm against the official announcement.
 - **Park closures and rules**: Yala's annual closure (14 September–15 October in 2026), Kumana
@@ -67,6 +68,10 @@ By likely demand and how closely each place fits the business (based in Hikkaduw
 
 Experience guides go live with, or after, their destination page: Temple of the Tooth with
 Kandy, whale watching with Mirissa, Horton Plains with Nuwara Eliya, Minneriya with Sigiriya.
+When the Horton Plains guide is published, put its link back in the Ella guide's Horton Plains
+bullet: "See the [Horton Plains and World’s End guide](/experiences/horton-plains-worlds-end/)."
+(removed on 2026-11-19 so that Ella could be published first; the build refuses a published page
+that links to a draft guide).
 
 ## What to write next
 

@@ -101,7 +101,7 @@ road times to Nuwara Eliya, Kandy, the airport, Yala, Udawalawe and Arugam Bay.
 - visituva.lk: the footer names the Uva Provincial Council’s Ministry of Tourism, but the site
   does not state that it is official. It is listed in `sources:` and flagged in `verify:`.
 
-## Business information that needs the owner (also in the file's `verify:`)
+## Business information that needs the owner (answered 2026-11-19 — see "Owner answers" at the end)
 - Which Ella visits Eranorris arranges, and whether driver-only or guided.
 - Train tickets, and how the driver and luggage work if guests ride a section.
 - Recommended stay (design: 2 nights).
@@ -251,3 +251,18 @@ The supplied main photo was replaced because it was watermarked, low quality or 
 https://commons.wikimedia.org/wiki/File:Civilization_meets_Jungle_(44753903400).jpg. Place confirmed from the file itself: Commons category "Nine Arches Bridge, Demodara". It is credited under the photo on the
 page and on /photo-credits/; the site's copy is cropped and resized. The old photo question was
 removed from the guide's `verify:` list.
+
+## Owner answers and re-checks (2026-11-19)
+All seven `verify:` questions were resolved and the list was removed from the guide.
+
+| Question | Owner's answer / check | What changed |
+|---|---|---|
+| Which Ella visits we arrange; driver-only or a guide | All ten Ella activities are on the confirmed list. The tour price includes everything; guides on request. Owner OK to say so for Ella Rock | Ella Rock section and the Ella Rock FAQ: "On a tour with us, a guide is included if you ask for one." |
+| Train tickets; the driver and luggage | Yes: if guests want a train section, we arrange it, ticket prices included. The driver takes the bags by road and meets guests at the station | New bullet in the train section: "**On a tour with us.** If you want a train section, we book the tickets, and they are included in your tour price. Your driver takes your bags by road and meets you at the station." (the luggage sentence chosen by the owner) |
+| Recommended stay | 2 nights, a third optional (as on the page) | Nothing |
+| Early starts, e.g. Lipton's Seat at dawn | Yes | Owner chose to add to the Lipton's Seat bullet: "On a tour with us, your driver can take you there before dawn." |
+| visituva.lk as an official source | Checked 2026-11-19: the page loads, and its footer reads "Ministry of Tourism, Uva Provincial Council, Badulla, Sri Lanka" with a Badulla phone number. Owner OK to keep it | Nothing |
+| Rail status | Re-checked 2026-11-19: no change since the Kandy re-check of 18 November (see `docs/research/kandy.md`). Nanu Oya–Badulla running since 20 June 2026 (Newsfirst, https://newsfirst.lk/2026/06/20/badullananu-oya-train-services-resume-today); no trains to Kandy; budget-speech targets of 12 November 2026: Kandy in the first quarter of 2027, the whole line to Badulla by mid-2027 (Ada Derana, https://adaderana.lk/news/251545). Seat reservation FAQ re-read: "advance reservation 30 days prior", every passenger's NIC/passport number required, e-ticket by email (https://seatreservation.railway.gov.lk/mtktwebslr/faq). Owner (Kandy): the roads are open as usual | Train section: "early November" → "mid-November"; "end of 2026 as the official target" → the budget-speech targets with "targets have slipped before"; added "The roads are not affected: cars, vans and buses run as usual." Train FAQ: "mid-November", roads sentence, mid-2027 target |
+| Zipline and the Uva Halpewatte factory | Yes, we bring guests to the zipline. Do not name a tea factory | "the Uva Halpewatte factory shows visitors" → "tea factories show visitors"; owner chose to add "On a tour with us, we take you to the zipline if you ask, and the ride is included in your tour price." |
+| (extra) Other re-checks | 2026-11-19: no 2026 closure of the Ella–Wellawaya road found (last reopened December 2025, Ada Derana https://www.adaderana.lk/news/115417/ella-wellawaya-road-reopens-for-traffic); no new rule against walking the tracks to the Nine Arches Bridge (only travel-guide advice); Pekoe Trail stages 15 and 16 still "Advisory" (https://thepekoetrail.org/pekoe-stages). Photos: rights confirmed site-wide | Nothing |
+| (extra) Link to the Horton Plains guide | A trial publish failed: "published page links to /experiences/horton-plains-worlds-end/, which is not published yet". Owner chose to publish Ella first | Removed "See the Horton Plains and World’s End guide." from the Horton Plains bullet (the Nuwara Eliya link stays). Put it back when that guide is published (noted in `docs/content-plan.md`) |

@@ -8,7 +8,7 @@ file named in each section), then run the command again.
 Set each to `true` in `site.config.mjs → confirmed` once checked.
 
 
-## Guide questions (88 open in 12 files)
+## Guide questions (81 open in 11 files)
 
 Answer them, update the text if needed, and delete each item from the file’s `verify:` list. A page can only be published once its list is empty.
 
@@ -63,16 +63,6 @@ Answer them, update the text if needed, and delete each item from the file’s `
 - [ ] Experience cards proposed for Dambulla (cave temple, Nalanda Gedige, Popham's Arboretum, Ibbankatuwa) — which can the driver include, and does the arboretum's night walk work with our timings?
 - [ ] Who sells the cave temple ticket in 2026? The CCF ticket page lists the cave temple, but the CCF's 2025 visitor figures (SLTDA Year in Review) include only the Dambulla Museum. Confirm on site.
 - [ ] Dambulla hero photo — rights confirmed? It shows the modern golden Buddha above the museum at the foot of the hill, not the historic caves. Would a cave interior suit the page better?
-
-### Ella — `src/content/places/ella.md`
-
-- [ ] Which Ella visits do we actually arrange — Little Adam’s Peak, the Nine Arches Bridge, Ella Rock, Ravana Falls, Lipton’s Seat — and is it driver-only or with a guide?
-- [ ] Do we book train tickets (e.g. Nanu Oya to Ella), and if guests ride the train, how does the driver and luggage fit around it?
-- [ ] Recommended stay — the design suggests 2 nights; the page says 2, with a third optional. Confirm.
-- [ ] Do our drivers do early starts for day trips, e.g. Lipton’s Seat at dawn?
-- [ ] Is the Uva tourism site (visituva.lk) acceptable as an official source? Its footer names the Uva Provincial Council’s Ministry of Tourism.
-- [ ] Rail status — last checked 6 November 2026 (Nanu Oya–Badulla running; everything west of Nanu Oya closed). Re-check before publishing and update the train section and FAQ.
-- [ ] Do we take guests to the commercial zipline or the Uva Halpewatte factory, or recommend any operator? The page names them only as things to do nearby.
 
 ### Nuwara Eliya — `src/content/places/nuwara-eliya.md`
 
