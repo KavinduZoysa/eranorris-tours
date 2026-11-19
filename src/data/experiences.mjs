@@ -462,7 +462,7 @@ export const EXPERIENCES = [
     name: 'Moon Plains viewpoint',
     shortDescription: 'A grassland reserve near town with a cliff-edge viewpoint often called a mini World’s End. Authorised jeeps usually cover the last stretch.',
     where: 'Moon Plains (Sandatenna), a short drive from Nuwara Eliya',
-    details: 'The Nuwara Eliya Municipal Council declared Moon Plains (Sandatenna) a tourism zone in 2014. Grassland and farmland lead to a viewpoint over the surrounding mountains, often called a mini World’s End, and the last few kilometres are usually covered in authorised jeeps. Mornings are clearest; check the current access arrangements locally.',
+    details: 'Grassland and farmland lead to a viewpoint over the surrounding mountains, often called a mini World’s End, and the last few kilometres are usually covered in authorised jeeps. Mornings are clearest; check the current access arrangements locally.',
   },
   {
     id: 'nuwara-eliya-waterfalls', destinationId: 'nuwara-eliya', kind: 'excursion', category: 'nature', source: 'research',

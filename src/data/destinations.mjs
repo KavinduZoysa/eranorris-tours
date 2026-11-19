@@ -60,7 +60,7 @@ export const DESTS = [
     alt: 'The Temple of the Sacred Tooth Relic in Kandy behind its white moat wall',
   },
   {
-    id: 'nuwara-eliya', name: 'Nuwara Eliya', cat: 'hills', lat: 6.9497, lng: 80.7891, nights: 1, pos: 'l',
+    id: 'nuwara-eliya', name: 'Nuwara Eliya', cat: 'hills', lat: 6.9497, lng: 80.7891, nights: 2, pos: 'l', // nights: was 1 (design); owner advises 2 (2026-11-19)
     hl: 'Tea country · 1,900 m', kw: 'Tea', photoOf: 'the tea estates',
     seoTitle: 'Nuwara Eliya Tea Country',
     desc: 'A cool hill town surrounded by tea estates, with factory visits and colonial-era bungalows.',

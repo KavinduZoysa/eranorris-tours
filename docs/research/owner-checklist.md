@@ -8,7 +8,7 @@ file named in each section), then run the command again.
 Set each to `true` in `site.config.mjs → confirmed` once checked.
 
 
-## Guide questions (73 open in 10 files)
+## Guide questions (59 open in 8 files)
 
 Answer them, update the text if needed, and delete each item from the file’s `verify:` list. A page can only be published once its list is empty.
 
@@ -64,18 +64,6 @@ Answer them, update the text if needed, and delete each item from the file’s `
 - [ ] Who sells the cave temple ticket in 2026? The CCF ticket page lists the cave temple, but the CCF's 2025 visitor figures (SLTDA Year in Review) include only the Dambulla Museum. Confirm on site.
 - [ ] Dambulla hero photo — rights confirmed? It shows the modern golden Buddha above the museum at the foot of the hill, not the historic caves. Would a cave interior suit the page better?
 
-### Nuwara Eliya — `src/content/places/nuwara-eliya.md`
-
-- [ ] Which Nuwara Eliya visits do we actually arrange — a tea factory, Horton Plains, Hakgala, Gregory Lake — and is it driver-only or with a guide?
-- [ ] Do we buy Horton Plains permits or any entrance tickets, or do guests pay themselves?
-- [ ] Do our drivers do the pre-dawn start for Horton Plains (leaving Nuwara Eliya around 5 am)?
-- [ ] Recommended stay — the design suggests 1 night; the page says 1–2. Which do we advise?
-- [ ] Do we visit a particular tea factory? The page names Pedro and Labookellie only as examples, not as partners.
-- [ ] Can we help with a train section (e.g. Nanu Oya to Ella), and how does the driver fit around it?
-- [ ] The design highlight says 1,900 m; the official figure is about 1,868 m. Keep the rounded figure?
-- [ ] Rail status — last checked 6 November 2026 (Nanu Oya–Badulla running; Kandy/Gampola–Nanu Oya closed). Re-check before publishing and update "Getting there" and the FAQ.
-- [ ] Moon Plains — is the jeep-only access and the municipal ticket still current, and do we take guests there? The page describes it only in general terms.
-
 ### Polonnaruwa — `src/content/places/polonnaruwa.md`
 
 - [ ] Do we include the Polonnaruwa entrance ticket, or do guests buy it at the museum?
@@ -106,11 +94,3 @@ Answer them, update the text if needed, and delete each item from the file’s `
 - [ ] Do drivers take guests to Maduwanwela Walawwa or Sinharaja from here, and would a night near Sinharaja (Deniyaya) fit our routes? The page mentions both only as nearby places.
 - [ ] Maduwanwela Walawwa opening days and current condition — no official visitor page was found. Confirm it is open to visitors, or remove it.
 - [ ] Udawalawe hero photo (udawalawe-elephants) — rights confirmed, and taken in Udawalawe. It shows an elephant and calf right beside a jeep; are we happy with how close the vehicle is, given the page's advice on distance?
-
-### Horton Plains and World’s End — `src/content/experiences/horton-plains-worlds-end.md`
-
-- [ ] Is a Horton Plains visit something we arrange (the pre-dawn drive from Nuwara Eliya, or a stop on the way to Ella), and does the driver wait during the walk? The page makes no claim.
-- [ ] Who pays the park permit and the vehicle charge — guests on the day, or included? The page only tells visitors to get a Wildlife Department permit.
-- [ ] Do we have our own photos (the plateau, World’s End, Baker’s Falls) for a gallery, with rights confirmed?
-- [ ] Kirigalpotta and Thotupola Kanda trails — currently open, and is separate permission needed? The page only suggests asking the park office.
-- [ ] Rail status for Pattipola and Ohiya — last checked 6 November 2026 (Nanu Oya–Badulla running). Re-check before publishing.

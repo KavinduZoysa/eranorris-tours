@@ -37,6 +37,7 @@ itself. Photos with clearly identifiable people were skipped where possible.
 | ella-nine-arches-bridge | Nine Arches Bridge | tours/galle album. Confirm it's Ella |
 | nuwara-eliya-tea-estate | Hill-country tea estate (generic caption) | tours/galle album |
 | nuwara-eliya-labookellie | Labookellie estate sign (captioned "on the road from Kandy") | tours/galle album |
+| nuwara-eliya-worlds-end | The view from World's End at Horton Plains | **Added 2026-11-19.** The owner had no own photo of Horton Plains for the guide and chose a Commons photo: "Horton Plains - World's end" by JeninRathnayake, CC BY-SA 4.0 (https://commons.wikimedia.org/wiki/File:Horton_Plains_-_World%27s_end.jpg). Used in the Horton Plains guide (`gallery:`) and the Nuwara Eliya gallery, credited under the slide and on /photo-credits/ |
 
 ## Experience card photos added (2026-11-06)
 The same rule applies: the business's own photos, subject identifiable from the image.

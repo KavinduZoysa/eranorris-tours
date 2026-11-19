@@ -104,7 +104,7 @@ Ella and Dalhousie; the state of the hill-country railway after Cyclone Ditwah.
 - Rail status: only one dated source (a blog) for October 2026. Official confirmation is
   needed before publishing.
 
-## Business information that needs the owner (also in the file's `verify:`)
+## Business information that needs the owner (answered 2026-11-19 — see "Owner answers" at the end)
 - Which Nuwara Eliya visits Eranorris arranges, and whether driver-only or guided.
 - Who pays for Horton Plains permits and other entrance fees.
 - Whether drivers do pre-dawn starts for Horton Plains.
@@ -273,3 +273,21 @@ The supplied main photo was replaced because it was watermarked, low quality or 
 https://commons.wikimedia.org/wiki/File:Tea-plantation_Nuwara_Eliya-2567.jpg. Place confirmed from the file itself: the description names Nuwara Eliya; category "Economy of Nuwara Eliya". It is credited under the photo on the
 page and on /photo-credits/; the site's copy is cropped and resized. The old photo question was
 removed from the guide's `verify:` list.
+
+## Owner answers and re-checks (2026-11-19)
+All nine `verify:` questions were resolved and the list was removed from the guide. The Horton
+Plains guide was answered at the same time (see its record).
+
+| Question | Owner's answer / check | What changed |
+|---|---|---|
+| Which visits we arrange; driver-only or a guide | All nine Nuwara Eliya activities are on the confirmed list; the tour price includes everything; guides on request | Nothing on its own (see the rows below) |
+| Horton Plains permits and entrance tickets | Included (owner's rule: the price includes everything at every place) | Horton Plains "Permits and crowds" bullet: "On a tour with us, the park permit and the vehicle charge are included in your tour price." |
+| Pre-dawn start for Horton Plains | Yes; the driver also waits at the park during the walk | Owner chose to add to the "Go early" bullet: "On a tour with us, your driver can leave Nuwara Eliya at about 5 am and waits for you at the park during the walk." |
+| Recommended stay | 2 nights | `stay:` "1–2 nights; allow two…" → "2 nights, to add Horton Plains at dawn"; "How long to stay" now starts "**Two nights** is what we suggest…". Owner also chose to change the planner: `nights` 1 → 2 in `src/data/destinations.mjs` (as for Hikkaduwa) |
+| A particular tea factory | Do not name factories (as for Ella) | Removed "Pedro estate, a few kilometres from the centre, and the Labookellie tea centre beside the Kandy road are two well-known examples." Pedro stays as a place name for Lover's Leap and the Pekoe Trail. The gallery photo of the Labookellie sign keeps its caption (not a factory recommendation) |
+| A train section and the driver | As for Ella: we book the tickets (included); the driver takes the bags by road and meets guests at the station | New bullet "**Train sections on a tour with us.**" in "Getting there" |
+| The 1,900 m design figure | Keep the rounded 1,900 m in the planner label (`hl`); the page text keeps about 1,868 m | Nothing |
+| Rail status | Re-checked 2026-11-19: no change since 18 November (see `docs/research/kandy.md` and `ella.md`) | "By train": "early November" → "mid-November"; "Officials aim to reopen the whole line by the end of 2026" → the budget-speech targets (Kandy Q1 2027, whole line mid-2027) with "targets have slipped before"; added "The roads are not affected: cars, vans and buses run as usual." Train FAQ: "mid-November" and the mid-2027 target |
+| Moon Plains | Offered (on the confirmed list). Re-check: jeep access for the last stretch still matches reports (blogs, 2024–2026). But a Tourism Ministry notice (18 Feb 2022, https://tourismmin.gov.lk/web/en/news-ministry/306-2022-02-18-04-45-28) says the access road runs through the Department of Agriculture's government seed potato farm, and the Sunday Times (30 Jan 2022, https://www.pressreader.com/sri-lanka/sunday-times-sri-lanka/20220130/281694028172645) says the municipal council was removed from the programme in 2014 and seed-farm officials have run it since. Owner OK to correct | "A grassland reserve run by the municipal council" → "A grassland area beside a government seed farm"; card: removed "The Nuwara Eliya Municipal Council declared Moon Plains (Sandatenna) a tourism zone in 2014." |
+| (extra) Other re-checks | 2026-11-19: no 2026 closure of Horton Plains found; no fence at World's End reported; no permit change found (Sunday Times, 5 Jul 2026, https://www.sundaytimes.lk/260705/news/clarion-call-to-protect-vulnerable-horton-plains-np-648223.html, is a call to move the entry gate, not a rule). Kandy–Nuwara Eliya road: reopened after the Ditwah slips at Ramboda and Katukithula (Ada Derana, https://adaderana.lk/news/115843); no 2026 closure found. Photos: rights confirmed site-wide | Nothing |
+| (extra) Photo | Owner chose a Commons photo for the Horton Plains guide; also in this gallery so its credit appears on /photo-credits/ | Gallery image `nuwara-eliya-worlds-end` ("Horton Plains - World's end", JeninRathnayake, CC BY-SA 4.0) |

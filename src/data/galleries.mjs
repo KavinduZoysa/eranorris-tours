@@ -152,6 +152,18 @@ export const GALLERY_IMAGES = {
     focus: [0.5, 0.3],
     from: 'tours:galle/WhatsApp Image 2026-10-14 at 12.34.53 PM.jpeg',
   },
+  // Owner had no own photo of Horton Plains; chose a Commons photo (2026-11-19).
+  // Also the photo of the Horton Plains guide (its `gallery:` front matter).
+  'nuwara-eliya-worlds-end': {
+    alt: 'The view from World’s End at Horton Plains: forested mountains above a valley with a village far below',
+    focus: [0.5, 0.5],
+    from: 'https://upload.wikimedia.org/wikipedia/commons/b/b4/Horton_Plains_-_World%27s_end.jpg',
+    credit: {
+      title: "Horton Plains - World's end", author: 'JeninRathnayake',
+      license: 'CC BY-SA 4.0', licenseUrl: 'https://creativecommons.org/licenses/by-sa/4.0/',
+      source: 'https://commons.wikimedia.org/wiki/File:Horton_Plains_-_World%27s_end.jpg',
+    },
+  },
 };
 
 export const GALLERIES = {
@@ -161,5 +173,5 @@ export const GALLERIES = {
   yala: ['yala-elephants', 'yala-buffalo', 'yala-crocodile', 'yala-spotted-deer'],
   hikkaduwa: ['hikkaduwa-tsunami-museum', 'hikkaduwa-rathgama-lagoon', 'hikkaduwa-turtle-hatchery'],
   ella: ['ella-nine-arches-bridge'],
-  'nuwara-eliya': ['nuwara-eliya-tea-estate', 'nuwara-eliya-labookellie'],
+  'nuwara-eliya': ['nuwara-eliya-tea-estate', 'nuwara-eliya-labookellie', 'nuwara-eliya-worlds-end'],
 };

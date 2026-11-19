@@ -85,7 +85,7 @@ page builds.
   without claiming it is enforced.
 - Drive time Nuwara Eliya–park (1–1.5 h) and Ella–park (2–2.5 h) are estimates, not measured.
 
-## Owner questions (also in the file’s `verify:`)
+## Owner questions (answered 2026-11-19 — see "Owner answers" at the end)
 - Whether Eranorris arranges the pre-dawn drive or a stop on the Nuwara Eliya–Ella day, and
   whether the driver waits.
 - Who pays the permit and vehicle charge.
@@ -104,3 +104,15 @@ page builds.
 - World’s End on a clear morning (taken from behind the edge, not from an outcrop).
 - Baker’s Falls; the cloud forest with rhododendron and dieback stands.
 - Farr Inn visitor centre.
+
+## Owner answers and re-checks (2026-11-19)
+All five `verify:` questions were resolved and the list was removed from the guide.
+
+| Question | Owner's answer / check | What changed |
+|---|---|---|
+| Do we arrange the visit; does the driver wait | Yes (on the confirmed activity list). The driver can leave Nuwara Eliya at about 5 am and waits at the park during the walk | Owner chose to add to "When to go → Time of day": "On a tour with us, your driver can leave Nuwara Eliya at about 5 am and waits for you at the park during the walk." |
+| Permit and vehicle charge | Included (owner's rule: the price includes everything at every place) | "Permits and park rules": "On a tour with us, the park permit and the vehicle charge are included in your tour price." |
+| Own photos | None; owner chose a Wikimedia Commons photo | `gallery: [nuwara-eliya-worlds-end]` — "Horton Plains - World's end" by JeninRathnayake, CC BY-SA 4.0, https://commons.wikimedia.org/wiki/File:Horton_Plains_-_World%27s_end.jpg (taken 8 Sep 2018; Wiki Loves Earth 2019; category "Horton Plains National Park"; no watermark). Also in the Nuwara Eliya gallery, so the credit is under the photo on both pages and on /photo-credits/ |
+| Kirigalpotta and Thotupola Kanda | The guide does not mention them | Nothing |
+| Rail status (Pattipola, Ohiya) | Re-checked 2026-11-19: Nanu Oya–Badulla still running | "early November" → "mid-November". Added the train-section sentence used on the Ella and Nuwara Eliya pages (we book the tickets, included; the driver takes the bags by road and meets guests at the station) |
+| (extra) Guide | Guides on request (owner's rule); owner chose to say so | FAQ "Do I need a guide?": "On a tour with us, a guide is included if you ask for one." |

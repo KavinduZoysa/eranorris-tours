@@ -1,6 +1,7 @@
 ---
 # Experience guide. Research: docs/research/experience-horton-plains-worlds-end.md
-status: draft
+status: published
+reviewed: 2026-11-19
 experience: nuwara-eliya-horton-plains
 title: Horton Plains & World’s End: Walking Guide | Eranorris
 description: Plan the Horton Plains walk to World’s End and Baker’s Falls: the 9 km loop, when to go for a clear view, permits, park rules, safety and getting there.
@@ -17,12 +18,8 @@ sources:
   - UNESCO World Heritage — Central Highlands of Sri Lanka | https://whc.unesco.org/en/list/1203
   - IUCN World Heritage Outlook — Central Highlands of Sri Lanka | https://worldheritageoutlook.iucn.org/node/1158
   - Sri Lanka Railways — train schedules (Pattipola, Ohiya) | https://eservices.railway.gov.lk/schedule/searchTrain.action?lang=en
-verify:
-  - Is a Horton Plains visit something we arrange (the pre-dawn drive from Nuwara Eliya, or a stop on the way to Ella), and does the driver wait during the walk? The page makes no claim.
-  - Who pays the park permit and the vehicle charge — guests on the day, or included? The page only tells visitors to get a Wildlife Department permit.
-  - Do we have our own photos (the plateau, World’s End, Baker’s Falls) for a gallery, with rights confirmed?
-  - Kirigalpotta and Thotupola Kanda trails — currently open, and is separate permission needed? The page only suggests asking the park office.
-  - Rail status for Pattipola and Ohiya — last checked 6 November 2026 (Nanu Oya–Badulla running). Re-check before publishing.
+gallery:
+  - nuwara-eliya-worlds-end
 ---
 
 ## A plateau at the top of the island
@@ -47,13 +44,13 @@ There are no railings at World’s End, and the rock at the lip can crumble. Vis
 
 ## When to go
 
-- **Time of day.** Sri Lanka Tourism advises being there between about 6 and 10 am. Cloud usually rises up the escarpment by mid-morning and can hide the view completely, so most people leave Nuwara Eliya before dawn.
+- **Time of day.** Sri Lanka Tourism advises being there between about 6 and 10 am. Cloud usually rises up the escarpment by mid-morning and can hide the view completely, so most people leave Nuwara Eliya before dawn. On a tour with us, your driver can leave Nuwara Eliya at about 5 am and waits for you at the park during the walk.
 - **Time of year.** The view is most often clear from about January to March. Mist and rain are frequent from about April to September, and October to December is often wet too; the plateau gets over 2,000 mm of rain a year.
 - **Crowds and closures.** Weekends, poya (full moon) days and public holidays are busiest. The park can also close in severe weather, as it did for a time during Cyclone Ditwah in late 2025.
 
 ## Permits and park rules
 
-Entry needs a permit from the Department of Wildlife Conservation, charged per visitor and per vehicle. You can reserve a day-visitor e-permit on the department’s website (a printed receipt with its QR code is easiest to show) or buy one at the park. The department sets fees, opening hours and walking times, and they change, so check its pages before you go.
+Entry needs a permit from the Department of Wildlife Conservation, charged per visitor and per vehicle. You can reserve a day-visitor e-permit on the department’s website (a printed receipt with its QR code is easiest to show) or buy one at the park. The department sets fees, opening hours and walking times, and they change, so check its pages before you go. On a tour with us, the park permit and the vehicle charge are included in your tour price.
 
 - **No polythene.** Plastic bags and wrappers are banned, after sambar deer died from eating litter. Bags may be checked, and whatever you carry in should leave with you.
 - **Stay on the trail.** The grassland and marshes are fragile, and short cuts widen the eroded tracks.
@@ -70,7 +67,7 @@ The cloud forest is low, wind-bent and hung with moss, with red-flowering rhodod
 
 - **From [Nuwara Eliya](/places/nuwara-eliya/).** About 32 km via Ambewela and Pattipola, usually around 1–1.5 hours on narrow hill roads.
 - **From Haputale or Ella.** About 38 km from Haputale via Ohiya, and roughly 2–2.5 hours from [Ella](/places/ella/). Many routes fit the walk into the morning of the drive between Nuwara Eliya and Ella.
-- **By train.** Pattipola and Ohiya stations are on the Nanu Oya–Badulla section of the hill-country line, which was running in early November 2026. Ohiya is about 10 km by road from the park. Check Sri Lanka Railways for current times.
+- **By train.** Pattipola and Ohiya stations are on the Nanu Oya–Badulla section of the hill-country line, which was running in mid-November 2026. Ohiya is about 10 km by road from the park. Check Sri Lanka Railways for current times. On a tour with us, if you want a train section, we book the tickets, and they are included in your tour price. Your driver takes your bags by road and meets you at the station.
 
 ## What to bring
 
@@ -92,7 +89,7 @@ Not technically. It is mostly level but uneven, with muddy stretches and a steep
 
 ### Do I need a guide?
 
-No. The loop is well used and easy to follow, and most visitors walk it on their own. A naturalist can help with birds and plants.
+No. The loop is well used and easy to follow, and most visitors walk it on their own. A naturalist can help with birds and plants. On a tour with us, a guide is included if you ask for one.
 
 ### Can I visit Horton Plains from Ella?
 

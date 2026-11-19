@@ -66,7 +66,7 @@ Cyclone Ditwah damaged the line in late 2025. In mid-November 2026, trains had b
 - **Lipton’s Seat and Haputale.** Above the Dambatenne tea factory near Haputale, this is the viewpoint from which the tea merchant Thomas Lipton is said to have surveyed his estates. Go early, as mist usually arrives by mid-morning. Haputale is roughly an hour from Ella. On a tour with us, your driver can take you there before dawn.
 - **Diyaluma Falls.** Near Koslanda, roughly 1.5–2 hours away, this is one of the highest waterfalls in the country, at about 220 m. Paths lead to pools near the top, just above the drop: keep well back from the edge and stay out of the water after rain.
 - **Dowa rock temple.** On the Badulla road north of Bandarawela, roughly half an hour from Ella, an unfinished Buddha about 11 m tall is carved into a rock face beside a painted cave shrine. Tradition dates it to the 1st century BC.
-- **Horton Plains.** Around 2–2.5 hours away via Haputale and Ohiya; most people visit it from [Nuwara Eliya](/places/nuwara-eliya/), which is closer.
+- **Horton Plains.** Around 2–2.5 hours away via Haputale and Ohiya; most people visit it from [Nuwara Eliya](/places/nuwara-eliya/), which is closer. See the [Horton Plains and World’s End guide](/experiences/horton-plains-worlds-end/).
 
 Closer to town, tea factories show visitors how Uva tea is made, and a commercial zipline more than half a kilometre long crosses a valley off the Passara road. On a tour with us, we take you to the zipline if you ask, and the ride is included in your tour price. Two stages of the Pekoe Trail, a 300 km walking route through the hills, start or end in Ella: an easy 9.5 km stage to Demodara and a moderate one from Makulella.
 
