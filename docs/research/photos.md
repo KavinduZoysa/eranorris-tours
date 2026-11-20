@@ -38,6 +38,7 @@ itself. Photos with clearly identifiable people were skipped where possible.
 | nuwara-eliya-tea-estate | Hill-country tea estate (generic caption) | tours/galle album |
 | nuwara-eliya-labookellie | Labookellie estate sign (captioned "on the road from Kandy") | tours/galle album |
 | nuwara-eliya-worlds-end | The view from World's End at Horton Plains | **Added 2026-11-19.** The owner had no own photo of Horton Plains for the guide and chose a Commons photo: "Horton Plains - World's end" by JeninRathnayake, CC BY-SA 4.0 (https://commons.wikimedia.org/wiki/File:Horton_Plains_-_World%27s_end.jpg). Used in the Horton Plains guide (`gallery:`) and the Nuwara Eliya gallery, credited under the slide and on /photo-credits/ |
+| dambulla-cave-interior | Inside the Dambulla cave temple: Buddha statues under a painted rock ceiling | **Added 2026-11-21.** The main photo shows the modern Golden Temple, not the caves; the owner chose to keep it and add a cave interior from Commons: "Sculptures of Buddha in the sacred caves of Dambulla, Sri Lanka" by Nicolas Chadeville, CC BY 4.0 (https://commons.wikimedia.org/wiki/File:Sculptures_of_Buddha_in_the_sacred_caves_of_Dambulla,_Sri_Lanka.jpg). Place confirmed from the file: Commons category "Paintings in Dambulla cave temple"; the description names Dambulla. Used in the Dambulla gallery, credited under the slide and on /photo-credits/ |
 
 ## Experience card photos added (2026-11-06)
 The same rule applies: the business's own photos, subject identifiable from the image.
@@ -70,7 +71,8 @@ The 16 main photos came with the design. Each was checked against its alt text:
   Udawalawe (elephants and a jeep), Mirissa (aerial bay), Trincomalee (headland and beach),
   Yala (rock outcrops at dusk).
 - **Accurate but not the main sight:** Dambulla's photo is the modern Golden Temple building
-  at the foot of the rock, not the historic caves.
+  at the foot of the rock, not the historic caves. The owner kept it (2026-11-21); a Commons cave interior was
+  added to the gallery (`dambulla-cave-interior`).
 
 ## Considered but not used
 These were in `~/villas/tours/galle`, and the subject or place couldn't be confirmed from
@@ -93,7 +95,8 @@ Tell us what these show and they can be added.
 The gallery simply shows one photo; no controls appear.
 - **Kandy:** the Temple of the Tooth exterior and moat, Kandy Lake, Peradeniya (orchid
   house, palm avenue, Java fig), a Kandyan dance show (with permission).
-- **Dambulla:** the cave interiors (photography rules apply inside), the rock approach.
+- **Dambulla:** the rock approach (a Commons cave interior was added 2026-11-21, so the gallery
+  now has two photos).
 - **Anuradhapura:** Ruwanwelisaya, Sri Maha Bodhi, Jetavanaramaya, monastery ruins.
 - **Polonnaruwa:** Gal Vihara, the Vatadage, Parakrama Samudra, cycling between ruins.
 - **Adam's Peak:** the lit path at night, the summit at sunrise, the peak's shadow.

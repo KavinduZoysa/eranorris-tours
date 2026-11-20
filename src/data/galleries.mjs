@@ -164,6 +164,18 @@ export const GALLERY_IMAGES = {
       source: 'https://commons.wikimedia.org/wiki/File:Horton_Plains_-_World%27s_end.jpg',
     },
   },
+  // The Dambulla main photo shows the modern Golden Temple, not the caves. Owner chose to keep
+  // it and add a Commons photo from inside the caves (2026-11-21).
+  'dambulla-cave-interior': {
+    alt: 'Inside the Dambulla cave temple: a row of seated and standing Buddha statues under a painted rock ceiling',
+    focus: [0.5, 0.5],
+    from: 'https://upload.wikimedia.org/wikipedia/commons/a/a5/Sculptures_of_Buddha_in_the_sacred_caves_of_Dambulla%2C_Sri_Lanka.jpg',
+    credit: {
+      title: 'Sculptures of Buddha in the sacred caves of Dambulla, Sri Lanka', author: 'Nicolas Chadeville',
+      license: 'CC BY 4.0', licenseUrl: 'https://creativecommons.org/licenses/by/4.0/',
+      source: 'https://commons.wikimedia.org/wiki/File:Sculptures_of_Buddha_in_the_sacred_caves_of_Dambulla,_Sri_Lanka.jpg',
+    },
+  },
 };
 
 export const GALLERIES = {
@@ -174,4 +186,5 @@ export const GALLERIES = {
   hikkaduwa: ['hikkaduwa-tsunami-museum', 'hikkaduwa-rathgama-lagoon', 'hikkaduwa-turtle-hatchery'],
   ella: ['ella-nine-arches-bridge'],
   'nuwara-eliya': ['nuwara-eliya-tea-estate', 'nuwara-eliya-labookellie', 'nuwara-eliya-worlds-end'],
+  dambulla: ['dambulla-cave-interior'],
 };

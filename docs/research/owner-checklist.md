@@ -8,7 +8,7 @@ file named in each section), then run the command again.
 Set each to `true` in `site.config.mjs → confirmed` once checked.
 
 
-## Guide questions (44 open in 6 files)
+## Guide questions (38 open in 5 files)
 
 Answer them, update the text if needed, and delete each item from the file’s `verify:` list. A page can only be published once its list is empty.
 
@@ -42,15 +42,6 @@ Answer them, update the text if needed, and delete each item from the file’s `
 - [ ] Do drivers go on from Arugam Bay to Kumana, Kudumbigala or Lahugala, and do they wait during a Kumana jeep safari? The page lists these only as nearby places.
 - [ ] Cyclone Ditwah (late 2025): no report was found on the Monaragala–Pottuvil (A4) road or the Ella–Wellawaya road in 2026. Please confirm the roads to Arugam Bay are normal.
 - [ ] The journey times here are researched ranges, not our own measured times. Please confirm or correct them from experience.
-
-### Dambulla — `src/content/places/dambulla.md`
-
-- [ ] Do we include the Dambulla cave temple ticket, or do guests pay at the counter?
-- [ ] The design lists Dambulla as a day visit with no nights. The page says 2–3 hours, usually from a base near Sigiriya. Confirm.
-- [ ] Do our drivers stop at spice gardens on the Kandy–Dambulla road? The page describes them neutrally as places where buying is expected.
-- [ ] Experience cards proposed for Dambulla (cave temple, Nalanda Gedige, Popham's Arboretum, Ibbankatuwa) — which can the driver include, and does the arboretum's night walk work with our timings?
-- [ ] Who sells the cave temple ticket in 2026? The CCF ticket page lists the cave temple, but the CCF's 2025 visitor figures (SLTDA Year in Review) include only the Dambulla Museum. Confirm on site.
-- [ ] Dambulla hero photo — rights confirmed? It shows the modern golden Buddha above the museum at the foot of the hill, not the historic caves. Would a cave interior suit the page better?
 
 ### Polonnaruwa — `src/content/places/polonnaruwa.md`
 

@@ -102,7 +102,7 @@ the CCF and Wikipedia.
 - **Nalanda Gedige.** Its distance from Dambulla is not given in sources; it is about 20 km
   north of Aluvihare. The page gives no distance.
 
-## Business information that needs the owner (also in the file's `verify:`)
+## Business information that needs the owner (answered 2026-11-21 — see "Owner answers" at the end)
 - Who pays the cave temple ticket.
 - Day visit (design: no nights) vs the page's "2–3 hours, usually from a base near Sigiriya".
 - Whether drivers stop at spice gardens.
@@ -218,3 +218,18 @@ is unconfirmed (see docs/research/owner-checklist.md).
   - https://env.gov.lk/web/index.php/en/announcements/campaigns/284-reopening-of-the-renovated-nifs-popham-arboretum-as-an-ecotourism-destination-for-the-nature-lovers-20-july-2023-dambulla
   - https://www.sundaytimes.lk/230723/news/dambullas-botanical-paradise-re-launching-a-labour-of-love-526173.html
   - Note: Night-walk length from operator listings (1–1.5 h). Check whether night walks are run by NIFS staff or only by outside guides, and current hours.
+
+## Owner answers and re-checks (2026-11-21)
+All six `verify:` questions were resolved and the list was removed from the guide.
+
+| Question | Owner's answer / check | What changed |
+|---|---|---|
+| Is the cave temple ticket included | Yes: the tour price includes everything (owner's rule, 2026-11-18), with a site guide on request | "Tickets first" bullet: "On a tour with us, the ticket is included in your tour price, and so is a site guide if you ask for one." FAQ "Where do I buy tickets?": "On a tour with us, the ticket is included in your tour price." (as in the Temple of the Tooth FAQ). The card is unchanged (its `details` hold general facts only) |
+| Day visit vs "2–3 hours, usually from Sigiriya" | Confirmed: planner 0 nights; keep the page's wording | Nothing |
+| Spice gardens on the Kandy–Dambulla road | Only if guests ask (B1 a) | Kandy road bullet: "On a tour with us, your driver stops at a spice garden only if you ask." |
+| Which cards can the driver include; does the night walk fit | The cave temple, Nalanda Gedige and Popham's Arboretum are cards, all confirmed as offered (`confirmed.experiences`). Ibbankatuwa is not a card; the page lists it only as a nearby place. Night walk: yes, if guests ask, included (B2 a) | Popham's bullet: "On a tour with us, we can arrange the night walk if you ask, and it is included in your tour price." Owner also chose to add (Kandy road bullet): "On a tour with us, your driver can stop at Nalanda Gedige on the drive between Kandy and Dambulla." |
+| Who sells the cave temple ticket in 2026 | Re-checked 2026-11-21: the CCF ticket page lists "Dambulla Cave Temple", 7:00 am–5:00 pm, with online booking (https://ccf.gov.lk/vsl/tickets); a 2026 visitor paid LKR 3,000 at the booth at the start of the climb (https://www.blackgayboyabroad.com/travel/dambulla-cave-temple). Owner OK'd | Nothing (the page says to buy at the counter before climbing and links the CCF page) |
+| Hero photo: rights; Golden Temple rather than the caves | Rights confirmed site-wide. Owner chose B3 b: keep the main photo and add a cave interior from Commons | New gallery slide `dambulla-cave-interior` in `src/data/galleries.mjs` (`GALLERIES.dambulla`): "Sculptures of Buddha in the sacred caves of Dambulla, Sri Lanka" by Nicolas Chadeville, 2016, CC BY 4.0 (https://commons.wikimedia.org/wiki/File:Sculptures_of_Buddha_in_the_sacred_caves_of_Dambulla,_Sri_Lanka.jpg). Place confirmed from the file (Commons category "Paintings in Dambulla cave temple"; the description names Dambulla). Credited under the slide and on /photo-credits/. Recorded in docs/research/photos.md; README count nine → ten Commons photos |
+| (extra) Time to Polonnaruwa | Planner road data (OSM/Valhalla, no traffic): 72 km / 1 h 46 min; the page said "about 1.5 hours". Owner chose B4 a | `combine:` and "Getting there": "about 1.5 hours" → "about 1.5–2 hours". The other times fit the road data (airport 132 km / 3 h 23 min; Kandy 75 km / 2 h 09 min; Sigiriya 20 km / 36 min; Anuradhapura 67 km / 1 h 44 min) |
+| (extra) Optional text | Owner chose them | Aukana bullet: "On a tour with us, your driver can add Aukana on the way to Anuradhapura if you ask." Best time: "On a tour with us, your driver plans the visit for one of these cooler times." |
+| (extra) Closure news | Re-checked 2026-11-21: no 2026 closure found. A Sunday Times item that looked recent ("Won't allow temple closure", "Last Update 2026-…") is dated 11 July 2017 (https://sundaytimes.lk/online/news-online/wont-allow-temple-closure-dambulla-monks/2-1027420); that closure was never carried out | Nothing |

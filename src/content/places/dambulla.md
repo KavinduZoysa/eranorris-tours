@@ -1,6 +1,7 @@
 ---
 # Draft guide following docs/content-guide.md. Research: docs/research/dambulla.md
-status: draft
+status: published
+reviewed: 2026-11-21
 title: Dambulla Cave Temple: The Five Painted Caves | Eranorris
 description: Plan a stop at the Dambulla cave temple — what is inside the five painted caves, the climb, dress rules, nearby sights and how it fits with Sigiriya.
 intro: Five cave shrines high on a granite outcrop, filled with Buddha images and painted ceilings, and used for worship for more than two thousand years.
@@ -12,18 +13,11 @@ combine:
   - sigiriya | About 30 minutes north-east; most people see both on the same day or stay near Sigiriya
   - kandy | About 2–2.5 hours south via Matale; a natural break on the drive to or from the hills
   - anuradhapura | About 1.5–2 hours north, with a possible detour to the Aukana Buddha
-  - polonnaruwa | About 1.5 hours east via Habarana
+  - polonnaruwa | About 1.5–2 hours east via Habarana
 sources:
   - Central Cultural Fund — Dambulla Cave Temple | https://ccf.gov.lk/heritage-sites/dambulla-cave-temple/
   - Central Cultural Fund — heritage site tickets, hours and online booking | https://ccf.gov.lk/vsl/tickets
   - UNESCO World Heritage — Golden Temple of Dambulla | https://whc.unesco.org/en/list/561
-verify:
-  - Do we include the Dambulla cave temple ticket, or do guests pay at the counter?
-  - The design lists Dambulla as a day visit with no nights. The page says 2–3 hours, usually from a base near Sigiriya. Confirm.
-  - Do our drivers stop at spice gardens on the Kandy–Dambulla road? The page describes them neutrally as places where buying is expected.
-  - Experience cards proposed for Dambulla (cave temple, Nalanda Gedige, Popham's Arboretum, Ibbankatuwa) — which can the driver include, and does the arboretum's night walk work with our timings?
-  - Who sells the cave temple ticket in 2026? The CCF ticket page lists the cave temple, but the CCF's 2025 visitor figures (SLTDA Year in Review) include only the Dambulla Museum. Confirm on site.
-  - Dambulla hero photo — rights confirmed? It shows the modern golden Buddha above the museum at the foot of the hill, not the historic caves. Would a cave interior suit the page better?
 ---
 
 ## A cave temple still in use
@@ -47,7 +41,7 @@ The light inside is dim, and your eyes take a minute to adjust. Look up as often
 
 The path climbs the rock's gentler slope on stone steps. Most people take 10–20 minutes, longer in the midday heat. The views across the forest reach as far as Sigiriya on a clear day.
 
-- **Tickets first.** Buy your ticket at the counter at the bottom before you climb, as there is nowhere to buy one at the top. Hours are on the Central Cultural Fund's ticket page, linked below.
+- **Tickets first.** Buy your ticket at the counter at the bottom before you climb, as there is nowhere to buy one at the top. Hours are on the Central Cultural Fund's ticket page, linked below. On a tour with us, the ticket is included in your tour price, and so is a site guide if you ask for one.
 - **Dress.** Cover your shoulders and knees, and take off your hat at the shrines. Visitors in shorts or sleeveless tops may be refused entry.
 - **Shoes.** You leave them before the cave terrace. The rock and the terrace floor get very hot by midday, so light socks help.
 - **Photography.** Flash is not allowed. Don't pose with your back to a Buddha image, and ask before photographing monks or worshippers.
@@ -62,10 +56,10 @@ Beside the main road, a modern temple and Buddhist museum building is topped by 
 ## Around Dambulla
 
 - **Ibbankatuwa megalithic tombs.** A short drive south-west on the Kurunegala road, stone-slab graves about 2,700 years old have yielded pottery, beads and cremated remains. A visit takes about half an hour.
-- **Popham's Arboretum.** On the Kandalama road, Sam Popham began restoring this small patch of dry-zone forest in 1963. Marked trails make a quiet hour's walk, and night walks look for slender lorises.
+- **Popham's Arboretum.** On the Kandalama road, Sam Popham began restoring this small patch of dry-zone forest in 1963. Marked trails make a quiet hour's walk, and night walks look for slender lorises. On a tour with us, we can arrange the night walk if you ask, and it is included in your tour price.
 - **The wholesale market.** Dambulla is the hub of the island's vegetable trade, and its large wholesale market shows a side of the town most visitors drive past.
-- **On the Kandy road.** About 25 km south, a short way off the main road, Nalanda Gedige is a stone shrine built between the 8th and 10th centuries. It mixes a South Indian Hindu temple plan with Buddhist use, and was moved stone by stone to its present site when a new reservoir threatened the original one. Near Matale, the Aluvihare cave temple is linked with the first writing down of the Buddhist scriptures. Spice gardens line the same road. Entry is usually free, but buying is expected, often at high prices.
-- **Aukana.** The 5th-century standing Buddha at Aukana, nearly 12 m tall and carved from the living rock, faces the Kala Wewa reservoir. It is about an hour's drive north-west, a detour on the way to [Anuradhapura](/places/anuradhapura/).
+- **On the Kandy road.** About 25 km south, a short way off the main road, Nalanda Gedige is a stone shrine built between the 8th and 10th centuries. It mixes a South Indian Hindu temple plan with Buddhist use, and was moved stone by stone to its present site when a new reservoir threatened the original one. On a tour with us, your driver can stop at Nalanda Gedige on the drive between Kandy and Dambulla. Near Matale, the Aluvihare cave temple is linked with the first writing down of the Buddhist scriptures. Spice gardens line the same road. Entry is usually free, but buying is expected, often at high prices. On a tour with us, your driver stops at a spice garden only if you ask.
+- **Aukana.** The 5th-century standing Buddha at Aukana, nearly 12 m tall and carved from the living rock, faces the Kala Wewa reservoir. It is about an hour's drive north-west, a detour on the way to [Anuradhapura](/places/anuradhapura/). On a tour with us, your driver can add Aukana on the way to Anuradhapura if you ask.
 
 ## How long to spend
 
@@ -80,13 +74,13 @@ A typical half-day from Sigiriya:
 
 - **From the airport.** Dambulla is about 150 km from Colombo, roughly 3–4 hours by road via Kurunegala, depending on traffic.
 - **From Kandy.** It is about 72 km north on the main road through Matale, usually 2–2.5 hours.
-- **Onward.** Sigiriya is about 17–20 km away, around 30 minutes. [Polonnaruwa](/places/polonnaruwa/) is about 1.5 hours east, and Anuradhapura 1.5–2 hours north.
+- **Onward.** Sigiriya is about 17–20 km away, around 30 minutes. [Polonnaruwa](/places/polonnaruwa/) is about 1.5–2 hours east, and Anuradhapura 1.5–2 hours north.
 
 The town is a major junction, so central traffic can be slow. In a private tour you add Dambulla to your route on the map, and your driver handles the roads. The drive times shown in the planner are rough estimates.
 
 ## Best time to visit
 
-The caves are worth seeing in any season. Like the rest of the Cultural Triangle, Dambulla gets most of its rain from about October to January. The climb is hottest from late morning to mid-afternoon, which is also when tour groups arrive, so aim for early morning or late afternoon.
+The caves are worth seeing in any season. Like the rest of the Cultural Triangle, Dambulla gets most of its rain from about October to January. The climb is hottest from late morning to mid-afternoon, which is also when tour groups arrive, so aim for early morning or late afternoon. On a tour with us, your driver plans the visit for one of these cooler times.
 
 ## Frequently asked questions
 
@@ -100,7 +94,7 @@ No. It is a steady walk up stone steps on the rock's gentle slope. Take it slowl
 
 ### Where do I buy tickets?
 
-At the counter at the foot of the rock, before you climb. There is nowhere to buy one at the cave entrance. Check the Central Cultural Fund's ticket page for current hours.
+At the counter at the foot of the rock, before you climb. There is nowhere to buy one at the cave entrance. Check the Central Cultural Fund's ticket page for current hours. On a tour with us, the ticket is included in your tour price.
 
 ### Is the Golden Temple the same as the cave temple?
 

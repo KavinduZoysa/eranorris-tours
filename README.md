@@ -660,6 +660,6 @@ The site is laid out for phones first and tested at 320, 375, 390, 430, 768, 102
 - District boundaries: geoBoundaries (CC BY 4.0) – credited on the map.
 - Fonts: Geist, Geist Mono, Instrument Serif (SIL Open Font License).
 - Photos: the business's own photos and the photos supplied with the design (confirm with
-  `confirmed.photoRights`), plus nine Wikimedia Commons photos under CC0, CC BY 2.0 and
-  CC BY-SA 3.0/4.0, credited under each photo and on `/photo-credits/` (`PHOTO_CREDITS`, and
+  `confirmed.photoRights`), plus ten Wikimedia Commons photos under CC0, CC BY 2.0, CC BY 4.0
+  and CC BY-SA 3.0/4.0, credited under each photo and on `/photo-credits/` (`PHOTO_CREDITS`, and
   `credit` in `src/data/galleries.mjs`).
