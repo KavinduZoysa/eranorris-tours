@@ -1,18 +1,19 @@
 ---
 # Destination guide, written to docs/content-guide.md. Research: docs/research/trincomalee.md
-status: draft
+status: published
+reviewed: 2026-11-21
 title: Trincomalee Guide: Pigeon Island & Koneswaram | Eranorris
 description: Plan a visit to Trincomalee: Uppuveli and Nilaveli beaches, Pigeon Island’s reef, Koneswaram and Fort Frederick, whale season and the best months to go.
 intro: A historic harbour town on the north-east coast, with quiet beaches to the north, a protected reef off Nilaveli and a sea at its calmest from about May to September.
 stay: 2–3 nights, staying at Uppuveli or Nilaveli
-gettingThere: Around 5–6 hours by road from the airport; about 2–2.5 hours from Sigiriya
+gettingThere: Around 5–6 hours by road from the airport; about 2–3 hours from Sigiriya
 bestTime: About May to September; wet, with rougher seas, from about October to January
 goodFor: Quiet beaches, snorkelling, Hindu temples, colonial history, whales in season
 combine:
-  - sigiriya | About 2–2.5 hours via Habarana; the usual link between the east coast and the Cultural Triangle
+  - sigiriya | About 2–3 hours via Habarana; the usual link between the east coast and the Cultural Triangle
   - polonnaruwa | About 2–2.5 hours south-west; pairs well with a night near Sigiriya or Habarana
-  - anuradhapura | About 2.5–3 hours west; better as an overnight stop than a return day trip
-  - arugam-bay | About 5 hours or more down the east coast via Batticaloa; both are in season from May to September
+  - anuradhapura | About 2–2.5 hours west; better as an overnight stop than a return day trip
+  - arugam-bay | About 6–7 hours down the east coast via Batticaloa; both are in season from May to September
 sources:
   - Sri Lanka Tourism — Nilaveli and Uppuveli | https://www.srilanka.travel/attraction?attraction_id=48
   - Sri Lanka Tourism — Pigeon Island National Park | https://www.srilanka.travel/attraction?attraction_id=159
@@ -22,17 +23,6 @@ sources:
   - Commonwealth War Graves Commission — Trincomalee War Cemetery | https://www.cwgc.org/visit-us/find-cemeteries-memorials/cemetery-details/2009502/trincomalee-war-cemetery/
   - Sri Lanka Railways — train schedules | https://eservices.railway.gov.lk/schedule/searchTrain.action?lang=en
   - Sri Lanka Railways — timetables and seat reservations | https://seatreservation.railway.gov.lk/mtktwebslr/
-verify:
-  - Do we include the east coast in our tours, and can drivers stay over in Trincomalee or Nilaveli? Are there routes or months we don’t offer?
-  - Do we arrange Pigeon Island boats, snorkelling gear, dives or whale-watching trips, or do guests book these locally? If we recommend an operator, is it licensed (whale watching under the 2012 sea-mammal regulations; dive centres with a recognised training agency)?
-  - Recommended stay — the design suggests 2 nights; the page says 2–3. Which do we advise?
-  - Do we ever combine the tour with a domestic flight to or from Trincomalee (China Bay), or is it road only? The page mentions road and rail only.
-  - Trincomalee has no experience cards yet. Proposed in the audit — Pigeon Island snorkelling, whale watching, diving, Koneswaram and Fort Frederick, Kanniya and Velgam Vehera, the war cemetery, Girihandu Seya. Which do we want to show?
-  - Will drivers take guests on day trips from Trincomalee, e.g. north to Girihandu Seya (or south to Seruwila, left off the page)? The page describes Girihandu Seya as a general travel fact only.
-  - Marble Beach — do guests visit it, and is the Air Force public area currently open without prior permission?
-  - Trincomalee hero photo (green headland above clear water) — rights confirmed, and where was it taken? The design says Pigeon Island, but the alt text doesn’t name it.
-  - The journey times here are researched ranges, not our own measured times. Please confirm or correct them from experience.
-  - Rail after Cyclone Ditwah — services were reported running again in 2026. Re-check Sri Lanka Railways before publishing.
 ---
 
 ## A harbour town on the north-east coast
@@ -53,7 +43,7 @@ Just before the fort, the **Pathirakali Amman temple** is an old shrine to the g
 
 - **Uppuveli**, a few kilometres north of town, is a fishing village with guesthouses and small hotels along a long, sandy beach. It is the most convenient base, with the most places to eat.
 - **Nilaveli**, about 15 km north of town, is quieter, with a long, gently shelving beach. Boats for Pigeon Island leave from here.
-- **Marble Beach**, about 15 km from town by road near China Bay, is a sheltered cove run by the Sri Lanka Air Force, with a public area beside its resort; check access locally before going.
+- **Marble Beach**, about 15 km from town by road near China Bay, is a sheltered cove run by the Sri Lanka Air Force, with a public area beside its resort; check access locally before going. On a tour with us, your driver can take you there if you ask.
 - **In town**, Dutch Bay is lined with fishing boats and better for an evening walk than a swim. The fish market near the bus station is busiest early in the morning, and simple eateries serve seafood, dosai and rice and curry.
 
 In season the sea is often flat, warm and shallow close to shore. Don’t assume a lifeguard is on duty: swim where local people swim and take care near rocks and river mouths.
@@ -66,23 +56,23 @@ Most visitors snorkel off the beach of the larger island. The reef is under pres
 
 - **Don’t stand on or touch coral**, don’t chase or touch sharks and turtles, and don’t feed the fish. Take all your rubbish back with you.
 - **There is little shade and few facilities on the island.** Bring water and sun protection, and ask for a life jacket if you are not a confident swimmer.
-- **Fees, opening hours and rules** are set by the Department of Wildlife Conservation and change, so check them before you go.
-- **Boats can stop in rough weather**, mainly during the north-east monsoon.
+- **Fees, opening hours and rules** are set by the Department of Wildlife Conservation and change, so check them before you go. On a tour with us, the boat and the park ticket are included in your tour price, and so is snorkelling gear if you need it. Your driver takes you to the boats at Nilaveli and waits for you.
+- **Boats can stop in rough weather**, and the park has closed for parts of the north-east monsoon in past years, so check before you go.
 
 ## Whale and dolphin watching
 
-Blue whales, smaller numbers of sperm whales and schools of spinner dolphins are seen off this coast, roughly from March to August, outside the November–April season at [Mirissa](/places/mirissa/). Whales are usually found about 6–8 nautical miles offshore, around half an hour by boat. Trips leave early in the morning, and sightings are never guaranteed. Choose an operator that keeps to the national rules on approaching whales and dolphins.
+Blue whales, smaller numbers of sperm whales and schools of spinner dolphins are seen off this coast, roughly from March to August, outside the November–April season at [Mirissa](/places/mirissa/). Whales are usually found about 6–8 nautical miles offshore, around half an hour by boat. Trips leave early in the morning, and sightings are never guaranteed. Choose an operator that keeps to the national rules on approaching whales and dolphins. On a tour with us, the whale-watching boat trip and all its charges, including the permit, are included in your tour price. Your driver takes you to the boat for the early start.
 
 ## Diving
 
-Dive centres north of town run reef dives, including around Pigeon Island, roughly from April or May to September, and some visit Second World War wrecks with experienced divers. Choose a centre affiliated with a recognised training agency, and check that your insurance covers diving.
+Dive centres north of town run reef dives, including around Pigeon Island, roughly from April or May to September, and some visit Second World War wrecks with experienced divers. Choose a centre affiliated with a recognised training agency, and check that your insurance covers diving. On a tour with us, we arrange dives if you ask, and they are included in your tour price. The boat, whale-watching and dive operators we use are licensed.
 
 ## More to see around Trincomalee
 
 - **Trincomalee War Cemetery**, on the road north to Nilaveli, holds the graves of more than 300 Commonwealth service personnel from the Second World War, when Trincomalee was an important naval base.
 - **Kanniya hot wells**, about 8 km north-west of town, are seven small square wells of warm water. Hindu tradition links them to King Ravana, and the remains of an early Buddhist monastery lie beside them. People bathe by pouring water from buckets, so wear modest clothing rather than swimwear alone.
-- **Velgam Vehera**, a little further north-west, is an ancient Buddhist monastery in ruins, with a stupa, a standing Buddha and moonstones. The Hindu Chola kings restored it and named it after Rajaraja I, and Tamil inscriptions record their gifts. Pair it with Kanniya for a half day.
-- **Girihandu Seya** at Thiriyaya, about 45 km north of town (roughly an hour by road, through Nilaveli), is a ruined circular relic house and stupa on a rocky hill near the sea. Tradition links it to two merchants said to have brought relics of the Buddha, and a Sanskrit rock inscription names them. Cover shoulders and knees at these sites.
+- **Velgam Vehera**, a little further north-west, is an ancient Buddhist monastery in ruins, with a stupa, a standing Buddha and moonstones. The Hindu Chola kings restored it and named it after Rajaraja I, and Tamil inscriptions record their gifts. Pair it with Kanniya for a half day. On a tour with us, your driver can take you to Kanniya and Velgam Vehera on a half-day trip.
+- **Girihandu Seya** at Thiriyaya, about 45 km north of town (roughly an hour by road, through Nilaveli), is a ruined circular relic house and stupa on a rocky hill near the sea. Tradition links it to two merchants said to have brought relics of the Buddha, and a Sanskrit rock inscription names them. Cover shoulders and knees at these sites. On a tour with us, your driver can take you to Girihandu Seya if you ask.
 
 <!-- experiences -->
 
@@ -92,7 +82,7 @@ Trincomalee has the opposite season to the south-west coast. It is driest, and t
 
 ## How long to stay
 
-**Two nights** allow a morning on Pigeon Island, an afternoon at Fort Frederick and Koneswaram, and time on the beach. A **third night** leaves room for a whale-watching trip or a dive in season, a half day at Kanniya and Velgam Vehera, or simply a slower pace.
+**Two nights** allow a morning on Pigeon Island, an afternoon at Fort Frederick and Koneswaram, and time on the beach. A **third night** leaves room for a whale-watching trip or a dive in season, a half day at Kanniya and Velgam Vehera, or simply a slower pace. On a tour with us, your driver stays nearby and takes you on day trips around Trincomalee.
 
 A typical day:
 
@@ -103,10 +93,10 @@ A typical day:
 
 ## Getting there and moving on
 
-- **From the airport or Colombo.** Around 5–6 hours by road, longer with stops. The train from Colombo Fort normally takes roughly 7–8 hours, with a day train and an overnight mail train. Cyclone Ditwah disrupted the line in late 2025; services were reported running again in 2026, but check Sri Lanka Railways for the current timetable.
-- **From the Cultural Triangle.** [Sigiriya](/places/sigiriya/) and Habarana are about 2–2.5 hours away, [Polonnaruwa](/places/polonnaruwa/) about 2–2.5 hours and [Anuradhapura](/places/anuradhapura/) about 2.5–3 hours. Trincomalee makes an easy beach break after the ancient cities.
+- **From the airport or Colombo.** Around 5–6 hours by road, longer with stops. The direct train from Colombo Fort runs overnight and takes about 8 hours. Cyclone Ditwah disrupted the line in late 2025, and trains were running again from January 2026. Check Sri Lanka Railways for the current timetable.
+- **From the Cultural Triangle.** [Sigiriya](/places/sigiriya/) and Habarana are about 2–3 hours away, [Polonnaruwa](/places/polonnaruwa/) about 2–2.5 hours and [Anuradhapura](/places/anuradhapura/) about 2–2.5 hours. Trincomalee makes an easy beach break after the ancient cities. On a tour with us, Trincomalee is often the beach stay after Sigiriya and Polonnaruwa.
 - **From Kandy.** About 4–5 hours by road.
-- **Down the east coast.** [Arugam Bay](/places/arugam-bay/) is about 5 hours or more south, via Batticaloa. In the wet season, check the coast road first.
+- **Down the east coast.** [Arugam Bay](/places/arugam-bay/) is about 6–7 hours south, via Batticaloa. In the wet season, check the coast road first.
 
 In a private tour you add Trincomalee to your route on the map, and your driver handles the roads. The drive times shown in the planner are rough estimates, not road-tested figures.
 
@@ -118,7 +108,7 @@ From about May to September, when the east coast is dry and the sea calm. From a
 
 ### How do I get to Pigeon Island?
 
-By boat from Nilaveli beach; the islands are about 1 km offshore. The national park fee and the boat are paid separately, and boats may not run in rough weather. Check current fees and hours before you go.
+By boat from Nilaveli beach; the islands are about 1 km offshore. The national park fee and the boat are paid separately, and boats may not run in rough weather. On a tour with us, both are included in your tour price. Check current fees and hours before you go.
 
 ### Is Pigeon Island’s reef still worth seeing?
 

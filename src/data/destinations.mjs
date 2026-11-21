@@ -133,11 +133,11 @@ export const DESTS = [
   },
   {
     id: 'trincomalee', name: 'Trincomalee', cat: 'beach', lat: 8.5874, lng: 81.2152, nights: 2, pos: 'r',
-    hl: 'East coast · May–Sep', kw: 'Reef', photoOf: 'a headland and beach',
+    hl: 'East coast · May–Sep', kw: 'Reef', photoOf: 'Pigeon Island',
     seoTitle: 'Trincomalee and the East Coast',
     desc: 'A harbour town near Nilaveli beach and Pigeon Island, best visited from May to September.',
     photo: 'trincomalee-coast', focus: [0.45, 0.55],
-    alt: 'Green headland above clear water and a quiet beach near Trincomalee',
+    alt: 'Snorkellers in clear water off the white beach of Pigeon Island, below a rocky, wooded hill',
   },
   {
     id: 'arugam-bay', name: 'Arugam Bay', cat: 'beach', lat: 6.8406, lng: 81.8368, nights: 2, pos: 'r',

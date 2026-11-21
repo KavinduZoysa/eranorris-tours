@@ -8,7 +8,7 @@ file named in each section), then run the command again.
 Set each to `true` in `site.config.mjs → confirmed` once checked.
 
 
-## Guide questions (24 open in 3 files)
+## Guide questions (14 open in 2 files)
 
 Answer them, update the text if needed, and delete each item from the file’s `verify:` list. A page can only be published once its list is empty.
 
@@ -31,16 +31,3 @@ Answer them, update the text if needed, and delete each item from the file’s `
 - [ ] Do drivers go on from Arugam Bay to Kumana, Kudumbigala or Lahugala, and do they wait during a Kumana jeep safari? The page lists these only as nearby places.
 - [ ] Cyclone Ditwah (late 2025): no report was found on the Monaragala–Pottuvil (A4) road or the Ella–Wellawaya road in 2026. Please confirm the roads to Arugam Bay are normal.
 - [ ] The journey times here are researched ranges, not our own measured times. Please confirm or correct them from experience.
-
-### Trincomalee — `src/content/places/trincomalee.md`
-
-- [ ] Do we include the east coast in our tours, and can drivers stay over in Trincomalee or Nilaveli? Are there routes or months we don’t offer?
-- [ ] Do we arrange Pigeon Island boats, snorkelling gear, dives or whale-watching trips, or do guests book these locally? If we recommend an operator, is it licensed (whale watching under the 2012 sea-mammal regulations; dive centres with a recognised training agency)?
-- [ ] Recommended stay — the design suggests 2 nights; the page says 2–3. Which do we advise?
-- [ ] Do we ever combine the tour with a domestic flight to or from Trincomalee (China Bay), or is it road only? The page mentions road and rail only.
-- [ ] Trincomalee has no experience cards yet. Proposed in the audit — Pigeon Island snorkelling, whale watching, diving, Koneswaram and Fort Frederick, Kanniya and Velgam Vehera, the war cemetery, Girihandu Seya. Which do we want to show?
-- [ ] Will drivers take guests on day trips from Trincomalee, e.g. north to Girihandu Seya (or south to Seruwila, left off the page)? The page describes Girihandu Seya as a general travel fact only.
-- [ ] Marble Beach — do guests visit it, and is the Air Force public area currently open without prior permission?
-- [ ] Trincomalee hero photo (green headland above clear water) — rights confirmed, and where was it taken? The design says Pigeon Island, but the alt text doesn’t name it.
-- [ ] The journey times here are researched ranges, not our own measured times. Please confirm or correct them from experience.
-- [ ] Rail after Cyclone Ditwah — services were reported running again in 2026. Re-check Sri Lanka Railways before publishing.
