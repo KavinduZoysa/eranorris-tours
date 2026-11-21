@@ -111,7 +111,7 @@ extracts and Wikipedia, cross-checked with the CCF.
 - **Ticket office location.** All sources say the museum. Check whether there is now also a
   counter at the main gate.
 
-## Business information that needs the owner (also in the file's `verify:`)
+## Business information that needs the owner (answered 2026-11-21 — see "Owner answers" at the end)
 - Who buys the entrance ticket.
 - Bicycles: arranged by us or hired locally; whether the driver follows or meets guests at
   Gal Vihara.
@@ -246,3 +246,22 @@ is unconfirmed (see docs/research/owner-checklist.md).
   - https://dwc.lankagate.gov.lk/DWCEpermitApp/homeAction.action?lang=en
   - https://www.sltda.gov.lk/storage/common_media/1%20Vehicle%20Safari%20Final%20Guideline.pdf
   - Note: OPTIONAL duplicate of sigiriya-elephant-safari for travellers based in Polonnaruwa or Giritale. The experience guide links to the Sigiriya id only.
+
+## Owner answers and re-checks (2026-11-21)
+All six `verify:` questions were resolved and the list was removed from the guide.
+
+| Question | Owner's answer / check | What changed |
+|---|---|---|
+| Who buys the entrance ticket | Included: the tour price includes everything (owner's rule, 2026-11-18), with a site guide on request | "Getting around the ruins": "On a tour with us, the ticket is included in your tour price, and so is a site guide if you ask for one." FAQ "Where do I buy the ticket?": "On a tour with us, the ticket is included in your tour price." The cards are unchanged (their `details` hold general facts only) |
+| Bicycles: arranged by us or hired locally | We arrange them if guests ask, included in the price (B1 a) | "Getting around the ruins": "On a tour with us, we arrange bicycles if you ask, and they are included in your tour price." |
+| Does the driver follow cyclists or meet them at Gal Vihara | The driver meets guests at Gal Vihara (B2 b) | Same paragraph: "If you cycle, your driver meets you at Gal Vihara, at the north end." |
+| Minneriya and Kaudulla safaris | The card `polonnaruwa-elephant-safari` is offered (`confirmed.experiences`); jeep and park ticket included (owner's rule) | Minneriya section: "On a tour with us, the jeep and the park ticket are included in your tour price." (as in the Sigiriya guide) |
+| Recommended stay: 1 night vs a day trip from Sigiriya | Keep both: planner 1 night; the page already says many visit as a day trip from Sigiriya | Nothing in `stay:`; see optional text below |
+| Medirigiriya and Dimbulagala | Medirigiriya is a card, so it is offered. Dimbulagala is not a card: the driver can take guests there if they ask (B3 a) | Dimbulagala bullet: "On a tour with us, your driver can take you there if you ask." |
+| Hero photo: rights and subject | Rights confirmed site-wide; it shows the Vatadage and the alt text names it | Nothing |
+| (extra) Tickets and hours in 2026 | Re-checked 2026-11-21: the CCF ticket page lists Polonnaruwa, 7:00 am–5:00 pm, single entry, online booking; the Polonnaruwa Museum is "Included with Polonnaruwa ticket"; the Cultural Triangle round ticket is still listed (https://ccf.gov.lk/vsl/tickets) | Nothing (the page links the CCF ticket page for prices and hours) |
+| (extra) Rail | Re-checked 2026-11-21: the Batticaloa line has run since January 2026 after Cyclone Ditwah (https://www.newsfirst.lk/2026/01/20/train-services-along-three-routes-resume-after-cyclone-ditwah-disruptions); October 2026 timetable listed (https://trainschedule.lk/schedule/ah8qcba/polonnaruwa-to-batticaloa-train-timetable). No new suspension found | Nothing |
+| (extra) Lankatilaka "headless" Buddha | Confirmed: Lonely Planet describes a "huge standing (headless) Buddha" (https://www.lonelyplanet.com/points-of-interest/lankatilaka/480848) | Nothing |
+| (extra) New elephant transit home | A new ETH is planned at Kalahagala near Polonnaruwa (Newswire, 24 Oct 2026: https://www.newswire.lk/2026/10/24/polonnaruwa-to-get-new-elephant-transit-home/). Only planned; no opening date or visitor information | Nothing on the page |
+| (extra) Travel times | Planner road data (OSM/Valhalla, no traffic) is longer than the page: Dambulla 72 km / 1 h 46 min (page "about 1.5 hours"), Trincomalee 107 km / 2 h 48 min and Anuradhapura 104 km / 2 h 37 min (page "about 2–2.5 hours"). Owner chose B4 b: keep the page's times | Nothing. The Trincomalee and Anuradhapura drafts also say 2–2.5 hours to Polonnaruwa, so those match. The published Dambulla guide says "about 1.5–2 hours" to Polonnaruwa (changed 2026-11-21), so the two pages differ slightly |
+| (extra) Optional text | Owner chose all four | Medirigiriya: "On a tour with us, your driver can take you there if you ask." Start early: "On a tour with us, your driver plans the visit for the cool early morning." From the airport: "On a tour with us, you can also see Polonnaruwa on a day trip from Sigiriya, and your driver takes you there and back." FAQ "Can I combine Polonnaruwa with an elephant safari?": "On a tour with us, your driver takes you from the ruins to the park entrance, where the jeep starts." |

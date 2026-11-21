@@ -1,6 +1,7 @@
 ---
 # Draft guide following docs/content-guide.md. Research: docs/research/polonnaruwa.md
-status: draft
+status: published
+reviewed: 2026-11-21
 title: Polonnaruwa Guide: Gal Vihara & Medieval City | Eranorris
 description: Plan a visit to Polonnaruwa — the Gal Vihara carvings, the Quadrangle and royal palace, cycling the ruins, elephant parks nearby and how long to stay.
 intro: Sri Lanka's medieval capital, where palace walls, relic shrines and Buddha figures cut from a single granite face stand among trees beside a vast reservoir.
@@ -20,13 +21,6 @@ sources:
   - UNESCO World Heritage — Ancient City of Polonnaruwa | https://whc.unesco.org/en/list/201
   - Sri Lanka Railways — train schedules | https://eservices.railway.gov.lk/schedule/searchTrain.action?lang=en
   - Department of Wildlife Conservation — national park permits online | https://dwc.lankagate.gov.lk/DWCEpermitApp/homeAction.action?lang=en
-verify:
-  - Do we include the Polonnaruwa entrance ticket, or do guests buy it at the museum?
-  - Cycling — do we arrange bicycles, or do guests hire them locally? Can the driver follow with the vehicle or meet guests at Gal Vihara?
-  - Do we arrange jeep safaris in Minneriya or Kaudulla, or do guests book them locally?
-  - Recommended stay — the design says 1 night; many routes visit as a day trip from Sigiriya. Which do we advise?
-  - Medirigiriya and Dimbulagala — are these stops the driver can include from Polonnaruwa? Neither is an experience card yet; Medirigiriya is proposed as one.
-  - Polonnaruwa hero photo — rights confirmed? It shows the Vatadage (identified from the photo in November 2026; the alt text now names it).
 ---
 
 ## The medieval capital
@@ -51,27 +45,27 @@ The main sites follow a road running north from the museum near the reservoir.
 
 ## Getting around the ruins
 
-The museum near the reservoir is the starting point. Tickets are sold there, not at the ruins, and are checked at several sites, so keep yours to hand.
+The museum near the reservoir is the starting point. Tickets are sold there, not at the ruins, and are checked at several sites, so keep yours to hand. On a tour with us, the ticket is included in your tour price, and so is a site guide if you ask for one.
 
-From the museum, the ruins stretch for several kilometres north along flat, tree-lined roads, with Gal Vihara about 5 km north of the town centre. Bicycles can be hired in town and near the site, which makes it easy to stop wherever you like. Others cover the distances by car or tuk-tuk and walk around each group.
+From the museum, the ruins stretch for several kilometres north along flat, tree-lined roads, with Gal Vihara about 5 km north of the town centre. Bicycles can be hired in town and near the site, which makes it easy to stop wherever you like. Others cover the distances by car or tuk-tuk and walk around each group. On a tour with us, we arrange bicycles if you ask, and they are included in your tour price. If you cycle, your driver meets you at Gal Vihara, at the north end.
 
 <!-- experiences -->
 
 ## Practical advice
 
-- **Start early.** The ticket office opens in the early morning, and the first hours are the coolest and quietest. Hours and prices are on the CCF ticket page, linked below.
+- **Start early.** The ticket office opens in the early morning, and the first hours are the coolest and quietest. Hours and prices are on the CCF ticket page, linked below. On a tour with us, your driver plans the visit for the cool early morning.
 - **Dress.** Cover your shoulders and knees, as several shrines are still sacred. You will take shoes off often, and sand and stone get very hot by midday.
 - **Water.** Carry plenty. Shade is patchy, and the open ground around the monuments heats up quickly.
 - **Monkeys.** Toque macaques live among the ruins. Keep food out of sight.
 
 ## Minneriya, Kaudulla and the tanks
 
-Minneriya National Park's entrance is about 25–30 km west, on the road to Habarana, and Kaudulla lies to its north. Both are built around ancient reservoirs; Minneriya's was made by King Mahasen in the 3rd century AD. In the dry season, roughly July to October, elephants come out to graze the grass that grows as the water recedes, and the gathering at Minneriya usually peaks around August and September. Herds move between the parks and numbers change from year to year, so drivers often choose the park on the day, and sightings are never guaranteed. The [Minneriya elephant safari guide](/experiences/minneriya-elephant-safari/) covers timing and responsible viewing. The Giritale tank, built in the 7th century, lies on the same road.
+Minneriya National Park's entrance is about 25–30 km west, on the road to Habarana, and Kaudulla lies to its north. Both are built around ancient reservoirs; Minneriya's was made by King Mahasen in the 3rd century AD. In the dry season, roughly July to October, elephants come out to graze the grass that grows as the water recedes, and the gathering at Minneriya usually peaks around August and September. Herds move between the parks and numbers change from year to year, so drivers often choose the park on the day, and sightings are never guaranteed. On a tour with us, the jeep and the park ticket are included in your tour price. The [Minneriya elephant safari guide](/experiences/minneriya-elephant-safari/) covers timing and responsible viewing. The Giritale tank, built in the 7th century, lies on the same road.
 
 ## Further afield
 
-- **Medirigiriya.** About 35 km north, a circular relic house of the 7th century stands on a low rock, where three circles of slender stone pillars surround a small stupa and Buddha images. It is among the best-preserved buildings of its kind and is usually quiet; the drive takes about 45 minutes to an hour each way.
-- **Dimbulagala.** About 20 km south-east, across the Mahaweli, a forest hermitage lies at the foot of a long rock ridge, with ancient cave shelters along the path to a small stupa on the summit. Monks still live here, so dress modestly and keep your voice down.
+- **Medirigiriya.** About 35 km north, a circular relic house of the 7th century stands on a low rock, where three circles of slender stone pillars surround a small stupa and Buddha images. It is among the best-preserved buildings of its kind and is usually quiet; the drive takes about 45 minutes to an hour each way. On a tour with us, your driver can take you there if you ask.
+- **Dimbulagala.** About 20 km south-east, across the Mahaweli, a forest hermitage lies at the foot of a long rock ridge, with ancient cave shelters along the path to a small stupa on the summit. Monks still live here, so dress modestly and keep your voice down. On a tour with us, your driver can take you there if you ask.
 
 ## How long to stay
 
@@ -84,7 +78,7 @@ Minneriya National Park's entrance is about 25–30 km west, on the road to Haba
 
 ## Getting there and moving on
 
-- **From the airport.** Polonnaruwa is roughly 220 km away by road, usually 5–6 hours. Most routes reach it from [Sigiriya](/places/sigiriya/), about 60 km and 1.5 hours to the west, either as a day trip or for a night.
+- **From the airport.** Polonnaruwa is roughly 220 km away by road, usually 5–6 hours. Most routes reach it from [Sigiriya](/places/sigiriya/), about 60 km and 1.5 hours to the west, either as a day trip or for a night. On a tour with us, you can also see Polonnaruwa on a day trip from Sigiriya, and your driver takes you there and back.
 - **By rail.** Trains from Colombo Fort on the Batticaloa line usually take about 5–6 hours. Cyclone Ditwah damaged the track east of Polonnaruwa in late 2025, and daily trains were running again from January 2026. Check the current timetable with Sri Lanka Railways.
 - **Onward.** [Trincomalee](/places/trincomalee/) is about 105 km north-east, around 2–2.5 hours. [Dambulla](/places/dambulla/) is about 1.5 hours west, [Anuradhapura](/places/anuradhapura/) about 2–2.5 hours north-west, and [Kandy](/places/kandy/) about 3.5–4 hours.
 
@@ -106,7 +100,7 @@ Yes. The roads between the ruins are flat and mostly shaded, and bicycles can be
 
 ### Where do I buy the ticket?
 
-At the ticket office by the Archaeological Museum, near the reservoir, before you go to the ruins. Current prices and hours are on the Central Cultural Fund's ticket page.
+At the ticket office by the Archaeological Museum, near the reservoir, before you go to the ruins. Current prices and hours are on the Central Cultural Fund's ticket page. On a tour with us, the ticket is included in your tour price.
 
 ### Is Polonnaruwa worth visiting if I have seen Anuradhapura?
 
@@ -114,4 +108,4 @@ Yes. Anuradhapura is a pilgrimage city of great stupas; Polonnaruwa is a compact
 
 ### Can I combine Polonnaruwa with an elephant safari?
 
-Yes. Minneriya is about 25–30 km away. Many visitors see the ruins in the morning and take a jeep safari in the afternoon, especially from July to October.
+Yes. Minneriya is about 25–30 km away. Many visitors see the ruins in the morning and take a jeep safari in the afternoon, especially from July to October. On a tour with us, your driver takes you from the ruins to the park entrance, where the jeep starts.

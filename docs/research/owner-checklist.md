@@ -8,7 +8,7 @@ file named in each section), then run the command again.
 Set each to `true` in `site.config.mjs → confirmed` once checked.
 
 
-## Guide questions (38 open in 5 files)
+## Guide questions (32 open in 4 files)
 
 Answer them, update the text if needed, and delete each item from the file’s `verify:` list. A page can only be published once its list is empty.
 
@@ -42,15 +42,6 @@ Answer them, update the text if needed, and delete each item from the file’s `
 - [ ] Do drivers go on from Arugam Bay to Kumana, Kudumbigala or Lahugala, and do they wait during a Kumana jeep safari? The page lists these only as nearby places.
 - [ ] Cyclone Ditwah (late 2025): no report was found on the Monaragala–Pottuvil (A4) road or the Ella–Wellawaya road in 2026. Please confirm the roads to Arugam Bay are normal.
 - [ ] The journey times here are researched ranges, not our own measured times. Please confirm or correct them from experience.
-
-### Polonnaruwa — `src/content/places/polonnaruwa.md`
-
-- [ ] Do we include the Polonnaruwa entrance ticket, or do guests buy it at the museum?
-- [ ] Cycling — do we arrange bicycles, or do guests hire them locally? Can the driver follow with the vehicle or meet guests at Gal Vihara?
-- [ ] Do we arrange jeep safaris in Minneriya or Kaudulla, or do guests book them locally?
-- [ ] Recommended stay — the design says 1 night; many routes visit as a day trip from Sigiriya. Which do we advise?
-- [ ] Medirigiriya and Dimbulagala — are these stops the driver can include from Polonnaruwa? Neither is an experience card yet; Medirigiriya is proposed as one.
-- [ ] Polonnaruwa hero photo — rights confirmed? It shows the Vatadage (identified from the photo in November 2026; the alt text now names it).
 
 ### Trincomalee — `src/content/places/trincomalee.md`
 
