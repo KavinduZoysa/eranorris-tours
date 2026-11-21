@@ -123,7 +123,7 @@ extracts and Wikipedia's citation of the inscription, cross-checked with the CCF
 - **Vesak.** Usually May, occasionally June by the lunar calendar. The page says "usually in May".
 - **Airport road time.** Operator estimates only; the page says 4–5 hours.
 
-## Business information that needs the owner (also in the file's `verify:`)
+## Business information that needs the owner (answered 2026-11-21 — see "Owner answers" at the end)
 - Who buys the archaeological ticket.
 - Whether the driver takes guests between clusters, and whether bicycles or a guide are
   suggested or arranged.
@@ -265,3 +265,21 @@ is unconfirmed (see docs/research/owner-checklist.md).
   - https://www.sltda.gov.lk/storage/common_media/1%20Vehicle%20Safari%20Final%20Guideline.pdf
   - https://adaderana.lk/news/113712
   - Note: Candidate recommendation: Wilpattu as an excursion from Anuradhapura, not its own page. srilanka.travel's season line reads 'February and October' (probably 'February to October'). Road time is an estimate (official 30 km is straight-line to the park). 2025: 164,925 visitors (76,389 foreign). Closed 28 Nov–3 Dec 2025 (Ditwah); tourists stranded by floods near Eluwankulama 19 Oct 2025; drought in Aug 2026 with unrepaired eastern tanks.
+
+## Owner answers and re-checks (2026-11-21)
+All eight `verify:` questions were resolved and the list was removed from the guide.
+
+| Question | Owner's answer / check | What changed |
+|---|---|---|
+| Who buys the archaeological ticket | Included: the tour price includes everything (owner's rule, 2026-11-18), with a site guide on request | "Tickets" bullet: "On a tour with us, the ticket is included in your tour price, and so is a site guide if you ask for one." Isurumuniya: "On a tour with us, this fee is also included in your tour price." Also "covers the archaeological areas and museums" → "covers the main archaeological areas": the CCF ticket page lists Anuradhapura (7:00 am–5:00 pm, single entry, online booking) without museums; only the round ticket names "all archaeological museums" (https://ccf.gov.lk/vsl/tickets). Owner OK'd. The cards are unchanged (their `details` hold general facts only) |
+| Driver between the clusters; bicycles; a guide | Driver takes guests between the groups and meets cyclists where they finish (B1 a). Bicycles arranged on request and included, as in Polonnaruwa. Site guide on request (owner's rule) | "Getting around" bullet: "On a tour with us, your driver takes you from one group of sites to the next. We arrange bicycles if you ask, and they are included in your tour price. If you cycle, your driver meets you where you finish." |
+| Wilpattu safaris | The card `anuradhapura-wilpattu-safari` is offered (`confirmed.experiences`); jeep and permits included, naturalist on request (owner's rule) | Wilpattu bullet: "On a tour with us, the safari jeep and the park permits are included in your tour price, and so is a naturalist guide if you ask for one." (as in the Yala and Udawalawe guides) |
+| Recommended stay | Keep: planner 1 night; the page says 1 night, or 2 to add Mihintale or Wilpattu | Nothing |
+| "The island's first capital" (design wording) | Owner chose B3 b: avoid "first". CCF says "first established kingdom", but Sri Lanka Tourism says "third and the longest serving capital", and the chronicles name earlier royal seats | `src/data/destinations.mjs`: `hl` "UNESCO · First capital" → "UNESCO · Ancient capital"; `desc` "The island’s first capital: …" → "The island’s longest-serving capital: …"; `seoTitle` "Anuradhapura, the First Capital" → "Anuradhapura, the Ancient Capital". This text also shows on the home page, the map and the Sigiriya page's nearby cards. `design/design-source.html` (the original design) is unchanged |
+| Hero photo: rights and subject | Rights confirmed site-wide; the photo shows Ruwanwelisaya (checked by eye 2026-11-21) and the alt text names it | Nothing |
+| Which cards can the driver include; is a Wilpattu day realistic | All five cards are offered (`confirmed.experiences`). Wilpattu: half or full day, with the second night, as the page says (B2 a) | Nothing for B2. Optional text below |
+| Rail: re-check the Northern Line | Re-checked 2026-11-21. The Colombo–KKS intercity was cut to four days a week from 10 July 2026 but ran daily again from 14 July 2026 (Ada Derana, 13 Jul 2026: https://adaderana.lk/news/cmrjg8rkg000p356pjihoftsf). Timetable for 21 Nov 2026: Colombo Fort → Anuradhapura 3 h 33 min (4021 Intercity) to 4 h 43 min (8085), four trains (https://trainschedule.lk/schedule/abustaa/colombo-fort-to-anuradhapura-train-timetable). Owner OK'd | "By rail": "usually take about 4.5–5 hours" → "take about 3.5–5 hours, depending on the train"; "A shortage of trains has since cut some intercity departures to four days a week, so check…" → "Timetables changed several times in 2026, so check…" |
+| (extra) Airport distance | Planner road data (OSM/Valhalla, no traffic): airport 178 km / 4 h 44 min; the page's "190–200 km" is the distance from Colombo city (208 km). Owner OK'd | "roughly 190–200 km by road" → "roughly 180 km by road" (time "usually 4–5 hours" kept) |
+| (extra) Other drive times | Road data: Polonnaruwa 104 km / 2 h 37 min, Trincomalee 108 km / 2 h 43 min (page "2–2.5 hours"); kept, as in the Polonnaruwa guide (B4 b there). Sigiriya 73 km / 1 h 59 min and Dambulla 67 km / 1 h 44 min fit the page | Nothing |
+| (extra) Other re-checks | Wilpattu: no closure news found for November 2026 (search results only). A plan to widen the sacred city zone, with limits on diesel vehicles and an electric bus, is only proposed (search results only) | Nothing |
+| (extra) Optional text | Owner chose all four | Heat bullet: "On a tour with us, your driver plans the visits for the early morning and late afternoon." Mihintale: "On a tour with us, your driver takes you to the foot of the steps and waits for you." Aukana: "On a tour with us, your driver can add Aukana on the way to or from Dambulla if you ask." Wilpattu: "Your driver takes you to the park gate at Hunuwilagama, where the jeep starts, and waits for you." |

@@ -37,9 +37,9 @@ export const DESTS = [
   },
   {
     id: 'anuradhapura', name: 'Anuradhapura', cat: 'culture', lat: 8.3114, lng: 80.4037, nights: 1, pos: 'l',
-    hl: 'UNESCO · First capital', kw: 'Stupas', photoOf: 'Ruwanwelisaya stupa',
-    seoTitle: 'Anuradhapura, the First Capital',
-    desc: 'The island’s first capital: giant dagobas, monastery ruins and the sacred Sri Maha Bodhi tree.',
+    hl: 'UNESCO · Ancient capital', kw: 'Stupas', photoOf: 'Ruwanwelisaya stupa',
+    seoTitle: 'Anuradhapura, the Ancient Capital',
+    desc: 'The island’s longest-serving capital: giant dagobas, monastery ruins and the sacred Sri Maha Bodhi tree.',
     photo: 'anuradhapura-ruwanwelisaya-stupa', focus: [0.62, 0.45],
     alt: 'White Ruwanwelisaya stupa behind a large tree at sunset in Anuradhapura',
   },

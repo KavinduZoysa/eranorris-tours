@@ -8,7 +8,7 @@ file named in each section), then run the command again.
 Set each to `true` in `site.config.mjs → confirmed` once checked.
 
 
-## Guide questions (32 open in 4 files)
+## Guide questions (24 open in 3 files)
 
 Answer them, update the text if needed, and delete each item from the file’s `verify:` list. A page can only be published once its list is empty.
 
@@ -20,17 +20,6 @@ Answer them, update the text if needed, and delete each item from the file’s `
 - [ ] Do we include Adam’s Peak outside the December–May season? The page advises most visitors to climb in season.
 - [ ] 2026–27 season — confirm the opening (Unduvap Poya, 23 December 2026) from an official announcement, that the steps buried by the August 2026 landslide near the summit have been cleared, and whether the plastic rules continue. Re-check before publishing.
 - [ ] Rail status — last checked 6 November 2026 (no trains to Hatton). Update the "By train" line before publishing.
-
-### Anuradhapura — `src/content/places/anuradhapura.md`
-
-- [ ] Do we include the Anuradhapura archaeological ticket, or do guests buy it on the day?
-- [ ] Does the driver take guests between the site clusters, or do we suggest bicycles or a local guide? Do we arrange a guide?
-- [ ] Do we arrange Wilpattu jeep safaris, or do guests book them locally?
-- [ ] Recommended stay — the design says 1 night; the page says 1 night, or 2 with Mihintale or Wilpattu. Confirm.
-- [ ] The design calls Anuradhapura "the island's first capital". The chronicles name earlier royal seats, and Sri Lanka Tourism calls it the third. Keep the design wording?
-- [ ] Anuradhapura hero photo — rights confirmed, and it shows Ruwanwelisaya.
-- [ ] Experience cards proposed (Sri Maha Bodhi and the great stupas, the sacred city by bicycle, Mihintale, Aukana, Wilpattu) — which can the driver include, and is a Wilpattu day realistic with our timings (about 1–1.5 hours each way to the gate)?
-- [ ] Rail — re-check the Northern Line timetable (intercity days were cut from July 2026) before publishing.
 
 ### Arugam Bay — `src/content/places/arugam-bay.md`
 
