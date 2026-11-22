@@ -8,7 +8,7 @@ file named in each section), then run the command again.
 Set each to `true` in `site.config.mjs → confirmed` once checked.
 
 
-## Guide questions (14 open in 2 files)
+## Guide questions (6 open in 1 files)
 
 Answer them, update the text if needed, and delete each item from the file’s `verify:` list. A page can only be published once its list is empty.
 
@@ -20,14 +20,3 @@ Answer them, update the text if needed, and delete each item from the file’s `
 - [ ] Do we include Adam’s Peak outside the December–May season? The page advises most visitors to climb in season.
 - [ ] 2026–27 season — confirm the opening (Unduvap Poya, 23 December 2026) from an official announcement, that the steps buried by the August 2026 landslide near the summit have been cleared, and whether the plastic rules continue. Re-check before publishing.
 - [ ] Rail status — last checked 6 November 2026 (no trains to Hatton). Update the "By train" line before publishing.
-
-### Arugam Bay — `src/content/places/arugam-bay.md`
-
-- [ ] Do we include Arugam Bay in our tours, and will drivers stay over for multi-night surf stays?
-- [ ] Can our vehicles carry surfboards (roof racks, space in the van)?
-- [ ] Do we arrange surf lessons, board hire, lagoon trips or Kumana jeep safaris, or do guests book these locally? The surfing card comes from the design text only.
-- [ ] Recommended stay — the design suggests 2 nights; the page says 2–3. Which do we advise?
-- [ ] The FAQ now tells guests to check their government’s travel advice and mentions the October 2024 alert and its lifting in November 2024 (the UK advice updated in September 2026 no longer names Arugam Bay). Keep it, cut it to a one-line "check your government’s advice", or remove it? Re-check all advisories just before publishing.
-- [ ] Do drivers go on from Arugam Bay to Kumana, Kudumbigala or Lahugala, and do they wait during a Kumana jeep safari? The page lists these only as nearby places.
-- [ ] Cyclone Ditwah (late 2025): no report was found on the Monaragala–Pottuvil (A4) road or the Ella–Wellawaya road in 2026. Please confirm the roads to Arugam Bay are normal.
-- [ ] The journey times here are researched ranges, not our own measured times. Please confirm or correct them from experience.
