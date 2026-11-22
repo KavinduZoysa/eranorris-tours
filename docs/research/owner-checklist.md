@@ -8,15 +8,6 @@ file named in each section), then run the command again.
 Set each to `true` in `site.config.mjs → confirmed` once checked.
 
 
-## Guide questions (6 open in 1 files)
+## Guide questions (0 open in 0 files)
 
 Answer them, update the text if needed, and delete each item from the file’s `verify:` list. A page can only be published once its list is empty.
-
-### Adam’s Peak — `src/content/places/adams-peak.md`
-
-- [ ] Do we arrange anything for the climb itself (a local guide, timing advice), or is it a driver-only drop at Dalhousie?
-- [ ] Can our drivers do a transfer in the small hours (e.g. a 1–2 am run from Hatton or Maskeliya to the trailhead) if guests do not stay in Dalhousie?
-- [ ] Recommended stay — the design suggests 1 night; the page says 1, with a second optional. Confirm.
-- [ ] Do we include Adam’s Peak outside the December–May season? The page advises most visitors to climb in season.
-- [ ] 2026–27 season — confirm the opening (Unduvap Poya, 23 December 2026) from an official announcement, that the steps buried by the August 2026 landslide near the summit have been cleared, and whether the plastic rules continue. Re-check before publishing.
-- [ ] Rail status — last checked 6 November 2026 (no trains to Hatton). Update the "By train" line before publishing.

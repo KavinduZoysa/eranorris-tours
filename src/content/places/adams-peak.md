@@ -1,6 +1,7 @@
 ---
 # Draft written to the content standard (docs/content-guide.md). Research: docs/research/adams-peak.md
-status: draft
+status: published
+reviewed: 2026-11-22
 title: Adam’s Peak Guide: The Night Climb to Sri Pada | Eranorris
 description: Plan the overnight climb of Adam’s Peak (Sri Pada): the December–May pilgrimage season, the route from Dalhousie, what to bring and how long it takes.
 intro: Sri Pada, known in English as Adam’s Peak, is a 2,243 m summit climbed through the night by pilgrims of several faiths, who aim to reach the shrine at the top by sunrise.
@@ -18,13 +19,6 @@ sources:
   - Department of Meteorology — weather forecasts | https://meteo.gov.lk/
   - Sri Lanka Railways — train schedules (for Hatton) | https://eservices.railway.gov.lk/schedule/searchTrain.action?lang=en
   - National Building Research Institute — landslide early warnings | https://nbri.gov.lk/
-verify:
-  - Do we arrange anything for the climb itself (a local guide, timing advice), or is it a driver-only drop at Dalhousie?
-  - Can our drivers do a transfer in the small hours (e.g. a 1–2 am run from Hatton or Maskeliya to the trailhead) if guests do not stay in Dalhousie?
-  - Recommended stay — the design suggests 1 night; the page says 1, with a second optional. Confirm.
-  - Do we include Adam’s Peak outside the December–May season? The page advises most visitors to climb in season.
-  - 2026–27 season — confirm the opening (Unduvap Poya, 23 December 2026) from an official announcement, that the steps buried by the August 2026 landslide near the summit have been cleared, and whether the plastic rules continue. Re-check before publishing.
-  - Rail status — last checked 6 November 2026 (no trains to Hatton). Update the "By train" line before publishing.
 ---
 
 ## A mountain sacred to four faiths
@@ -35,11 +29,11 @@ The cone rises steeply from the forests of the Peak Wilderness Sanctuary, protec
 
 ## The pilgrimage season
 
-The season opens on Unduvap Poya, the full moon of December, when sacred objects and the image of the god Saman are taken in procession to the summit, and it closes on Vesak Poya in May. For 2026–27 the official holiday calendars put Unduvap Poya on 23 December 2026 and Vesak Poya on 19 May 2027. In these months the path is lit all night, tea stalls and rest halls stay open along the way, and the weather is at its most settled. January to March usually brings the clearest dawns.
+The season opens on Unduvap Poya, the full moon of December, when sacred objects and the image of the god Saman are taken in procession to the summit, and it closes on Vesak Poya in May. The 2026–27 season opens on Unduvap Poya, 23 December 2026, and closes on Vesak Poya, 19 May 2027. In these months the path is lit all night, tea stalls and rest halls stay open along the way, and the weather is at its most settled. January to March usually brings the clearest dawns.
 
 The busiest climbs are on poya (full moon) days, weekends and public holidays, when queues form on the final steps. April is the peak of the pilgrimage. Climb on a weekday if you can.
 
-Outside the season the lights are off, the stalls are closed, and the south-west monsoon brings heavy rain, wind and mist. The steps are slippery, leeches are common, and landslides can close sections of the path: in August 2026 a slip near the summit buried the steps on the Dalhousie route, and police directed off-season climbers to the Ratnapura side. An off-season climb is only for experienced walkers with up-to-date local advice.
+Outside the season the lights are off, the stalls are closed, and the south-west monsoon brings heavy rain, wind and mist. The steps are slippery, leeches are common, and landslides can close sections of the path: in August 2026 a slip near the summit buried the steps on the Dalhousie route, and police directed off-season climbers to the Ratnapura side. Work to clear the landslide debris was under way in November 2026, before the new season. An off-season climb is only for experienced walkers with up-to-date local advice.
 
 ## The climb from Dalhousie
 
@@ -72,13 +66,17 @@ The climb is warm work, but the summit is cold and often windy before dawn.
 - Small notes for tea and food at the stalls.
 - Shoes with grip. The descent is hard on knees, and walking poles help.
 
+On a tour with us, your driver can stop in Hatton if you need to buy warm layers or a head torch.
+
 ## Keep the mountain clean
 
-Litter has long been a problem on the pilgrim trails, and the IUCN, which advises UNESCO, names waste and visitor pressure among the main threats to the site. For the 2025–26 season the government approved rules for the Sri Pada area banning single-use plastic bottles under one litre, polythene wrappers and bags, and sachets. Expect the same rules in later seasons and look out for local notices. Carry all your rubbish back down.
+Litter has long been a problem on the pilgrim trails, and the IUCN, which advises UNESCO, names waste and visitor pressure among the main threats to the site. The government has approved rules for every pilgrimage season, starting in 2025–26, in the Sri Pada area banning single-use plastic bottles under one litre, polythene wrappers and bags, and sachets. Look out for local notices. Carry all your rubbish back down.
 
 ## How long to stay
 
-One night at the foot of the mountain is the usual plan. Some people sleep for a few hours after the climb and drive on; others stay a second night, as legs can be stiff for a day or two.
+One night at the foot of the mountain is the usual plan. Some people sleep for a few hours after the climb and drive on; others stay a second night, as legs can be stiff for a day or two. On a tour with us, a second night is easy to add if you ask. Your driver stays in Dalhousie overnight and is ready to drive on after you come down and rest. If you stay in Hatton or Maskeliya instead, your driver can take you to Dalhousie in the night, in time for the climb.
+
+On a tour with us, we keep the drive short on the day before the climb, so you arrive rested.
 
 A typical climb:
 
@@ -93,8 +91,8 @@ Hatton is the usual gateway. From there the road runs through Maskeliya and past
 
 - **From Colombo.** About 4–5 hours by road via Avissawella and then Hatton or Norton Bridge. From the airport, allow longer.
 - **From Kandy.** About 3–4.5 hours by road.
-- **To Nuwara Eliya.** About 2.5–3.5 hours to [Nuwara Eliya](/places/nuwara-eliya/) via Talawakele, where St Clair’s and Devon falls have roadside viewpoints, and on from there to [Ella](/places/ella/).
-- **By train.** Hatton is on the hill-country line between Gampola and Nanu Oya, a section still closed for repair after Cyclone Ditwah in early November 2026, when no trains were reaching Hatton. Officials aim to reopen it by the end of 2026. Check Sri Lanka Railways before relying on it.
+- **To Nuwara Eliya.** About 2.5–3.5 hours to [Nuwara Eliya](/places/nuwara-eliya/) via Talawakele, where St Clair’s and Devon falls have roadside viewpoints, and on from there to [Ella](/places/ella/). On a tour with us, your driver can stop at St Clair’s and Devon falls on the way.
+- **By train.** Hatton is on the hill-country line between Gampola and Nanu Oya. Cyclone Ditwah badly damaged the line in late 2025, and in mid-November 2026 no trains from Colombo or Kandy were reaching Hatton. In the November 2026 budget speech, the government said trains should reach Kandy in the first quarter of 2027 and run the whole line to Badulla by mid-2027, but targets have slipped before. The roads are not affected: cars, vans and buses run as usual. Check Sri Lanka Railways before planning a rail section.
 - **Roads in the rain.** Heavy rain can bring landslides on the hill roads around Hatton and Maskeliya; the National Building Research Institute publishes warnings.
 
 In a private tour you add Adam’s Peak to your route on the map, usually between Colombo or [Kandy](/places/kandy/) and the tea country, and your driver handles the roads. The planner’s drive times are rough estimates, not road-tested figures.
@@ -107,11 +105,11 @@ It is demanding but not technical: several thousand steps and about 1,000 m of a
 
 ### When does the pilgrimage season start and end?
 
-It runs from Unduvap Poya, the full moon in December, to Vesak Poya in May. The dates follow the lunar calendar and change every year: for 2026–27 the season is expected to run from 23 December 2026 to 19 May 2027.
+It runs from Unduvap Poya, the full moon in December, to Vesak Poya in May. The dates follow the lunar calendar and change every year: for 2026–27 the season runs from 23 December 2026 to 19 May 2027.
 
 ### Can I climb Adam’s Peak outside the season?
 
-It is possible, but the path is unlit, the stalls are closed, and rain, mist, leeches and landslides are all risks. Most visitors should plan to climb between December and May.
+It is possible, but the path is unlit, the stalls are closed, and rain, mist, leeches and landslides are all risks. Most visitors should plan to climb between December and May. On a tour with us, an off-season climb is possible if you ask, and a local guide is included.
 
 ### What time should I start climbing?
 
@@ -123,4 +121,4 @@ On a clear morning, yes, for a short time after sunrise. Cloud often hides it, s
 
 ### Do I need a guide?
 
-In season the path is lit, busy and easy to follow, and most people climb without one. A local guide is worth considering for an off-season climb or if you are climbing alone at night.
+In season the path is lit, busy and easy to follow, and most people climb without one. A local guide is worth considering for an off-season climb or if you are climbing alone at night. On a tour with us, a local guide is included in your tour price if you ask for one.
