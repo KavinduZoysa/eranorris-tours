@@ -633,7 +633,7 @@ html:not(.js) .svc .btn,html.map-failed .svc .btn{display:none} /* the buttons n
    Airport shuttle (changed): two locations, pickup A and drop-off B, in one card.
    --------------------------------------------------------------------------- */
 /* The heading and the card are in the page's flow on every screen (not laid over a fixed-height
-   map), so "Continue" can never be cut off: on a short screen the section simply grows. */
+   map), so "Finish planning" can never be cut off: on a short screen the section simply grows. */
 html[data-svc="sh"] .app{height:auto;min-height:calc(100vh - 60px);min-height:calc(100svh - 60px)}
 html[data-svc="sh"] .mapwrap{display:flex;flex-direction:column;min-height:calc(100vh - 60px);min-height:calc(100svh - 60px)}
 html[data-svc="sh"] .overlay{position:relative;left:auto;right:auto;top:auto;margin:36px;width:min(400px,calc(100% - 72px))}
@@ -689,7 +689,7 @@ html[data-svc="sh"] .overlay{position:relative;left:auto;right:auto;top:auto;mar
 .dc-img.plain{height:76px;display:grid;place-items:center;background:radial-gradient(ellipse at 50% 60%,#1E8A9E 0,#0B4351 85%);color:var(--on-dark)}
 .dc-img.plain svg{width:28px;height:28px}
 .dc-img.plain .sq{width:14px;height:14px;transform:rotate(45deg);background:var(--ivory);border:3px solid var(--charcoal);box-shadow:0 0 0 2px var(--ivory)}
-/* The request dialog: A and B beside the form, then one list to check before sending. */
+/* The request dialog: first A and B to check, then the form with A and B beside it. */
 .modal.tr .m-stops .n{font-size:13px}
 .tr-rev{margin:0;padding:4px 16px;border:1px solid var(--line);border-radius:var(--r-lg);background:var(--bg)}
 .tr-rev>div{display:grid;grid-template-columns:172px minmax(0,1fr);gap:12px;padding:10px 0;border-top:1px solid var(--line)}
@@ -697,12 +697,10 @@ html[data-svc="sh"] .overlay{position:relative;left:auto;right:auto;top:auto;mar
 .tr-rev dt{padding-top:3px;font:600 10.5px var(--label);text-transform:uppercase;letter-spacing:.07em;color:var(--secondary)}
 .tr-rev dd{display:flex;align-items:center;gap:8px;margin:0;font-size:14.5px;font-weight:500;overflow-wrap:anywhere}
 .tr-rev+.hint{margin-top:14px}
-.modal.rv>.send-err{margin:0;padding:10px 34px 0}
 @media (max-width:600px){
   .tr-rev>div{grid-template-columns:1fr;gap:2px;padding:8px 0}
   .modal.tr .rv-foot .btn{white-space:nowrap}
   .modal.tr .rv-foot .btn.ghost{flex:0 0 auto}
-  .modal.rv>.send-err{padding:10px 20px 0}
 }
 /* Short laptop screens: the main page's cards a little lower in height, so both buttons show. */
 @media (max-height:760px) and (min-width:641px){

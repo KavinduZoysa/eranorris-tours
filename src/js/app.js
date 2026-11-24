@@ -3,7 +3,7 @@
 //   Tour planner     choose a place on the map → explore it in a dialog → "Add to my trip" →
 //                    the compact trip panel appears → "Finish planning" → review → details → send.
 //   Airport shuttle  choose a pickup (A) and a drop-off (B), from the lists or the map →
-//                    "Continue" → travel details → review → "Request Airport Transfer".
+//                    "Finish planning" → review → details → send (the same two steps as a tour).
 //
 // The main page shows both as cards; S.mode says which view is on screen ('home', 'tour' or
 // 'shuttle'). The tour's state (S.stops, S.pickup, S.exps, …) and the transfer's state (S.tr)
@@ -1425,7 +1425,7 @@ const GUIDE = {
   t0: 'Choose your pickup and drop-off, from the list or on the map.',
   ta: 'Now choose your drop-off location, from the list or on the map.',
   tb: 'Now choose your pickup location, from the list or on the map.',
-  t2: 'Your transfer is set. Choose <b>Continue</b> to add your travel details.',
+  t2: 'Your transfer is set. Choose <b>Finish planning</b> when it looks right.',
 };
 function renderGuide() {
   const k =
@@ -1738,8 +1738,8 @@ async function submitQuote(e) {
   if (sending) return;
   const f = e.target;
   if (f.dataset.kind === 'transfer') {
-    // A transfer's details are checked here; it is sent from its review step (sendTransfer).
-    if (checkForm(f, 'Please enter a WhatsApp or phone number so the driver can reach you')) openTrReview();
+    // A transfer's details are its last step, as for a tour: checked here, then sent (sendTransfer).
+    if (checkForm(f, 'Please enter a WhatsApp or phone number so the driver can reach you')) sendTransfer(f.querySelector('[type=submit]'));
     return;
   }
   if (!checkForm(f, 'Please enter a WhatsApp or phone number so we can reach you')) return;
@@ -1847,7 +1847,7 @@ mbg.addEventListener('click', (e) => {
     if (stacked()) window.scrollTo({ top: 0, behavior: reduceMotion() ? 'auto' : 'smooth' });
     TSEL.from.focus({ preventScroll: true });
   } else if (act === 'tr-details') openTrDetails();
-  else if (act === 'tr-send') sendTransfer(t);
+  else if (act === 'tr-review') openTrReview();
   else if (t.closest('[data-tq]')) {
     S.tr.pax = Math.max(1, Math.min(20, S.tr.pax + +t.dataset.d));
     save();
@@ -1917,7 +1917,7 @@ function renderMode() {
 const TSEL = { from: $('#tFrom'), to: $('#tTo') };
 const TWORD = { from: 'Pickup', to: 'Drop-off' };
 const TBADGE = { from: 'A · Pickup', to: 'B · Drop-off' };
-let tErr = { from: false, to: false }; // "Continue" was pressed while this location was missing
+let tErr = { from: false, to: false }; // "Finish planning" was pressed while this location was missing
 let pinTarget = 'tour'; // what a dropped pin sets: the tour's starting point, or a transfer's 'from' / 'to'
 const dayOf = (s) => new Date(s + 'T00:00:00');
 const trPt = (k) => {
@@ -1942,7 +1942,7 @@ function setTr(k, p) {
   tErr[k] = false;
   update();
   viewTransfer();
-  // Stacked layouts: once both are chosen, "Continue" (above the map) comes into view.
+  // Stacked layouts: once both are chosen, "Finish planning" (above the map) comes into view.
   if (S.tr.from && S.tr.to && stacked()) $('#tGo').scrollIntoView({ block: 'nearest', behavior: reduceMotion() ? 'auto' : 'smooth' });
   toast(swap && S.tr[o] ? 'Pickup and drop-off swapped' : `${TWORD[k]} set · ${trLabel(k)}`);
 }
@@ -1990,10 +1990,10 @@ $('#tClear').onclick = () => {
   toast('Transfer cleared');
   TSEL.from.focus({ preventScroll: true });
 };
-// "Continue" needs both locations: if one is missing it says so and puts the visitor on it.
+// "Finish planning" needs both locations: if one is missing it says so and puts the visitor on it.
 $('#tGo').onclick = () => {
   tErr = { from: !S.tr.from, to: !S.tr.to };
-  if (!tErr.from && !tErr.to) return openTrDetails();
+  if (!tErr.from && !tErr.to) return openTrReview();
   renderTransfer();
   TSEL[tErr.from ? 'from' : 'to'].focus();
 };
@@ -2060,7 +2060,7 @@ function renderTrMarkers() {
   }
 }
 
-// Step 1 of 2: when, how many, and how to reach the guest. No vehicle to choose: we recommend
+// Step 2 of 2: when, how many, and how to reach the guest. No vehicle to choose: we recommend
 // one. The two locations stay in view beside (or above) the form.
 function trWhenHint() {
   const later = 'Not sure yet? Leave the date and time empty: you can send them later.';
@@ -2077,8 +2077,8 @@ function openTrDetails() {
   <ol class="m-stops"><li><span class="n">A</span><span class="nm">${esc(trLabel('from'))}</span><span class="dt">Pickup</span></li><li><span class="n">B</span><span class="nm">${esc(trLabel('to'))}</span><span class="dt">Drop-off</span></li></ol>
   <dl class="m-facts"><div><dt>Drive (est.)</dt><dd>~${fmtDur(leg.min)} · ${leg.km} km</dd></div><div><dt>Vehicle</dt><dd>We’ll recommend one</dd></div></dl></div>
  <form class="m-form" id="qform" novalidate data-kind="transfer"><button type="button" class="m-close" data-close aria-label="Close">×</button>
-  <p class="m-step">Step 1 of 2 · Travel details</p>
-  <h2 id="mTitle" tabindex="-1">Request your private transfer</h2><p>Tell us when you travel and how to reach you. We’ll confirm availability and send you a quotation. Nothing is booked until you confirm it with us.</p>
+  <p class="m-step">Step 2 of 2 · Your details</p>
+  <h2 id="mTitle" tabindex="-1">Request your private transfer</h2><p>Tell us when you travel and how to reach you. ${SITE.quoteEndpoint ? '' : 'On the next screen you send the request to us on WhatsApp or by email. '}We’ll confirm availability and send you a quotation. Nothing is booked until you confirm it with us.</p>
   <div class="f2"><div class="fl" data-f="date"><label for="tDate">Travel date</label><div class="field"><input id="tDate" name="tdate" type="date" min="${TODAY}" value="${S.tr.date}" aria-describedby="tWhen"></div></div>
   <div class="fl"><label for="tTime">Preferred pickup time</label><div class="field"><input id="tTime" name="ttime" type="time" step="300" value="${S.tr.time}" aria-describedby="tWhen"></div></div></div>
   <p class="hint" id="tWhen">${trWhenHint()}</p>
@@ -2089,7 +2089,7 @@ function openTrDetails() {
   <label class="fl"><span>Flight number or details (optional)</span><div class="field"><input name="flight" autocomplete="off" placeholder="e.g. UL 504, lands 08:30" value="${v('flight')}"></div></label></div>
   <label class="fl"><span>Luggage (optional)</span><div class="field"><input name="luggage" autocomplete="off" placeholder="e.g. 2 large suitcases, 1 surfboard" value="${v('luggage')}"></div></label>
   <label class="fl"><span>Anything else? (optional)</span><textarea name="tnotes" placeholder="Hotel name, child seats, special requests…">${v('tnotes')}</textarea></label>
-  <div class="m-acts"><button type="button" class="btn ghost" data-act="tr-edit">Edit locations</button><button class="btn primary" type="submit">Review my request</button></div></form></div>`,
+  <div class="m-acts"><button type="button" class="btn ghost" data-act="tr-review">Back</button><button class="btn primary" type="submit">Send my transfer request</button></div></form></div>`,
     '#mTitle',
   );
   renderTrPax();
@@ -2101,21 +2101,20 @@ function renderTrPax() {
   g.querySelector('[data-d="-1"]').disabled = S.tr.pax <= 1;
   g.querySelector('[data-d="1"]').disabled = S.tr.pax >= 20;
 }
-// Step 2 of 2: everything in one list, then the request goes out.
+// Step 1 of 2: the pickup and the drop-off, to check before the details (as a tour's review).
 function openTrReview() {
   const leg = trLeg();
   const row = (dt, dd) => `<div><dt>${dt}</dt><dd>${dd}</dd></div>`;
-  const opt = (dt, val) => (val.trim() ? row(dt, esc(val.trim())) : '');
   showModal(
     `<div class="modal rv tr" role="dialog" aria-modal="true" aria-labelledby="mTitle" aria-describedby="mLede"><button type="button" class="m-close" data-close aria-label="Close">×</button>
  <div class="rv-body">
-  <p class="m-step">Step 2 of 2 · Review and send</p>
+  <p class="m-step">Step 1 of 2 · Review</p>
   <h2 id="mTitle" tabindex="-1">Your transfer request</h2>
-  <p class="rv-lede" id="mLede">Please check your details. ${SITE.quoteEndpoint ? '' : 'On the next screen you send the request to us on WhatsApp or by email. '}We’ll confirm availability and send you a quotation. Nothing is booked until you confirm it with us.</p>
-  <dl class="tr-rev">${row('Pickup location', `<b class="ab" aria-hidden="true">A</b>${esc(trFull('from'))}`)}${row('Drop-off location', `<b class="ab" aria-hidden="true">B</b>${esc(trFull('to'))}`)}${row('Date', S.tr.date ? fmtLong(dayOf(S.tr.date)) : 'To be confirmed')}${row('Preferred pickup time', S.tr.time || 'To be confirmed')}${row('Passengers', S.tr.pax)}${opt('Flight', qd.flight)}${opt('Luggage', qd.luggage)}${opt('Notes', qd.tnotes)}${row('Name', esc(qd.name.trim()))}${row('Email', esc(qd.email.trim()))}${row('WhatsApp / phone', esc(qd.phone.trim()))}</dl>
+  <p class="rv-lede" id="mLede">Check your pickup and drop-off. Next, tell us when you travel and how to reach you, and we’ll send you a quotation.</p>
+  <dl class="tr-rev">${row('Pickup location', `<b class="ab" aria-hidden="true">A</b>${esc(trFull('from'))}`)}${row('Drop-off location', `<b class="ab" aria-hidden="true">B</b>${esc(trFull('to'))}`)}</dl>
   <p class="hint">Estimated drive: about ${fmtDur(leg.min)}, ${leg.km} km (${OSM_CREDIT}). We’ll recommend a vehicle for your group and luggage.</p>
  </div>
- <div class="rv-foot"><button type="button" class="btn ghost" data-act="tr-details">Edit details</button><button type="button" class="btn primary" data-act="tr-send">Send my transfer request</button></div></div>`,
+ <div class="rv-foot"><button type="button" class="btn ghost" data-act="tr-edit">Edit locations</button><button type="button" class="btn primary" data-act="tr-details">Continue</button></div></div>`,
     '#mTitle',
   );
 }
@@ -2151,10 +2150,11 @@ async function sendTransfer(btn) {
   const text = transferText(ref, data);
   const subject = `${isAir('from') || isAir('to') ? 'Airport' : 'Private'} transfer request ${ref}`;
   const links = reqLinks(text, subject);
+  // As for a tour: the details form gives way to the result; A and B stay beside it.
   const done = (...a) => {
-    const m = mbg.querySelector('.modal');
-    m.innerHTML = `<div class="rv-body">${doneHtml(...a)}</div>`;
-    m.querySelector('.done h2').focus();
+    const f = btn.form;
+    f.innerHTML = doneHtml(...a);
+    f.querySelector('.done h2').focus();
   };
   if (SITE.quoteEndpoint) {
     // type "airport-transfer" tells a transfer from a tour; `transfer` carries its details as fields.

@@ -252,9 +252,9 @@ activities, no vehicle choice, no price.
 |---|---|---|
 | 1. Start | "Where would you like to go?", one instruction, and one card with two lists: **Pickup location** and **Drop-off location**. | `#tcard` |
 | 2. Choose | Each location comes from its list, or from the map: a marker opens the place dialog with **Set as pickup** / **Set as drop-off** (nothing is chosen until one is pressed). The map shows A, B and a line between them. A swap button changes them over. | `#tFrom`, `#tTo`, `#dcard` |
-| 3. Summary | With both chosen, the card says "CMB Airport to Galle: about 4h 40m, 185 km (estimate)" and the map zooms to the transfer. **Continue**. | `#tSum` |
-| 4. Details | Travel date and pickup time (both may be left empty), passengers, name, email, WhatsApp/phone; optional flight, luggage and notes. A and B stay in view. **Edit locations** / **Review my request**. | `#mbg`, `openTrDetails()` |
-| 5. Review | "Your transfer request": everything in one list. **Edit details** / **Send my transfer request**. | `#mbg`, `openTrReview()` |
+| 3. Summary | With both chosen, the card says "CMB Airport to Galle: about 4h 40m, 185 km (estimate)" and the map zooms to the transfer. **Finish planning**. | `#tSum` |
+| 4. Review | "Your transfer request": the pickup and the drop-off, with the estimated drive. **Edit locations** / **Continue**. The same step as a tour's review. | `#mbg`, `openTrReview()` |
+| 5. Details | Travel date and pickup time (both may be left empty), passengers, name, email, WhatsApp/phone; optional flight, luggage and notes. A and B stay in view. **Back** / **Send my transfer request**. | `#mbg`, `openTrDetails()` |
 
 Rules that the code and tests keep:
 
@@ -264,7 +264,7 @@ Rules that the code and tests keep:
   else" drops a pin, for either end. No place was added for this.
 - **Only two, never the same.** Choosing for one end the place that is already the other end
   makes the two change places. A third place can only replace one of them.
-- **"Continue" needs both.** If one is missing it says which, and puts the visitor on it.
+- **"Finish planning" needs both.** If one is missing it says which, and puts the visitor on it.
 - **No vehicle and no price.** The request names a suggested vehicle for the number of
   passengers, to be confirmed. The guest is told we will confirm availability and send a
   quotation, and that nothing is booked until they confirm.

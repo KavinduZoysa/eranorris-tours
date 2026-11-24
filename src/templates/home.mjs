@@ -130,7 +130,7 @@ export function homeBody(ctx) {
           <p class="err" id="tToErr" role="alert" hidden></p>
         </div>
         <p class="tsum" id="tSum" aria-live="polite" hidden></p>
-        <div class="t-acts"><button type="button" class="linkbtn mut" id="tClear" hidden>Clear</button><button type="button" class="btn primary" id="tGo">Continue</button></div>
+        <div class="t-acts"><button type="button" class="linkbtn mut" id="tClear" hidden>Clear</button><button type="button" class="btn primary" id="tGo">Finish planning</button></div>
       </section>
     </div>
     <div class="map-fallback" role="note"><b>The planner isn’t available</b>It needs JavaScript and the interactive map. You can still <a href="#places">browse all ${DESTS.length} places</a> below. To plan a private tour or request an airport or private transfer, message us on <a href="${waLink(ctx, `Hello ${site.name}, I’d like to plan a private tour or request a transfer in Sri Lanka.`)}" target="_blank" rel="noopener">WhatsApp</a> or email <a href="mailto:${esc(site.contact.email)}">${esc(site.contact.email)}</a>.</div>
