@@ -4,6 +4,78 @@
 > between any two places, and the guest gets a quotation from the team. This file is kept as a
 > reference for quoting.
 
+## Car prices from the airport, budget level (owner, 2026-11-23)
+
+For quoting only: the website does not show these prices yet. The owner will say when to show
+them. They replace the older US-dollar car prices further down, which the owner never confirmed.
+
+- **What they cover:** Bandaranaike International Airport (CMB) → each destination, **one way,
+  by car, for 1–2 people**, priced for budget travellers. Road tolls are assumed to be included,
+  as for Hikkaduwa.
+- **How they are worked out:** the owner's price for Hikkaduwa is **LKR 16,500**. That is 148 km
+  in the planner's road data (`src/data/route-times.mjs`), so about **LKR 111.5 per km**. Each
+  price is the road distance × 111.5, rounded to the nearest LKR 500. Example: Galle, 161 km ×
+  111.5 = 17,949 → LKR 18,000.
+- **Distances and times** are the planner's road data (OpenStreetMap, normal driving, no stops
+  or heavy traffic). Yala is to the Palatupana park gate and Adam’s Peak to Dalhousie.
+- **Not compared** with other companies' prices.
+
+| Destination | Road distance | Drive time (no traffic) | Car, 1–2 people (LKR) |
+|---|---|---|---|
+| Bentota | 115 km | 2 h | 13,000 |
+| Kandy | 118 km | 3 h 4 min | 13,000 |
+| Dambulla | 132 km | 3 h 23 min | 14,500 |
+| **Hikkaduwa** | 148 km | 2 h 24 min | **16,500** (owner's price) |
+| Sigiriya | 150 km | 3 h 53 min | 16,500 |
+| Galle | 161 km | 2 h 25 min | 18,000 |
+| Adam’s Peak (Dalhousie) | 166 km | 4 h 38 min | 18,500 |
+| Anuradhapura | 178 km | 4 h 44 min | 20,000 |
+| Mirissa | 186 km | 2 h 50 min | 20,500 |
+| Nuwara Eliya | 189 km | 4 h 41 min | 21,000 |
+| Polonnaruwa | 201 km | 5 h 2 min | 22,500 |
+| Trincomalee | 238 km | 5 h 59 min | 26,500 |
+| Udawalawe | 275 km | 4 h 9 min | 30,500 |
+| Yala (Palatupana gate) | 307 km | 4 h 55 min | 34,000 |
+| Ella | 341 km | 5 h 30 min | 38,000 |
+| Arugam Bay | 423 km | 7 h 32 min | 47,000 |
+
+### Check before showing these on the website
+- **Ella may be too high.** The road data takes the fastest route, along the southern
+  expressway (341 km). The shorter road through Ratnapura and Haputale is roughly 200–230 km but
+  slower (an estimate, not measured); priced on that road, Ella would be about LKR 23,000–26,000.
+- **Distance only, not time.** Hill roads are slow: Sigiriya costs the same as Hikkaduwa
+  (LKR 16,500) but takes about 1.5 hours longer. Kandy, Dambulla, Sigiriya, Adam’s Peak and
+  Nuwara Eliya could be priced higher to pay for the driver's time.
+- **Short trips are not listed.** Colombo city (39 km), the Colombo port (43 km) and Negombo
+  (8 km) need a minimum price from the owner; the per-km rate would give too little (Negombo
+  about LKR 900).
+
+### For a spreadsheet
+
+Copy the lines below and paste into Excel or Google Sheets; they split into columns.
+
+```
+Destination	Distance km	Car 1-2 people LKR
+Bentota	115	13000
+Kandy	118	13000
+Dambulla	132	14500
+Hikkaduwa	148	16500
+Sigiriya	150	16500
+Galle	161	18000
+Adam's Peak	166	18500
+Anuradhapura	178	20000
+Mirissa	186	20500
+Nuwara Eliya	189	21000
+Polonnaruwa	201	22500
+Trincomalee	238	26500
+Udawalawe	275	30500
+Yala	307	34000
+Ella	341	38000
+Arugam Bay	423	47000
+```
+
+## Earlier figures (8 November 2026, not confirmed)
+
 Snapshot of what the site showed on 8 November 2026, for transfers between Bandaranaike
 International Airport (CMB) and each place. US dollars, **one way, fixed price per vehicle**; a
 return transfer is double. These figures were never confirmed by the owner.
