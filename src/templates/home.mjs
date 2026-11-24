@@ -60,7 +60,8 @@ function serviceCards(ctx) {
         <article class="svc-c" aria-labelledby="svcTour">
           <div class="svc-v tour" aria-hidden="true">${['sigiriya', 'kandy', 'ella', 'galle'].map(med).join('')}</div>
           <div class="svc-b">
-            <h2 id="svcTour"><span class="svc-l">Plan your private Sri Lanka tour</span><span class="svc-sh">Plan a tour</span></h2>
+            <h2 id="svcTour">Plan your private Sri Lanka tour</h2>
+            <span class="svc-sh" aria-hidden="true">Plan a tour</span>
             <p>Pick the places and experiences you love, and we’ll shape them into a private tour with your own driver.</p>
             <p class="svc-s">Pick places on the map</p>
             <button type="button" class="btn primary" data-go="tour">Plan my tour</button>
@@ -69,7 +70,8 @@ function serviceCards(ctx) {
         <article class="svc-c" aria-labelledby="svcSh">
           <div class="svc-v sh" aria-hidden="true"><span class="svc-pt a">${PLANE}</span><span class="svc-ln"></span><span class="svc-pt b"></span></div>
           <div class="svc-b">
-            <h2 id="svcSh"><span class="svc-l">Arrange your airport or private transfer</span><span class="svc-sh">Airport transfer</span></h2>
+            <h2 id="svcSh">Arrange your airport or private transfer</h2>
+            <span class="svc-sh" aria-hidden="true">Airport transfer</span>
             <p>Airport pickups, drop-offs and city-to-city rides. Choose where and when, and we’ll send you a quote.</p>
             <p class="svc-s">Set pickup and drop-off</p>
             <button type="button" class="btn primary" data-go="shuttle">Request my transfer</button>
@@ -182,7 +184,7 @@ export function homeBody(ctx) {
     </aside>
 
     <section class="sheet" id="sheet" aria-label="Places to choose" hidden>
-      <div class="sh-head"><p class="sh-hint">Tap a place, or swipe the cards.</p><button type="button" class="sh-trip" id="shTrip" hidden>Your trip <b id="shTripN">0</b></button></div>
+      <div class="sh-head"><p class="sh-hint">Tap a place, or swipe the cards.</p><button type="button" class="sh-trip" id="shTrip" hidden>Your tour <b id="shTripN">0</b></button></div>
       <ul class="cards" id="cards" aria-label="Places"></ul>
     </section>
   </section>

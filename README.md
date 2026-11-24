@@ -383,21 +383,21 @@ A place opens as the dialog with tick boxes, on every screen size.
 |---|---|---|
 | The two services | main page | the heading, then "Plan a tour" and "Airport transfer", each one row to tap |
 | Place cards (`#sheet`) | tour planner, no place in the trip yet (or after "Add") | one row of cards to swipe: photo, type, name, and + to add the place at once |
-| The trip (`#trip`) | a place is in the trip | closed: the places as a row of photos, the start, and "Review trip". Open (tap the title): the full list to change the start, the order and the places |
-| The transfer card (`#tcard`) | airport shuttle | one box with two rows, A (pickup) and B (drop-off), then the drive estimate and "Continue". A row shows the short name of what was chosen (`.tf-v`). The list of places lies over the whole row and is not seen, so a tap anywhere on the row opens it |
+| The trip (`#trip`) | a place is in the trip | closed: the places as a row of photos, the start, and "Finish planning". Open (tap the title): the full list to change the start, the order and the places |
+| The transfer card (`#tcard`) | airport shuttle | one box with two rows, A (pickup) and B (drop-off), then the drive estimate and "Finish planning". A row shows the short name of what was chosen (`.tf-v`). The list of places lies over the whole row and is not seen, so a tap anywhere on the row opens it |
 
 **How a visitor plans a tour**
 
 1. Tap a dot, or swipe the cards. The place in view shows its photo on the map.
 2. Tap the card (or the photo on the map). The place opens as a dialog: photo, text, and
    "Things to do" with tick boxes. A search result opens it the same way.
-3. Tick what you'd like to do, then press "Add to my trip". The dialog closes and the trip sheet
+3. Tick what you'd like to do, then press "Add to my tour". The dialog closes and the trip sheet
    shows. ("Close" adds nothing.)
 4. Or press + on a card: the place is added at once, with nothing ticked.
-5. "Review trip" needs a starting point. If there is none, the trip opens on that field.
-6. Review ("Your trip", step 1 of 2) is a full sheet: one line of totals (places, nights,
+5. "Finish planning" needs a starting point. If there is none, the trip opens on that field.
+6. Review ("Your tour", step 1 of 2) is a full sheet: one line of totals (places, nights,
    km), then the trip as a plain list from the start to the end, with − and + for the nights
-   of each place. "Edit" opens the full trip list; the round back button returns to the map.
+   of each place. "Edit my tour" opens the full trip list; the round back button returns to the map.
 7. Details ("Your details", step 2 of 2): adults and children side by side, the start date,
    then name, email and phone. Country, hotels and the note are behind one link. One button
    sends the request.
@@ -405,15 +405,16 @@ A place opens as the dialog with tick boxes, on every screen size.
 The phone versions of these two steps are built by `openReview()` and `openDetails()` in
 `app.js` when `phone()` is true (the dialog then has the class `ph`). They read and change
 the same state as the desktop versions, and the request that is sent is the same. The
-transfer's two steps keep their desktop content; on phones they get the same top row (a round
-back button and "Step 1 of 2").
+transfer's two steps keep their desktop content and the same order as a tour: the review
+(step 1; its round back button returns to the map), then the details (step 2; its back button
+returns to the review), sent from there. On phones they get the same top row as the tour's.
 
 **Rules the code keeps**
 
 - Nothing new is saved or sent. Ticks are kept as before (`draft` until the place is added,
   then `S.exps`), and places use `addStop()` and `removeStop()`. A request made on a phone is
   the same as one made on desktop.
-- The phone review shows how many things were ticked in a place ("2 nights · 1 thing to do"),
+- The phone review shows how many things were ticked in a place ("2 nights · 1 experience"),
   not each one. To change them, open the place from the trip sheet. The desktop review
   still lists each one with a remove button.
 - Opening a place never moves or zooms the map.

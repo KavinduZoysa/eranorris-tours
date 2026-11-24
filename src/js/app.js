@@ -1347,7 +1347,6 @@ function renderTrip() {
   app.classList.toggle('has-trip', has);
   app.classList.toggle('trip-up', show); // phones: the trip sheet is on screen (the filters hide, the other dots shrink)
   if (phone()) q.placeholder = show ? 'Add a place' : 'Search places';
-  $('#finishBtn').textContent = phone() ? 'Review trip' : 'Finish planning';
   if (trip.hidden === show) {
     // The panel arrives with the first place and leaves with the last one.
     if (!show && trip.contains(document.activeElement)) map.getContainer().focus({ preventScroll: true });
@@ -1410,7 +1409,7 @@ $('#stops').addEventListener('click', (e) => {
 });
 $('#addMore').onclick = () => {
   if (phone()) {
-    // Phones: the place cards take the trip's place ("Your trip" there brings it back).
+    // Phones: the place cards take the trip's place ("Your tour" there brings it back).
     browsing = true;
     setTripOpen(false);
     update();
@@ -1497,7 +1496,7 @@ function renderPickup() {
     miss = pkErr && !S.pickup;
   note.classList.toggle('bad', miss);
   note.textContent = miss
-    ? `Please choose where we pick you up, then press “${$('#finishBtn').textContent}” again.`
+    ? 'Please choose where we pick you up, then press “Finish planning” again.'
     : !S.pickup
       ? 'Where should we pick you up? We bring you back here at the end.'
       : isPin
@@ -1652,8 +1651,8 @@ function reviewRoute() {
   if (p.ret) h += `<li class="leg ret">~${fmtDur(p.ret.min)} · ${p.ret.km} km</li>`;
   return h + `</ol><div class="endpt"><span class="ic"></span><span><b>Back to</b> · ${from}</span></div>`;
 }
-// Phones: the same trip as a shorter list. A place shows its nights and how many things were
-// ticked there; the things themselves are changed in the place's dialog.
+// Phones: the same tour as a shorter list. A place shows its nights and how many experiences
+// were ticked there; the experiences themselves are changed in the place's dialog.
 function reviewRoutePhone() {
   const p = plan(),
     from = esc(pickupLabel());
@@ -1663,7 +1662,7 @@ function reviewRoutePhone() {
     const k = expsAt(r.d.id).length,
       nm = esc(r.d.name);
     if (r.leg) h += `<li class="leg">${fmtDur(r.leg.min)} · ${r.leg.km} km</li>`;
-    h += `<li class="stop"><span class="num">${r.i + 1}</span><div><span class="rv-nm">${r.d.name}</span><div class="s-sub">${nightsTxt(r.s.nights)}${k ? ` · ${k} ${k === 1 ? 'thing' : 'things'} to do` : ''}</div></div>
+    h += `<li class="stop"><span class="num">${r.i + 1}</span><div><span class="rv-nm">${r.d.name}</span><div class="s-sub">${nightsTxt(r.s.nights)}${k ? ` · ${k} ${k === 1 ? 'experience' : 'experiences'}` : ''}</div></div>
   <div class="stepper" role="group" aria-label="Nights in ${nm}"><button type="button" data-n="${r.d.id}" data-d="-1" ${r.s.nights <= 0 ? 'disabled' : ''} aria-label="Fewer nights in ${nm}">−</button><span>${r.s.nights}</span><button type="button" data-n="${r.d.id}" data-d="1" ${r.s.nights >= 14 ? 'disabled' : ''} aria-label="More nights in ${nm}">+</button></div></li>`;
   });
   if (p.ret) h += `<li class="leg ret">${fmtDur(p.ret.min)} · ${p.ret.km} km</li>`;
@@ -1687,13 +1686,13 @@ function openReview() {
       `<div class="modal rv ph" role="dialog" aria-modal="true" aria-labelledby="mTitle" aria-describedby="rvMeta">
  <div class="rv-body">
   ${mBar(1, 'data-close', 'Back to the map')}
-  <h2 id="mTitle" tabindex="-1">Your trip</h2>
+  <h2 id="mTitle" tabindex="-1">Your tour</h2>
   <p class="rv-meta" id="rvMeta">${reviewMeta()}</p>
   <div class="rv-route" id="rvRoute">${reviewRoutePhone()}</div>
   <p class="hint">Drive times are estimates. Road data © <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a> contributors.</p>
   <div id="rvOut">${expOutsideHtml()}</div>
  </div>
- <div class="rv-foot"><button type="button" class="btn ghost" data-act="edit">Edit</button><button type="button" class="btn primary" data-act="details">Continue</button></div></div>`,
+ <div class="rv-foot"><button type="button" class="btn ghost" data-act="edit">Edit my tour</button><button type="button" class="btn primary" data-act="details">Continue</button></div></div>`,
       '#mTitle',
     );
   showModal(
@@ -1750,8 +1749,8 @@ function openDetails() {
     showModal(
       `<div class="modal dt ph" role="dialog" aria-modal="true" aria-labelledby="mTitle">
  <form class="m-form" id="qform" novalidate>
-  ${mBar(2, 'data-act="review"', 'Back to your trip')}
-  <h2 id="mTitle" tabindex="-1">Your details</h2><p>We reply with a plan and a price. Nothing is booked until you say yes.</p>
+  ${mBar(2, 'data-act="review"', 'Back to your tour')}
+  <h2 id="mTitle" tabindex="-1">Your details</h2><p>We’ll reply with a quote and our suggestions. Nothing is booked until you confirm it with us.</p>
   <fieldset class="gst" id="qGuests"><legend>Guests</legend><div class="g2">
    <div class="fl"><span id="qAdL">Adults</span>${step('adults', 'adults')}</div>
    <div class="fl"><span id="qChL">Children (2–11)</span>${step('children', 'children')}</div></div></fieldset>
@@ -1760,7 +1759,7 @@ function openDetails() {
   ${field('email', 'Email', 'type="email" autocomplete="email"')}
   ${field('phone', 'WhatsApp or phone', 'type="tel" autocomplete="tel"')}
   <details class="more"${qd.country || qd.notes ? ' open' : ''}><summary>Hotels, country or a note</summary><div class="more-b">${fCountry}${fMore}</div></details>
-  <div class="m-acts"><button class="btn primary" type="submit">Send trip request</button>${SITE.quoteEndpoint ? '' : '<p class="m-next">Next, you send it through WhatsApp or email.</p>'}</div></form></div>`,
+  <div class="m-acts"><button class="btn primary" type="submit">Send my tour request</button>${SITE.quoteEndpoint ? '' : '<p class="m-next">Next, you send it through WhatsApp or email.</p>'}</div></form></div>`,
       '#mTitle',
     );
     return renderGuests();
@@ -2410,7 +2409,7 @@ function onSwipe(list, fn) {
 const placeCard = (d) => {
   const i = tripIdx(d.id);
   return `<li class="pc" data-id="${d.id}"><button type="button" class="pc-m" data-open="${d.id}"><img src="${SITE.assets.photos[d.id].card[0]}" alt="" width="84" height="84" loading="lazy" decoding="async"><span class="pc-b"><span class="pc-k"><i style="--c:${CATS[d.cat].c}"></i>${CATS[d.cat].label}</span><span class="pc-n">${d.name}</span><span class="pc-s">${d.hl}</span></span></button>${
-    i > -1 ? `<span class="pc-in" role="img" aria-label="Stop ${i + 1} in your trip">${i + 1}</span>` : `<button type="button" class="pc-add" data-add="${d.id}" aria-label="Add ${esc(d.name)} to your trip">${PLUS}</button>`
+    i > -1 ? `<span class="pc-in" role="img" aria-label="Stop ${i + 1} in your tour">${i + 1}</span>` : `<button type="button" class="pc-add" data-add="${d.id}" aria-label="Add ${esc(d.name)} to my tour">${PLUS}</button>`
   }</li>`;
 };
 function renderSheet() {
