@@ -4,11 +4,11 @@
 // complete before JavaScript runs and nothing shifts when it does.
 //
 // One page, three views. <html data-svc> says which one is showing (see SVC_BOOT below):
-//   (none)   the main page: two service cards, "Plan My Tour" and "Book Airport Transfer"  (#svc)
+//   (none)   the main page: two service cards, "Plan my tour" and "Request my transfer"  (#svc)
 //   "tour"   the guided tour planner (see "Guided trip planner" in README.md):
 //              the map with one instruction (#guide) → a place opens as a dialog (#dcard)
 //              → the compact itinerary (#trip) → review, details, send (#mbg)
-//   "sh"     airport shuttle and private transfers (see "Airport shuttle" in README.md):
+//   "sh"     transfers (see "Airport shuttle" in README.md):
 //              two locations, pickup A and drop-off B (#tcard) → details → review → send (#mbg)
 // The two services keep separate state in src/js/app.js and never change each other.
 import { CATS, DESTS, PICKUPS, TRANSFER_GROUPS, TRANSFER_PLACES } from '../data/destinations.mjs';
@@ -54,17 +54,17 @@ function serviceCards(ctx) {
         <article class="svc-c" aria-labelledby="svcTour">
           <div class="svc-v tour" aria-hidden="true">${['sigiriya', 'kandy', 'ella', 'galle'].map(med).join('')}</div>
           <div class="svc-b">
-            <h2 id="svcTour">Plan Your Sri Lanka Tour</h2>
-            <p>Discover amazing places, explore experiences and build your own personalised private tour.</p>
-            <button type="button" class="btn primary" data-go="tour">Plan My Tour</button>
+            <h2 id="svcTour">Plan your private Sri Lanka tour</h2>
+            <p>Pick the places and experiences you love, and we’ll shape them into a private tour with your own driver.</p>
+            <button type="button" class="btn primary" data-go="tour">Plan my tour</button>
           </div>
         </article>
         <article class="svc-c" aria-labelledby="svcSh">
           <div class="svc-v sh" aria-hidden="true"><span class="svc-pt a">${PLANE}</span><span class="svc-ln"></span><span class="svc-pt b"></span></div>
           <div class="svc-b">
-            <h2 id="svcSh">Airport Shuttle &amp; Private Transfers</h2>
-            <p>Need a comfortable transfer? Choose your pickup and drop-off locations and request your private transfer.</p>
-            <button type="button" class="btn primary" data-go="shuttle">Book Airport Transfer</button>
+            <h2 id="svcSh">Arrange your airport or private transfer</h2>
+            <p>Airport pickups, drop-offs and city-to-city rides. Choose where and when, and we’ll send you a quote.</p>
+            <button type="button" class="btn primary" data-go="shuttle">Request my transfer</button>
           </div>
         </article>
       </div>`;
@@ -88,7 +88,7 @@ export function homeBody(ctx) {
   const { site } = ctx;
   return `<header class="top">
   ${brand(ctx)}
-  <div class="top-r"><button class="trip-pill" id="tripPill" hidden><span id="pillLbl">Your trip</span> <b id="pillCount">0</b></button>${menu(ctx)}</div>
+  <div class="top-r"><button class="trip-pill" id="tripPill" hidden><span id="pillLbl">Your tour</span> <b id="pillCount">0</b></button>${menu(ctx)}</div>
 </header>
 
 <main id="content">
@@ -97,10 +97,10 @@ export function homeBody(ctx) {
     <div id="map" role="region" aria-label="Map of Sri Lanka with ${DESTS.length} places. Tab to a place and press Enter to open it."></div>
     <div class="shade"></div>
     <div class="overlay">
-      <div class="svc-tabs" id="modes" role="group" aria-label="Choose a service"><button type="button" data-mode="tour" aria-pressed="false">Tour planner</button><button type="button" data-mode="shuttle" aria-pressed="false">Airport shuttle</button></div>
+      <div class="svc-tabs" id="modes" role="group" aria-label="Choose a service"><button type="button" data-mode="tour" aria-pressed="false">Private tour</button><button type="button" data-mode="shuttle" aria-pressed="false">Private transfer</button></div>
       <p class="eyebrow">Two ways to travel with us</p>
       <h1 id="h1" data-m="home" tabindex="-1">Private tours and <em>airport transfers</em> in Sri Lanka</h1>
-      <p class="guide" id="guide" data-k="home">Choose what you need. You can switch between the two at any time.</p>
+      <p class="guide" id="guide" data-k="home">Plan a private tour around the island, or get a transfer from the airport or between towns, always with your own driver.</p>
 
       ${serviceCards(ctx)}
 
@@ -108,7 +108,7 @@ export function homeBody(ctx) {
         <div class="search" role="search">
           <label class="sbox">
             ${SEARCH_ICON(18)}
-            <input id="q" type="text" placeholder="Search Sigiriya, Ella, leopards…" autocomplete="off" aria-label="Search destinations" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="results">
+            <input id="q" type="text" placeholder="Search Sigiriya, Ella, leopards…" autocomplete="off" aria-label="Search places" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="results">
             <kbd aria-hidden="true">/</kbd>
           </label>
           <ul class="results" id="results" role="listbox" aria-label="Matching places" hidden></ul>
@@ -133,11 +133,11 @@ export function homeBody(ctx) {
         <div class="t-acts"><button type="button" class="linkbtn mut" id="tClear" hidden>Clear</button><button type="button" class="btn primary" id="tGo">Continue</button></div>
       </section>
     </div>
-    <div class="map-fallback" role="note"><b>The planner isn’t available</b>It needs JavaScript and the interactive map. You can still <a href="#places">browse all ${DESTS.length} places</a> below. To plan a private tour or request an airport transfer, message us on <a href="${waLink(ctx, `Hello ${site.name}, I’d like to plan a private tour or an airport transfer in Sri Lanka.`)}" target="_blank" rel="noopener">WhatsApp</a> or email <a href="mailto:${esc(site.contact.email)}">${esc(site.contact.email)}</a>.</div>
+    <div class="map-fallback" role="note"><b>The planner isn’t available</b>It needs JavaScript and the interactive map. You can still <a href="#places">browse all ${DESTS.length} places</a> below. To plan a private tour or request an airport or private transfer, message us on <a href="${waLink(ctx, `Hello ${site.name}, I’d like to plan a private tour or request a transfer in Sri Lanka.`)}" target="_blank" rel="noopener">WhatsApp</a> or email <a href="mailto:${esc(site.contact.email)}">${esc(site.contact.email)}</a>.</div>
     <div class="pinbanner" id="pinBanner" hidden><span id="pinTxt">Click the map to set your starting point</span><button id="pinCancel">Cancel</button></div>
 
     <aside class="trip" id="trip" aria-labelledby="tripH" hidden>
-      <h2 class="trip-h" id="tripH"><button type="button" class="trip-tg" id="tripTg" aria-expanded="true" aria-controls="tripBody"><span class="t">Your trip</span><span class="c" id="tripCount"></span>${CHEVRON}</button></h2>
+      <h2 class="trip-h" id="tripH"><button type="button" class="trip-tg" id="tripTg" aria-expanded="true" aria-controls="tripBody"><span class="t">Your tour</span><span class="c" id="tripCount"></span>${CHEVRON}</button></h2>
       <div class="trip-b" id="tripBody">
         <section class="trip-sec" aria-labelledby="tsStart">
           <h3 class="tagl" id="tsStart">Starting point</h3>
@@ -155,10 +155,10 @@ export function homeBody(ctx) {
           <div class="trip-sec-h"><h3 class="tagl" id="tsPlaces">Places to visit</h3><button type="button" class="linkbtn" id="optBtn" hidden>Shortest route</button></div>
           <ol class="tl" id="stops"></ol>
         </section>
-        <p class="trip-clear"><button type="button" class="linkbtn mut" id="tripClear">Clear trip</button></p>
+        <p class="trip-clear"><button type="button" class="linkbtn mut" id="tripClear">Clear tour</button></p>
       </div>
       <div class="trip-f">
-        <button type="button" class="btn ghost" id="addMore" aria-label="Add another destination"><span aria-hidden="true">+ Add another<span class="lg"> destination</span></span></button>
+        <button type="button" class="btn ghost" id="addMore" aria-label="Add another place"><span aria-hidden="true">+ Add another<span class="lg"> place</span></span></button>
         <button type="button" class="btn primary" id="finishBtn">Finish planning</button>
       </div>
     </aside>

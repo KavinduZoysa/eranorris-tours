@@ -6,7 +6,7 @@ export default {
   // Brand shown in the header, titles and structured data.
   // Taken from eranorrissrilanka.com and this repo's name — confirm below.
   name: 'Eranorris',
-  tagline: 'Private tours of Sri Lanka',
+  tagline: 'Private tours & transfers in Sri Lanka',
 
   // Preferred public address: https, one hostname, no trailing slash. Include a path only
   // if the site is served from a sub-directory (e.g. https://www.your-domain.com/tours).

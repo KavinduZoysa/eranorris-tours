@@ -224,14 +224,14 @@ The main page offers two services as two equal cards over the map:
 
 | Card | Text | Button | Opens |
 |---|---|---|---|
-| **Plan Your Sri Lanka Tour** | "Discover amazing places, explore experiences and build your own personalised private tour." | Plan My Tour | the [guided trip planner](#guided-trip-planner) |
-| **Airport Shuttle & Private Transfers** | "Need a comfortable transfer? Choose your pickup and drop-off locations and request your private transfer." | Book Airport Transfer | the [airport shuttle](#airport-shuttle) |
+| **Plan your private Sri Lanka tour** | "Pick the places and experiences you love, and we’ll shape them into a private tour with your own driver." | Plan my tour | the [guided trip planner](#guided-trip-planner) |
+| **Arrange your airport or private transfer** | "Airport pickups, drop-offs and city-to-city rides. Choose where and when, and we’ll send you a quote." | Request my transfer | the [airport shuttle](#airport-shuttle) |
 
 - **One page, three views.** `<html data-svc>` says which is showing: no attribute = the main
   page, `tour` = the tour planner, `sh` = the airport shuttle. `src/js/app.js` sets it
   (`S.mode`), and `src/styles/app.css` shows one view from it. One map and one script serve all
   three.
-- **A switch stays on screen** inside each service ("Tour planner | Airport shuttle"), so the
+- **A switch stays on screen** inside each service ("Private tour | Private transfer"), so the
   other one is always one press away. The site menu has both too (`/#tour`, `/#transfer`).
 - **Coming back:** a visitor with a trip or a transfer in progress returns straight to it; so
   does anyone following a link such as `/#add=kandy` or `/#transfer`. A small inline script
@@ -253,8 +253,8 @@ activities, no vehicle choice, no price.
 | 1. Start | "Where would you like to go?", one instruction, and one card with two lists: **Pickup location** and **Drop-off location**. | `#tcard` |
 | 2. Choose | Each location comes from its list, or from the map: a marker opens the place dialog with **Set as pickup** / **Set as drop-off** (nothing is chosen until one is pressed). The map shows A, B and a line between them. A swap button changes them over. | `#tFrom`, `#tTo`, `#dcard` |
 | 3. Summary | With both chosen, the card says "CMB Airport to Galle: about 4h 40m, 185 km (estimate)" and the map zooms to the transfer. **Continue**. | `#tSum` |
-| 4. Details | Travel date and pickup time (both may be left empty), passengers, name, email, WhatsApp/phone; optional flight, luggage and notes. A and B stay in view. **Edit locations** / **Review request**. | `#mbg`, `openTrDetails()` |
-| 5. Review | "Your Airport Transfer Request": everything in one list. **Edit details** / **Request Airport Transfer**. | `#mbg`, `openTrReview()` |
+| 4. Details | Travel date and pickup time (both may be left empty), passengers, name, email, WhatsApp/phone; optional flight, luggage and notes. A and B stay in view. **Edit locations** / **Review my request**. | `#mbg`, `openTrDetails()` |
+| 5. Review | "Your transfer request": everything in one list. **Edit details** / **Send my transfer request**. | `#mbg`, `openTrReview()` |
 
 Rules that the code and tests keep:
 
@@ -275,7 +275,7 @@ Rules that the code and tests keep:
   `type: "airport-transfer"` (a tour has `type: "tour"`) and a `transfer` object: `pickup` and
   `dropoff` (`id`, `name`, `lat`, `lng`), `date`, `time`, `passengers`, `flight`, `luggage`.
   The other fields are the same as before (`ref`, `name`, `email`, `phone`, `notes`,
-  `message`, …). Success says "Thank you! Your transfer request has been sent."
+  `message`, …). Success says "Thank you, <first name>." and "Your transfer request has been sent."
 - **Layout:** on wide screens the card sits beside the map. On stacked layouts (≤ 1100 px, and
   phones held sideways) the card comes first and the map is a block of its own under it, so
   the map never takes over a small screen and the whole island always fits in it.
@@ -287,24 +287,24 @@ views of one saved state (`S` in `src/js/app.js`, stored in the browser as `eran
 
 | Step | What the visitor sees | Where it is |
 |---|---|---|
-| 1. Start | The map, the heading "Let's plan your Sri Lanka experience." and one instruction. Markers pulse softly twice. No trip panel, no open place. | `.overlay`, `#guide` |
-| 2. Explore | Choosing a marker (or a search result) opens the place as a dialog: photo, text, facts, "Things to do" with tick boxes, **Add to my trip** and **Close**. | `#dback > #dcard` |
-| 3. Trip | After "Add to my trip" the dialog closes, a message says "Kandy added to your trip!", and the compact trip panel appears: starting point, numbered places, **+ Add another destination**, **Finish planning**. | `#trip` |
-| 4. Review | "Your Sri Lanka trip is taking shape!": starting point, places in order with nights and chosen experiences, drive estimates, **Edit my trip** / **Continue**. | `#mbg`, `openReview()` |
-| 5. Details | Start date (optional), guests, name, email, WhatsApp/phone, **Send my trip request**. | `#mbg`, `openDetails()` |
+| 1. Start | The map, the heading "Let's plan your Sri Lanka tour." and one instruction. Markers pulse softly twice. No trip panel, no open place. | `.overlay`, `#guide` |
+| 2. Explore | Choosing a marker (or a search result) opens the place as a dialog: photo, text, facts, "Things to do" with tick boxes, **Add to my tour** and **Close**. | `#dback > #dcard` |
+| 3. Trip | After "Add to my tour" the dialog closes, a message says "Kandy added to your tour", and the compact trip panel appears: starting point, numbered places, **+ Add another place**, **Finish planning**. | `#trip` |
+| 4. Review | "Your Sri Lanka tour is taking shape!": starting point, places in order with nights and chosen experiences, drive estimates, **Edit my tour** / **Continue**. | `#mbg`, `openReview()` |
+| 5. Details | Start date (optional), guests, name, email, WhatsApp/phone, **Send my tour request**. | `#mbg`, `openDetails()` |
 
 Rules that the code and tests keep:
 
-- **Opening or closing a place never changes the trip.** Only "Add to my trip" does. Experiences
+- **Opening or closing a place never changes the trip.** Only "Add to my tour" does. Experiences
   ticked in the dialog of a place that isn't in the trip wait (`draft` in `app.js`) and are
   kept only when the place is added. For a place already in the trip, ticks apply at once.
-- **No duplicates:** a place in the trip shows "In your trip" and "Remove from my trip".
+- **No duplicates:** a place in the trip shows "In your tour" and "Remove from my tour".
 - **Starting point ≠ places to visit.** The starting point is `S.pickup` (where the trip begins
   and ends); the places are `S.stops`. The first place added is never taken as the starting
   point. "Finish planning" asks for the starting point if it is missing and puts the visitor
   on that field. "Or drop a pin on the map" covers places that are not in the list.
-- **The guidance line** (`#guide`) changes with the state: choose a place → "Great! Now select
-  another destination, or set your starting point." → "…choose Finish planning…".
+- **The guidance line** (`#guide`) changes with the state: choose a place → "Great! Now choose
+  another place, or set your starting point." → "…choose Finish planning…".
 - **The trip panel stays small:** names, nights and a count of experiences. Places can be
   moved earlier or later, removed, or put in the shortest order. It can be closed and reopened.
   On wide screens it floats over the right of the map; on stacked layouts (≤ 1100 px) it is a
@@ -334,12 +334,12 @@ Tested at 280–2560 px wide, portrait and landscape, with touch and mouse.
     some page is always on screen to scroll with (`svh`, so the height doesn't jump when the
     browser's toolbars slide).
   - A place opens as a sheet from the bottom
-    (nearly full height); its content scrolls on its own, "Add to my trip" and "Close" stay in
+    (nearly full height); its content scrolls on its own, "Add to my tour" and "Close" stay in
     reach, and the page behind does not scroll.
-  - The trip is a slim one-row bar at the bottom of the map ("Your trip · 2 places · 5 days"
+  - The trip is a slim one-row bar at the bottom of the map ("Your tour · 2 places · 5 days"
     and "Finish planning"), clear of the screen's safe area; it opens to show the starting
     point and the places. The zoom buttons and the credits sit above it. The header's "Your
-    trip" button jumps back to it from anywhere on the page.
+    tour" button jumps back to it from anywhere on the page.
   - Once a place is in the trip, the big heading is hidden (it stays in the page for screen
     readers) so the island and the drawer both fit.
   - The filter chips form one swipeable row.
@@ -426,9 +426,9 @@ through partners (owner, November 2026), and guests don't need that detail.
 - **Review step:**
   - Chosen experiences appear under their place, each with a × to remove it.
   - Experiences at places that are no longer in the route are kept under "Also interested in ·
-    places not in your route", with an "Add … to my trip" button. Removing a place never
+    places not in your route", with an "Add … to my tour" button. Removing a place never
     discards its experiences, and the message says so.
-  - "Clear trip" (in the trip panel) asks first, then empties everything.
+  - "Clear tour" (in the trip panel) asks first, then empties everything.
 - **Saved with the trip:** selections are stored in the browser with the rest of the trip.
 - **Quote request:** the summary and the WhatsApp/email message list experiences under
   each destination, plus an "Also interested in (not in the route yet)" group. With
@@ -639,7 +639,7 @@ The site is laid out for phones first and tested at 320, 375, 390, 430, 768, 102
 - **Long guides:** an "On this page" list (collapsed) links to every section; guide `##`
   headings get ids in the build, and `npm run check` fails on any in-page link that doesn't
   resolve. Body text is capped at about 70 characters per line.
-- **Phone action bar:** on place and experience pages, a slim bar ("Add to your trip" /
+- **Phone action bar:** on place and experience pages, a slim bar ("Add to my tour" /
   "Ask us") appears once the hero's buttons have scrolled away and hides again at the closing
   "Plan a private tour" band and the footer. Desktop never shows it.
 - **Place cards** become a compact row (thumbnail beside the text) under 560 px, and their

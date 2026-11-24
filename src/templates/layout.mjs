@@ -79,7 +79,7 @@ export function brand(ctx, tag = 'a') {
   return tag === 'a' ? `<a class="brand" href="${u('/')}">${inner}</a>` : `<span class="brand">${inner}</span>`;
 }
 
-export function header(ctx, right = `<a class="top-link" href="${ctx.u('/')}"><span>Plan<span class="tl-x"> your</span> trip</span></a>`) {
+export function header(ctx, right = `<a class="top-link" href="${ctx.u('/')}"><span>Plan<span class="tl-x"> my</span> tour</span></a>`) {
   return `<header class="top">
   ${brand(ctx)}
   <div class="top-r">${right}${menu(ctx)}</div>
@@ -103,7 +103,7 @@ export function menu(ctx) {
   return `<details class="menu">
     <summary class="menu-btn">${ICON_MENU}<span class="menu-lbl">Menu</span><span class="sr-only"> (site menu)</span></summary>
     <nav class="menu-p" aria-label="Site menu">
-      <div class="menu-act"><a class="btn primary" href="${u('/')}#tour">Plan a tour on the map</a><a class="btn primary" href="${u('/')}#transfer">Airport transfers</a></div>
+      <div class="menu-act"><a class="btn primary" href="${u('/')}#tour">Plan my tour</a><a class="btn primary" href="${u('/')}#transfer">Request my transfer</a></div>
       <div class="menu-gs">${places.join('')}${guides}${contact}</div>
     </nav>
   </details>`;
@@ -133,7 +133,7 @@ export function footer(ctx) {
     <div>
       <h2>Contact</h2>
       <ul>
-        <li><a href="${waLink(ctx, `Hello ${site.name}, I’d like to ask about a private tour of Sri Lanka.`)}" rel="noopener" target="_blank">WhatsApp ${esc(site.contact.phone)}</a></li>
+        <li><a href="${waLink(ctx, `Hello ${site.name}, I’d like to ask about a private tour or transfer in Sri Lanka.`)}" rel="noopener" target="_blank">WhatsApp ${esc(site.contact.phone)}</a></li>
         <li><a href="mailto:${esc(site.contact.email)}">${esc(site.contact.email)}</a></li>
         ${site.address ? `<li>Based in ${esc([site.address.locality, site.address.countryName].filter(Boolean).join(', '))}</li>` : ''}
       </ul>

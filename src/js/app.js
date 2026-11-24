@@ -1047,7 +1047,7 @@ function toggleExp(id, on) {
   if (on === S.exps.includes(id)) return;
   S.exps = on ? [...S.exps, id] : S.exps.filter((x) => x !== id);
   update();
-  toast(`${X[id].name} ${on ? 'added to' : 'removed from'} your trip`);
+  toast(`${X[id].name} ${on ? 'added to' : 'removed from'} your tour`);
 }
 // Places with selected experiences: in route order, then those not (or no longer) in the route.
 function expGroups() {
@@ -1074,8 +1074,8 @@ function renderCardState() {
     const n = draft ? draft.size : expsAt(d.id).length;
     $('#dcExpSel').textContent = n ? `${n} selected` : '';
     $('#dcExpNote').textContent = draft
-      ? `Tick what you’d like to do. Your choices are kept when you add ${d.name} to your trip. Choosing one isn’t a booking, and it doesn’t change your route.`
-      : 'Ticked experiences are part of your trip request. Choosing one isn’t a booking, and it doesn’t change your route.';
+      ? `Tick what you’d like to do. Your choices are kept when you add ${d.name} to your tour. Choosing one isn’t a booking, and it doesn’t change your route.`
+      : 'Ticked experiences are part of your tour request. Choosing one isn’t a booking, and it doesn’t change your route.';
   }
   const idx = S.stops.findIndex((s) => s.id === d.id);
   let from = null,
@@ -1100,8 +1100,8 @@ function renderCardState() {
     `<div><dt>${idx > -1 ? 'Your stay' : 'Suggested stay'}</dt><dd>${nightsTxt(idx > -1 ? S.stops[idx].nights : d.nights)}</dd></div>${leg ? `<div><dt>From ${esc(fromL)}</dt><dd>~${fmtDur(leg.min)} drive (est.)</dd></div>` : ''}`;
   $('#dcActions').innerHTML =
     idx > -1
-      ? `<span class="in-trip"><i>${idx + 1}</i>In your trip</span><button type="button" class="btn ghost" data-act="remove">Remove from my trip</button>${close(true)}`
-      : `${close(false)}<button type="button" class="btn primary" data-act="add">Add to my trip</button>`;
+      ? `<span class="in-trip"><i>${idx + 1}</i>In your tour</span><button type="button" class="btn ghost" data-act="remove">Remove from my tour</button>${close(true)}`
+      : `${close(false)}<button type="button" class="btn primary" data-act="add">Add to my tour</button>`;
 }
 // "Add to my trip": the place joins the trip with whatever was ticked, and the dialog closes.
 function addFromCard() {
@@ -1166,7 +1166,7 @@ function addStop(id) {
   if (S.stops.some((s) => s.id === id)) return;
   S.stops.push({ id, nights: D[id].nights });
   update();
-  toast(`${D[id].name} added to your trip!`);
+  toast(`${D[id].name} added to your tour`);
 }
 function removeStop(id) {
   const d = D[id];
@@ -1174,7 +1174,7 @@ function removeStop(id) {
   update();
   // Changed: experiences chosen there are kept (the review step lists them as "also interested in"), never dropped silently.
   const n = expsAt(id).length;
-  toast(n ? `${d.name} removed · ${n === 1 ? 'its experience stays' : `its ${n} experiences stay`} in your request as “also interested in”` : `${d.name} removed from your trip`);
+  toast(n ? `${d.name} removed · ${n === 1 ? 'its experience stays' : `its ${n} experiences stay`} in your request as “also interested in”` : `${d.name} removed from your tour`);
 }
 // Added: move a place one step earlier or later in the route.
 function moveStop(id, by) {
@@ -1240,14 +1240,14 @@ function optimise() {
 }
 $('#optBtn').onclick = optimise;
 $('#tripClear').onclick = () => {
-  if (!window.confirm('Clear your trip? This removes your places, experiences and starting point.')) return;
+  if (!window.confirm('Clear your tour? This removes your places, experiences and starting point.')) return;
   S.stops = [];
   S.exps = [];
   S.pickup = null;
   S.start = '';
   pkErr = false;
   update();
-  toast('Trip cleared');
+  toast('Tour cleared');
 };
 
 /* trip panel (added): the compact itinerary, shown once a place is in the trip */
@@ -1303,7 +1303,7 @@ function renderStops() {
     .map((s, i) => {
       const d = D[s.id],
         k = expsAt(s.id).length;
-      return `<li class="tl-i"><span class="num">${i + 1}</span><span class="tl-b"><button type="button" class="tl-n" data-open="${d.id}">${d.name}</button><span class="tl-s">${nightsTxt(s.nights)}${k ? ` · ${k} ${k === 1 ? 'experience' : 'experiences'}` : ''}</span></span><span class="tl-a"><button type="button" class="mv" data-mv="${d.id}" data-d="-1" aria-label="Move ${esc(d.name)} earlier"${i ? '' : ' disabled'}>↑</button><button type="button" class="mv" data-mv="${d.id}" data-d="1" aria-label="Move ${esc(d.name)} later"${i < n - 1 ? '' : ' disabled'}>↓</button><button type="button" class="rm" data-rm="${d.id}" aria-label="Remove ${esc(d.name)} from your trip">×</button></span></li>`;
+      return `<li class="tl-i"><span class="num">${i + 1}</span><span class="tl-b"><button type="button" class="tl-n" data-open="${d.id}">${d.name}</button><span class="tl-s">${nightsTxt(s.nights)}${k ? ` · ${k} ${k === 1 ? 'experience' : 'experiences'}` : ''}</span></span><span class="tl-a"><button type="button" class="mv" data-mv="${d.id}" data-d="-1" aria-label="Move ${esc(d.name)} earlier"${i ? '' : ' disabled'}>↑</button><button type="button" class="mv" data-mv="${d.id}" data-d="1" aria-label="Move ${esc(d.name)} later"${i < n - 1 ? '' : ' disabled'}>↓</button><button type="button" class="rm" data-rm="${d.id}" aria-label="Remove ${esc(d.name)} from your tour">×</button></span></li>`;
     })
     .join('');
 }
@@ -1418,11 +1418,11 @@ const guide = $('#guide');
 const GUIDE = {
   home: guide.innerHTML, // the main page, as it was built
   // tour planner
-  s1: 'Start by selecting a destination on the map to explore what you can experience there.',
-  s2: 'Great! Now select another destination, or <button type="button" class="linkbtn" data-start>set your starting point</button>.',
-  s3: 'Add more places from the map, or choose <b>Finish planning</b> when your trip looks right.',
+  s1: 'Start by choosing a place on the map to see what you can do there.',
+  s2: 'Great! Now choose another place, or <button type="button" class="linkbtn" data-start>set your starting point</button>.',
+  s3: 'Add more places from the map, or choose <b>Finish planning</b> when your tour looks right.',
   // airport shuttle
-  t0: 'Choose your pickup and drop-off locations to request your private airport transfer.',
+  t0: 'Choose your pickup and drop-off, from the list or on the map.',
   ta: 'Now choose your drop-off location, from the list or on the map.',
   tb: 'Now choose your pickup location, from the list or on the map.',
   t2: 'Your transfer is set. Choose <b>Continue</b> to add your travel details.',
@@ -1533,7 +1533,7 @@ function expOutsideHtml() {
   const { outside } = expGroups();
   if (!outside.length) return '';
   return `<div class="exp-out"><p class="tagl">Also interested in · places not in your route</p>${outside
-    .map((id) => `<div class="exp-out-g"><div class="exp-out-h"><span class="rv-nm">${D[id].name}</span><button type="button" class="linkbtn" data-addstop="${id}">Add ${D[id].name} to my trip</button></div>${expListHtml(id)}</div>`)
+    .map((id) => `<div class="exp-out-g"><div class="exp-out-h"><span class="rv-nm">${D[id].name}</span><button type="button" class="linkbtn" data-addstop="${id}">Add ${D[id].name} to my tour</button></div>${expListHtml(id)}</div>`)
     .join('')}</div>`;
 }
 const stopWhen = (r) => (!S.start ? dayTxt(r) : r.s.nights ? `${fmtDs(dateAt(r.arrive))} – ${fmtDs(dateAt(r.depart))}` : fmtD(dateAt(r.arrive)));
@@ -1556,22 +1556,22 @@ function reviewSum() {
   const p = plan(),
     n = S.stops.length,
     k = S.exps.length;
-  return `<div><dt>Trip length</dt><dd>${daysTxt(p)}</dd></div><div><dt>You chose</dt><dd>${n} ${n === 1 ? 'place' : 'places'}${k ? `, ${k} ${k === 1 ? 'experience' : 'experiences'}` : ''}</dd></div><div><dt>Driving (est.)</dt><dd>~${fmtDur(p.drive)} · ${p.km} km</dd></div>`;
+  return `<div><dt>Tour length</dt><dd>${daysTxt(p)}</dd></div><div><dt>You chose</dt><dd>${n} ${n === 1 ? 'place' : 'places'}${k ? `, ${k} ${k === 1 ? 'experience' : 'experiences'}` : ''}</dd></div><div><dt>Driving (est.)</dt><dd>~${fmtDur(p.drive)} · ${p.km} km</dd></div>`;
 }
 function openReview() {
   showModal(
     `<div class="modal rv" role="dialog" aria-modal="true" aria-labelledby="mTitle" aria-describedby="mLede"><button type="button" class="m-close" data-close aria-label="Close">×</button>
  <div class="rv-body">
   <p class="m-step">Step 1 of 2 · Review</p>
-  <h2 id="mTitle" tabindex="-1">Your Sri Lanka trip is taking shape!</h2>
-  <p class="rv-lede" id="mLede">Review your selected destinations and tell us a little about your travel plans. We’ll help you arrange your private experience.</p>
-  <h3 class="tagl">Your selected destinations</h3>
+  <h2 id="mTitle" tabindex="-1">Your Sri Lanka tour is taking shape!</h2>
+  <p class="rv-lede" id="mLede">Check your places and nights. Next, tell us when you’d like to travel, and we’ll send you a quote.</p>
+  <h3 class="tagl">Your places</h3>
   <div class="rv-route" id="rvRoute">${reviewRoute()}</div>
   <dl class="rv-sum" id="rvSum">${reviewSum()}</dl>
-  <p class="hint">Drive times and distances are rough estimates, not guaranteed journey times (${OSM_CREDIT}). You can change the nights here; to add, remove or reorder places, choose “Edit my trip”.</p>
+  <p class="hint">Drive times and distances are rough estimates, not guaranteed journey times (${OSM_CREDIT}). You can change the nights here; to add, remove or reorder places, choose “Edit my tour”.</p>
   <div id="rvOut">${expOutsideHtml()}</div>
  </div>
- <div class="rv-foot"><button type="button" class="btn ghost" data-act="edit">Edit my trip</button><button type="button" class="btn primary" data-act="details">Continue</button></div></div>`,
+ <div class="rv-foot"><button type="button" class="btn ghost" data-act="edit">Edit my tour</button><button type="button" class="btn primary" data-act="details">Continue</button></div></div>`,
     '#mTitle',
   );
 }
@@ -1594,7 +1594,7 @@ function openDetails() {
   const v = (k) => esc(qd[k]);
   showModal(
     `<div class="modal dt" role="dialog" aria-modal="true" aria-labelledby="mTitle">
- <div class="m-sum"><p class="eyebrow">Your trip</p><h3>${p.nights + 1} ${p.nights ? 'days' : 'day'} in Sri Lanka</h3>
+ <div class="m-sum"><p class="eyebrow">Your tour</p><h3>${p.nights + 1} ${p.nights ? 'days' : 'day'} in Sri Lanka</h3>
   <ol class="m-stops">${p.rows.map((r) => `<li><span class="n">${String(r.i + 1).padStart(2, '0')}</span><span class="nm">${r.d.name}</span><span class="dt">${nightsTxt(r.s.nights)}</span>${mExp(r.d.id)}</li>`).join('')}</ol>${mAlso()}
   <dl class="m-facts"><div><dt>Starting point</dt><dd>${esc(pickupLabel())}</dd></div><div><dt>Driving (est.)</dt><dd>~${fmtDur(p.drive)} · ${p.km} km</dd></div></dl></div>
  <form class="m-form" id="qform" novalidate><button type="button" class="m-close" data-close aria-label="Close">×</button>
@@ -1611,7 +1611,7 @@ function openDetails() {
   <label class="fl"><span>Country of residence (optional)</span><div class="field"><input name="country" autocomplete="country-name" value="${v('country')}"></div></label></div>
   <div class="fl"><span id="hotelLbl">Hotels (optional)</span><div class="seg" id="hotelSeg" role="group" aria-labelledby="hotelLbl">${['Budget', 'Mid-range', 'Luxury', 'I’ll book my own'].map((h) => `<button type="button" class="${h === hotel ? 'on' : ''}" aria-pressed="${h === hotel}">${h}</button>`).join('')}</div></div>
   <label class="fl"><span>Anything else? (optional)</span><textarea name="notes" placeholder="Flight times, interests, dietary needs…">${v('notes')}</textarea></label>
-  <div class="m-acts"><button type="button" class="btn ghost" data-act="review">Back</button><button class="btn primary" type="submit">Send my trip request</button></div></form></div>`,
+  <div class="m-acts"><button type="button" class="btn ghost" data-act="review">Back</button><button class="btn primary" type="submit">Send my tour request</button></div></form></div>`,
     '#mTitle',
   );
   renderGuests();
@@ -1760,14 +1760,14 @@ async function submitQuote(e) {
     return done(
       `Request ${ref}`,
       `Thank you, ${first}.`,
-      `Your trip request has been sent to our travel planners. We’ll reply to <b>${esc(data.email)}</b> with a quote and our suggestions. Nothing is booked yet.`,
+      `Your tour request has been sent to our travel planners. We’ll reply to <b>${esc(data.email)}</b> with a quote and our suggestions. Nothing is booked yet.`,
       BACK_BTN,
     );
   }
   done(
     `Request ${ref}`,
     `Nearly done, ${first}.`,
-    `Your trip request is ready. Choose how to send it: nothing is sent or booked until you press send on WhatsApp or in your email app. We’ll then reply with a quote and our suggestions.`,
+    `Your tour request is ready. Choose how to send it: nothing is sent or booked until you press send on WhatsApp or in your email app. We’ll then reply with a quote and our suggestions.`,
     handoffBtns(links),
   );
 }
@@ -1861,8 +1861,8 @@ const ovEb = $('.overlay .eyebrow'),
   ovH = $('.overlay h1');
 const COPY = {
   home: { eb: ovEb.innerHTML, h: ovH.innerHTML }, // as the page was built
-  tour: { eb: `Build your Sri Lanka trip · ${DESTS.length} places`, h: 'Let’s plan your Sri Lanka <em>experience.</em>' },
-  shuttle: { eb: 'Airport shuttle and private transfers', h: 'Where would you like <em>to go?</em>' },
+  tour: { eb: `Plan your private tour · ${DESTS.length} places`, h: 'Let’s plan your Sri Lanka <em>tour.</em>' },
+  shuttle: { eb: 'Private transfers · airport and island-wide', h: 'Where would you like <em>to go?</em>' },
 }; // the line under the heading: see renderGuide()
 const travTxt = () =>
   `${S.adults} ${S.adults === 1 ? 'adult' : 'adults'}${S.children ? `, ${S.children} ${S.children === 1 ? 'child' : 'children'}` : ''}`;
@@ -2089,7 +2089,7 @@ function openTrDetails() {
   <label class="fl"><span>Flight number or details (optional)</span><div class="field"><input name="flight" autocomplete="off" placeholder="e.g. UL 504, lands 08:30" value="${v('flight')}"></div></label></div>
   <label class="fl"><span>Luggage (optional)</span><div class="field"><input name="luggage" autocomplete="off" placeholder="e.g. 2 large suitcases, 1 surfboard" value="${v('luggage')}"></div></label>
   <label class="fl"><span>Anything else? (optional)</span><textarea name="tnotes" placeholder="Hotel name, child seats, special requests…">${v('tnotes')}</textarea></label>
-  <div class="m-acts"><button type="button" class="btn ghost" data-act="tr-edit">Edit locations</button><button class="btn primary" type="submit">Review request</button></div></form></div>`,
+  <div class="m-acts"><button type="button" class="btn ghost" data-act="tr-edit">Edit locations</button><button class="btn primary" type="submit">Review my request</button></div></form></div>`,
     '#mTitle',
   );
   renderTrPax();
@@ -2103,20 +2103,19 @@ function renderTrPax() {
 }
 // Step 2 of 2: everything in one list, then the request goes out.
 function openTrReview() {
-  const leg = trLeg(),
-    word = isAir('from') || isAir('to') ? 'Airport' : 'Private';
+  const leg = trLeg();
   const row = (dt, dd) => `<div><dt>${dt}</dt><dd>${dd}</dd></div>`;
   const opt = (dt, val) => (val.trim() ? row(dt, esc(val.trim())) : '');
   showModal(
     `<div class="modal rv tr" role="dialog" aria-modal="true" aria-labelledby="mTitle" aria-describedby="mLede"><button type="button" class="m-close" data-close aria-label="Close">×</button>
  <div class="rv-body">
   <p class="m-step">Step 2 of 2 · Review and send</p>
-  <h2 id="mTitle" tabindex="-1">Your ${word} Transfer Request</h2>
+  <h2 id="mTitle" tabindex="-1">Your transfer request</h2>
   <p class="rv-lede" id="mLede">Please check your details. ${SITE.quoteEndpoint ? '' : 'On the next screen you send the request to us on WhatsApp or by email. '}We’ll confirm availability and send you a quotation. Nothing is booked until you confirm it with us.</p>
   <dl class="tr-rev">${row('Pickup location', `<b class="ab" aria-hidden="true">A</b>${esc(trFull('from'))}`)}${row('Drop-off location', `<b class="ab" aria-hidden="true">B</b>${esc(trFull('to'))}`)}${row('Date', S.tr.date ? fmtLong(dayOf(S.tr.date)) : 'To be confirmed')}${row('Preferred pickup time', S.tr.time || 'To be confirmed')}${row('Passengers', S.tr.pax)}${opt('Flight', qd.flight)}${opt('Luggage', qd.luggage)}${opt('Notes', qd.tnotes)}${row('Name', esc(qd.name.trim()))}${row('Email', esc(qd.email.trim()))}${row('WhatsApp / phone', esc(qd.phone.trim()))}</dl>
   <p class="hint">Estimated drive: about ${fmtDur(leg.min)}, ${leg.km} km (${OSM_CREDIT}). We’ll recommend a vehicle for your group and luggage.</p>
  </div>
- <div class="rv-foot"><button type="button" class="btn ghost" data-act="tr-details">Edit details</button><button type="button" class="btn primary" data-act="tr-send">Request ${word} Transfer</button></div></div>`,
+ <div class="rv-foot"><button type="button" class="btn ghost" data-act="tr-details">Edit details</button><button type="button" class="btn primary" data-act="tr-send">Send my transfer request</button></div></div>`,
     '#mTitle',
   );
 }
@@ -2148,6 +2147,7 @@ async function sendTransfer(btn) {
   if (sending) return;
   const ref = newRef('SL-T-');
   const data = { name: qd.name.trim(), email: qd.email.trim(), phone: qd.phone.trim(), country: '', notes: qd.tnotes.trim() };
+  const first = esc(data.name.split(' ')[0]);
   const text = transferText(ref, data);
   const subject = `${isAir('from') || isAir('to') ? 'Airport' : 'Private'} transfer request ${ref}`;
   const links = reqLinks(text, subject);
@@ -2162,8 +2162,8 @@ async function sendTransfer(btn) {
     if (!ok) return;
     return done(
       `Request ${ref}`,
-      'Thank you! Your transfer request has been sent.',
-      `We’ll review your details and contact you to confirm availability and provide a quotation. We’ll reply to <b>${esc(data.email)}</b>. Nothing is booked yet.`,
+      `Thank you, ${first}.`,
+      `Your transfer request has been sent. We’ll review your details and contact you to confirm availability and provide a quotation. We’ll reply to <b>${esc(data.email)}</b>. Nothing is booked yet.`,
       BACK_BTN,
     );
   }
@@ -2214,7 +2214,7 @@ update();
 document.documentElement.classList.add('map-ready');
 if (S.mode === 'tour' && !S.stops.length) hintPins(); // step 1 of the tour: the markers are the next action
 if (S.mode === 'shuttle' && S.tr.from && S.tr.to) viewTransfer(); // a transfer in progress: show it
-if (staleDates) setTimeout(() => toast('The dates in your saved trip have passed, so we cleared them'), 600);
+if (staleDates) setTimeout(() => toast('The dates in your saved tour have passed, so we cleared them'), 600);
 
 // Added: deep links. /#tour and /#transfer (the site menu) open a service directly. From place
 // pages: /#add=<id> adds the place and shows the trip panel, /#place=<id> opens its dialog,

@@ -182,10 +182,10 @@ function planBand(ctx, d) {
   <div class="sect">
     <div>
       <h2 id="planH">Plan a private tour with ${esc(d.name)}</h2>
-      <p>Add ${esc(d.name)} to your route on the map, choose your pickup point and dates, then request a quote for a private trip with your own driver.</p>
+      <p>Add ${esc(d.name)} to your route on the map, choose your pickup point and dates, then request a quote for a private tour with your own driver.</p>
     </div>
     <div class="row">
-      <a class="btn primary" href="${ctx.u('/')}#add=${d.id}">Add ${esc(d.name)} to your trip</a>
+      <a class="btn primary" href="${ctx.u('/')}#add=${d.id}">Add ${esc(d.name)} to my tour</a>
       <a class="btn ghost" href="${ctx.u('/')}#place=${d.id}">See it on the map</a>
     </div>
   </div>
@@ -227,7 +227,7 @@ export function placePage(ctx, d, content) {
       <h1 id="h1">${esc(content.h1 || d.name)}</h1>
       <p class="lede">${esc(content.intro || d.desc)}</p>
       <div class="ph-cta">
-        <a class="btn primary" href="${ctx.u('/')}#add=${d.id}">Add ${esc(d.name)} to your trip</a>
+        <a class="btn primary" href="${ctx.u('/')}#add=${d.id}">Add ${esc(d.name)} to my tour</a>
         <a class="btn ondark" href="${esc(ask)}" target="_blank" rel="noopener">Ask about a private tour</a>
       </div>
     </div>
@@ -275,7 +275,7 @@ ${ts.length ? `<section class="paper" aria-labelledby="toursH"><div class="sect"
     </ul>
   </div>
 </section>
-${actionBar(`<a class="btn primary" href="${ctx.u('/')}#add=${d.id}">Add to your trip</a>`, ask)}
+${actionBar(`<a class="btn primary" href="${ctx.u('/')}#add=${d.id}">Add to my tour</a>`, ask)}
 </main>`;
 
   const place = {
@@ -329,7 +329,7 @@ export function activityPage(ctx, a) {
       <p class="lede">${esc(a.intro || e.shortDescription)}</p>
       <div class="ph-cta">
         <a class="btn primary" href="${ctx.u('/')}#exp=${e.id}">Choose it on the map</a>
-        <a class="btn ondark" href="${ctx.u('/')}#add=${d.id}">Add ${esc(d.name)} to your trip</a>
+        <a class="btn ondark" href="${ctx.u('/')}#add=${d.id}">Add ${esc(d.name)} to my tour</a>
       </div>
     </div>
     ${gallery(a.h1 || e.name, slides)}

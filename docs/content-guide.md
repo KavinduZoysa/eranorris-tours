@@ -144,3 +144,28 @@ of these hold. The build enforces each one:
 
 Preview drafts with `npm run build:staging && npm run serve`. Production draft pages show only
 the design summary, the photos, the experience cards and the planner links.
+
+## Wording for the interface
+
+These rules apply to every piece of text a visitor can see in the interface (headings, buttons,
+tabs, menu items, `aria-label`s, toasts, `window.confirm` messages and the no-JavaScript
+fallback). They do not apply to identifiers, owner-facing request messages or the guides
+themselves.
+
+1. **One word per thing.**
+   - The tour service and the visitor's plan are both a **tour** (never "trip" or "experience"
+     for the whole thing).
+   - The second service is a **transfer** (never "shuttle"). In the interface, call it
+     "transfer" or "private transfer". Keep "airport transfer" for the SEO places listed below.
+   - A destination on the map is a **place** (never "destination" in visible text).
+   - **Experience** means only a things-to-do add-on.
+2. **Headings and body text speak to the visitor ("your"); buttons speak as the visitor
+   ("my").** For example, "Plan your private Sri Lanka tour" as a heading and "Plan my tour" as
+   the button.
+3. **Sentence case** for all headings, buttons, tabs and menu items. Only proper nouns are
+   capitalised.
+4. **Verbs follow what actually happens: plan → request → quote.** Never "book": nothing is
+   booked until the visitor confirms with us. Keep the "Nothing is booked…" sentences.
+
+**SEO note:** keep "private tour(s)" and "airport transfer(s)" in the homepage title, H1, meta
+description and card headings; use the plain words "tour" and "transfer" in the interface.

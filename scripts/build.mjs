@@ -482,10 +482,10 @@ async function emit(p, { published = true } = {}) {
 
 await emit({
   path: '/',
-  title: `Private Tours in Sri Lanka with Your Own Driver | ${site.name}`,
-  ogTitle: `Plan a private tour of Sri Lanka, one stop at a time | ${site.name}`,
+  title: `Private Tours & Airport Transfers in Sri Lanka | ${site.name}`,
+  ogTitle: `Plan a private tour or airport transfer in Sri Lanka | ${site.name}`,
   description:
-    'Plan a private tour of Sri Lanka on an interactive map, or request a private airport transfer. Pick places like Sigiriya, Kandy, Ella and Galle and get a quote.',
+    'Plan a private tour of Sri Lanka with your own driver, or request an airport or city-to-city transfer. Pick Sigiriya, Kandy, Ella and more, and get a quote.',
   css: 'home',
   bodyClass: 'home',
   header: '',
@@ -501,7 +501,7 @@ await emit({
       name: site.name,
       url: abs('/'),
       description:
-        'Private tours of Sri Lanka with your own driver. Pick places on the map, choose where we collect you and when, and we’ll send a quote.',
+        'Private tours of Sri Lanka and airport and city-to-city transfers, with your own driver. Choose your places, or your pickup and drop-off, and we’ll send a quote.',
       image: abs(photos.sigiriya.og),
       telephone: '+' + site.contact.phone.replace(/\D/g, ''),
       email: site.contact.email,
@@ -514,6 +514,14 @@ await emit({
         },
       }),
       areaServed: { '@type': 'Country', name: 'Sri Lanka' },
+      hasOfferCatalog: {
+        '@type': 'OfferCatalog',
+        name: 'Private travel in Sri Lanka',
+        itemListElement: [
+          { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Private tours of Sri Lanka', serviceType: 'Private tour', areaServed: { '@type': 'Country', name: 'Sri Lanka' } } },
+          { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Airport and private transfers in Sri Lanka', serviceType: 'Airport transfer', areaServed: { '@type': 'Country', name: 'Sri Lanka' } } },
+        ],
+      },
     },
     {
       '@context': 'https://schema.org',
