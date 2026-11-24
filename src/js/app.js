@@ -5,6 +5,10 @@
 //   Airport shuttle  choose a pickup (A) and a drop-off (B), from the lists or the map →
 //                    "Finish planning" → review → details → send (the same two steps as a tour).
 //
+// Phones (up to 600px wide) run the same two services on a full-height map with a sheet over
+// its lower part: places are dots, and a place opens as a dialog, as on wider screens.
+// See "Phones" near the end of this file.
+//
 // The main page shows both as cards; S.mode says which view is on screen ('home', 'tour' or
 // 'shuttle'). The tour's state (S.stops, S.pickup, S.exps, …) and the transfer's state (S.tr)
 // are kept apart and never change each other. See "Guided trip planner" and "Airport shuttle"
@@ -24,6 +28,13 @@ const KEY = 'eranorris-trip-v1';
 const $ = (s) => document.querySelector(s);
 const app = $('.app'),
   trip = $('#trip');
+// Phones (added): up to 600px wide the page is a full-height map with a sheet over its lower
+// part. See "Phones" near the end of this file, and in src/styles/app.css.
+const phoneMq = window.matchMedia('(max-width: 600px)');
+const phone = () => phoneMq.matches;
+const sheet = $('#sheet'); // the place cards
+let browsing = false, // the place cards are showing although a trip has been started
+  focusId = null; // the place whose card is in view: its marker shows its photo
 // localStorage can be unavailable (private mode, blocked storage): never let that break the planner.
 const store = {
   get() {
@@ -143,7 +154,8 @@ function toast(t) {
   // (its buttons are at the bottom); just above the trip drawer on stacked layouts.
   const dlg = !card.hidden || !mbg.hidden;
   el.classList.toggle('top', dlg);
-  const r = !dlg && !trip.hidden && trip.classList.contains('drawer') ? trip.getBoundingClientRect() : null;
+  const box = dlg ? null : phone() ? sheetEl() : !trip.hidden && trip.classList.contains('drawer') ? trip : null; // phones: any sheet
+  const r = box && box.offsetParent !== null ? box.getBoundingClientRect() : null;
   // (+26: a 12px gap, and the drawer may still be sliding up its last 14px.)
   el.style.bottom = r && r.top < window.innerHeight && r.bottom > 0 ? Math.max(28, window.innerHeight - r.top + 26) + 'px' : '';
   el.textContent = t;
@@ -179,6 +191,23 @@ const map = L.map('map', {
   ],
   maxBoundsViscosity: 0.8,
 });
+// Phones: a sheet covers the lower part of the map, so the island has to sit higher than the
+// limits above allow, and on short screens it has to be a little smaller.
+function mapLimits() {
+  map.setMinZoom(phone() ? 5 : 6);
+  map.setMaxBounds(
+    phone()
+      ? [
+          [-12, 62],
+          [22, 99],
+        ]
+      : [
+          [1.5, 70],
+          [15.5, 91],
+        ],
+  );
+}
+mapLimits();
 const zoomCtl = L.control.zoom({ position: 'bottomright' }).addTo(map);
 // Added: wording follows the input device ("Tap" on touch screens).
 const TAP = coarse ? 'Tap' : 'Click';
@@ -205,7 +234,7 @@ const MAPC = {
   neighbour: tok('--map-neighbour', '#173A35'),
   coast: tok('--map-coast', '#D9A441'),
 };
-const grat = { pane: 'land', color: MAPC.line, weight: 1, opacity: 0.05, interactive: false };
+const grat = { pane: 'land', color: MAPC.line, weight: 1, opacity: 0.05, interactive: false, className: 'grat' };
 // Changed: graticule extended to match the wider bounds.
 for (let la = 0; la <= 17; la += 0.5)
   L.polyline(
@@ -334,7 +363,7 @@ const isNarrow = () => window.innerWidth <= 900;
 // Added: phones in landscape use the side-by-side overlay (as on desktop) — see app.css. Not for
 // the airport shuttle: its card needs the width, so it stays above the map there too.
 const sideLayout = window.matchMedia('(max-width: 900px) and (max-height: 500px) and (orientation: landscape)');
-const stacked = () => window.innerWidth <= 1100 && !(sideLayout.matches && S.mode !== 'shuttle');
+const stacked = () => phone() || (window.innerWidth <= 1100 && !(sideLayout.matches && S.mode !== 'shuttle')); // (phones always: their sheets lie along the bottom)
 function padL() {
   if (stacked()) return 0;
   const o = document.querySelector('.overlay');
@@ -349,12 +378,26 @@ function padR() {
 }
 // Room at the bottom for the credits line and the lowest markers (and the closed trip drawer).
 // Crowded markers are pushed apart, so the southern ones can sit a little below their true place.
+// Phones: the sheet that is on screen now, and how much of the map it covers.
+function sheetEl() {
+  if (S.mode !== 'tour') return document.querySelector('.overlay'); // the two services, or the transfer card
+  return !trip.hidden ? trip : sheet;
+}
+function sheetH() {
+  const el = phone() ? sheetEl() : null; // (only phones have sheets)
+  if (!el || el.offsetParent === null) return 0;
+  // The trip can be opened to its full list; the map is fitted to its closed height.
+  const h = el === trip ? trip.offsetHeight - (tripBody.hidden ? 0 : tripBody.offsetHeight) : el.offsetHeight;
+  return Math.min(h, mapwrap.offsetHeight * 0.62);
+}
 function padB() {
   if (!stacked()) return 30;
+  if (phone()) return sheetH() + 44; // the sheet, and the credits line above it
   return trip.hidden ? 44 : Math.min(trip.offsetHeight, 150) + 62;
 }
 function padT() {
   if (!stacked()) return 30;
+  if (phone() && S.mode !== 'tour') return 70; // only the round buttons are up there
   if (S.mode === 'shuttle') return 20; // there the transfer card sits above the map, not over it (app.css)
   const o = document.querySelector('.overlay').getBoundingClientRect(),
     m = mapwrap.getBoundingClientRect();
@@ -363,7 +406,7 @@ function padT() {
 // How the current view came about. 'overview': the whole island, refitted when the layout
 // changes. 'route': zoomed to a transfer's two locations; changing or clearing one (or
 // switching service) puts the overview back. 'user': the visitor panned or zoomed, so the app
-// leaves it. Opening a place never moves the map: it opens as a dialog over it.
+// leaves it.
 let view = 'overview';
 function fit() {
   view = 'overview';
@@ -377,7 +420,7 @@ function fit() {
       [5.92, 79.68],
       [9.83, 81.88],
     ],
-    S.mode === 'home'
+    S.mode === 'home' && !phone()
       ? { paddingTopLeft: [24, 24], paddingBottomRight: [24, 24] } // a backdrop behind the service cards
       : stacked()
         ? { paddingTopLeft: [16, padT()], paddingBottomRight: [16, padB()] }
@@ -430,7 +473,7 @@ DESTS.forEach((d, i) => {
   const m = L.marker([d.lat, d.lng], { icon, keyboard: true, title: d.name, riseOnHover: true }).addTo(map);
   // Changed: while dropping a pin, tapping a place puts the pin there (it used to do nothing,
   // which on phones made large parts of the map untappable in pin mode).
-  m.on('click', () => (picking ? map.fire('click', { latlng: L.latLng(d.lat, d.lng) }) : openDest(d.id)));
+  m.on('click', () => (picking ? map.fire('click', { latlng: L.latLng(d.lat, d.lng) }) : tapPlace(d.id)));
   // Added: markers are focusable (Leaflet) — make them announce properly and open with Enter/Space.
   const el = m.getElement();
   el.setAttribute('aria-label', `${d.name}, ${CATS[d.cat].label}: ${d.hl}`);
@@ -458,6 +501,10 @@ AIRPORT_IDS.forEach((id) => {
   airMarkers[id] = m;
 });
 function renderPins() {
+  // Phones: places are dots until the map is zoomed in (ZIN); see "Phones" below and app.css.
+  const ph = phone(),
+    zin = ph && map.getZoom() >= ZIN;
+  mapwrap.classList.toggle('zin', zin);
   DESTS.forEach((d) => {
     const el = markers[d.id].getElement();
     if (!el) return;
@@ -467,10 +514,13 @@ function renderPins() {
     pin.classList.toggle('in', idx > -1);
     pin.classList.toggle('sel', !!role);
     pin.classList.toggle('active', active === d.id);
+    const focus = ph && S.mode === 'tour' && focusId === d.id && !sheet.hidden;
+    pin.classList.toggle('focus', focus);
+    pin.classList.toggle('dot', ph && !zin && idx === -1 && !role && !focus && active !== d.id);
     // The category filter belongs to the tour planner; the other views show every place.
     pin.classList.toggle('off', S.mode === 'tour' && !(filter === 'all' || d.cat === filter || idx > -1 || active === d.id));
-    pin.querySelector('.no').textContent = idx > -1 ? idx + 1 : role ? TBADGE[role] : '';
-    markers[d.id].setZIndexOffset(active === d.id ? 2000 : idx > -1 ? 1000 : 0);
+    pin.querySelector('.no').textContent = idx > -1 ? idx + 1 : role ? tBadge(role) : '';
+    markers[d.id].setZIndexOffset(active === d.id ? 2000 : focus ? 1500 : idx > -1 ? 1000 : 0);
     // Added: filtered-out (invisible) markers leave the tab order.
     const off = pin.classList.contains('off');
     el.tabIndex = off ? -1 : 0;
@@ -502,6 +552,7 @@ function layoutPins() {
       y: p.y,
       idx,
       hs,
+      rr: pin.classList.contains('dot') ? 9 : pin.classList.contains('focus') ? 27 : R + 4, // its radius, with a small gap
       m: active === d.id ? 6 : idx > -1 || hs ? 3 : 1,
       pr: active === d.id ? 0 : idx > -1 || hs ? 1 : 2,
     });
@@ -521,26 +572,27 @@ function layoutPins() {
     if (!b.width) return; // a hidden label takes no room
     rects.push([a.x - 2, a.y - 2, a.x + b.width + 2, a.y + b.height + 2]);
   });
-  const r = R + 4;
   for (let it = 0; it < 90; it++) {
     items.forEach((a) => {
       a.x += (a.p.x - a.x) * 0.05;
       a.y += (a.p.y - a.y) * 0.05;
     });
     for (let i = 0; i < items.length; i++) {
-      const a = items[i];
+      const a = items[i],
+        r = a.rr;
       for (let j = i + 1; j < items.length; j++) {
-        const b = items[j];
+        const b = items[j],
+          gap = a.rr + b.rr;
         let dx = b.x - a.x,
           dy = b.y - a.y,
           dd = Math.hypot(dx, dy);
-        if (dd < 2 * r) {
+        if (dd < gap) {
           if (dd < 0.01) {
             dx = Math.cos(i * 2.4);
             dy = Math.sin(i * 2.4);
             dd = 1;
           }
-          const push = 2 * r - dd,
+          const push = gap - dd,
             ux = dx / dd,
             uy = dy / dd,
             wa = b.m / (a.m + b.m),
@@ -586,11 +638,12 @@ function layoutPins() {
       dy = a.y - a.p.y,
       len = Math.hypot(dx, dy);
     const med = a.pin.querySelector('.med'),
-      st = a.pin.querySelector('.stem');
+      st = a.pin.querySelector('.stem'),
+      ar = a.rr - 4;
     med.style.left = dx + 'px';
     med.style.top = dy + 'px';
-    a.pin.classList.toggle('moved', len > R * 0.5);
-    st.style.width = Math.max(0, len - R) + 'px';
+    a.pin.classList.toggle('moved', len > ar * 0.5);
+    st.style.width = Math.max(0, len - ar) + 'px';
     st.style.transform = `rotate(${Math.atan2(dy, dx)}rad)`;
   });
   placeLabels(items, R);
@@ -600,10 +653,12 @@ function placeLabels(items, R) {
     layoutPins();
     return;
   }
+  if (phone() && !mapwrap.classList.contains('zin')) return; // phones show no names at this zoom (app.css)
   const obst = [];
   const hit = (a, b) => a[0] < b[2] && a[2] > b[0] && a[1] < b[3] && a[3] > b[1];
   items.forEach((o) => {
-    const rd = R + 3;
+    const rd = o.rr - 1,
+      R = o.rr - 4;
     obst.push({ id: o.d.id, r: [o.x - rd, o.y - rd, o.x + rd, o.y + rd] });
     if (o.pin.classList.contains('moved'))
       obst.push({ id: o.d.id + 'p', r: [o.p.x - 5, o.p.y - 5, o.p.x + 5, o.p.y + 5] });
@@ -645,7 +700,7 @@ function placeLabels(items, R) {
     const l = o.pin.querySelector('.lbl'),
       w = l.offsetWidth,
       h = l.offsetHeight,
-      rd = R + 1,
+      rd = o.rr - 3,
       ox = o.x - o.p.x,
       oy = o.y - o.p.y;
     const C = {
@@ -714,7 +769,7 @@ function hideSeaLabels() {
   });
 }
 map.on('moveend', hideSeaLabels);
-map.on('zoomend', () => layoutPins());
+map.on('zoomend', () => (phone() ? renderPins() : layoutPins())); // phones: dots or photos depend on the zoom
 // Added: on stacked layouts the names are placed again after a pan or a refit too, as the
 // map's edges and the controls over it are then in different places relative to the markers.
 map.on('moveend', () => stacked() && layoutPins());
@@ -829,8 +884,10 @@ function renderChips() {
 $('#chips').addEventListener('click', (e) => {
   const b = e.target.closest('[data-f]');
   if (!b) return;
-  filter = b.dataset.f;
+  // Phones have no "All" chip: a second tap on the chosen filter shows every place again.
+  filter = phone() && filter === b.dataset.f ? 'all' : b.dataset.f;
   renderChips();
+  renderSheet();
   renderPins();
 });
 const q = $('#q'),
@@ -911,6 +968,9 @@ function pickResult(d, viaKeyboard) {
   q.blur();
   openDest(d.id, { ret: viaKeyboard ? q : null });
 }
+// Phones: a shorter hint, so it fits between the two round buttons.
+const Q_HINT = q.placeholder;
+if (phone()) q.placeholder = 'Search places';
 
 /* destination dialog */
 // Changed: a place opens as a dialog over a dimmed map (centred on wide screens, a sheet from
@@ -1280,8 +1340,14 @@ new ResizeObserver(syncTripH).observe(trip);
 tripTg.onclick = () => setTripOpen(tripBody.hidden);
 function renderTrip() {
   const n = S.stops.length,
-    show = S.mode === 'tour' && n > 0;
-  app.classList.toggle('has-trip', show);
+    has = S.mode === 'tour' && n > 0;
+  if (!n) browsing = false;
+  // Phones: the trip is one of the sheets, and the place cards can take its place.
+  const show = has && !(phone() && browsing);
+  app.classList.toggle('has-trip', has);
+  app.classList.toggle('trip-up', show); // phones: the trip sheet is on screen (the filters hide, the other dots shrink)
+  if (phone()) q.placeholder = show ? 'Add a place' : 'Search places';
+  $('#finishBtn').textContent = phone() ? 'Review trip' : 'Finish planning';
   if (trip.hidden === show) {
     // The panel arrives with the first place and leaves with the last one.
     if (!show && trip.contains(document.activeElement)) map.getContainer().focus({ preventScroll: true });
@@ -1290,7 +1356,7 @@ function renderTrip() {
   }
   if (!show) return syncTripH();
   const p = plan();
-  $('#tripCount').textContent = `${n} ${n === 1 ? 'place' : 'places'} · ${p.nights + 1} ${p.nights ? 'days' : 'day'}`;
+  $('#tripCount').textContent = `${n} ${n === 1 ? 'place' : 'places'} · ${phone() ? nightsTxt(p.nights).toLowerCase() : `${p.nights + 1} ${p.nights ? 'days' : 'day'}`}`;
   $('#optBtn').hidden = n < 2;
   renderStops();
   renderPickup();
@@ -1306,7 +1372,25 @@ function renderStops() {
       return `<li class="tl-i"><span class="num">${i + 1}</span><span class="tl-b"><button type="button" class="tl-n" data-open="${d.id}">${d.name}</button><span class="tl-s">${nightsTxt(s.nights)}${k ? ` · ${k} ${k === 1 ? 'experience' : 'experiences'}` : ''}</span></span><span class="tl-a"><button type="button" class="mv" data-mv="${d.id}" data-d="-1" aria-label="Move ${esc(d.name)} earlier"${i ? '' : ' disabled'}>↑</button><button type="button" class="mv" data-mv="${d.id}" data-d="1" aria-label="Move ${esc(d.name)} later"${i < n - 1 ? '' : ' disabled'}>↓</button><button type="button" class="rm" data-rm="${d.id}" aria-label="Remove ${esc(d.name)} from your tour">×</button></span></li>`;
     })
     .join('');
+  // Phones: the same places as a row of photos (the closed trip sheet).
+  $('#tripStrip').innerHTML =
+    S.stops
+      .map((s, i) => {
+        const d = D[s.id];
+        return `<li><button type="button" data-open="${d.id}" aria-label="Stop ${i + 1}: ${esc(d.name)}, ${nightsTxt(s.nights)}. Open it."><span class="ts-p"><img src="${SITE.assets.photos[d.id].med}" alt="" width="96" height="96" decoding="async"><b>${i + 1}</b></span><span class="ts-n">${d.name}</span><span class="ts-s">${nightsTxt(s.nights)}</span></button></li>`;
+      })
+      .join('') + `<li><button type="button" data-more aria-label="Add another place"><span class="ts-p add">${PLUS}</span><span class="ts-n">Add</span></button></li>`;
 }
+$('#tripStrip').addEventListener('click', (e) => {
+  const t = e.target.closest('button');
+  if (!t) return;
+  if (t.dataset.open) openDest(t.dataset.open);
+  else $('#addMore').click();
+});
+$('#tripStart').onclick = () => {
+  setTripOpen(true);
+  pkSel.focus();
+};
 $('#stops').addEventListener('click', (e) => {
   const t = e.target.closest('button');
   if (!t) return;
@@ -1325,6 +1409,14 @@ $('#stops').addEventListener('click', (e) => {
   }
 });
 $('#addMore').onclick = () => {
+  if (phone()) {
+    // Phones: the place cards take the trip's place ("Your trip" there brings it back).
+    browsing = true;
+    setTripOpen(false);
+    update();
+    hintPins();
+    return;
+  }
   if (stacked()) setTripOpen(false); // give the map back
   if (isNarrow()) window.scrollTo({ top: 0, behavior: reduceMotion() ? 'auto' : 'smooth' });
   hintPins();
@@ -1405,12 +1497,16 @@ function renderPickup() {
     miss = pkErr && !S.pickup;
   note.classList.toggle('bad', miss);
   note.textContent = miss
-    ? 'Please choose where we pick you up, then press “Finish planning” again.'
+    ? `Please choose where we pick you up, then press “${$('#finishBtn').textContent}” again.`
     : !S.pickup
       ? 'Where should we pick you up? We bring you back here at the end.'
       : isPin
         ? 'Drag the pin on the map to adjust it. We pick you up and bring you back here.'
         : `${P[S.pickup.id].sub}. We pick you up and bring you back here.`;
+  // Phones: one row in the closed trip sheet says where the trip starts.
+  const ts = $('#tripStart');
+  ts.classList.toggle('bad', miss);
+  ts.innerHTML = `${PIN_ICON}<span>Start</span><b>${S.pickup ? esc(pickupLabel()) : 'Choose where we pick you up'}</b>${S.pickup ? '<span class="chg">Change</span>' : ''}`;
 }
 
 /* guidance (added): one line under the heading that says what to do next */
@@ -1510,6 +1606,10 @@ function showModal(html, focusSel) {
   if (t) setTimeout(() => t.focus(), 50);
 }
 mbg.addEventListener('keydown', (e) => trapTab(mbg, e));
+// Phones: the top row of a step is a round back button and "Step 1 of 2".
+// `back` is the button's attribute: data-close closes the dialog, data-act="…" goes one step back.
+const M_BACK = `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 5-7 7 7 7"></path></svg>`;
+const mBar = (n, back, label) => `<div class="m-bar"><button type="button" class="m-back" ${back} aria-label="${label}">${M_BACK}</button><span>Step ${n} of 2</span></div>`;
 // Added: chosen experiences in the quote summary, grouped under their places.
 const mExp = (id) => {
   const xs = expsAt(id);
@@ -1552,6 +1652,29 @@ function reviewRoute() {
   if (p.ret) h += `<li class="leg ret">~${fmtDur(p.ret.min)} · ${p.ret.km} km</li>`;
   return h + `</ol><div class="endpt"><span class="ic"></span><span><b>Back to</b> · ${from}</span></div>`;
 }
+// Phones: the same trip as a shorter list. A place shows its nights and how many things were
+// ticked there; the things themselves are changed in the place's dialog.
+function reviewRoutePhone() {
+  const p = plan(),
+    from = esc(pickupLabel());
+  const end = (word) => `<div class="endpt"><span class="ic"></span><span><b>${from}</b><small>${word}</small></span></div>`;
+  let h = end('Start') + '<ol class="stops">';
+  p.rows.forEach((r) => {
+    const k = expsAt(r.d.id).length,
+      nm = esc(r.d.name);
+    if (r.leg) h += `<li class="leg">${fmtDur(r.leg.min)} · ${r.leg.km} km</li>`;
+    h += `<li class="stop"><span class="num">${r.i + 1}</span><div><span class="rv-nm">${r.d.name}</span><div class="s-sub">${nightsTxt(r.s.nights)}${k ? ` · ${k} ${k === 1 ? 'thing' : 'things'} to do` : ''}</div></div>
+  <div class="stepper" role="group" aria-label="Nights in ${nm}"><button type="button" data-n="${r.d.id}" data-d="-1" ${r.s.nights <= 0 ? 'disabled' : ''} aria-label="Fewer nights in ${nm}">−</button><span>${r.s.nights}</span><button type="button" data-n="${r.d.id}" data-d="1" ${r.s.nights >= 14 ? 'disabled' : ''} aria-label="More nights in ${nm}">+</button></div></li>`;
+  });
+  if (p.ret) h += `<li class="leg ret">${fmtDur(p.ret.min)} · ${p.ret.km} km</li>`;
+  return h + '</ol>' + end('End');
+}
+// Phones: one line under the title, for example "3 places · 6 nights · about 725 km".
+function reviewMeta() {
+  const p = plan(),
+    n = S.stops.length;
+  return `${n} ${n === 1 ? 'place' : 'places'} · ${nightsTxt(p.nights).toLowerCase()} · about ${p.km} km`;
+}
 function reviewSum() {
   const p = plan(),
     n = S.stops.length,
@@ -1559,6 +1682,20 @@ function reviewSum() {
   return `<div><dt>Tour length</dt><dd>${daysTxt(p)}</dd></div><div><dt>You chose</dt><dd>${n} ${n === 1 ? 'place' : 'places'}${k ? `, ${k} ${k === 1 ? 'experience' : 'experiences'}` : ''}</dd></div><div><dt>Driving (est.)</dt><dd>~${fmtDur(p.drive)} · ${p.km} km</dd></div>`;
 }
 function openReview() {
+  if (phone())
+    return showModal(
+      `<div class="modal rv ph" role="dialog" aria-modal="true" aria-labelledby="mTitle" aria-describedby="rvMeta">
+ <div class="rv-body">
+  ${mBar(1, 'data-close', 'Back to the map')}
+  <h2 id="mTitle" tabindex="-1">Your trip</h2>
+  <p class="rv-meta" id="rvMeta">${reviewMeta()}</p>
+  <div class="rv-route" id="rvRoute">${reviewRoutePhone()}</div>
+  <p class="hint">Drive times are estimates. Road data © <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a> contributors.</p>
+  <div id="rvOut">${expOutsideHtml()}</div>
+ </div>
+ <div class="rv-foot"><button type="button" class="btn ghost" data-act="edit">Edit</button><button type="button" class="btn primary" data-act="details">Continue</button></div></div>`,
+      '#mTitle',
+    );
   showModal(
     `<div class="modal rv" role="dialog" aria-modal="true" aria-labelledby="mTitle" aria-describedby="mLede"><button type="button" class="m-close" data-close aria-label="Close">×</button>
  <div class="rv-body">
@@ -1577,8 +1714,14 @@ function openReview() {
 }
 function refreshReview() {
   if (!$('#rvRoute')) return;
-  $('#rvRoute').innerHTML = reviewRoute();
-  $('#rvSum').innerHTML = reviewSum();
+  if ($('#rvMeta')) {
+    // the phone version of the step
+    $('#rvRoute').innerHTML = reviewRoutePhone();
+    $('#rvMeta').textContent = reviewMeta();
+  } else {
+    $('#rvRoute').innerHTML = reviewRoute();
+    $('#rvSum').innerHTML = reviewSum();
+  }
   $('#rvOut').innerHTML = expOutsideHtml();
 }
 
@@ -1587,11 +1730,41 @@ function dateInfo() {
   const p = plan();
   return S.start
     ? `${fmtD(dateAt(0))} to <b>${fmtD(dateAt(p.nights))}</b> · ${daysTxt(p)}`
-    : 'Not sure yet? Leave it empty: you can ask for a quote without dates.';
+    : phone()
+      ? '' // phones: the label already says the date is optional
+      : 'Not sure yet? Leave it empty: you can ask for a quote without dates.';
 }
 function openDetails() {
   const p = plan();
   const v = (k) => esc(qd[k]);
+  // Phones: a shorter form. The three optional fields wait behind one link (open if already used).
+  const ph = phone();
+  const fCountry = `<label class="fl"><span>Country of residence (optional)</span><div class="field"><input name="country" autocomplete="country-name" value="${v('country')}"></div></label>`;
+  const fMore = `<div class="fl"><span id="hotelLbl">Hotels (optional)</span><div class="seg" id="hotelSeg" role="group" aria-labelledby="hotelLbl">${['Budget', 'Mid-range', 'Luxury', 'I’ll book my own'].map((h) => `<button type="button" class="${h === hotel ? 'on' : ''}" aria-pressed="${h === hotel}">${h}</button>`).join('')}</div></div>
+  <label class="fl"><span>Anything else? (optional)</span><textarea name="notes" placeholder="Flight times, interests, dietary needs…">${v('notes')}</textarea></label>`;
+  if (ph) {
+    // Phones: guests first (two counters side by side), then the date and the three contact fields.
+    const step = (k, word) =>
+      `<div class="stepper" data-q="${k}" role="group" aria-labelledby="q${k === 'adults' ? 'Ad' : 'Ch'}L"><button type="button" data-d="-1" aria-label="Fewer ${word}">−</button><span id="q${k === 'adults' ? 'Adults' : 'Children'}" aria-live="polite"></span><button type="button" data-d="1" aria-label="More ${word}">+</button></div>`;
+    const field = (k, label, attrs) => `<label class="fl" data-f="${k}"><span>${label}</span><div class="field"><input name="${k}" ${attrs} aria-required="true" value="${v(k)}"></div></label>`;
+    showModal(
+      `<div class="modal dt ph" role="dialog" aria-modal="true" aria-labelledby="mTitle">
+ <form class="m-form" id="qform" novalidate>
+  ${mBar(2, 'data-act="review"', 'Back to your trip')}
+  <h2 id="mTitle" tabindex="-1">Your details</h2><p>We reply with a plan and a price. Nothing is booked until you say yes.</p>
+  <fieldset class="gst" id="qGuests"><legend>Guests</legend><div class="g2">
+   <div class="fl"><span id="qAdL">Adults</span>${step('adults', 'adults')}</div>
+   <div class="fl"><span id="qChL">Children (2–11)</span>${step('children', 'children')}</div></div></fieldset>
+  <div class="fl" data-f="date"><label for="qDate">Start date (optional)</label><div class="field"><input id="qDate" name="date" type="date" min="${TODAY}" value="${S.start}" aria-describedby="qDateInfo"></div><p class="hint" id="qDateInfo">${dateInfo()}</p></div>
+  ${field('name', 'Full name', 'autocomplete="name"')}
+  ${field('email', 'Email', 'type="email" autocomplete="email"')}
+  ${field('phone', 'WhatsApp or phone', 'type="tel" autocomplete="tel"')}
+  <details class="more"${qd.country || qd.notes ? ' open' : ''}><summary>Hotels, country or a note</summary><div class="more-b">${fCountry}${fMore}</div></details>
+  <div class="m-acts"><button class="btn primary" type="submit">Send trip request</button>${SITE.quoteEndpoint ? '' : '<p class="m-next">Next, you send it through WhatsApp or email.</p>'}</div></form></div>`,
+      '#mTitle',
+    );
+    return renderGuests();
+  }
   showModal(
     `<div class="modal dt" role="dialog" aria-modal="true" aria-labelledby="mTitle">
  <div class="m-sum"><p class="eyebrow">Your tour</p><h3>${p.nights + 1} ${p.nights ? 'days' : 'day'} in Sri Lanka</h3>
@@ -1608,9 +1781,8 @@ function openDetails() {
   <div class="f2"><label class="fl" data-f="name"><span>Full name</span><div class="field"><input name="name" autocomplete="name" aria-required="true" value="${v('name')}"></div></label>
   <label class="fl" data-f="email"><span>Email</span><div class="field"><input name="email" type="email" autocomplete="email" aria-required="true" value="${v('email')}"></div></label></div>
   <div class="f2"><label class="fl" data-f="phone"><span>WhatsApp / phone</span><div class="field"><input name="phone" type="tel" autocomplete="tel" aria-required="true" value="${v('phone')}"></div></label>
-  <label class="fl"><span>Country of residence (optional)</span><div class="field"><input name="country" autocomplete="country-name" value="${v('country')}"></div></label></div>
-  <div class="fl"><span id="hotelLbl">Hotels (optional)</span><div class="seg" id="hotelSeg" role="group" aria-labelledby="hotelLbl">${['Budget', 'Mid-range', 'Luxury', 'I’ll book my own'].map((h) => `<button type="button" class="${h === hotel ? 'on' : ''}" aria-pressed="${h === hotel}">${h}</button>`).join('')}</div></div>
-  <label class="fl"><span>Anything else? (optional)</span><textarea name="notes" placeholder="Flight times, interests, dietary needs…">${v('notes')}</textarea></label>
+  ${fCountry}</div>
+  ${fMore}
   <div class="m-acts"><button type="button" class="btn ghost" data-act="review">Back</button><button class="btn primary" type="submit">Send my tour request</button></div></form></div>`,
     '#mTitle',
   );
@@ -1870,6 +2042,7 @@ function setMode(m) {
   if (S.mode === m) return;
   if (picking) stopPin();
   closeCard();
+  browsing = false;
   S.mode = m;
   update();
   // Each view lays the page out differently, so the map is fitted again: to the transfer if both
@@ -1917,6 +2090,7 @@ function renderMode() {
 const TSEL = { from: $('#tFrom'), to: $('#tTo') };
 const TWORD = { from: 'Pickup', to: 'Drop-off' };
 const TBADGE = { from: 'A · Pickup', to: 'B · Drop-off' };
+const tBadge = (k) => (phone() ? (k === 'from' ? 'A' : 'B') : TBADGE[k]); // phones: the letter only
 let tErr = { from: false, to: false }; // "Finish planning" was pressed while this location was missing
 let pinTarget = 'tour'; // what a dropped pin sets: the tour's starting point, or a transfer's 'from' / 'to'
 const dayOf = (s) => new Date(s + 'T00:00:00');
@@ -1959,8 +2133,8 @@ function viewTransfer() {
         [b.lat, b.lng],
       ]).pad(0.25),
       {
-        paddingTopLeft: [stacked() ? 20 : padL() + 40, stacked() ? padT() + 10 : 60],
-        paddingBottomRight: [60, 60],
+        paddingTopLeft: [phone() ? 40 : stacked() ? 20 : padL() + 40, stacked() ? padT() + 10 : 60],
+        paddingBottomRight: phone() ? [40, padB() + 16] : [60, 60],
         maxZoom: 10,
       },
     );
@@ -2008,6 +2182,10 @@ function renderTransfer() {
       o.textContent = pinName(p);
     } else if (o) o.remove();
     sel.value = !p ? '' : p.id === 'pin' ? 'here' : p.id;
+    // Phones: the row shows the short name, or what to do when nothing is chosen yet.
+    const shown = $(`#${sel.id}V`);
+    shown.textContent = p ? trLabel(k) : `Choose ${TWORD[k].toLowerCase()}`;
+    shown.classList.toggle('none', !p);
     const miss = tErr[k] && !p,
       err = $(`#${sel.id}Err`),
       msg = miss ? `Please choose a ${TWORD[k].toLowerCase()} location` : '';
@@ -2019,7 +2197,11 @@ function renderTransfer() {
   }
   const leg = trLeg(),
     sum = $('#tSum'),
-    txt = leg ? `<b>${esc(trLabel('from'))}</b> to <b>${esc(trLabel('to'))}</b>: about ${fmtDur(leg.min)}, ${leg.km} km (estimate)` : '';
+    txt = !leg
+      ? ''
+      : phone() // the two rows above it already name the places
+        ? `<b>About ${fmtDur(leg.min)} · ${leg.km} km</b> (estimate)`
+        : `<b>${esc(trLabel('from'))}</b> to <b>${esc(trLabel('to'))}</b>: about ${fmtDur(leg.min)}, ${leg.km} km (estimate)`;
   if (sum.dataset.t !== txt) sum.innerHTML = sum.dataset.t = txt; // only when it changes: it is read out
   sum.hidden = !leg;
   $('#tSwap').disabled = !(S.tr.from || S.tr.to);
@@ -2033,7 +2215,7 @@ function renderTrMarkers() {
     if (!el) return;
     const role = trRole(id);
     el.firstElementChild.classList.toggle('on', !!role);
-    el.querySelector('.pl').innerHTML = role ? `<b>${TBADGE[role]}</b> · ${esc(TL[id].short)}` : `<b>Airport</b> · ${TL[id].code}`;
+    el.querySelector('.pl').innerHTML = role ? `<b>${tBadge(role)}</b>${phone() ? '' : ` · ${esc(TL[id].short)}`}` : `<b>Airport</b> · ${TL[id].code}`;
   });
   for (const k of ['from', 'to']) {
     const p = S.tr[k];
@@ -2044,7 +2226,7 @@ function renderTrMarkers() {
       icon: L.divIcon({
         className: '',
         iconSize: [0, 0],
-        html: `<div class="pk on ${isPin ? 'drag' : ''} ${pt.lng > 80.6 ? 'r' : ''}"><span class="sq"></span><span class="pl"><b>${TBADGE[k]}</b> · ${esc(trLabel(k))}</span></div>`,
+        html: `<div class="pk on ${isPin ? 'drag' : ''} ${pt.lng > 80.6 ? 'r' : ''}"><span class="sq"></span><span class="pl"><b>${tBadge(k)}</b>${phone() ? '' : ` · ${esc(trLabel(k))}`}</span></div>`,
       }),
       draggable: isPin,
       zIndexOffset: 3000,
@@ -2076,8 +2258,8 @@ function openTrDetails() {
  <div class="m-sum"><h3>Your transfer</h3>
   <ol class="m-stops"><li><span class="n">A</span><span class="nm">${esc(trLabel('from'))}</span><span class="dt">Pickup</span></li><li><span class="n">B</span><span class="nm">${esc(trLabel('to'))}</span><span class="dt">Drop-off</span></li></ol>
   <dl class="m-facts"><div><dt>Drive (est.)</dt><dd>~${fmtDur(leg.min)} · ${leg.km} km</dd></div><div><dt>Vehicle</dt><dd>We’ll recommend one</dd></div></dl></div>
- <form class="m-form" id="qform" novalidate data-kind="transfer"><button type="button" class="m-close" data-close aria-label="Close">×</button>
-  <p class="m-step">Step 2 of 2 · Your details</p>
+ <form class="m-form" id="qform" novalidate data-kind="transfer">${phone() ? mBar(2, 'data-act="tr-review"', 'Back to the review') : `<button type="button" class="m-close" data-close aria-label="Close">×</button>
+  <p class="m-step">Step 2 of 2 · Your details</p>`}
   <h2 id="mTitle" tabindex="-1">Request your private transfer</h2><p>Tell us when you travel and how to reach you. ${SITE.quoteEndpoint ? '' : 'On the next screen you send the request to us on WhatsApp or by email. '}We’ll confirm availability and send you a quotation. Nothing is booked until you confirm it with us.</p>
   <div class="f2"><div class="fl" data-f="date"><label for="tDate">Travel date</label><div class="field"><input id="tDate" name="tdate" type="date" min="${TODAY}" value="${S.tr.date}" aria-describedby="tWhen"></div></div>
   <div class="fl"><label for="tTime">Preferred pickup time</label><div class="field"><input id="tTime" name="ttime" type="time" step="300" value="${S.tr.time}" aria-describedby="tWhen"></div></div></div>
@@ -2106,9 +2288,9 @@ function openTrReview() {
   const leg = trLeg();
   const row = (dt, dd) => `<div><dt>${dt}</dt><dd>${dd}</dd></div>`;
   showModal(
-    `<div class="modal rv tr" role="dialog" aria-modal="true" aria-labelledby="mTitle" aria-describedby="mLede"><button type="button" class="m-close" data-close aria-label="Close">×</button>
+    `<div class="modal rv tr" role="dialog" aria-modal="true" aria-labelledby="mTitle" aria-describedby="mLede">${phone() ? '' : '<button type="button" class="m-close" data-close aria-label="Close">×</button>'}
  <div class="rv-body">
-  <p class="m-step">Step 1 of 2 · Review</p>
+  ${phone() ? mBar(1, 'data-close', 'Back to the map') : '<p class="m-step">Step 1 of 2 · Review</p>'}
   <h2 id="mTitle" tabindex="-1">Your transfer request</h2>
   <p class="rv-lede" id="mLede">Check your pickup and drop-off. Next, tell us when you travel and how to reach you, and we’ll send you a quotation.</p>
   <dl class="tr-rev">${row('Pickup location', `<b class="ab" aria-hidden="true">A</b>${esc(trFull('from'))}`)}${row('Drop-off location', `<b class="ab" aria-hidden="true">B</b>${esc(trFull('to'))}`)}</dl>
@@ -2175,6 +2357,131 @@ async function sendTransfer(btn) {
   );
 }
 
+/* Phones (added): the map is the menu. Up to 600px wide (phone(), and "Phones" in app.css) the
+   tour planner shows one sheet at a time over the lower part of the map:
+     #sheet   the place cards. The card in view is the place "in focus": its marker shows its
+              photo; every other place is a dot. A tap on a dot brings its card into view; a tap
+              on the card (or on the photo on the map) opens the place's dialog, where its
+              things to do are ticked and the place is added. + on a card adds it at once.
+     #trip    the trip, once a place is in it (renderTrip).
+   Nothing here changes what is saved or sent: places go through addStop() and removeStop(),
+   things to do through the dialog (`draft`, toggleExp). */
+const PLUS =
+  '<svg class="i-pl" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"></path></svg>';
+const PIN_ICON =
+  '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s7-6.2 7-11.5A7 7 0 0 0 5 9.5C5 14.8 12 21 12 21z"></path><circle cx="12" cy="9.5" r="2.5"></circle></svg>';
+const ZIN = 8.75; // from this zoom on, every place shows its photo and its name again
+const cards = $('#cards');
+// The card at the start of a row of cards: the one in view.
+function cardInView(list) {
+  const first = list.firstElementChild;
+  let best = null,
+    bd = 1e9;
+  for (const li of list.children) {
+    const d = Math.abs(li.offsetLeft - first.offsetLeft - list.scrollLeft);
+    if (d < bd) {
+      bd = d;
+      best = li;
+    }
+  }
+  return best;
+}
+function showCardOf(list, li, smooth) {
+  if (!li) return;
+  list.scrollTo({ left: li.offsetLeft - list.firstElementChild.offsetLeft, behavior: smooth && !reduceMotion() ? 'smooth' : 'auto' });
+}
+// A swipe along a row of cards moves the focus with it.
+function onSwipe(list, fn) {
+  let t;
+  list.addEventListener(
+    'scroll',
+    () => {
+      clearTimeout(t);
+      t = setTimeout(() => {
+        const li = cardInView(list);
+        if (li) fn(li);
+      }, 80);
+    },
+    { passive: true },
+  );
+}
+
+/* the place cards */
+const placeCard = (d) => {
+  const i = tripIdx(d.id);
+  return `<li class="pc" data-id="${d.id}"><button type="button" class="pc-m" data-open="${d.id}"><img src="${SITE.assets.photos[d.id].card[0]}" alt="" width="84" height="84" loading="lazy" decoding="async"><span class="pc-b"><span class="pc-k"><i style="--c:${CATS[d.cat].c}"></i>${CATS[d.cat].label}</span><span class="pc-n">${d.name}</span><span class="pc-s">${d.hl}</span></span></button>${
+    i > -1 ? `<span class="pc-in" role="img" aria-label="Stop ${i + 1} in your trip">${i + 1}</span>` : `<button type="button" class="pc-add" data-add="${d.id}" aria-label="Add ${esc(d.name)} to your trip">${PLUS}</button>`
+  }</li>`;
+};
+function renderSheet() {
+  const on = phone() && S.mode === 'tour' && (!S.stops.length || browsing),
+    shown = on && sheet.hidden; // back on screen: its row of cards starts from the left again
+  sheet.hidden = !on;
+  if (!on) return;
+  const n = S.stops.length;
+  $('#shTrip').hidden = !n;
+  $('#shTripN').textContent = n;
+  const list = DESTS.filter((d) => filter === 'all' || d.cat === filter);
+  const key = list.map((d) => d.id + tripIdx(d.id)).join();
+  const fresh = cards.dataset.k !== key;
+  if (fresh) {
+    cards.dataset.k = key;
+    cards.innerHTML = list.map(placeCard).join('');
+  }
+  if (!list.some((d) => d.id === focusId)) focusId = list[0].id;
+  if (fresh || shown) showCardOf(cards, cards.querySelector(`[data-id="${focusId}"]`));
+  cards.querySelectorAll('.pc').forEach((li) => li.classList.toggle('on', li.dataset.id === focusId));
+}
+onSwipe(cards, (li) => {
+  if (sheet.hidden || li.dataset.id === focusId) return;
+  focusId = li.dataset.id;
+  renderSheet();
+  renderPins();
+});
+cards.addEventListener('click', (e) => {
+  const add = e.target.closest('[data-add]'),
+    open = e.target.closest('[data-open]');
+  if (add) {
+    browsing = false;
+    addStop(add.dataset.add);
+    tripTg.focus({ preventScroll: true });
+  } else if (open) openDest(open.dataset.open);
+});
+$('#shTrip').onclick = () => {
+  browsing = false;
+  update();
+  tripTg.focus({ preventScroll: true });
+};
+// A tap on a place in the tour planner. Phones: the first tap brings its card into view (and its
+// photo onto the map); a tap on that photo, or on a place in the trip, opens the place's dialog.
+// Wider screens have no row of place cards, so a click opens the dialog at once.
+function tapPlace(id) {
+  if (S.mode !== 'tour' || !phone() || (focusId === id && !sheet.hidden) || tripIdx(id) > -1) return openDest(id);
+  browsing = true; // (with a trip started: the place cards come back)
+  focusId = id;
+  update();
+  showCardOf(cards, cards.querySelector(`[data-id="${id}"]`), true);
+}
+// The round button at the top left: one step back.
+$('#backBtn').onclick = () => {
+  if (S.mode === 'tour' && browsing && S.stops.length) return $('#shTrip').click();
+  goService('home', true);
+};
+
+// How much of the map the sheet covers, for the credits line above it (app.css: --sheet-h).
+function syncSheetH() {
+  mapwrap.style.setProperty('--sheet-h', sheetH() + 'px');
+}
+[sheet, trip, $('.overlay')].forEach((el) => new ResizeObserver(syncSheetH).observe(el));
+// The screen became a phone's size, or stopped being one (a turned phone, a resized window).
+phoneMq.addEventListener('change', () => {
+  browsing = false;
+  mapLimits();
+  q.placeholder = phone() ? 'Search places' : Q_HINT;
+  update();
+  if (view !== 'user') fit();
+});
+
 document.addEventListener('keydown', (e) => {
   if (e.key === 'Escape') {
     if (!mbg.hidden) closeQuote();
@@ -2200,13 +2507,15 @@ window.addEventListener('resize', () => {
 function update() {
   renderMode();
   renderPickupMarker();
+  renderTrip();
+  renderSheet(); // (before the pins: the sheet decides which place is in focus)
   renderPins();
   renderRoute();
-  renderTrip();
   renderGuide();
   renderTransfer();
   renderSummary();
   renderCardState();
+  syncSheetH();
   save();
 }
 renderChips();
@@ -2239,7 +2548,7 @@ function openFromHash() {
   if (m[1] === 'add') {
     closeCard();
     addStop(id);
-    setTripOpen(true);
+    if (!phone()) setTripOpen(true);
     return;
   }
   if (m[1] !== 'place') expOpen = true;

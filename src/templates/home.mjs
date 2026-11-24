@@ -11,6 +11,9 @@
 //   "sh"     transfers (see "Airport shuttle" in README.md):
 //              two locations, pickup A and drop-off B (#tcard) → details → review → send (#mbg)
 // The two services keep separate state in src/js/app.js and never change each other.
+// Phones (up to 600px wide) show the same three views as a full-height map with a sheet over its
+// lower part: #sheet (place cards) and the trip panel. A place opens as the same dialog (#dcard)
+// as on wider screens. See "Phones: the map is the menu" in README.md.
 import { CATS, DESTS, PICKUPS, TRANSFER_GROUPS, TRANSFER_PLACES } from '../data/destinations.mjs';
 import { brand, esc, menu, picture, waLink } from './layout.mjs';
 
@@ -35,6 +38,9 @@ function chips() {
     .join('');
 }
 
+// Phones: the round "back" button over the map (src/styles/app.css, "Phones").
+const BACK = `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 5-7 7 7 7"></path></svg>`;
+
 const PLANE = `<svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M21 16v-2l-8-5V3.5c0-.83-.67-1.5-1.5-1.5S10 2.67 10 3.5V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z"></path></svg>`;
 const SWAP = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 4v16m0 0-3.5-3.5M7 20l3.5-3.5M17 20V4m0 0-3.5 3.5M17 4l3.5 3.5"></path></svg>`;
 
@@ -54,16 +60,18 @@ function serviceCards(ctx) {
         <article class="svc-c" aria-labelledby="svcTour">
           <div class="svc-v tour" aria-hidden="true">${['sigiriya', 'kandy', 'ella', 'galle'].map(med).join('')}</div>
           <div class="svc-b">
-            <h2 id="svcTour">Plan your private Sri Lanka tour</h2>
+            <h2 id="svcTour"><span class="svc-l">Plan your private Sri Lanka tour</span><span class="svc-sh">Plan a tour</span></h2>
             <p>Pick the places and experiences you love, and we’ll shape them into a private tour with your own driver.</p>
+            <p class="svc-s">Pick places on the map</p>
             <button type="button" class="btn primary" data-go="tour">Plan my tour</button>
           </div>
         </article>
         <article class="svc-c" aria-labelledby="svcSh">
           <div class="svc-v sh" aria-hidden="true"><span class="svc-pt a">${PLANE}</span><span class="svc-ln"></span><span class="svc-pt b"></span></div>
           <div class="svc-b">
-            <h2 id="svcSh">Arrange your airport or private transfer</h2>
+            <h2 id="svcSh"><span class="svc-l">Arrange your airport or private transfer</span><span class="svc-sh">Airport transfer</span></h2>
             <p>Airport pickups, drop-offs and city-to-city rides. Choose where and when, and we’ll send you a quote.</p>
+            <p class="svc-s">Set pickup and drop-off</p>
             <button type="button" class="btn primary" data-go="shuttle">Request my transfer</button>
           </div>
         </article>
@@ -86,7 +94,8 @@ function placeCards(ctx) {
 
 export function homeBody(ctx) {
   const { site } = ctx;
-  return `<header class="top">
+  return `<header class="top map-top">
+  <button type="button" class="back" id="backBtn" aria-label="Back">${BACK}</button>
   ${brand(ctx)}
   <div class="top-r"><button class="trip-pill" id="tripPill" hidden><span id="pillLbl">Your tour</span> <b id="pillCount">0</b></button>${menu(ctx)}</div>
 </header>
@@ -117,17 +126,22 @@ export function homeBody(ctx) {
       </div>
 
       <section class="tcard" id="tcard" aria-labelledby="tcH">
-        <h2 class="tagl" id="tcH">Your transfer</h2>
+        <h2 class="tagl" id="tcH"><span class="svc-l">Your transfer</span><span class="svc-sh">Airport transfer</span></h2>
+        <p class="tc-hint">Tap a place on the map to set A or B.</p>
+        <!-- Phones: the two rows sit in one box. A row shows the short name of what was chosen
+             (.tf-v); the list itself lies over the whole row, unseen, so a tap anywhere opens it. -->
+        <div class="tfs">
         <div class="tf" id="tfFrom">
-          <label for="tFrom"><b class="ab" aria-hidden="true">A</b>Pickup location</label>
-          <div class="field"><select id="tFrom" aria-describedby="tFromErr">${placeOptions('Choose where we pick you up')}</select></div>
+          <label for="tFrom"><b class="ab" aria-hidden="true">A</b><span>Pickup<span class="tf-x"> location</span></span></label>
+          <div class="field"><select id="tFrom" aria-describedby="tFromErr">${placeOptions('Choose where we pick you up')}</select><span class="tf-v" id="tFromV" aria-hidden="true"></span></div>
           <p class="err" id="tFromErr" role="alert" hidden></p>
         </div>
         <button type="button" class="tswap" id="tSwap" aria-label="Swap pickup and drop-off" disabled>${SWAP}</button>
         <div class="tf" id="tfTo">
-          <label for="tTo"><b class="ab" aria-hidden="true">B</b>Drop-off location</label>
-          <div class="field"><select id="tTo" aria-describedby="tToErr">${placeOptions('Choose where we take you')}</select></div>
+          <label for="tTo"><b class="ab" aria-hidden="true">B</b><span>Drop-off<span class="tf-x"> location</span></span></label>
+          <div class="field"><select id="tTo" aria-describedby="tToErr">${placeOptions('Choose where we take you')}</select><span class="tf-v" id="tToV" aria-hidden="true"></span></div>
           <p class="err" id="tToErr" role="alert" hidden></p>
+        </div>
         </div>
         <p class="tsum" id="tSum" aria-live="polite" hidden></p>
         <div class="t-acts"><button type="button" class="linkbtn mut" id="tClear" hidden>Clear</button><button type="button" class="btn primary" id="tGo">Finish planning</button></div>
@@ -138,6 +152,10 @@ export function homeBody(ctx) {
 
     <aside class="trip" id="trip" aria-labelledby="tripH" hidden>
       <h2 class="trip-h" id="tripH"><button type="button" class="trip-tg" id="tripTg" aria-expanded="true" aria-controls="tripBody"><span class="t">Your tour</span><span class="c" id="tripCount"></span>${CHEVRON}</button></h2>
+      <div class="trip-q">
+        <ul class="trip-strip" id="tripStrip" aria-label="Your places, in order"></ul>
+        <button type="button" class="trip-start" id="tripStart">Starting point</button>
+      </div>
       <div class="trip-b" id="tripBody">
         <section class="trip-sec" aria-labelledby="tsStart">
           <h3 class="tagl" id="tsStart">Starting point</h3>
@@ -162,6 +180,11 @@ export function homeBody(ctx) {
         <button type="button" class="btn primary" id="finishBtn">Finish planning</button>
       </div>
     </aside>
+
+    <section class="sheet" id="sheet" aria-label="Places to choose" hidden>
+      <div class="sh-head"><p class="sh-hint">Tap a place, or swipe the cards.</p><button type="button" class="sh-trip" id="shTrip" hidden>Your trip <b id="shTripN">0</b></button></div>
+      <ul class="cards" id="cards" aria-label="Places"></ul>
+    </section>
   </section>
 </div>
 

@@ -716,29 +716,233 @@ html[data-svc="sh"] .overlay{position:relative;left:auto;right:auto;top:auto;mar
 }
 
 /* ---------------------------------------------------------------------------
-   Phones held upright, tour planner (changed): the map comes first.
-   - A compact strip of controls over the top of the map: the service switch, a one-line
-     heading, a short guide line, the search and one row of filter chips.
-   - A taller map: the whole screen under the header except a 56 px strip, so the page can
-     always be scrolled with a swipe outside the map (one finger moves the map: app.js).
-     svh ignores the browser's sliding toolbars, so the height doesn't jump while scrolling.
-   - A slimmer trip bar, clear of the screen's bottom edge (safe area) on phones that have one.
-   Tablets, desktop, landscape phones and the airport shuttle keep their layouts.
+   Phones (changed, November 2026): the map is the menu. Up to 600px wide.
+   - The map fills the screen. Words move off it: no heading, guide line, district names, sea
+     names or grid lines; places are small dots, and one place at a time shows its photo.
+   - A white sheet lies over the lower part of the map: the two services on the main page,
+     the place cards (#sheet), the trip (#trip) and the transfer card (#tcard).
+   - Round buttons float over the top of the map: back, the search, the site menu.
+   - The page still scrolls: a swipe on the sheet moves the page (one finger on the map moves
+     the map), so the places list and the footer under the map stay in reach.
+   src/js/app.js decides what each sheet shows (see "Phones" there). Wider screens keep their
+   layouts; the parts below that only phones use are hidden everywhere else.
    --------------------------------------------------------------------------- */
-@media (max-width:600px) and (orientation:portrait){
-  html[data-svc="tour"] .mapwrap{height:calc(100vh - 116px);height:calc(100svh - 116px);min-height:440px}
-  html[data-svc="tour"] .shade{background:linear-gradient(180deg,rgb(var(--map-shade) / .94) 0,rgb(var(--map-shade) / .6) 170px,rgb(var(--map-shade) / 0) 260px)}
-  html[data-svc="tour"] .overlay{top:10px}
-  html[data-svc="tour"] .svc-tabs{margin-bottom:8px}
-  html[data-svc="tour"] .svc-tabs button{height:30px}
-  html[data-svc="tour"] h1{font-size:24px;line-height:1.1;margin-bottom:4px}
-  html[data-svc="tour"] .guide{font-size:13.5px;line-height:1.35;margin-bottom:8px}
-  html[data-svc="tour"] .sbox{height:42px;padding:0 12px 0 14px}
-  html[data-svc="tour"] .results{top:48px}
-  html[data-svc="tour"] .chips{margin-top:8px}
-  html[data-svc="tour"] .chip{height:30px;padding:0 12px}
-  html[data-svc="tour"] .trip.drawer{bottom:calc(10px + env(safe-area-inset-bottom,0px))}
-  html[data-svc="tour"] .trip.drawer.shut .trip-tg{min-height:52px;padding:6px 6px 6px 14px}
-  html[data-svc="tour"] .trip.drawer.shut .trip-f{padding:6px 6px 6px 2px}
-  html[data-svc="tour"] .trip.drawer.shut .trip-f .btn{height:40px;padding:0 16px}
+:root{--shadow-map:0 6px 20px rgba(4,22,26,.28);--shadow-sheet:0 -8px 30px rgba(4,22,26,.28);--grab:#D3D9D6}
+.back,.trip-q,.svc-s,.svc-sh,.tc-hint,.tf-v,.more>summary{display:none}
+
+@media (max-width:600px){
+  /* The page: a full-height map. */
+  html:not([data-svc]) .app,html[data-svc] .app{display:block;height:auto;min-height:0}
+  html:not([data-svc]) .mapwrap,html[data-svc] .mapwrap{display:block;height:100vh;height:100svh;min-height:560px}
+  html[data-svc="sh"] #map{position:absolute;inset:0;order:0;flex:none;margin:0}
+  .mapwrap .shade{display:none}
+  .map-fallback{margin-top:64px}
+
+  /* Fewer words on the map: no sea or district names, no district lines, no grid. */
+  .sea,.dist{display:none}
+  path.dpoly{stroke:var(--map-land);stroke-opacity:1;stroke-width:1.5px} /* the lines between districts take the land's colour */
+  path.grat{display:none}
+  .leaflet-control-zoom{display:none}
+  .mapwrap .leaflet-bottom{bottom:var(--sheet-h,0px)}
+  .leaflet-control-attribution{background:none!important;font-size:10px!important;padding:2px 8px!important;opacity:.8}
+  .pk:not(.on) .pl{display:none} /* the starting point and the airports: the marker only */
+  /* Places are dots. One shows its photo: the place whose card is in view (.focus); so do the
+     places in the trip and a transfer's two ends. Zoomed in (.zin), all show photos and names. */
+  .pin .lbl{display:none}
+  .zin .pin .lbl{display:block}
+  .pin.dot .med{width:14px;height:14px;border:0;background:var(--c);box-shadow:0 0 0 2px rgb(var(--map-shade) / .9)}
+  .pin.dot .med img,.pin.dot .kw{display:none}
+  .pin.dot .med::before{content:'';position:absolute;inset:-12px;border-radius:50%} /* a larger area to tap */
+  .pin.focus{--r:23px}
+  .pin.focus .med{border-color:#fff;box-shadow:0 0 0 6px rgba(248,247,242,.22),0 8px 18px rgba(0,0,0,.45)}
+  .pin.sel .no{left:auto;right:-8px;padding:0 4px;font-size:11px;letter-spacing:0} /* just "A" or "B" */
+
+  /* Over the top of the map: back (or the name on the main page), then the menu. */
+  .map-top{position:absolute;left:0;right:0;top:0;height:auto;padding:10px 12px 0;background:none;border:0;pointer-events:none;z-index:20}
+  .map-top .brand,.map-top .back,.map-top .menu{pointer-events:auto}
+  .map-top .brand{padding:6px 4px}
+  .map-top .brand span,.map-top .menu-lbl,.map-top .trip-pill{display:none}
+  html[data-svc] .map-top .brand{display:none}
+  html[data-svc] .back{display:grid}
+  .back,.map-top .menu-btn{width:44px;height:44px;min-width:0;padding:0;place-items:center;border:0;border-radius:50%;background:var(--surface);color:var(--text);box-shadow:var(--shadow-map)}
+  .map-top .menu-btn:hover,.map-top .menu[open] .menu-btn{background:var(--surface);border-color:transparent}
+  .back:focus-visible,.map-top .menu-btn:focus-visible{outline-color:var(--focus-on-dark)}
+  /* With the menu open the row is a plain dark bar again, as on the other pages. */
+  html.menu-open .map-top{position:fixed;height:60px;padding:0 12px;background:var(--surface-dark)}
+  html.menu-open .map-top .brand{display:flex}
+  html.menu-open .back{display:none}
+
+  /* Tour planner: the search sits between the two round buttons, the filters under it. */
+  html[data-svc="tour"] .overlay{left:66px;right:66px;top:10px;width:auto;max-width:none}
+  html[data-svc] .svc-tabs,html .overlay .guide{display:none}
+  html[data-svc] h1{position:absolute;width:1px;height:1px;margin:-1px;padding:0;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+  .sbox{height:44px;padding:0 12px 0 14px;box-shadow:var(--shadow-map)}
+  .results{top:52px;left:-54px;right:-54px;max-height:min(380px,46vh)}
+  html[data-svc="tour"] .chips{flex-wrap:nowrap;overflow-x:auto;gap:6px;margin:8px -54px 0;padding:0 0 2px;scrollbar-width:none;pointer-events:auto;-webkit-mask-image:none;mask-image:none}
+  .chip{flex:none;height:34px;padding:0 12px}
+  .chip small,.chip[data-f="all"]{display:none} /* tap the chosen filter again to see every place */
+  .picking .overlay,.picking .sheet{display:none} /* dropping a pin: the map is free */
+
+  /* The sheet with the place cards (#sheet). */
+  .sheet{display:block;position:absolute;z-index:3;left:0;right:0;bottom:0;padding:0 0 calc(16px + env(safe-area-inset-bottom));background:var(--surface);color:var(--text);border-radius:28px 28px 0 0;box-shadow:var(--shadow-sheet);animation:rise .3s var(--ease)}
+  .sheet :focus-visible{outline-color:var(--focus)}
+  .sh-head{display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:40px;padding:4px 20px 0}
+  .sh-hint{margin:0;font-size:13.5px;line-height:1.35;color:var(--text-muted)}
+  .sh-head .linkbtn{flex:none;font-size:13.5px;font-weight:600;text-decoration:underline;text-underline-offset:3px}
+  .sh-trip{flex:none;display:inline-flex;align-items:center;gap:8px;height:36px;padding:0 6px 0 14px;border:1px solid var(--line-strong);border-radius:var(--r-pill);background:var(--surface);color:var(--text);font-size:13.5px;font-weight:500}
+  .sh-trip b{min-width:22px;height:22px;border-radius:11px;background:var(--journey);color:var(--on-journey);display:grid;place-items:center;font:600 11px var(--mono)}
+  /* One row of cards to swipe: the next card shows at the edge. */
+  .cards{list-style:none;margin:6px 0 0;padding:0 20px;display:flex;gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;scroll-padding:0 20px;scrollbar-width:none;overscroll-behavior-x:contain}
+  .cards::-webkit-scrollbar,.trip-strip::-webkit-scrollbar,.chips::-webkit-scrollbar{display:none}
+  .pc{flex:0 0 calc(100% - 46px);box-sizing:border-box;scroll-snap-align:start;display:flex;align-items:center;gap:10px;min-height:106px;padding:10px;border:1px solid var(--line-strong);border-radius:22px;background:var(--surface);transition:border-color var(--t-fast),box-shadow var(--t-fast)}
+  .cards>li:only-child{flex-basis:100%}
+  .pc.on{border-color:var(--primary);box-shadow:inset 0 0 0 1px var(--primary)}
+  .pc-m{flex:1 1 auto;min-width:0;display:flex;align-items:center;gap:14px;padding:0;border:0;border-radius:14px;background:none;text-align:left;color:inherit}
+  .pc-m img{flex:none;width:84px;height:84px;border-radius:14px;object-fit:cover;background:var(--img-bg)}
+  .pc-b{flex:1 1 auto;min-width:0;display:flex;flex-direction:column;gap:4px}
+  .pc-k{display:flex;align-items:center;gap:6px;font:600 12.5px/1.3 var(--label);color:var(--text-muted)}
+  .pc-k i{flex:none;width:8px;height:8px;border-radius:50%;background:var(--c);box-shadow:0 0 0 1px rgba(38,59,56,.25)}
+  .pc-n{font:400 28px/1 var(--serif);color:var(--text);overflow-wrap:anywhere}
+  .pc-s{font-size:13.5px;line-height:1.3;color:var(--text-muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .pc-add{flex:none;width:44px;height:44px;padding:0;border:0;border-radius:50%;background:var(--primary);color:var(--on-primary);display:grid;place-items:center}
+  .pc-in{flex:none;width:30px;height:30px;margin:0 7px;border-radius:50%;background:var(--journey);color:var(--on-journey);display:grid;place-items:center;font:600 13px var(--mono)}
+  /* The small bar at the top of a sheet. */
+  .sheet::before,.trip.drawer::before,.tcard::before,html:not([data-svc]) .overlay::before{content:'';display:block;flex:none;width:36px;height:4px;margin:8px auto 0;border-radius:2px;background:var(--grab)}
+
+  /* Main page: the two services in a sheet, each one row to tap. */
+  html:not([data-svc]) .overlay{position:absolute;left:0;right:0;top:auto;bottom:0;width:auto;max-width:none;margin:0;padding:0 20px calc(20px + env(safe-area-inset-bottom));background:var(--surface);color:var(--text);border-radius:28px 28px 0 0;box-shadow:var(--shadow-sheet);text-align:left;pointer-events:auto}
+  html:not([data-svc]) h1{font-size:30px;line-height:1.05;max-width:none;margin:14px 0;color:var(--text)}
+  html:not([data-svc]) h1 em{color:inherit;font-style:normal}
+  html:not([data-svc]) .map-top .menu-btn,html:not([data-svc]) .map-top .menu-btn:hover,html:not([data-svc]) .map-top .menu[open] .menu-btn{border:1px solid rgba(248,247,242,.28);background:rgba(248,247,242,.1);color:var(--ivory);box-shadow:none}
+  .svc{grid-template-columns:1fr;gap:10px}
+  .svc-c{position:relative;display:grid;grid-template-columns:48px minmax(0,1fr) 20px;align-items:center;gap:3px 14px;min-height:76px;box-sizing:border-box;padding:12px 14px;border:1px solid var(--line);border-radius:20px;background:var(--bg);box-shadow:none}
+  .svc-c::after{content:'';grid-column:3;grid-row:1/3;width:9px;height:9px;justify-self:center;border:solid var(--text-muted);border-width:2px 2px 0 0;transform:rotate(45deg)}
+  .svc-v{grid-row:1/3;width:48px;height:48px;border-radius:14px}
+  .svc-b h2{grid-column:2;align-self:end;font:600 17px/1.2 var(--sans);letter-spacing:0}
+  .svc-b p{display:none}
+  .svc-b p.svc-s{display:block;grid-column:2;align-self:start;margin:0;font-size:14px;line-height:1.3;color:var(--text-muted)}
+  .svc-l{display:none}
+  .svc-sh{display:inline}
+  /* The button covers its row; its words stay for screen readers. */
+  .svc-b .btn{position:absolute;inset:0;width:auto;height:auto;margin:0;padding:0;border-radius:20px;background:none;color:transparent;font-size:0}
+  .svc-b .btn.primary:hover{background:none}
+  .svc-b .btn:focus-visible{outline-color:var(--focus)}
+
+  /* The trip: closed, it shows the places as a row of photos, the start and one button. Open
+     (tap its title), it is the full list for changing the start, the order and the places. */
+  .trip.drawer{left:0;right:0;bottom:0;max-width:none;max-height:84%;padding-bottom:env(safe-area-inset-bottom);border-radius:28px 28px 0 0;box-shadow:var(--shadow-sheet)}
+  .trip.drawer.shut{flex-direction:column;align-items:stretch}
+  .trip.drawer.shut .trip-h{flex:none}
+  .trip.drawer .trip-tg,.trip.drawer.shut .trip-tg{display:flex;align-items:baseline;gap:10px;min-height:48px;padding:10px 20px 2px}
+  .trip.drawer .trip-tg .t{font:400 28px/1 var(--serif);letter-spacing:0;text-transform:none;color:var(--text)}
+  .trip.drawer .trip-tg .c,.trip.drawer.shut .trip-tg .c{margin-left:auto;font-size:13.5px}
+  .trip.drawer .trip-tg svg,.trip.drawer.shut .trip-tg svg{margin-left:4px;align-self:center}
+  .trip.drawer .trip-b{padding:0 20px;margin-top:8px}
+  .trip.drawer.shut .trip-q{display:block;padding:8px 20px 0}
+  .trip.drawer .trip-f{padding:12px 20px 16px}
+  .trip.drawer.shut .trip-f{display:block;padding:12px 20px 16px;border-top:0}
+  .trip.drawer.shut .trip-f .btn{width:100%;height:52px;padding:0 18px;font-size:15.5px}
+  .trip-strip{list-style:none;margin:0;padding:6px 0 0;display:flex;gap:4px;overflow-x:auto;scrollbar-width:none}
+  .trip-strip li{flex:0 0 76px}
+  .trip-strip button{width:100%;padding:0;border:0;border-radius:12px;background:none;display:flex;flex-direction:column;align-items:center;color:inherit}
+  .ts-p{position:relative;display:block;width:52px;height:52px}
+  .ts-p img{display:block;width:100%;height:100%;box-sizing:border-box;border:2.5px solid var(--journey);border-radius:50%;object-fit:cover;background:var(--img-bg)}
+  .ts-p b{position:absolute;right:-4px;top:-4px;min-width:20px;height:20px;box-sizing:border-box;padding:0 3px;border-radius:10px;background:var(--journey);color:var(--on-journey);border:2px solid var(--surface);display:grid;place-items:center;font:600 11px/1 var(--mono)}
+  .ts-p.add{display:grid;place-items:center;box-sizing:border-box;border:1.5px dashed rgba(38,59,56,.45);border-radius:50%;color:var(--link)}
+  .ts-n{margin-top:6px;max-width:76px;font-size:13.5px;font-weight:500;line-height:18px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .ts-s{font-size:12px;line-height:16px;color:var(--text-muted)}
+  .trip-start{width:100%;min-height:48px;margin-top:12px;padding:0 14px;display:flex;align-items:center;gap:10px;border:0;border-radius:14px;background:var(--bg);color:var(--text);text-align:left}
+  .trip-start svg{flex:none;color:var(--primary)}
+  .trip-start span{flex:none;font-size:13.5px;color:var(--text-muted)}
+  .trip-start b{min-width:0;font-size:15px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .trip-start .chg{margin-left:auto;font-weight:600;color:var(--link)}
+  .trip-start.bad{box-shadow:inset 0 0 0 1.5px var(--danger)}
+  .trip-up .chips{display:none}
+  .trip-up .pin.dot .med{width:10px;height:10px;opacity:.7}
+
+  /* Airport transfer: the card is the sheet; A and B are two short rows. */
+  html[data-svc="sh"] .overlay{position:absolute;left:0;right:0;top:auto;bottom:0;width:auto;max-width:none;margin:0}
+  .tcard{padding:0 20px calc(18px + env(safe-area-inset-bottom));border-radius:28px 28px 0 0;box-shadow:var(--shadow-sheet)}
+  .tcard>.tagl{margin:12px 0 4px;font:400 28px/1 var(--serif);letter-spacing:0;text-transform:none;color:var(--text)}
+  .tc-hint{display:block;margin:0 0 12px;font-size:13.5px;line-height:1.35;color:var(--text-muted)}
+  /* One box, two rows. A row: the letter, a small word (Pickup, Drop-off) and the short name of
+     what was chosen. The list lies over the whole row, unseen, so a tap anywhere opens it. */
+  .tfs{position:relative;border:1px solid var(--field-line);border-radius:20px}
+  .tf{position:relative;box-sizing:border-box;min-height:64px;padding:12px 70px 12px 56px;display:flex;flex-direction:column;justify-content:center}
+  .tswap+.tf::before{content:'';position:absolute;left:16px;right:70px;top:0;border-top:1px solid var(--line)}
+  .tf label,.tswap+.tf label{display:block;min-height:0;margin:0;padding:0;font-size:12.5px;font-weight:400;line-height:16px;color:var(--text-muted)}
+  .tf .ab{position:absolute;left:16px;top:18px;width:28px;height:28px;font:700 13px/1 var(--sans)}
+  .tf-x{display:none}
+  .tf .field,.tf .field:focus-within,.tf.bad .field{position:static;display:block;height:auto;padding:0;border:0;border-radius:0;background:none;box-shadow:none}
+  .tf .field select{position:absolute;inset:0;width:100%;height:100%;opacity:0}
+  .tf-v{display:block;margin-top:2px;font-size:16px;font-weight:600;line-height:20px;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .tf-v.none{font-weight:500;color:var(--link)}
+  .tf:focus-within{outline:2px solid var(--focus);outline-offset:-2px;border-radius:19px}
+  .tf .err{position:relative;margin:2px 0 0}
+  .tswap{position:absolute;right:13px;top:50%;width:44px;height:44px;margin:-22px 0 0;z-index:2}
+  .tsum{margin-top:12px;padding:12px 14px;border-radius:14px;font-size:14.5px;line-height:20px}
+  /* On the map a transfer's end that is not a place card (an airport, a town, a dropped pin) is the letter alone. */
+  html[data-svc="sh"] .pk.on .pl{left:0;right:auto;top:0;transform:translate(-50%,-50%);box-sizing:border-box;width:28px;height:28px;padding:0;display:grid;place-items:center;border:2px solid var(--ivory);border-radius:50%;font:700 13px/1 var(--sans);letter-spacing:0}
+  .t-acts{margin-top:12px}
+  .t-acts .btn{flex:1 1 auto;height:52px;font-size:15.5px}
+
+  /* Review and details: a sheet from the bottom, with less to read. */
+  .mbg{padding:0;place-items:end stretch}
+  .modal{width:100%;height:calc(100vh - 24px);height:calc(100dvh - 24px);max-height:none;border-radius:28px 28px 0 0;align-content:start}
+  .modal.rv{height:auto;max-height:calc(100vh - 24px);max-height:calc(100dvh - 24px)}
+  .m-close{top:36px;right:14px}
+  .modal.rv>.m-close{position:absolute;top:12px}
+  .modal.dt .m-sum,.modal.tr .m-sum,.rv-lede{display:none}
+  .rv-body h2,.m-form h2{font-size:30px}
+  .rv-body h2{margin-top:8px}
+  /* The top row of a step: a round back button and "Step 1 of 2". */
+  .m-bar{display:flex;align-items:center;justify-content:space-between;margin:-12px 0 0 -4px}
+  .m-bar span{font-size:13px;color:var(--text-muted)}
+  .m-back{width:44px;height:44px;padding:0;border:0;border-radius:50%;background:var(--bg);color:var(--text);display:grid;place-items:center}
+  .modal .m-bar+h2{margin:10px 0 6px;padding:0;font-size:36px;line-height:1}
+  /* Review (.ph is the phone version): one line of totals, then the trip as a plain list
+     on a dotted line. No box, no table of totals. */
+  .modal.rv.ph{height:calc(100vh - 24px);height:calc(100dvh - 24px)}
+  .rv-meta{margin:0 0 18px;font-size:14.5px;line-height:1.4;color:var(--text-muted)}
+  .modal.ph .rv-route{position:relative;padding:0;border:0;border-radius:0;background:none}
+  .modal.ph .rv-route::before{content:'';position:absolute;left:13px;top:22px;bottom:22px;border-left:2px dotted var(--journey)}
+  .modal.ph .endpt{position:relative;min-height:44px;padding:0}
+  .modal.ph .endpt .ic{box-shadow:0 0 0 4px var(--surface)}
+  .modal.ph .endpt>span:last-child{display:flex;align-items:baseline;justify-content:space-between;gap:12px;min-width:0}
+  .modal.ph .endpt b{font-size:15.5px}
+  .modal.ph .endpt small{flex:none;font-size:12.5px;color:var(--text-muted)}
+  .modal.ph .leg{min-height:30px;padding-left:40px;gap:0;font:400 12.5px var(--sans);letter-spacing:0;font-variant-numeric:tabular-nums}
+  .modal.ph .leg::before{display:none}
+  .modal.ph .stop{min-height:64px;padding:0}
+  .modal.ph .stop .num{position:relative;box-shadow:0 0 0 3px var(--surface);font:700 12.5px/1 var(--sans)}
+  .modal.ph .rv-nm{font-size:26px;line-height:1}
+  .modal.ph .s-sub{font-size:13px;white-space:normal}
+  .modal.ph .stop .stepper{height:44px;padding:0;gap:0}
+  .modal.ph .stop .stepper button{width:42px;height:42px;font-size:20px}
+  .modal.ph .stop .stepper span{min-width:18px;font:600 15px var(--sans)}
+  .modal.ph .rv-body>.hint{margin-top:16px;font-size:12.5px;line-height:1.45}
+  .modal.ph .rv-foot{padding:12px 20px calc(16px + env(safe-area-inset-bottom))}
+  .modal.ph .rv-foot .btn,.modal.ph .m-acts .btn{height:54px;font-size:16px}
+  .modal.ph .rv-foot .btn.ghost{flex:0 0 104px;padding:0}
+  /* Details: guests side by side, then four fields, then one button with a line under it. */
+  .modal.dt.ph{display:flex;flex-direction:column}
+  .modal.ph .m-form{flex:1 0 auto;gap:12px;padding:24px 20px 0}
+  .modal.ph .m-form>p{margin:0 0 4px;font-size:14.5px;line-height:1.4}
+  .modal .fl>span:not(.err),.modal .fl>label{font:600 13px/18px var(--sans);text-transform:none;letter-spacing:0} /* every form on a phone, the transfer's too */
+  .modal .fl .field{height:50px;border-radius:14px}
+  .modal.ph .gst>legend{position:absolute;width:1px;height:1px;margin:-1px;padding:0;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+  .g2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+  .g2 .stepper{height:50px;padding:0;gap:0;justify-content:space-between;border-radius:14px}
+  .g2 .stepper button{width:48px;height:48px;font-size:20px}
+  .g2 .stepper span{font:600 16px var(--sans)}
+  .modal.ph .hint:empty{display:none}
+  .modal.ph .more{border-top:0;padding-top:0}
+  .modal.ph .m-acts{flex-direction:column;align-items:stretch;gap:8px;margin:auto -20px 0;padding:12px 20px calc(16px + env(safe-area-inset-bottom));border-top:1px solid var(--line);background:var(--surface)}
+  .m-next{margin:0;text-align:center;font-size:12.5px;line-height:18px;color:var(--text-muted)}
+  .more{border-top:1px solid var(--line);padding-top:4px}
+  .more>summary{display:flex;align-items:center;gap:8px;min-height:44px;list-style:none;color:var(--link);font-size:14.5px;font-weight:600;cursor:pointer}
+  .more>summary::-webkit-details-marker{display:none}
+  .more>summary::before{content:'+';font-size:20px;font-weight:400;line-height:1}
+  .more[open]>summary::before{content:'−'}
+  .more-b{display:flex;flex-direction:column;gap:16px;padding:6px 0 4px}
 }

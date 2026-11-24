@@ -402,7 +402,12 @@ for (const t of tours) {
     if ((e.shortDescription || '').length > 200) contentErrors.push(`${at}: shortDescription is ${e.shortDescription.length} characters; keep it to 200 for the map list (longer text goes in details).`);
     for (const k of ['name', 'shortDescription']) if (typeof e[k] !== 'string' || !e[k].trim()) contentErrors.push(`${at}: ${k} is required.`);
     for (const k of ['duration', 'price']) if (e[k] != null && (typeof e[k] !== 'string' || !e[k].trim())) contentErrors.push(`${at}: ${k} must be text, or left out.`);
-    for (const k of ['featured', 'available']) if (e[k] != null && typeof e[k] !== 'boolean') contentErrors.push(`${at}: ${k} must be true or false.`);
+    for (const k of ['featured', 'available', 'approx']) if (e[k] != null && typeof e[k] !== 'boolean') contentErrors.push(`${at}: ${k} must be true or false.`);
+    // Where it is (kept in the data; not shown on the site now). lat and lng go together and
+    // must be inside Sri Lanka, so a swapped or mistyped number stops the build.
+    if ((e.lat != null || e.lng != null) && !(e.lat > 5.8 && e.lat < 9.9 && e.lng > 79.5 && e.lng < 82))
+      contentErrors.push(`${at}: lat and lng must both be numbers inside Sri Lanka (lat 5.8 to 9.9, lng 79.5 to 82), or both left out.`);
+    if (e.short != null && (typeof e.short !== 'string' || !e.short.trim() || e.short.length > 20)) contentErrors.push(`${at}: short must be text of 20 characters or fewer, or left out.`);
     if (e.image) {
       if (!existsSync(r('src', 'images', 'experiences', `${e.image}.jpg`))) contentErrors.push(`${at}: image src/images/experiences/${e.image}.jpg not found.`);
       if (!e.imageAlt) contentErrors.push(`${at}: imageAlt is required with an image.`);
