@@ -1742,7 +1742,8 @@ function openDetails() {
   const fMore = `<div class="fl"><span id="hotelLbl">Hotels (optional)</span><div class="seg" id="hotelSeg" role="group" aria-labelledby="hotelLbl">${['Budget', 'Mid-range', 'Luxury', 'I’ll book my own'].map((h) => `<button type="button" class="${h === hotel ? 'on' : ''}" aria-pressed="${h === hotel}">${h}</button>`).join('')}</div></div>
   <label class="fl"><span>Anything else? (optional)</span><textarea name="notes" placeholder="Flight times, interests, dietary needs…">${v('notes')}</textarea></label>`;
   if (ph) {
-    // Phones: guests first (two counters side by side), then the date and the three contact fields.
+    // Phones: the date first, then the guests (two counters side by side) and the three contact
+    // fields: the same order as on wider screens, and as the transfer's details.
     const step = (k, word) =>
       `<div class="stepper" data-q="${k}" role="group" aria-labelledby="q${k === 'adults' ? 'Ad' : 'Ch'}L"><button type="button" data-d="-1" aria-label="Fewer ${word}">−</button><span id="q${k === 'adults' ? 'Adults' : 'Children'}" aria-live="polite"></span><button type="button" data-d="1" aria-label="More ${word}">+</button></div>`;
     const field = (k, label, attrs) => `<label class="fl" data-f="${k}"><span>${label}</span><div class="field"><input name="${k}" ${attrs} aria-required="true" value="${v(k)}"></div></label>`;
@@ -1751,10 +1752,10 @@ function openDetails() {
  <form class="m-form" id="qform" novalidate>
   ${mBar(2, 'data-act="review"', 'Back to your tour')}
   <h2 id="mTitle" tabindex="-1">Your details</h2><p>We’ll reply with a quote and our suggestions. Nothing is booked until you confirm it with us.</p>
+  <div class="fl" data-f="date"><label for="qDate">Start date (optional)</label><div class="field"><input id="qDate" name="date" type="date" min="${TODAY}" value="${S.start}" aria-describedby="qDateInfo"></div><p class="hint" id="qDateInfo">${dateInfo()}</p></div>
   <fieldset class="gst" id="qGuests"><legend>Guests</legend><div class="g2">
    <div class="fl"><span id="qAdL">Adults</span>${step('adults', 'adults')}</div>
    <div class="fl"><span id="qChL">Children (2–11)</span>${step('children', 'children')}</div></div></fieldset>
-  <div class="fl" data-f="date"><label for="qDate">Start date (optional)</label><div class="field"><input id="qDate" name="date" type="date" min="${TODAY}" value="${S.start}" aria-describedby="qDateInfo"></div><p class="hint" id="qDateInfo">${dateInfo()}</p></div>
   ${field('name', 'Full name', 'autocomplete="name"')}
   ${field('email', 'Email', 'type="email" autocomplete="email"')}
   ${field('phone', 'WhatsApp or phone', 'type="tel" autocomplete="tel"')}
@@ -2270,7 +2271,7 @@ function openTrDetails() {
   <label class="fl"><span>Flight number or details (optional)</span><div class="field"><input name="flight" autocomplete="off" placeholder="e.g. UL 504, lands 08:30" value="${v('flight')}"></div></label></div>
   <label class="fl"><span>Luggage (optional)</span><div class="field"><input name="luggage" autocomplete="off" placeholder="e.g. 2 large suitcases, 1 surfboard" value="${v('luggage')}"></div></label>
   <label class="fl"><span>Anything else? (optional)</span><textarea name="tnotes" placeholder="Hotel name, child seats, special requests…">${v('tnotes')}</textarea></label>
-  <div class="m-acts"><button type="button" class="btn ghost" data-act="tr-review">Back</button><button class="btn primary" type="submit">Send my transfer request</button></div></form></div>`,
+  <div class="m-acts">${phone() ? '' : '<button type="button" class="btn ghost" data-act="tr-review">Back</button>'}<button class="btn primary" type="submit">Send my transfer request</button></div></form></div>`,
     '#mTitle',
   );
   renderTrPax();

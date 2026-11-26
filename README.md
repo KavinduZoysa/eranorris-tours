@@ -398,8 +398,8 @@ A place opens as the dialog with tick boxes, on every screen size.
 6. Review ("Your tour", step 1 of 2) is a full sheet: one line of totals (places, nights,
    km), then the trip as a plain list from the start to the end, with − and + for the nights
    of each place. "Edit my tour" opens the full trip list; the round back button returns to the map.
-7. Details ("Your details", step 2 of 2): adults and children side by side, the start date,
-   then name, email and phone. Country, hotels and the note are behind one link. One button
+7. Details ("Your details", step 2 of 2): the start date, adults and children side by side,
+   then name, email and phone (the same order as on desktop and in the transfer). Country, hotels and the note are behind one link. One button
    sends the request.
 
 The phone versions of these two steps are built by `openReview()` and `openDetails()` in
@@ -407,7 +407,8 @@ The phone versions of these two steps are built by `openReview()` and `openDetai
 the same state as the desktop versions, and the request that is sent is the same. The
 transfer's two steps keep their desktop content and the same order as a tour: the review
 (step 1; its round back button returns to the map), then the details (step 2; its back button
-returns to the review), sent from there. On phones they get the same top row as the tour's.
+returns to the review), sent from there. On phones they get the same top row as the tour's, and the
+details step has only the send button at the bottom (the round arrow is the way back).
 
 **Rules the code keeps**
 
